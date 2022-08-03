@@ -67,3 +67,5 @@ const ownerSchema = mongoose.Schema({
     },
   ],
 });
+
+module.exports = mongoose.model("Owners", ownerSchema)
