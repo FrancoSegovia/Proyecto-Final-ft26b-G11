@@ -38,5 +38,3 @@ const deliverySchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("Deliverys", deliverySchema);
-
-ASJKFAJKSFAJK
