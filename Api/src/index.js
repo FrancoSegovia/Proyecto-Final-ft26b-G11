@@ -7,10 +7,6 @@ const routes = require('./routes/index.js')
 const app = express()
 const port = process.env.PORT || 3000
 
-//middleware
-// app.use(express.json())
-// app.use('/', )
-
 
 //mongoDB connection 
 mongoose
