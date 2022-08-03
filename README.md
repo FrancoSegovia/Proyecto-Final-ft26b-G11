@@ -11,16 +11,17 @@ These are the technologies we used to create the full project
 FrontEnd technologies:
 - React
 - Redux
-- Express
+- Material UI
 
 BackEnd technologies:
 - MongoDB
+- Express
 
 ## Contact info
 Contact of the members of the project:
 - <a href="https://github.com/braianaguada">Braian Aguada</a>
 - <a href="https://github.com/CesarLinkero">Cesar Alcoholado</a>
-- <a href="*">Elizabeth Gudiño</a>
+- <a href="https://github.com/eliconcep">Elizabeth Gudiño</a>
 - <a href="https://github.com/emilioalvarez05">Emilio Alvarez</a>
 - <a href="https://github.com/FrancoSegovia">Franco Segovia</a>
 - <a href="https://github.com/Octavio4422">Octavio Paz</a>
