@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const ownerSchema = require('../schema/Owner.js')
+const deliverySchema = require('../schema/Delivery.js')
 
-router.post("/owners", (req, res) => {
-    const owner = ownerSchema(req.body)
-    owner
+router.post("/delivery", (req, res) => {
+    const delivery = deliverySchema(req.body)
+    delivery
     .save().then((data) => res.json(data))
     .catch((error) => res.json({message: error}))
 })
