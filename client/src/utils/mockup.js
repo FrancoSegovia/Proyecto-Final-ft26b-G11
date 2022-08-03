@@ -1,0 +1,11 @@
+export const mockup = [
+    {
+
+    },
+    {
+
+    },
+    {
+        
+    }
+]
