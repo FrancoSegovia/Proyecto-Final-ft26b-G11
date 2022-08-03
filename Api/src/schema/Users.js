@@ -58,12 +58,12 @@ const userSchema = mongoose.Schema({
 
     paymentRecord: {
         type: String,
-        required: true
+        required: false
     },
 
     balance: {
         type: Number,
-        required: true
+        required: false
     },
 
 

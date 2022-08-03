@@ -1,15 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
-const routes = require('./routes/index.js')
+const routes = require('./routes/users.js')
 
 
 const app = express()
 const port = process.env.PORT || 3000
 
 //middleware
-// app.use(express.json())
-// app.use('/', )
+app.use(express.json())
+app.use('/', routes)
 
 
 //mongoDB connection 
