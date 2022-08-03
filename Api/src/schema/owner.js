@@ -5,15 +5,9 @@ const ownerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  nameOwner: {
-    firstname: {
-      type: String,
-      required: true,
-    },
-    surname: {
-      type: String,
-      required: true,
-    },
+  surname: {
+    type: String,
+    required: true,
   },
   state: {
     type: String,
@@ -68,4 +62,4 @@ const ownerSchema = mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Owners", ownerSchema)
+module.exports = mongoose.model("Owners", ownerSchema);
