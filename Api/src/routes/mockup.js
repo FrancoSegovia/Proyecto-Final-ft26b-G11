@@ -3,7 +3,7 @@ const router = express.Router();
 
 const mockupJson = require('../schema/foods.json')
 
-router.get("/foods", (req, res) => {
+router.get("/", (req, res) => {
     const mockup = mockupJson(req.body)
     mockup
     .find()
