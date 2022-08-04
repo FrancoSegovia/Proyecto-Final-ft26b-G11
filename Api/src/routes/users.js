@@ -11,7 +11,6 @@ router.post("/", (req, res) => {
     .save()
     .then((data) => res.json(data))
     .catch((error) => res.json({ msg: error}));
-    console.log("hola", user)
 });
 
 module.exports = router
