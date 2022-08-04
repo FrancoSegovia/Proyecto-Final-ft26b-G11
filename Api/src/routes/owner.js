@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ownerSchema = require('../schema/Owner.js')
 
-router.post("/owner", (req, res) => {
+router.post("/", (req, res) => {
     const owner = ownerSchema(req.body)
     owner
     .save().then((data) => res.json(data))

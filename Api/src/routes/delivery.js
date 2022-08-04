@@ -3,7 +3,7 @@ const router = express.Router();
 
 const deliverySchema = require('../schema/Delivery.js')
 
-router.post("/delivery", (req, res) => {
+router.post("/", (req, res) => {
     const delivery = deliverySchema(req.body)
     delivery
     .save().then((data) => res.json(data))

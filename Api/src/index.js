@@ -4,7 +4,7 @@ require('dotenv').config()
 const routes = require('./routes/index.js')
 
 
-const app = express()
+const app = express();
 const port = process.env.PORT || 3000
 
 //middleware
