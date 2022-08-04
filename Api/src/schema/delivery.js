@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("mongoose-type-email");
+
 const deliverySchema = mongoose.Schema({
   nameDelivery: {
     firstname: {

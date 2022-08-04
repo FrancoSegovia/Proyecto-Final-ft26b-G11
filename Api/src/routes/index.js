@@ -6,6 +6,8 @@ const usersRoute = require('./users')
 
 const router = Router();
 
+router.use("/owner", ownerRoute)
+router.use("/delivery", deliveryRoute)
 router.use("/users", usersRoute)
 
 module.exports = router;
