@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 require("mongoose-type-email");
-
 const ownerSchema = mongoose.Schema({
   name: {
     type: String,
