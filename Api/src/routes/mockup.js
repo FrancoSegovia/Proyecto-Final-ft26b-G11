@@ -1,14 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-const mockupJson = require('../schema/Foods.json')
+var myFoods = require("../schema/Foods.json")
+
+
 
 router.get("/", (req, res) => {
+  try {
+       
+    res.send(myFoods)
+    console.log(myFoods)
     
-    mockupJson
-    .find()
-    .then((data) => res.json(data))
-    .catch((error) => res.json({message: error}))
+  } catch (error) {
+    console.log(error)
+  }
+     
 })
+
+
+
+
 
 module.exports = router;
