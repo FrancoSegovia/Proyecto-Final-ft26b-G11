@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const myLocal = require("../schema/Local.json");
+const myLocal = require("../schema/Locals.json");
 
 router.get("/", (req, res) => {
     const {name} = req.query
