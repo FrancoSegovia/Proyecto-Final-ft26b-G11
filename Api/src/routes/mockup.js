@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   try {
        
     res.send(myFoods)
-    console.log(myFoods)
+    
     
   } catch (error) {
     console.log(error)
