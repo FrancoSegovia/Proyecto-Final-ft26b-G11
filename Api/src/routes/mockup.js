@@ -4,8 +4,8 @@ const router = express.Router();
 const mockupJson = require('../schema/Foods.json')
 
 router.get("/", (req, res) => {
-    const mockup = mockupJson(req.body)
-    mockup
+    
+    mockupJson
     .find()
     .then((data) => res.json(data))
     .catch((error) => res.json({message: error}))
