@@ -35,7 +35,7 @@ const ownerSchema = mongoose.Schema({
         required: true,
       },
       image: {
-        type: Image,
+        type: String,
         required: true,
       },
       products: [
@@ -49,7 +49,7 @@ const ownerSchema = mongoose.Schema({
             required: true,
           },
           image: {
-            type: Image,
+            type: String,
             required: false,
           },
           price: {
