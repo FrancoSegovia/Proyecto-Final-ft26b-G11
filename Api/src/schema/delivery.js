@@ -20,7 +20,7 @@ const deliverySchema = mongoose.Schema({
     required: true,
   },
   password: {
-    type: Mixed,
+    type: String,
     required: true,
   },
   transport: {
