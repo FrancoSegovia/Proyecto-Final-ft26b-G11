@@ -5,8 +5,6 @@ import UserCard from '../features/UserCards/UserCard';
 import { useSelector } from 'react-redux';
 
 function Home() {
-
-
   return (
     <div style={{marginTop:"100px"}}>
             <Grid container justifyContent="center" direction="row" rowSpacing={1} style={{marginBottom:"50px"}}>
