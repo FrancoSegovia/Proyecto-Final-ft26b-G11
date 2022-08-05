@@ -8,8 +8,9 @@ export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 
 export const getAllProducts = () => (dispatch) => {
   return axios
-    .get("localhost:3001/mockup")
+    .get("http://localhost:3001/mockup")
     .then((products) => {
+  
       dispatch({
         type: ALL_PRODUCTS,
         payload: products.data,
