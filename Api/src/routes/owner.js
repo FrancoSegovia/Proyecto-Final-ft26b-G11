@@ -10,5 +10,9 @@ router.post("/", (req, res) => {
     .catch((error) => res.json({message: error}))
 })
 
+router.put("/", (req,res) => {
+    const owner = ownerSchema(req.body)
+    owner
+})
 
 module.exports = router;
