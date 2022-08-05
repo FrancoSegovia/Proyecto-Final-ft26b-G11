@@ -1,16 +1,16 @@
 const express = require("express");
-const userSchema = require("../schema/Users");
 
 const router = express.Router();
+
+const controllers = require("../controllers/users")
+const { createUsers } = require("../controllers/users")
 
 // Create routes
 
 router.post("/", (req, res) => {
-    const user = userSchema(req.body);
-    user
-    .save()
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ msg: error}));
+    const { name, lastName, eMail, password, phone } = req.body
+    res.send(controllers.createUsers(name, lastName, eMail, password, phone))
+    
 });
 
 module.exports = router
