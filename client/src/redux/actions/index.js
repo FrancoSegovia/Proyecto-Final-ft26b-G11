@@ -7,7 +7,7 @@ export const ORDER_PRODUCTS = "ORDER_PRODUCTS";
 export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 /////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
-export const QUERY_ERROR_CLEANER = "QUERY_ERROR_CLEANER";
+export const ERROR_CLEANER = "ERROR_CLEANER";
 
 export const getAllProducts = () => (dispatch) => {
   return axios
@@ -18,7 +18,7 @@ export const getAllProducts = () => (dispatch) => {
         payload: products.data,
       });
     })
-    .catch((error) => {console.error(error.message)});
+    .catch((error) => console.error(error.message));
 };
 
 export const getQueryProducts = (query) => (dispatch) => {
@@ -31,6 +31,7 @@ export const getQueryProducts = (query) => (dispatch) => {
       });
     })
     .catch((error) => {
+      console.log(error.message)
       dispatch({
         type: QUERY_ERROR,
         payload: true
@@ -38,12 +39,6 @@ export const getQueryProducts = (query) => (dispatch) => {
     });
 };
 
-export const errorCleaner = () => {
-  return {
-        type: QUERY_ERROR_CLEANER,
-        payload: false
-    };
-};
 
 /////////////////////////////////////////////////
 
@@ -59,4 +54,13 @@ export const filterProducts = (value) => {
     type: FILTER_PRODUCTS,
     payload: value,
   };
+};
+
+/////////////////////////////////////////////////
+
+export const errorCleaner = () => {
+  return {
+        type: ERROR_CLEANER,
+        payload: false
+    };
 };
