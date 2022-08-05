@@ -1,7 +1,8 @@
-import { ORDER_PRODUCTS, FILTER_PRODUCTS } from "../actions";
+import orderAndFilter from "../../utils/functions/orderAndFilter";
+import { ALL_PRODUCTS, ORDER_PRODUCTS, FILTER_PRODUCTS } from "../actions";
 
 const initialState = {
-  noChangeProducts: [],
+  // noChangeProducts: [],
   products: [],
   filters: [],
   orders: "",
@@ -9,6 +10,12 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case ALL_PRODUCTS: {
+        return {
+          ...state,
+          products: payload
+        }
+    }
 
     case ORDER_PRODUCTS:
        return {
