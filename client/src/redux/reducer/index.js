@@ -14,8 +14,8 @@ import shopFilter from "../../utils/functions/shopFilter";
 const initialState = {
   mainProducts: [],
   products: [],
-  filtersProducts: "",
-  filtersShops: "",
+  typeFilter: "",
+  shopFilter: "",
   order: "",
   error: false,
 };
@@ -64,6 +64,7 @@ const reducer = (state = initialState, { type, payload }) => {
         newFilter = typeFilter(newFilter, payload, state.order)
         return {
           ...state,
+          typeFilter: payload === "ALLP" ? "" : payload,
           products: [...newFilter]
         }
       } else {
@@ -71,6 +72,7 @@ const reducer = (state = initialState, { type, payload }) => {
         newFilter = shopFilter(newFilter, payload, state.order)
         return {
           ...state,
+          shopFilter: payload === "ALLS" ? "" : payload,
           products: [...newFilter]
         };
       }

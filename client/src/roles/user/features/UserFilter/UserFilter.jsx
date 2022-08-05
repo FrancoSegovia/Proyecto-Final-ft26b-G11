@@ -63,7 +63,7 @@ export default function UserFilter() {
         </FormControl>
 
         <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!products.length}>
-          <InputLabel>Seleccionaun Tipo de Local</InputLabel>
+          <InputLabel>Selecciona un Tipo de Local</InputLabel>
           <Select onChange={onSelect}>
             <MenuItem value={"ALLS"}>Cualquier Tipo</MenuItem>
             <MenuItem value={"RESTAURANT"}>Restaurant</MenuItem>
