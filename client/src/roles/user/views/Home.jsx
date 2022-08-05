@@ -2,8 +2,10 @@ import React from 'react'
 import { Grid } from '@mui/material';
 import json from '../../../utils/foods.js';
 import UserCard from '../features/UserCards/UserCard';
+import { useSelector } from 'react-redux';
 
 function Home() {
+
 
   return (
     <div style={{marginTop:"100px"}}>
