@@ -19,7 +19,7 @@ function UserCard({ product }) {
   };
   return (
     <div>
-      <Card sx={{ maxWidth: 500, minWidth: 500 }} style={{ marginTop: "15px", backgroundColor: "whitesmoke" }}>
+      <Card sx={{ maxWidth: 400, minWidth: 400 }} style={{ marginTop: "15px", backgroundColor: "whitesmoke" }}>
         <Container
           style={{
             display: "flex",
