@@ -1,8 +1,13 @@
+import {
+  ALL_PRODUCTS,
+  QUERY_PRODUCTS,
+  ORDER_PRODUCTS,
+  FILTER_PRODUCTS,
+} from "../actions";
 import orderAndFilter from "../../utils/functions/orderAndFilter";
-import { ALL_PRODUCTS, ORDER_PRODUCTS, FILTER_PRODUCTS } from "../actions";
 
 const initialState = {
-  // noChangeProducts: [],
+  mainProducts: [],
   products: [],
   filters: [],
   orders: "",
@@ -11,14 +16,23 @@ const initialState = {
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ALL_PRODUCTS: {
-        return {
-          ...state,
-          products: payload
-        }
+      return {
+        ...state,
+        mainProducts: payload,
+        products: payload,
+      };
     }
 
+    case QUERY_PRODUCTS: {
+      return {
+        ...state,
+        products: payload,
+      };
+    }
+
+    /////////////////////////////////////////////////
     case ORDER_PRODUCTS:
-       return {
+      return {
         ...state,
         order: payload,
       };
@@ -35,6 +49,7 @@ const reducer = (state = initialState, { type, payload }) => {
         filters: [...state.filters, payload],
       };
 
+    /////////////////////////////////////////////////
     default:
       return state;
   }
