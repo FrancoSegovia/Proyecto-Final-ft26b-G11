@@ -6,6 +6,7 @@ import { getAllProducts } from "../../../redux/actions/index.js";
 import UserCard from "../features/UserCards/UserCard";
 import UserFilter from "../features/UserFilter/UserFilter";
 import UserOrder from "../features/UserOrder/UserOrder";
+import Navbar from '../features/UserNavbar/UserNavbar.jsx';
 
 
 function Home() {
@@ -19,13 +20,15 @@ function Home() {
     
 
   return (
-    <div style={{ marginTop: "100px" }}>
+    <>
+    <Navbar/> 
+    <div style={{ marginTop: "8px", backgroundColor:"white"}}>
       <Grid
         container
         justifyContent="center"
         direction="row"
         rowSpacing={1}
-        style={{ marginBottom: "50px" }}
+        style={{ marginBottom: "50px", padding: "35px 0px" }}
       >
         <Grid
           item
@@ -57,6 +60,7 @@ function Home() {
         </Grid>
       </Grid>
     </div>
+    </>
   );
 }
 
