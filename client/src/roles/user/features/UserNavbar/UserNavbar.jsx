@@ -1,31 +1,35 @@
-import React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  InputBase,
+  Button,
+} from "@mui/material";
+import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from 'react';
-import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+
+import { getQueryProducts } from "../../../../redux/actions";
 
 export default function Navbar() {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
 
-  function onChange (e) {
+  function onChange(e) {
     e.preventDefault();
     setSearch({
       ...search,
-      search: e.target.value
-    })
+      search: e.target.value,
+    });
+    dispatch(getQueryProducts(search));
   }
 
-  function onSubmit(e){
-    e.preventDefault();
-    //aca va el dispatch de la action que busca
-  }
+  // function onSubmit(e) {
+  //   e.preventDefault();
+  //   //aca va el dispatch de la action que busca
+  // }
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -69,7 +73,6 @@ export default function Navbar() {
     },
   }));
 
-
   return (
     <div>
       {" "}
@@ -92,17 +95,14 @@ export default function Navbar() {
                 placeholder="Search Product"
                 inputProps={{ "aria-label": "search" }}
                 name="search"
-                type= "string"
+                type="string"
                 value={search}
                 onChange={onChange}
               />
             </Search>
-          <Button 
-            variant="text" 
-            color="inherit" 
-            onClick={onSubmit}>
-            Buscar
-          </Button>
+            <Button variant="text" color="inherit" onClick={onSubmit}>
+              Buscar
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
