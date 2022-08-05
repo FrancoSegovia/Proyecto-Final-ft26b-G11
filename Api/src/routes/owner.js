@@ -10,7 +10,5 @@ router.post("/", (req, res) => {
     .catch((error) => res.json({message: error}))
 })
 
-router.get("/owners/:name", (req, res) =>{
 
-})
 module.exports = router;
