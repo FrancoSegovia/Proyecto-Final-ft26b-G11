@@ -7,9 +7,12 @@ import {
   Typography,
   InputBase,
   Button,
+  Container,
+  IconButton
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 import { getQueryProducts, getAllProducts, errorCleaner} from "../../../../redux/actions";
 
@@ -39,12 +42,8 @@ export default function Navbar() {
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
+
   }));
 
   const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -64,7 +63,6 @@ export default function Navbar() {
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create("width"),
-      width: "100%",
     },
   }));
 
@@ -78,27 +76,32 @@ export default function Navbar() {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{ display: { xs: "none", sm: "block" } }}
             >
               Click!
             </Typography>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search Product"
-                inputProps={{ "aria-label": "search" }}
-                name="search"
-                type="string"
-                value={search}
-                onChange={onChange}
-                autoFocus
-              />
-            </Search>
-            {/* <Button variant="text" color="inherit" onClick={onSubmit}>
-              Buscar
-            </Button> */}
+            <Container style={{maxWidth:"350px"}}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search Product"
+                  inputProps={{ "aria-label": "search" }}
+                  name="search"
+                  type="string"
+                  value={search}
+                  onChange={onChange}
+                  autoFocus
+                />
+              </Search>
+            </Container>
+            <Button variant="contained" color="primary" size="small">
+              Ingrese un nuevo producto
+              <IconButton style={{color:"white"}}>
+                <AddBusinessIcon/>
+              </IconButton>
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
