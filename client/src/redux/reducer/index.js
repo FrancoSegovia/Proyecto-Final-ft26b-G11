@@ -4,16 +4,20 @@ import {
   ORDER_PRODUCTS,
   FILTER_PRODUCTS,
   QUERY_ERROR,
-  QUERY_ERROR_CLEANER
+  ERROR_CLEANER,
 } from "../actions";
-import orderAndFilter from "../../utils/functions/orderAndFilter";
+
+import order from "../../utils/functions/order";
+import typeFilter from "../../utils/functions/typeFilter";
+import shopFilter from "../../utils/functions/shopFilter";
 
 const initialState = {
   mainProducts: [],
   products: [],
-  filters: [],
-  error:false,
-  orders: "",
+  typeFilter: "",
+  shopFilter: "",
+  order: "",
+  error: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -33,6 +37,48 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    /////////////////////////////////////////////////
+    case ORDER_PRODUCTS:
+      let newOrder = [...state.products];
+      newOrder = order(newOrder, payload);
+      if (payload === "DEFAULT") {
+        return {
+          ...state,
+          order:"",
+          products: [...state.mainProducts],
+        };
+      } else {
+        let newOrder = [...state.products];
+        newOrder = order(newOrder, payload);
+        return {
+          ...state,
+          order: payload,
+          products: [...newOrder],
+        };
+      }
+
+    case FILTER_PRODUCTS:
+      console.log(payload)
+      if(payload === "ALLP" ||  payload === "COMIDA" || payload === "BEBIDA" ){
+        let newFilter = [...state.mainProducts];
+        newFilter = typeFilter(newFilter, payload, state.order)
+        return {
+          ...state,
+          typeFilter: payload === "ALLP" ? "" : payload,
+          products: [...newFilter]
+        }
+      } else {
+        let newFilter = [...state.mainProducts];
+        newFilter = shopFilter(newFilter, payload, state.order)
+        return {
+          ...state,
+          shopFilter: payload === "ALLS" ? "" : payload,
+          products: [...newFilter]
+        };
+      }
+
+    /////////////////////////////////////////////////
+
     case QUERY_ERROR: {
       return {
         ...state,
@@ -40,33 +86,12 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    case QUERY_ERROR_CLEANER: {
-      console.log(payload);
+    case ERROR_CLEANER: {
       return {
         ...state,
         error: payload,
       };
     }
-
-    /////////////////////////////////////////////////
-    case ORDER_PRODUCTS:
-      return {
-        ...state,
-        order: payload,
-      };
-
-    case FILTER_PRODUCTS:
-      if (state.filters.includes(payload)) {
-        return {
-          ...state,
-          filters: state.filters.filter((f) => f !== payload),
-        };
-      }
-      return {
-        ...state,
-        filters: [...state.filters, payload],
-      };
-
     /////////////////////////////////////////////////
     default:
       return state;
