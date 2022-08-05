@@ -3,6 +3,8 @@ import {
   QUERY_PRODUCTS,
   ORDER_PRODUCTS,
   FILTER_PRODUCTS,
+  QUERY_ERROR,
+  QUERY_ERROR_CLEANER
 } from "../actions";
 import orderAndFilter from "../../utils/functions/orderAndFilter";
 
@@ -10,6 +12,7 @@ const initialState = {
   mainProducts: [],
   products: [],
   filters: [],
+  error:false,
   orders: "",
 };
 
@@ -27,6 +30,21 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         products: payload,
+      };
+    }
+
+    case QUERY_ERROR: {
+      return {
+        ...state,
+        error: payload,
+      };
+    }
+
+    case QUERY_ERROR_CLEANER: {
+      console.log(payload);
+      return {
+        ...state,
+        error: payload,
       };
     }
 

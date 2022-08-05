@@ -12,6 +12,7 @@ import Navbar from '../features/UserNavbar/UserNavbar.jsx';
 function Home() {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products);
+    const error = useSelector(state => state.error);
     // console.log(products);
 
     useEffect(() => {
@@ -45,8 +46,8 @@ function Home() {
           justifyContent="space-evenly"
           xs={7}
           style={{ textAlign: "center" }}
-        >
-          {products.map(product => {
+        > 
+          {error || !products.length ? <div>No pudimos encontrar productos relacionados :(</div> : products.map(product => {
             return <UserCard product={product} />;
           })}
         </Grid>
