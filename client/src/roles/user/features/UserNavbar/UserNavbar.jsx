@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   AppBar,
@@ -11,7 +11,7 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { getQueryProducts } from "../../../../redux/actions";
+import { getQueryProducts, getAllProducts, errorCleaner} from "../../../../redux/actions";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -19,11 +19,12 @@ export default function Navbar() {
 
   function onChange(e) {
     e.preventDefault();
-    setSearch({
-      ...search,
-      search: e.target.value,
-    });
-    dispatch(getQueryProducts(search));
+    setSearch(e.target.value);
+    if (search.length > 2) dispatch(getQueryProducts(search));
+    else {
+      dispatch(errorCleaner());
+      dispatch(getAllProducts());
+    }
   }
 
   // function onSubmit(e) {
@@ -64,12 +65,6 @@ export default function Navbar() {
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create("width"),
       width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
     },
   }));
 
@@ -98,11 +93,12 @@ export default function Navbar() {
                 type="string"
                 value={search}
                 onChange={onChange}
+                autoFocus
               />
             </Search>
-            <Button variant="text" color="inherit" onClick={onSubmit}>
+            {/* <Button variant="text" color="inherit" onClick={onSubmit}>
               Buscar
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
       </Box>

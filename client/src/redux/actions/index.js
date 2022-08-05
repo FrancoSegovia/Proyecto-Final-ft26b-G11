@@ -6,6 +6,8 @@ export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 export const ORDER_PRODUCTS = "ORDER_PRODUCTS";
 export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 /////////////////////////////////////////////////
+export const QUERY_ERROR = "QUERY_ERROR";
+export const QUERY_ERROR_CLEANER = "QUERY_ERROR_CLEANER";
 
 export const getAllProducts = () => (dispatch) => {
   return axios
@@ -16,7 +18,7 @@ export const getAllProducts = () => (dispatch) => {
         payload: products.data,
       });
     })
-    .catch((error) => console.error(error.message));
+    .catch((error) => {console.error(error.message)});
 };
 
 export const getQueryProducts = (query) => (dispatch) => {
@@ -28,7 +30,19 @@ export const getQueryProducts = (query) => (dispatch) => {
         payload: products.data,
       });
     })
-    .catch((error) => console.error(error.message));
+    .catch((error) => {
+      dispatch({
+        type: QUERY_ERROR,
+        payload: true
+      });
+    });
+};
+
+export const errorCleaner = () => {
+  return {
+        type: QUERY_ERROR_CLEANER,
+        payload: false
+    };
 };
 
 /////////////////////////////////////////////////
