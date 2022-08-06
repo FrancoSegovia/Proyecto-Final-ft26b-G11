@@ -1,33 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const myFoods = require("../schema/Foods.json");
+const controllers = require("../controllers/mockup")
+const { getProduct, getProductById } = require("../controllers/mockup")
+
 
 router.get("/", (req, res) => {
     const {name} = req.query
-    try {
-        if(name){
-            const foodByName = myFoods.filter((f) => f.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()));
-            if(foodByName.length){
-                return res.send(foodByName)
-            }
-            res.status(404).send("No se encontro el producto")
-        }else{
-            res.send(myFoods)
-        }
-    } catch (error) {
-        console.log(error)
-    }
+    res.send(controllers.getProduct(name))
 })
 
 router.get("/:id", (req, res) => {
     const {id} = req.params
-    try {
-     const foodById = myFoods.find(obj => obj.id.toString() === id)
-     res.send(foodById)
-    } catch (error) {
-        console.log(error)
-    }
+    res.send(controllers.getProductById(id))
+   
 })
 
 module.exports = router;
