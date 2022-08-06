@@ -36,9 +36,9 @@ function Home() {
           xs={2}
           style={{ textAlign: "center" }}
         >
-          <UserOrder />
+          {/* <UserOrder />
 
-          <UserFilter />
+          <UserFilter /> */}            //! LO COMENTEVICH
         </Grid>
 
         <Grid

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-function UserCard({ product }) {
+function UserCard({ local }) {
   const styles = {
     media: {
       width: "150px",
@@ -19,28 +19,26 @@ function UserCard({ product }) {
   };
   return (
     <div>
-      <Card sx={{ maxWidth: 400, minWidth: 400 }} style={{ marginTop: "15px", backgroundColor: "whitesmoke" }}>
+      <Card variant="standard" sx={{ maxWidth: 400, minWidth: 400 }} style={{ marginTop: "15px", backgroundColor: "whitesmoke" }}>
         <Container
           style={{
             display: "flex",
             marginTop: "10px",
             justifyContent: "space-between",
+            alignItems:"center",
           }}
         >
           <CardContent>
-            <Typography variant="h6" color="textPrimary" component="div">
-              {product.name}
+            <Typography variant="h5" color="textPrimary" component="div">
+              {local.name}
             </Typography>
           </CardContent>
 
-          <CardMedia component="img" style={styles.media} image={product.image} />
+          <CardMedia component="img" style={styles.media} image={local.image} />
           
         </Container>
 
-        <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h5" color="textSecondary" component="span" style={{ marginLeft: "20px" }}>
-            {"$" + product.price}
-          </Typography>
+        <CardActions style={{ display: "flex", justifyContent: "flex-end" }}>
 
           <IconButton styles={styles.addBtn}>
             <AddIcon />
