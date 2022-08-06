@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const ALL_PRODUCTS = "ALL_PRODUCTS";
-export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
+export const ALL_LOCALS = "ALL_LOCALS";
+export const QUERY_LOCALS = "QUERY_LOCALS";
 /////////////////////////////////////////////////
 export const ORDER_PRODUCTS = "ORDER_PRODUCTS";
 export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
@@ -9,25 +9,25 @@ export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
 
-export const getAllProducts = () => (dispatch) => {
+export const getAllLocals = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/mockup")
-    .then((products) => {
+    .get("http://localhost:3001/local")
+    .then((locals) => {
       dispatch({
-        type: ALL_PRODUCTS,
-        payload: products.data,
+        type: ALL_LOCALS,
+        payload: locals.data,
       });
     })
     .catch((error) => console.error(error.message));
 };
 
-export const getQueryProducts = (query) => (dispatch) => {
+export const getQueryLocals = (query) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/mockup?name=${query}`)
-    .then((products) => {
+    .get(`http://localhost:3001/local?name=${query}`)
+    .then((locals) => {
       dispatch({
-        type: QUERY_PRODUCTS,
-        payload: products.data,
+        type: QUERY_LOCALS,
+        payload: locals.data,
       });
     })
     .catch((error) => {

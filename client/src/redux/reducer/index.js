@@ -1,6 +1,6 @@
 import {
-  ALL_PRODUCTS,
-  QUERY_PRODUCTS,
+  ALL_LOCALS,
+  QUERY_LOCALS,
   ORDER_PRODUCTS,
   FILTER_PRODUCTS,
   QUERY_ERROR,
@@ -13,7 +13,7 @@ import shopFilter from "../../utils/functions/shopFilter";
 
 const initialState = {
   mainProducts: [],
-  products: [],
+  locals: [],
   typeFilter: "",
   shopFilter: "",
   order: "",
@@ -22,18 +22,18 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ALL_PRODUCTS: {
+    case ALL_LOCALS: {
       return {
         ...state,
         mainProducts: payload,
-        products: payload,
+        locals: payload,
       };
     }
 
-    case QUERY_PRODUCTS: {
+    case QUERY_LOCALS: {
       return {
         ...state,
-        products: payload,
+        locals: payload,
       };
     }
 
