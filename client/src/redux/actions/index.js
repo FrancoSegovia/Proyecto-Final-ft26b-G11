@@ -12,10 +12,10 @@ export const ERROR_CLEANER = "ERROR_CLEANER";
 export const getAllLocals = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/locals")
-    .then((products) => {
+    .then((locals) => {
       dispatch({
         type: ALL_LOCALS,
-        payload: products.data,
+        payload: locals.data,
       });
     })
     .catch((error) => console.error(error.message));
@@ -24,10 +24,10 @@ export const getAllLocals = () => (dispatch) => {
 export const getQueryLocals = (query) => (dispatch) => {
   return axios
     .get(`http://localhost:3001/locals?name=${query}`)
-    .then((products) => {
+    .then((locals) => {
       dispatch({
         type: QUERY_LOCALS,
-        payload: products.data,
+        payload: locals.data,
       });
     })
     .catch((error) => {

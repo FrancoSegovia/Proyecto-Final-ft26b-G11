@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 
-import { getAllProducts } from "../../../redux/actions/index.js";
+import { getAllLocals } from "../../../redux/actions/index.js";
 import UserCard from "../features/UserCards/UserCard";
 import UserFilter from "../features/UserFilter/UserFilter";
 import UserOrder from "../features/UserOrder/UserOrder";
@@ -11,12 +11,12 @@ import Navbar from '../features/UserNavbar/UserNavbar.jsx';
 
 function Home() {
     const dispatch = useDispatch();
-    const products = useSelector(state => state.products);
+    const locals = useSelector(state => state.locals);
     const error = useSelector(state => state.error);
     // console.log(products);
 
     useEffect(() => {
-      dispatch(getAllProducts());
+      dispatch(getAllLocals());
     }, [])
     
 
@@ -47,7 +47,7 @@ function Home() {
           xs={7}
           style={{ textAlign: "center" }}
         > 
-          {error || !products.length ? <div>No pudimos encontrar productos relacionados :(</div> : products.map(product => {
+          {error || !locals.length ? <div>No pudimos encontrar productos relacionados :(</div> : products.map(product => {
             return <UserCard product={product} />;
           })}
         </Grid>
