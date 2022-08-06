@@ -48,7 +48,7 @@ function Home() {
           style={{ textAlign: "center" }}
         > 
           {error || !locals.length ? <div>No pudimos encontrar productos relacionados :(</div> : products.map(product => {
-            return <UserCard product={product} />;
+            return <UserCard locals={locals} />;
           })}
         </Grid>
 

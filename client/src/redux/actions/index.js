@@ -11,7 +11,7 @@ export const ERROR_CLEANER = "ERROR_CLEANER";
 
 export const getAllLocals = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/locals")
+    .get("http://localhost:3001/local")
     .then((locals) => {
       dispatch({
         type: ALL_LOCALS,
@@ -23,7 +23,7 @@ export const getAllLocals = () => (dispatch) => {
 
 export const getQueryLocals = (query) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/locals?name=${query}`)
+    .get(`http://localhost:3001/local?name=${query}`)
     .then((locals) => {
       dispatch({
         type: QUERY_LOCALS,
