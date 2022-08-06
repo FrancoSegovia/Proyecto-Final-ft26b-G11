@@ -15,6 +15,8 @@ function Home() {
     const error = useSelector(state => state.error);
     // console.log(products);
 
+    console.log(locals[0]);
+
     useEffect(() => {
       dispatch(getAllLocals());
     }, [])
