@@ -11,6 +11,15 @@ router.post("/", (req, res) => {
 })
 
 router.get("/", (req, res) => {
+    const {name} = req.query
+    const local = localSchema.filter((f) => f.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
+    local
+    .find()
+    .then((data) => res.json(data))
+    .catch((error) => res.json({message: error}))
+})
+
+router.get("/", (req, res) => {
     localSchema
     .find()
     .then((data) => res.json(data))
