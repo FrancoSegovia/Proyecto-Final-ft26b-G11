@@ -1,20 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-const controllers = require("../controllers/local")
-const { getLocal, getLocalById } = require("../controllers/local") 
+const localSchema = require('../schema/Locals.js')
 
+router.post("/", (req, res) => {
+    const local = localSchema(req.body)
+    local
+    .save().then((data) => res.json(data))
+    .catch((error) => res.json({message: error}))
+})
 
 router.get("/", (req, res) => {
-    const {name} = req.query
-    res.send(controllers.getLocal(name))
-    
+    localSchema
+    .find()
+    .then((data) => res.json(data))
+    .catch((error) => res.json({message: error}))
 })
 
 router.get("/:id", (req, res) => {
     const {id} = req.params
-    res.send(controllers.getLocalById(id))
-    
+    localSchema
+    .findById(id)
+    .then((data) => res.json(data))
+    .catch((error) => res.json({message: error}))
 })
+
 
 module.exports = router;
