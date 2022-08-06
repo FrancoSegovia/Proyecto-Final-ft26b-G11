@@ -10,7 +10,8 @@ router.post("/", (req, res) => {
     .catch((error) => res.json({message: error}))
 })
 
-router.put("/", (req,res) => {
+router.put("/:id", (req,res) => {
+    const {id} = req.params;
     const owner = ownerSchema(req.body)
     owner
 })
