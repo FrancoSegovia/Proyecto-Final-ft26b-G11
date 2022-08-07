@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 import { getAllLocals } from "../../../redux/actions/index.js";
 import UserCard from "../features/UserCards/UserCard";
