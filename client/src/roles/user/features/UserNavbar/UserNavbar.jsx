@@ -18,16 +18,26 @@ import { getQueryLocals, getAllLocals, errorCleaner} from "../../../../redux/act
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
+  const [leyenda, setLeyenda] = useState("");
   const dispatch = useDispatch();
+  const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
 
   function onChange(e) {
     e.preventDefault();
     setSearch(e.target.value);
-    if (search.length > 2) dispatch(getQueryLocals(search));
+    if(!regExp.test(e.target.value) && e.target.value !== ''){
+      setLeyenda("Invalid characters");
+      return
+    }
+    if (search.length > 2){
+      dispatch(getQueryLocals(search));
+    }
     else {
       dispatch(errorCleaner());
       dispatch(getAllLocals());
+      setLeyenda("")
     }
+    
   }
 
   // function onSubmit(e) {
@@ -56,14 +66,18 @@ export default function Navbar() {
     justifyContent: "center",
   }));
 
+  // const StyledInputBase = styled(InputBase)
+
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
+      // transition: theme.transitions.create("width"),
     },
+    width: "270px",
+    height: "40px !important"
   }));
 
   return (
@@ -80,14 +94,14 @@ export default function Navbar() {
             >
               Click!
             </Typography>
-            <Container style={{maxWidth:"350px"}}>
+            <Container style={{maxWidth:"350px", display: "flex"}}>
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon />
+                <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Search Product"
-                  inputProps={{ "aria-label": "search" }}
+                  inputProps={{ "aria-label": "search"}}
                   name="search"
                   type="string"
                   value={search}
@@ -95,6 +109,9 @@ export default function Navbar() {
                   autoFocus
                 />
               </Search>
+              <Container style={{minWidth: "200px", maxHeight:"40px"}}>
+              {leyenda && <p style={{color: "#b3e5fc", border:"#d50000", marginTop:"7px", fontWeight: "bold"}}>{leyenda}</p>}
+              </Container>
             </Container>
             <Button variant="contained" color="primary" size="small">
               Ingrese un nuevo producto
