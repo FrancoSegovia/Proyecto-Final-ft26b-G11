@@ -15,7 +15,6 @@ function Home() {
     const error = useSelector(state => state.error);
     // console.log(products);
 
-    console.log(locals[0]);
 
     useEffect(() => {
       dispatch(getAllLocals());
@@ -24,7 +23,7 @@ function Home() {
 
   return (
     <>
-    <Navbar/> 
+    <Navbar/>
     <div style={{ marginTop: "8px", backgroundColor:"white"}}>
       <Grid
         container
@@ -50,7 +49,7 @@ function Home() {
           style={{ textAlign: "center" }}
         > 
           {error || !locals.length ? <div>No pudimos encontrar productos relacionados :(</div> : locals.map(local => {
-            return <UserCard local={local} />;
+            return <UserCard local={local}/>;
           })}
         </Grid>
 
