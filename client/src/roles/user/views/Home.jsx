@@ -15,6 +15,7 @@ function Home() {
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
 
+
   useEffect(() => {
     dispatch(getAllShops());
   }, []);
@@ -51,7 +52,7 @@ function Home() {
           </Grid>
 
           <Grid item xs={2} style={{ textAlign: "center" }}>
-            <item>ACÁ VA EL COMPONENTE DE CARRITO</item>
+            {/* <item>ACÁ VA EL COMPONENTE DE CARRITO</item> */}
           </Grid>
         </Grid>
       </div>
