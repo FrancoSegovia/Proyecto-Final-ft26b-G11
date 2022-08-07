@@ -2,66 +2,57 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 
-import { getAllLocals } from "../../../redux/actions/index.js";
+import { getAllShops } from "../../../redux/actions/index.js";
 import UserCard from "../features/UserCards/UserCard";
-import UserFilter from "../features/UserFilter/UserFilter";
-import UserOrder from "../features/UserOrder/UserOrder";
-import Navbar from '../features/UserNavbar/UserNavbar.jsx';
-
+import Navbar from "../features/UserNavbar/UserNavbar.jsx";
+import UserShopOrder from "../features/UserShopOrder/UserShopOrder.jsx";
+import UserShopFilter from "../features/UserShopFilter/UserShopFilter.jsx";
 
 function Home() {
-    const dispatch = useDispatch();
-    const locals = useSelector(state => state.locals);
-    const error = useSelector(state => state.error);
-    // console.log(products);
+  const dispatch = useDispatch();
+  const shops = useSelector((state) => state.shops);
+  const error = useSelector((state) => state.error);
 
-
-    useEffect(() => {
-      dispatch(getAllLocals());
-    }, [])
-    
+  useEffect(() => {
+    dispatch(getAllShops());
+  }, []);
 
   return (
     <>
-    <Navbar/>
-    <div style={{ marginTop: "8px", backgroundColor:"white"}}>
-      <Grid
-        container
-        justifyContent="center"
-        direction="row"
-        rowSpacing={1}
-        style={{ marginBottom: "50px", padding: "35px 0px" }}
-      >
-        <Grid
-          item
-          xs={2}
-          style={{ textAlign: "center" }}
-        >
-          {/* <UserOrder />
-
-          <UserFilter /> */}            [//! LO COMENTEVICH]
-        </Grid>
-
+      <Navbar />
+      <div style={{ marginTop: "8px", backgroundColor: "white" }}>
         <Grid
           container
-          justifyContent="space-evenly"
-          xs={7}
-          style={{ textAlign: "center" }}
-        > 
-          {error || !locals.length ? <div>No pudimos encontrar productos relacionados :(</div> : locals.map(local => {
-            return <UserCard local={local}/>;
-          })}
-        </Grid>
-
-        <Grid
-          item
-          xs={2}
-          style={{ textAlign: "center" }}
+          justifyContent="center"
+          direction="row"
+          rowSpacing={1}
+          style={{ marginBottom: "50px", padding: "35px 0px" }}
         >
-          <item>ACÁ VA EL COMPONENTE DE CARRITO</item>
+          <Grid item xs={2} style={{ textAlign: "center" }}>
+            <UserShopOrder />
+            {/* <UserShopFilter /> */}
+          </Grid>
+
+          <Grid
+            container
+            justifyContent="space-evenly"
+            xs={7}
+            style={{ textAlign: "center" }}
+          >
+            {error || !shops.length ? (
+              <div>No pudimos encontrar productos relacionados : </div>
+            ) : (
+              shops.map((shop) => {
+                return <UserCard shop={shop} />;
+              })
+            )}
+          </Grid>
+
+          <Grid item xs={2} style={{ textAlign: "center" }}>
+            <item>ACÁ VA EL COMPONENTE DE CARRITO</item>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
     </>
   );
 }

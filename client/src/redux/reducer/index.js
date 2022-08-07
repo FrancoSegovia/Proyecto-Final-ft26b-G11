@@ -1,19 +1,20 @@
+import shopOrder from "../../utils/functions/shopOrder";
 import {
-  ALL_LOCALS,
-  QUERY_LOCALS,
+  ALL_SHOPS,
+  QUERY_SHOPS,
+  ORDER_SHOPS,
+  FILTER_SHOPS,
   ORDER_PRODUCTS,
   FILTER_PRODUCTS,
   QUERY_ERROR,
   ERROR_CLEANER,
 } from "../actions";
 
-import order from "../../utils/functions/order";
-import typeFilter from "../../utils/functions/typeFilter";
-import shopFilter from "../../utils/functions/shopFilter";
-
 const initialState = {
   mainProducts: [],
-  locals: [],
+  products: [],
+  mainShops: [],
+  shops: [],
   typeFilter: "",
   shopFilter: "",
   order: "",
@@ -22,60 +23,77 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ALL_LOCALS: {
+    case ALL_SHOPS: {
       return {
         ...state,
-        mainProducts: payload,
-        locals: payload,
+        mainShops: payload,
+        shops: payload,
       };
     }
 
-    case QUERY_LOCALS: {
+    case QUERY_SHOPS: {
       return {
         ...state,
-        locals: payload,
+        shops: payload,
       };
     }
 
     /////////////////////////////////////////////////
-    case ORDER_PRODUCTS:
-      let newOrder = [...state.products];
-      newOrder = order(newOrder, payload);
+    case ORDER_SHOPS:
       if (payload === "DEFAULT") {
         return {
           ...state,
-          order:"",
-          products: [...state.mainProducts],
+          shops: [...state.mainShops],
         };
       } else {
-        let newOrder = [...state.products];
-        newOrder = order(newOrder, payload);
+        let newOrder = [...state.shops];
+        newOrder = shopOrder(newOrder, payload);
         return {
           ...state,
-          order: payload,
-          products: [...newOrder],
-        };
+          shops: [...newOrder]
+        }
       }
 
-    case FILTER_PRODUCTS:
-      console.log(payload)
-      if(payload === "ALLP" ||  payload === "COMIDA" || payload === "BEBIDA" ){
-        let newFilter = [...state.mainProducts];
-        newFilter = typeFilter(newFilter, payload, state.order)
-        return {
-          ...state,
-          typeFilter: payload === "ALLP" ? "" : payload,
-          products: [...newFilter]
-        }
-      } else {
-        let newFilter = [...state.mainProducts];
-        newFilter = shopFilter(newFilter, payload, state.order)
-        return {
-          ...state,
-          shopFilter: payload === "ALLS" ? "" : payload,
-          products: [...newFilter]
-        };
-      }
+    case FILTER_SHOPS:
+      return {};
+
+    // case ORDER_PRODUCTS:
+    //   let newOrder = [...state.products];
+    //   newOrder = order(newOrder, payload);
+    //   if (payload === "DEFAULT") {
+    //     return {
+    //       ...state,
+    //       order: "",
+    //       products: [...state.mainProducts],
+    //     };
+    //   } else {
+    //     let newOrder = [...state.products];
+    //     newOrder = order(newOrder, payload);
+    //     return {
+    //       ...state,
+    //       order: payload,
+    //       products: [...newOrder],
+    //     };
+    //   }
+
+    // case FILTER_PRODUCTS:
+    //   if (payload === "ALLP" || payload === "COMIDA" || payload === "BEBIDA") {
+    //     let newFilter = [...state.mainProducts];
+    //     newFilter = typeFilter(newFilter, payload, state.order);
+    //     return {
+    //       ...state,
+    //       typeFilter: payload === "ALLP" ? "" : payload,
+    //       products: [...newFilter],
+    //     };
+    //   } else {
+    //     let newFilter = [...state.mainProducts];
+    //     newFilter = shopFilter(newFilter, payload, state.order);
+    //     return {
+    //       ...state,
+    //       shopFilter: payload === "ALLS" ? "" : payload,
+    //       products: [...newFilter],
+    //     };
+    //   }
 
     /////////////////////////////////////////////////
 
@@ -92,7 +110,9 @@ const reducer = (state = initialState, { type, payload }) => {
         error: payload,
       };
     }
+
     /////////////////////////////////////////////////
+
     default:
       return state;
   }
