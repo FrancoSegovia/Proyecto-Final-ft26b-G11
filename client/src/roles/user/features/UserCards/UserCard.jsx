@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
+import defaultShop from '../../../../media/defaultShop.jpg';
 
 function UserCard({ shop }) {
   const [open, setOpen] = useState(false);
@@ -84,7 +85,7 @@ function UserCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              Menú de {shop.name}
+            {shop.products.length ? `Menú de ${shop.name}` : "Este negocio aún no cuenta con productos."}
             </Typography>
 
             <Container
@@ -173,7 +174,7 @@ function UserCard({ shop }) {
             </Typography>
           </CardContent>
 
-          <CardMedia component="img" style={styles.media} image={shop.image} />
+          <CardMedia component="img" style={styles.media} image={shop.image ? shop.image : defaultShop} />
         </Container>
       </Card>
     </div>
