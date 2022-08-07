@@ -13,17 +13,18 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  localSchema
-    .find()
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
-});
-
-router.get("/", (req, res) => {
-    const { name } = req.query;
-    localSchema.findOne({name: new RegExp('^'+name+'$', "i")})
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+  const { name } = req.query;
+  if (name) {
+    localSchema
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  } else {
+    localSchema
+      .find()
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  }
 });
 
 router.get("/:id", (req, res) => {
