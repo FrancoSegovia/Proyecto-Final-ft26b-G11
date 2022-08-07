@@ -1,4 +1,4 @@
-export default function orderProducts(array, distribution, filter) {
+export default function productsOrder(array, distribution, filter) {
     if(distribution === "MAX" || distribution === "MIN") {
         let response = array.sort((a, b) => {
             if (a.price < b.price) {

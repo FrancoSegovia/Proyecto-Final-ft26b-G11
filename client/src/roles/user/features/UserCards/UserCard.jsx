@@ -14,12 +14,10 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 
-function UserCard({ local }) {
+function UserCard({ shop }) {
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);
   const onCardClose = (e) => setOpen(false);
-
-  console.log({ local });
 
   const styles = {
     media: {
@@ -76,7 +74,7 @@ function UserCard({ local }) {
               variant="h3"
               component="h3"
             >
-              {local.name}
+              {shop.name}
             </Typography>
 
             <Typography
@@ -86,7 +84,7 @@ function UserCard({ local }) {
               component="h5"
               color="textSecondary"
             >
-              Menú de {local.name}
+              Menú de {shop.name}
             </Typography>
 
             <Container
@@ -97,7 +95,7 @@ function UserCard({ local }) {
                 marginBottom: "20px",
               }}
             >
-              {local.products.map((product) => {
+              {shop.products.map((product) => {
                 return (
                   <Card
                     sx={{ "&:hover": { cursor: "pointer" } }}
@@ -163,7 +161,7 @@ function UserCard({ local }) {
         >
           <CardContent>
             <Typography variant="h4" color="textPrimary" component="div">
-              {local.name}
+              {shop.name}
             </Typography>
             <Typography
               variant="h6"
@@ -171,11 +169,11 @@ function UserCard({ local }) {
               component="div"
               style={{ textAlign: "left" }}
             >
-              {local.category.map((c) => c)}
+              {shop.category.map((c) => c)}
             </Typography>
           </CardContent>
 
-          <CardMedia component="img" style={styles.media} image={local.image} />
+          <CardMedia component="img" style={styles.media} image={shop.image} />
         </Container>
       </Card>
     </div>

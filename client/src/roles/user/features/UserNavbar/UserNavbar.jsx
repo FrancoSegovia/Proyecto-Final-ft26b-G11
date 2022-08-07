@@ -15,7 +15,7 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
-import { getQueryLocals, getAllLocals, errorCleaner} from "../../../../redux/actions";
+import { getQueryShops, getAllShops, errorCleaner} from "../../../../redux/actions";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -31,11 +31,11 @@ export default function Navbar() {
       return
     }
     if (search.length > 2){
-      dispatch(getQueryLocals(search));
+      dispatch(getQueryShops(search));
     }
     else {
       dispatch(errorCleaner());
-      dispatch(getAllLocals());
+      dispatch(getAllShops());
       setLeyenda("")
     }
     

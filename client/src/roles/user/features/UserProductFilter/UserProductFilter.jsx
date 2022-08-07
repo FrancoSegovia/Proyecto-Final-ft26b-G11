@@ -6,14 +6,10 @@ import {
   FormControl,
   Select,
   InputLabel,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   MenuItem,
 } from "@mui/material";
 
-export default function UserFilter() {
+export default function UserProductFilter() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
   // let [filter, setFilter] = useState("");
@@ -29,30 +25,6 @@ export default function UserFilter() {
   return (
     <>
       <Box>
-        {/* <FormControl>
-          <FormLabel>Selecciona un Filtro</FormLabel>
-          <FormGroup aria-disabled={!products.length}>
-            <FormControlLabel
-              label="Comida"
-              control={<Checkbox value="comida" onChange={handleChecked} />}
-            />
-            <FormControlLabel
-              label="Bebida"
-              control={<Checkbox value="bebida" onChange={handleChecked} />}
-            />
-            <FormControlLabel
-              label="Restaurant"
-              control={<Checkbox value="restaurant" onChange={handleChecked} />}
-            />
-            <FormControlLabel
-              label="No Perecedero"
-              control={
-                <Checkbox value="no perecedero" onChange={handleChecked} />
-              }
-            />
-          </FormGroup>
-        </FormControl> */}
-
         <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!products.length}>
           <InputLabel>Selecciona un Tipo de Producto</InputLabel>
           <Select onChange={onSelect}>
