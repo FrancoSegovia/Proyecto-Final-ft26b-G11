@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -113,12 +114,15 @@ export default function Navbar() {
               {leyenda && <p style={{color: "#b3e5fc", border:"#d50000", marginTop:"7px", fontWeight: "bold"}}>{leyenda}</p>}
               </Container>
             </Container>
-            <Button variant="contained" color="primary" size="small">
-              Ingrese un nuevo producto
-              <IconButton style={{color:"white"}}>
-                <AddBusinessIcon/>
-              </IconButton>
-            </Button>
+            <Link to="/create" style={{textDecoration:"none", color:"white"}}>
+              <Button variant="contained" color="primary" size="small">
+                
+                  Ingrese un nuevo local
+                  <IconButton style={{color:"white"}}>
+                    <AddBusinessIcon/>
+                  </IconButton>
+              </Button>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
