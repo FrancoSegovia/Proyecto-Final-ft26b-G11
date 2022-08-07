@@ -83,7 +83,6 @@ export function addStore(payload) {
   return async function (){
     try {
       var respuesta = await axios.post(`http://localhost:3001/local`, payload);
-      console.log(respuesta);
       return respuesta;
     } catch (error) {
       console.log(error);
