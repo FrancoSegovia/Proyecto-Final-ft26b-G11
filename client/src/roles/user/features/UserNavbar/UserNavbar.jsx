@@ -117,7 +117,7 @@ export default function Navbar() {
             <Link to="/create" style={{textDecoration:"none", color:"white"}}>
               <Button variant="contained" color="primary" size="small">
                 
-                  Ingrese un nuevo local
+                  Ingrese un nuevo negocio
                   <IconButton style={{color:"white"}}>
                     <AddBusinessIcon/>
                   </IconButton>
