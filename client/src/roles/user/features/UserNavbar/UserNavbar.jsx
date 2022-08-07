@@ -98,10 +98,12 @@ export default function Navbar() {
               </Search>
             </Container>
             <Button variant="contained" color="primary" size="small">
-              Ingrese un nuevo producto
-              <IconButton style={{color:"white"}}>
-                <AddBusinessIcon/>
-              </IconButton>
+              <Link to="/create">
+                Ingrese un nuevo local
+                <IconButton style={{color:"white"}}>
+                  <AddBusinessIcon/>
+                </IconButton>
+              </Link>
             </Button>
           </Toolbar>
         </AppBar>
