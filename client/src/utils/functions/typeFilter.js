@@ -1,4 +1,4 @@
-import orderProducts from "./order.js";
+import productsOrder from "./order.js";
 
 export default function typeFilter(array, filter, order) {
   let response;
@@ -12,7 +12,7 @@ export default function typeFilter(array, filter, order) {
   if (order === "") {
     return response;
   } else {
-    response = orderProducts(response, order);
+    response = productsOrder(response, order);
     return response;
   }
 }

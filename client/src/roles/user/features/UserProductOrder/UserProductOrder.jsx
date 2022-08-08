@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../../redux/actions";
-
 import {
   FormControl,
   InputLabel,
@@ -9,7 +8,7 @@ import {
   MenuItem,
 } from "@mui/material";
 
-export default function UserOrder() {
+export default function UserProductOrder() {
   const dispatch = useDispatch();
   const products = useSelector(state => state.products);
   // let [selectInput, setSelectInput] = useState("");
