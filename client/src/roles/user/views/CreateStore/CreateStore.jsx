@@ -91,10 +91,10 @@ export default function CreateStore() {
               <Grid item xs={12}>
                 <Select fullWidth value={newShop.category} onChange={onInputChange} name={"category"}>
                     <MenuItem value={"default"} disabled>Tipo de negocio</MenuItem>
-                    <MenuItem value={"bar"}>Bar</MenuItem>
-                    <MenuItem value={"restaurant"}>Restaurant</MenuItem>
-                    <MenuItem value={"rotiseria"}>Rotiseria</MenuItem>
-                    <MenuItem value={"heladeria"}>Heladeria</MenuItem>
+                    <MenuItem value={"Bar"}>Bar</MenuItem>
+                    <MenuItem value={"Restaurant"}>Restaurant</MenuItem>
+                    <MenuItem value={"Rotiseria"}>Rotiseria</MenuItem>
+                    <MenuItem value={"Heladeria"}>Heladeria</MenuItem>
                 </Select>
               </Grid>
 
@@ -102,13 +102,13 @@ export default function CreateStore() {
               <Grid item xs={12} style={{textAlign:"center"}}>
                 <InputLabel>Descripción del negocio</InputLabel>
                 <div style={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
-                <TextareaAutosize
-                    style={{resize:"none", outlineColor:"#1976d2", width:"380px", height:"60px", fontSize:"16px", fontFamily:"Roboto"}}
-                    minRows={3}
-                    value={newShop.description}
-                    name={"description"}
-
-                />
+                    <TextareaAutosize
+                        style={{resize:"none", outlineColor:"#1976d2", width:"380px", height:"60px", fontSize:"16px", fontFamily:"Roboto"}}
+                        minRows={3}
+                        value={newShop.description}
+                        name={"description"}
+                        onChange={onInputChange}
+                    />
                 </div>
                 
               </Grid>

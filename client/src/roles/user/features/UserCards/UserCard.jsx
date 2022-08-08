@@ -82,14 +82,14 @@ function UserCard({ shop }) {
                   id="transition-modal-title"
                   variant="h5"
                   component="h5"
-                  style={{margin:""}}
+                  style={{margin:"20px", textAlign:"center"}}
                 >
                   {shop.description?.length ? shop.description : "Este negocio no cuenta con una descripción." }
             </Typography>
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "20px", textAlign: "center" }}
+              style={{ marginTop: "15px", textAlign: "center" }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -105,12 +105,12 @@ function UserCard({ shop }) {
                 flexWrap: "wrap",
                 justifyContent: "space-evenly",
                 marginBottom: "20px",
+                "&hover":{cursor:"default"}
               }}
             >
               {shop.products.map((product) => {
                 return (
                   <Card
-                    sx={{ "&:hover": { cursor: "pointer" } }}
                     style={{
                       margin: "15px 0px",
                       backgroundColor: "whitesmoke",

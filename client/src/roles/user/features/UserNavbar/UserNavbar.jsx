@@ -27,7 +27,7 @@ export default function Navbar() {
     e.preventDefault();
     setSearch(e.target.value);
     if(!regExp.test(e.target.value) && e.target.value !== ''){
-      setLeyenda("Invalid characters");
+      setLeyenda("Caracteres inválidos");
       return
     }
     if (search.length > 2){
@@ -101,7 +101,7 @@ export default function Navbar() {
                 <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search Product"
+                  placeholder="Buscar Negocios"
                   inputProps={{ "aria-label": "search"}}
                   name="search"
                   type="string"
