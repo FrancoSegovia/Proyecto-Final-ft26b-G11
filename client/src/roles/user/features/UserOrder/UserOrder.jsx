@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../../redux/actions";
 
 import {
   FormControl,
   InputLabel,
   Select,
-  FormHelperText,
   MenuItem,
 } from "@mui/material";
 
 export default function UserOrder() {
   const dispatch = useDispatch();
+  const products = useSelector(state => state.products);
   // let [selectInput, setSelectInput] = useState("");
 
   const onSelect = (e) => {
@@ -25,17 +25,13 @@ export default function UserOrder() {
 
   return (
     <>
-      <FormControl sx={{ m: 1, minWidth: 170 }}>
+      <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!products.length}>
         <InputLabel>Seleccionar un Orden</InputLabel>
         <Select onChange={onSelect}>
-          <MenuItem value="">
-            {" "}
-            <em>None</em>{" "}
-          </MenuItem>
-          <MenuItem value={"max"}>Mayor Precio</MenuItem>
-          <MenuItem value={"min"}>Menor Precio</MenuItem>
+          <MenuItem value={"DEFAULT"}>Default</MenuItem>
+          <MenuItem value={"MAX"}>Mayor Precio</MenuItem>
+          <MenuItem value={"MIN"}>Menor Precio</MenuItem>
         </Select>
-        <FormHelperText>Ordenar por</FormHelperText>
       </FormControl>
     </>
   );

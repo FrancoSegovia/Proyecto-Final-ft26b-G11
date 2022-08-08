@@ -1,28 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 
-import json from "../../../utils/foods.js";
-
+import { getAllProducts } from "../../../redux/actions/index.js";
 import UserCard from "../features/UserCards/UserCard";
 import UserFilter from "../features/UserFilter/UserFilter";
 import UserOrder from "../features/UserOrder/UserOrder";
+import Navbar from '../features/UserNavbar/UserNavbar.jsx';
+
 
 function Home() {
+    const dispatch = useDispatch();
+    const products = useSelector(state => state.products);
+    const error = useSelector(state => state.error);
+    // console.log(products);
+
+    useEffect(() => {
+      dispatch(getAllProducts());
+    }, [])
+    
+
   return (
-    <div style={{ marginTop: "100px" }}>
+    <>
+    <Navbar/> 
+    <div style={{ marginTop: "8px", backgroundColor:"white"}}>
       <Grid
         container
         justifyContent="center"
         direction="row"
         rowSpacing={1}
-        style={{ marginBottom: "50px" }}
+        style={{ marginBottom: "50px", padding: "35px 0px" }}
       >
         <Grid
           item
           xs={2}
-          style={{ backgroundColor: "red", textAlign: "center" }}
+          style={{ textAlign: "center" }}
         >
-          <item>ACÁ VA EL COMPONENTE DE FILTROS/ORDENAMIENTOS</item>
           <UserOrder />
 
           <UserFilter />
@@ -32,22 +45,23 @@ function Home() {
           container
           justifyContent="space-evenly"
           xs={7}
-          style={{ backgroundColor: "White", textAlign: "center" }}
-        >
-          {json?.foods.map((food) => {
-            return <UserCard food={food} />;
+          style={{ textAlign: "center" }}
+        > 
+          {error || !products.length ? <div>No pudimos encontrar productos relacionados :(</div> : products.map(product => {
+            return <UserCard product={product} />;
           })}
         </Grid>
 
         <Grid
           item
           xs={2}
-          style={{ backgroundColor: "Red", textAlign: "center" }}
+          style={{ textAlign: "center" }}
         >
           <item>ACÁ VA EL COMPONENTE DE CARRITO</item>
         </Grid>
       </Grid>
     </div>
+    </>
   );
 }
 
