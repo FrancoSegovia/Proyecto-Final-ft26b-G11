@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const localSchema = mongoose.Schema({
-
   name: {
     type: String,
     required: true,
@@ -14,13 +13,13 @@ const localSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  schedule:{ 
+  schedule: {
     type: String,
-    require: false
+    require: false,
   },
   description: {
     type: String,
-    require: false
+    require: false,
   },
   image: {
     type: String,
@@ -44,12 +43,22 @@ const localSchema = mongoose.Schema({
         type: Number,
         required: false,
       },
-      type: [{
-        type: String,
-        required: false,
-      }],
+      type: [
+        {
+          type: String,
+          required: false,
+        },
+      ],
     }),
   ],
+});
+
+localSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
 });
 
 module.exports = mongoose.model("Locals", localSchema);
