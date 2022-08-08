@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -26,6 +27,7 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 const theme = createTheme();
 
 export default function CreateStore() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [newShop, setNewShop] = useState({
         name:"",
@@ -37,6 +39,7 @@ export default function CreateStore() {
     const onSubmit = e => {
         e.preventDefault();
         dispatch(addStore(newShop));
+        navigate("/");
     }
 
     const onInputChange = e => {
@@ -103,11 +106,12 @@ export default function CreateStore() {
                 <InputLabel>Descripción del negocio</InputLabel>
                 <div style={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
                     <TextareaAutosize
-                        style={{resize:"none", outlineColor:"#1976d2", width:"380px", height:"60px", fontSize:"16px", fontFamily:"Roboto"}}
+                        style={{resize:"none", outlineColor:"#1976d2", width:"380px", height:"100px", fontSize:"16px", fontFamily:"Roboto", padding:"10px"}}
                         minRows={3}
                         value={newShop.description}
                         name={"description"}
                         onChange={onInputChange}
+                        maxLength="150"
                     />
                 </div>
                 

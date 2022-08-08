@@ -26,12 +26,13 @@ export default function Navbar() {
   function onChange(e) {
     e.preventDefault();
     setSearch(e.target.value);
+
     if(!regExp.test(e.target.value) && e.target.value !== ''){
       setLeyenda("Caracteres inválidos");
       return
     }
     if (search.length > 2){
-      dispatch(getQueryShops(search));
+      dispatch(getQueryShops(search.trim()));
     }
     else {
       dispatch(errorCleaner());
