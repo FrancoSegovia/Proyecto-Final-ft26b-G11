@@ -23,13 +23,13 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div style={{ marginTop: "8px", backgroundColor: "white" }}>
+      <div style={{ marginTop: "75px", backgroundColor: "white" }}>
         <Grid
           container
           justifyContent="center"
           direction="row"
           rowSpacing={1}
-          style={{ marginBottom: "50px", padding: "35px 0px" }}
+          style={{ marginBottom: "20px", padding: "35px 0px" }}
         >
           <Grid item xs={2} style={{ textAlign: "center" }}>
             <UserShopOrder />
