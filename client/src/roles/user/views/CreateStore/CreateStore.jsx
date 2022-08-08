@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -18,6 +21,7 @@ import { IconButton } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { useDispatch } from 'react-redux';
 import { addStore } from '../../../../redux/actions';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 const theme = createTheme();
 
@@ -26,7 +30,8 @@ export default function CreateStore() {
     const [newShop, setNewShop] = useState({
         name:"",
         direction:"",
-        category:"as"
+        category:"default",
+        description:""
     })
 
     const onSubmit = e => {
@@ -82,13 +87,41 @@ export default function CreateStore() {
                   onChange={onInputChange}
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <Select fullWidth value={newShop.category} onChange={onInputChange} name={"category"}>
+                    <MenuItem value={"default"} disabled>Tipo de negocio</MenuItem>
+                    <MenuItem value={"bar"}>Bar</MenuItem>
+                    <MenuItem value={"restaurant"}>Restaurant</MenuItem>
+                    <MenuItem value={"rotiseria"}>Rotiseria</MenuItem>
+                    <MenuItem value={"heladeria"}>Heladeria</MenuItem>
+                </Select>
+              </Grid>
+
+              
+              <Grid item xs={12} style={{textAlign:"center"}}>
+                <InputLabel>Descripción del negocio</InputLabel>
+                <div style={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <TextareaAutosize
+                    style={{resize:"none", outlineColor:"#1976d2", width:"380px", height:"60px", fontSize:"16px", fontFamily:"Roboto"}}
+                    minRows={3}
+                    value={newShop.description}
+                    name={"description"}
+
+                />
+                </div>
+                
+              </Grid>
+
+
             </Grid>
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={!newShop.name.length || !newShop.description.length || !newShop.category.length}
+              disabled={!newShop.name.length || !newShop.direction.length || !newShop.category.length || newShop.category === "default"}
             >
               CREAR NUEVO NEGOCIO
             </Button>
