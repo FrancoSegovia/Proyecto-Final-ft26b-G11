@@ -170,7 +170,7 @@ function UserCard({ shop }) {
               component="div"
               style={{ textAlign: "left" }}
             >
-              {shop.category.map((c) => c)}
+              {shop.category}
             </Typography>
           </CardContent>
 

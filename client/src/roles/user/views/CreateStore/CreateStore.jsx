@@ -25,7 +25,8 @@ export default function CreateStore() {
     const dispatch = useDispatch();
     const [newShop, setNewShop] = useState({
         name:"",
-        direction:""
+        direction:"",
+        category:"as"
     })
 
     const onSubmit = e => {
@@ -63,7 +64,6 @@ export default function CreateStore() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   label="Nombre del negocio"
                   name="name"
@@ -74,7 +74,6 @@ export default function CreateStore() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   name="direction"
                   label="Dirección del negocio"
@@ -89,7 +88,7 @@ export default function CreateStore() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              
+              disabled={!newShop.name.length || !newShop.description.length || !newShop.category.length}
             >
               CREAR NUEVO NEGOCIO
             </Button>
