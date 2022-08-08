@@ -55,7 +55,11 @@ const reducer = (state = initialState, { type, payload }) => {
       }
 
     case FILTER_SHOPS:
-      return {};
+      console.log(payload)
+      return {
+        ...state,
+        shops: [...state.mainShops]
+      };
 
     // case ORDER_PRODUCTS:
     //   let newOrder = [...state.products];

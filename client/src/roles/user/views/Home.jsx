@@ -32,7 +32,7 @@ function Home() {
         >
           <Grid item xs={2} style={{ textAlign: "center" }}>
             <UserShopOrder />
-            {/* <UserShopFilter /> */}
+            <UserShopFilter />
           </Grid>
 
           <Grid
