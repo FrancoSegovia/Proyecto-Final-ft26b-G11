@@ -43,7 +43,7 @@ function Home() {
             style={{ textAlign: "center" }}
           >
             {error || !shops.length ? (
-              <div>No pudimos encontrar el Negocio solicitado</div>
+              <p style={{fontSize:"16px", fontFamily:"Roboto", fontWeight:"bold", color:"#1976d2"}}>No pudimos encontrar el Negocio solicitado.</p>
             ) : (
               shops.map((shop) => {
                 return <UserCard shop={shop} />;

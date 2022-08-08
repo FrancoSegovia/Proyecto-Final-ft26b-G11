@@ -82,7 +82,7 @@ function UserCard({ shop }) {
                   id="transition-modal-title"
                   variant="h5"
                   component="h5"
-                  style={{margin:"20px", textAlign:"center"}}
+                  style={{margin:"20px", textAlign:"center", wordWrap:"break-word"}}
                 >
                   {shop.description?.length ? shop.description : "Este negocio no cuenta con una descripción." }
             </Typography>
