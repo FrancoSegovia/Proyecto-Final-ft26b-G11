@@ -1,14 +1,7 @@
 const express = require("express");
+const ownerController = require("../routes/controllers/controller_owners") 
 const router = express.Router();
 
-const ownerSchema = require('../schema/Owner.js')
-
-router.post("/", (req, res) => {
-    const owner = ownerSchema(req.body)
-    owner
-    .save().then((data) => res.json(data))
-    .catch((error) => res.json({message: error}))
-})
-
+router.post("/", ownerController.post);
 
 module.exports = router;

@@ -1,17 +1,8 @@
 const express = require("express");
-const userSchema = require("../schema/Users");
-
+const userController = require("../routes/controllers/controller_users") 
 const router = express.Router();
 
-// Create routes
-
-router.post("/", (req, res) => {
-    const user = userSchema(req.body);
-    user
-    .save()
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ msg: error}));
-});
+router.post("/", userController.post);
 
 router.get("/", (req, res) => {
     const { name } = req.query;
