@@ -10,23 +10,31 @@ const localSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  category: [{
+  category: {
     type: String,
     required: true,
-  }],
+  },
+  schedule:{ 
+    type: String,
+    require: false
+  },
+  description: {
+    type: String,
+    require: false
+  },
   image: {
     type: String,
-    required: true,
+    required: false,
   },
   products: [
     new mongoose.Schema({
       name: {
         type: String,
-        required: true,
+        required: false,
       },
       description: {
         type: String,
-        required: true,
+        required: false,
       },
       image: {
         type: String,
@@ -34,11 +42,12 @@ const localSchema = mongoose.Schema({
       },
       price: {
         type: Number,
-        required: true,
+
+        required: false,
       },
       type: [{
         type: String,
-        required: true,
+        required: false,
       }],
     }),
   ],
