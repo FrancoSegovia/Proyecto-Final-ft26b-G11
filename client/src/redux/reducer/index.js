@@ -1,4 +1,6 @@
 import shopOrder from "../../utils/functions/shopOrder";
+import shopFilter from "../../utils/functions/shopFilter";
+
 import {
   ALL_SHOPS,
   QUERY_SHOPS,
@@ -15,9 +17,8 @@ const initialState = {
   products: [],
   mainShops: [],
   shops: [],
-  typeFilter: "",
   shopFilter: "",
-  order: "",
+  shopOrder: "",
   error: false,
 };
 
@@ -41,21 +42,31 @@ const reducer = (state = initialState, { type, payload }) => {
     /////////////////////////////////////////////////
     case ORDER_SHOPS:
       if (payload === "DEFAULT") {
+        let newOrder = [...state.mainShops];
+        newOrder = newOrder.filter(s => state.shops.includes(s))
         return {
           ...state,
-          shops: [...state.mainShops],
+          shopOrder: "",
+          shops: [...newOrder],
         };
       } else {
         let newOrder = [...state.shops];
         newOrder = shopOrder(newOrder, payload);
         return {
           ...state,
-          shops: [...newOrder]
-        }
+          shopOrder: payload,
+          shops: [...newOrder],
+        };
       }
 
     case FILTER_SHOPS:
-      return {};
+      let newFilter = [...state.mainShops];
+      newFilter = shopFilter(newFilter, payload, state.shopOrder);
+      return {
+        ...state,
+        shopFilter: payload,
+        shops: [...newFilter],
+      };
 
     // case ORDER_PRODUCTS:
     //   let newOrder = [...state.products];
