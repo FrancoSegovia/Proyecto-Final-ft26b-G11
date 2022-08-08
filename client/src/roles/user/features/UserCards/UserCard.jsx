@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
-import defaultShop from '../../../../media/defaultShop.jpg';
+import defaultShop from "../../../../media/defaultShop.jpg";
 
 function UserCard({ shop }) {
   const [open, setOpen] = useState(false);
@@ -79,13 +79,24 @@ function UserCard({ shop }) {
             </Typography>
 
             <Typography
+                  id="transition-modal-title"
+                  variant="h5"
+                  component="h5"
+                  style={{margin:"20px", textAlign:"center"}}
+                >
+                  {shop.description?.length ? shop.description : "Este negocio no cuenta con una descripción." }
+            </Typography>
+
+            <Typography
               id="transition-modal-title"
-              style={{ marginTop: "20px", textAlign: "center" }}
+              style={{ marginTop: "15px", textAlign: "center" }}
               variant="h5"
               component="h5"
               color="textSecondary"
             >
-            {shop.products.length ? `Menú de ${shop.name}` : "Este negocio aún no cuenta con productos."}
+              {shop.products.length
+                ? `Menú de ${shop.name}`
+                : "Este negocio aún no cuenta con productos."}
             </Typography>
 
             <Container
@@ -94,12 +105,12 @@ function UserCard({ shop }) {
                 flexWrap: "wrap",
                 justifyContent: "space-evenly",
                 marginBottom: "20px",
+                "&hover":{cursor:"default"}
               }}
             >
               {shop.products.map((product) => {
                 return (
                   <Card
-                    sx={{ "&:hover": { cursor: "pointer" } }}
                     style={{
                       margin: "15px 0px",
                       backgroundColor: "whitesmoke",
@@ -174,7 +185,11 @@ function UserCard({ shop }) {
             </Typography>
           </CardContent>
 
-          <CardMedia component="img" style={styles.media} image={shop.image ? shop.image : defaultShop} />
+          <CardMedia
+            component="img"
+            style={styles.media}
+            image={shop.image ? shop.image : defaultShop}
+          />
         </Container>
       </Card>
     </div>
