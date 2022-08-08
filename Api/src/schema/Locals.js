@@ -10,10 +10,18 @@ const localSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  category: [{
+  category: {
     type: String,
     required: true,
-  }],
+  },
+  schedule:{ 
+    type: String,
+    require: false
+  },
+  description: {
+    type: String,
+    require: false
+  },
   image: {
     type: String,
     required: false,
