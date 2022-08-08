@@ -42,7 +42,6 @@ const localSchema = mongoose.Schema({
       },
       price: {
         type: Number,
-
         required: false,
       },
       type: [{
