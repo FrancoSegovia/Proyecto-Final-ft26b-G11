@@ -9,5 +9,3 @@ const userController = {
       .catch((error) => res.json({ msg: error }));
   },
 };
-
-module.exports = {userController}

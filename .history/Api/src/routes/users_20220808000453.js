@@ -5,6 +5,6 @@ const router = express.Router();
 
 // Create routes
 
-router.post("/", userController.show);
+router.post("/", );
 
 module.exports = router

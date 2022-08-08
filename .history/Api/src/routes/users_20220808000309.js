@@ -1,5 +1,5 @@
 const express = require("express");
-const userSchema = require("../schema/Users");
+
 
 const router = express.Router();
 
@@ -12,7 +12,5 @@ router.post("/", (req, res) => {
     .then((data) => res.json(data))
     .catch((error) => res.json({ msg: error}));
 });
-
-
 
 module.exports = router
