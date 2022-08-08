@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,18 +15,31 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { useDispatch } from 'react-redux';
+import { addStore } from '../../../../redux/actions';
 
 const theme = createTheme();
 
-export default function CreateUser() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+export default function CreateStore() {
+    const dispatch = useDispatch();
+    const [newShop, setNewShop] = useState({
+        name:"",
+        direction:""
+    })
+
+    const onSubmit = e => {
+        e.preventDefault();
+        dispatch(addStore(newShop));
+    }
+
+    const onInputChange = e => {
+        e.preventDefault();
+        setNewShop({
+            ...newShop,
+            [e.target.name]: e.target.value,
+          });
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -39,60 +53,34 @@ export default function CreateUser() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: '#1976d2' }}>
+            <AddBusinessIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            CREAR NUEVO NEGOCIO
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  label="Nombre del negocio"
+                  name="name"
+                  autoComplete="nombre_negocio"
+                  value={newShop.name}
+                  onChange={onInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  name="direction"
+                  label="Dirección del negocio"
+                  autoComplete="direccion_negocio"
+                  value={newShop.direction}
+                  onChange={onInputChange}
                 />
               </Grid>
             </Grid>
@@ -101,10 +89,11 @@ export default function CreateUser() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              
             >
-              CREAR NUEVO LOCAL
+              CREAR NUEVO NEGOCIO
             </Button>
-            <Grid container justifyContent="flex-start">
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/" style={{textDecoration:"none", color:"white"}}>
                     <Button variant="contained" startIcon={<ArrowBackIcon/>}>

@@ -78,3 +78,15 @@ export const errorCleaner = () => {
     payload: false,
   };
 };
+
+export function addStore(payload) {
+  return async function (){
+    try {
+      var respuesta = await axios.post(`http://localhost:3001/local`, payload);
+      return respuesta;
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
+}
