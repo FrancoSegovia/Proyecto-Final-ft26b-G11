@@ -33,7 +33,7 @@ function Home() {
         >
           <Grid item xs={2} style={{ textAlign: "center" }}>
             <UserShopOrder />
-            {/* <UserShopFilter /> */}
+            <UserShopFilter />
           </Grid>
 
           <Grid
@@ -43,7 +43,7 @@ function Home() {
             style={{ textAlign: "center" }}
           >
             {error || !shops.length ? (
-              <div>No pudimos encontrar productos relacionados : </div>
+              <div>No pudimos encontrar el Negocio solicitado</div>
             ) : (
               shops.map((shop) => {
                 return <UserCard shop={shop} />;

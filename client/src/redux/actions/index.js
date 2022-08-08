@@ -33,7 +33,7 @@ export const getQueryShops = (query) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error.message);
+      console.error(error.message);
       dispatch({
         type: QUERY_ERROR,
         payload: true,
@@ -85,8 +85,12 @@ export function addStore(payload) {
       var respuesta = await axios.post(`http://localhost:3001/local`, payload);
       return respuesta;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-    
   };
 }
+
+// export const addcosa = (paylaod) => {
+//   return axios.post(`http://localhost:3001/local`, payload)
+//   .then()
+// }
