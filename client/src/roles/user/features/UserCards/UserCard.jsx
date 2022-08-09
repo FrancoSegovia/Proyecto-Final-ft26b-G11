@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import defaultShop from "../../../../media/defaultShop.jpg";
+
 import {
   Card,
   Container,
@@ -11,11 +14,9 @@ import {
   Fade,
   Modal,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import ClearIcon from "@mui/icons-material/Clear";
-import defaultShop from "../../../../media/defaultShop.jpg";
+import { Clear, Add } from "@mui/icons-material";
 
-function UserCard({ shop }) {
+export default function UserCard({ shop }) {
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);
   const onCardClose = (e) => setOpen(false);
@@ -66,7 +67,7 @@ function UserCard({ shop }) {
               style={closeButtonStyle}
               onClick={() => setOpen(false)}
             >
-              <ClearIcon />
+              <Clear />
             </IconButton>
 
             <Typography
@@ -79,12 +80,18 @@ function UserCard({ shop }) {
             </Typography>
 
             <Typography
-                  id="transition-modal-title"
-                  variant="h5"
-                  component="h5"
-                  style={{margin:"20px", textAlign:"center", wordWrap:"break-word"}}
-                >
-                  {shop.description?.length ? shop.description : "Este negocio no cuenta con una descripción." }
+              id="transition-modal-title"
+              variant="h5"
+              component="h5"
+              style={{
+                margin: "20px",
+                textAlign: "center",
+                wordWrap: "break-word",
+              }}
+            >
+              {shop.description?.length
+                ? shop.description
+                : "Este negocio no cuenta con una descripción."}
             </Typography>
 
             <Typography
@@ -105,7 +112,7 @@ function UserCard({ shop }) {
                 flexWrap: "wrap",
                 justifyContent: "space-evenly",
                 marginBottom: "20px",
-                "&hover":{cursor:"default"}
+                "&hover": { cursor: "default" },
               }}
             >
               {shop.products.map((product) => {
@@ -196,4 +203,4 @@ function UserCard({ shop }) {
   );
 }
 
-export default UserCard;
+
