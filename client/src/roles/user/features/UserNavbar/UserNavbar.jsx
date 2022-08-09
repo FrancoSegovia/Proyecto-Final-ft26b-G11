@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import {
+  getQueryShops,
+  getAllShops,
+  errorCleaner,
+} from "../../../../redux/actions";
+
 import {
   AppBar,
   Box,
@@ -9,13 +15,10 @@ import {
   InputBase,
   Button,
   Container,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import SearchIcon from "@mui/icons-material/Search";
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-
-import { getQueryShops, getAllShops, errorCleaner} from "../../../../redux/actions";
+import { AddBusiness, Search } from "@mui/icons-material";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -26,25 +29,19 @@ export default function Navbar() {
   function onChange(e) {
     e.preventDefault();
     setSearch(e.target.value);
-    if(!regExp.test(e.target.value) && e.target.value !== ''){
+
+    if (!regExp.test(e.target.value) && e.target.value !== "") {
       setLeyenda("Caracteres inválidos");
-      return
+      return;
     }
-    if (search.length > 2){
-      dispatch(getQueryShops(search));
-    }
-    else {
+    if (search.length > 2) {
+      dispatch(getQueryShops(search.trim()));
+    } else {
       dispatch(errorCleaner());
       dispatch(getAllShops());
-      setLeyenda("")
+      setLeyenda("");
     }
-    
   }
-
-  // function onSubmit(e) {
-  //   e.preventDefault();
-  //   //aca va el dispatch de la action que busca
-  // }
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -54,7 +51,6 @@ export default function Navbar() {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     width: "100%",
-
   }));
 
   const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -78,14 +74,13 @@ export default function Navbar() {
       // transition: theme.transitions.create("width"),
     },
     width: "270px",
-    height: "40px !important"
+    height: "40px !important",
   }));
 
   return (
     <div>
-      {" "}
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <Typography
               variant="h6"
@@ -95,14 +90,14 @@ export default function Navbar() {
             >
               Click!
             </Typography>
-            <Container style={{maxWidth:"350px", display: "flex"}}>
+            <Container style={{ maxWidth: "350px", display: "flex" }}>
               <Search>
                 <SearchIconWrapper>
-                <SearchIcon />
+                  <Search />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Buscar Negocios"
-                  inputProps={{ "aria-label": "search"}}
+                  inputProps={{ "aria-label": "search" }}
                   name="search"
                   type="string"
                   value={search}
@@ -110,17 +105,30 @@ export default function Navbar() {
                   autoFocus
                 />
               </Search>
-              <Container style={{minWidth: "200px", maxHeight:"40px"}}>
-              {leyenda && <p style={{color: "#b3e5fc", border:"#d50000", marginTop:"7px", fontWeight: "bold"}}>{leyenda}</p>}
+              <Container style={{ minWidth: "200px", maxHeight: "40px" }}>
+                {leyenda && (
+                  <p
+                    style={{
+                      color: "#b3e5fc",
+                      border: "#d50000",
+                      marginTop: "7px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {leyenda}
+                  </p>
+                )}
               </Container>
             </Container>
-            <Link to="/create" style={{textDecoration:"none", color:"white"}}>
+            <Link
+              to="/create"
+              style={{ textDecoration: "none", color: "white" }}
+            >
               <Button variant="contained" color="primary" size="small">
-                
-                  Ingrese un nuevo negocio
-                  <IconButton style={{color:"white"}}>
-                    <AddBusinessIcon/>
-                  </IconButton>
+                Ingrese un nuevo negocio
+                <IconButton style={{ color: "white" }}>
+                  <AddBusiness />
+                </IconButton>
               </Button>
             </Link>
           </Toolbar>

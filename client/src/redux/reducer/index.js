@@ -1,4 +1,8 @@
 import shopOrder from "../../utils/functions/shopOrder";
+import shopFilter from "../../utils/functions/shopFilter";
+// import productOrder from "../../utils/functions/productOrder";
+// import productFitler from "../../utils/functions/productFilter";
+
 import {
   ALL_SHOPS,
   QUERY_SHOPS,
@@ -15,9 +19,8 @@ const initialState = {
   products: [],
   mainShops: [],
   shops: [],
-  typeFilter: "",
   shopFilter: "",
-  order: "",
+  shopOrder: "",
   error: false,
 };
 
@@ -39,61 +42,46 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     /////////////////////////////////////////////////
+
     case ORDER_SHOPS:
       if (payload === "DEFAULT") {
+        let newOrder = [...state.mainShops];
+        newOrder = newOrder.filter((s) => state.shops.includes(s));
         return {
           ...state,
-          shops: [...state.mainShops],
+          shopOrder: "",
+          shops: [...newOrder],
         };
       } else {
         let newOrder = [...state.shops];
         newOrder = shopOrder(newOrder, payload);
         return {
           ...state,
-          shops: [...newOrder]
-        }
+          shopOrder: payload,
+          shops: [...newOrder],
+        };
       }
 
     case FILTER_SHOPS:
-      return {};
+      let newFilter = [...state.mainShops];
+      newFilter = shopFilter(newFilter, payload, state.shopOrder);
+      return {
+        ...state,
+        shopFilter: payload,
+        shops: [...newFilter],
+      };
 
-    // case ORDER_PRODUCTS:
-    //   let newOrder = [...state.products];
-    //   newOrder = order(newOrder, payload);
-    //   if (payload === "DEFAULT") {
-    //     return {
-    //       ...state,
-    //       order: "",
-    //       products: [...state.mainProducts],
-    //     };
-    //   } else {
-    //     let newOrder = [...state.products];
-    //     newOrder = order(newOrder, payload);
-    //     return {
-    //       ...state,
-    //       order: payload,
-    //       products: [...newOrder],
-    //     };
-    //   }
+    case ORDER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
 
-    // case FILTER_PRODUCTS:
-    //   if (payload === "ALLP" || payload === "COMIDA" || payload === "BEBIDA") {
-    //     let newFilter = [...state.mainProducts];
-    //     newFilter = typeFilter(newFilter, payload, state.order);
-    //     return {
-    //       ...state,
-    //       typeFilter: payload === "ALLP" ? "" : payload,
-    //       products: [...newFilter],
-    //     };
-    //   } else {
-    //     let newFilter = [...state.mainProducts];
-    //     newFilter = shopFilter(newFilter, payload, state.order);
-    //     return {
-    //       ...state,
-    //       shopFilter: payload === "ALLS" ? "" : payload,
-    //       products: [...newFilter],
-    //     };
-    //   }
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
 
     /////////////////////////////////////////////////
 

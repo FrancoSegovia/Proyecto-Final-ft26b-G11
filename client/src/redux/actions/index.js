@@ -33,13 +33,29 @@ export const getQueryShops = (query) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error.message);
+      console.error(error.message);
       dispatch({
         type: QUERY_ERROR,
         payload: true,
       });
     });
 };
+
+export function addStore(payload) {
+  return async function () {
+    try {
+      var respuesta = await axios.post(`http://localhost:3001/local`, payload);
+      return respuesta;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+//Hay que pasar la function de arriba como promesa
+// export const addcosa = (paylaod) => {
+//   return axios.post(`http://localhost:3001/local`, payload)
+//   .then()
+// }
 
 /////////////////////////////////////////////////
 
@@ -49,6 +65,7 @@ export const orderShops = (value) => {
     payload: value,
   };
 };
+
 export const filterShops = (value) => {
   return {
     type: FILTER_SHOPS,
@@ -78,15 +95,3 @@ export const errorCleaner = () => {
     payload: false,
   };
 };
-
-export function addStore(payload) {
-  return async function (){
-    try {
-      var respuesta = await axios.post(`http://localhost:3001/local`, payload);
-      return respuesta;
-    } catch (error) {
-      console.log(error);
-    }
-    
-  };
-}
