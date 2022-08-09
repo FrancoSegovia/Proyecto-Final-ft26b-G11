@@ -117,46 +117,48 @@ export default function UserCard({ shop }) {
             >
               {shop.products.map((product) => {
                 return (
-                  <Card
-                    style={{
-                      margin: "15px 0px",
-                      backgroundColor: "whitesmoke",
-                      padding: "20px",
-                      maxWidth: "200px",
-                    }}
-                  >
-                    <CardContent
+                  <div key={product._id}>
+                    <Card
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        textAlign: "center",
-                        alignItems: "center",
-                        padding: "10px",
+                        margin: "15px 0px",
+                        backgroundColor: "whitesmoke",
+                        padding: "20px",
+                        maxWidth: "200px",
                       }}
                     >
-                      <CardMedia
-                        component="img"
-                        style={styles.media}
-                        image={product.image}
-                      />
+                      <CardContent
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          textAlign: "center",
+                          alignItems: "center",
+                          padding: "10px",
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          style={styles.media}
+                          image={product.image}
+                        />
 
-                      <Typography
-                        style={{ marginTop: "18px" }}
-                        variant="h4"
-                        color="textPrimary"
-                        component="div"
-                      >
-                        {product.name}
-                      </Typography>
-                      <Typography
-                        variant="h4"
-                        color="textPrimary"
-                        component="div"
-                      >
-                        {"$" + product.price}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                        <Typography
+                          style={{ marginTop: "18px" }}
+                          variant="h4"
+                          color="textPrimary"
+                          component="div"
+                        >
+                          {product.name}
+                        </Typography>
+                        <Typography
+                          variant="h4"
+                          color="textPrimary"
+                          component="div"
+                        >
+                          {"$" + product.price}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </div>
                 );
               })}
             </Container>
@@ -202,5 +204,3 @@ export default function UserCard({ shop }) {
     </div>
   );
 }
-
-

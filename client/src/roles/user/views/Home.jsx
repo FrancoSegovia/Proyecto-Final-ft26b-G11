@@ -53,7 +53,14 @@ export default function Home() {
               </p>
             ) : (
               shops.map((shop) => {
-                return <UserCard shop={shop} />;
+                return (
+                  <div key={shop._id}>
+                    <UserCard shop={shop} />{" "}
+                  </div>
+                );
+                {
+                  /* return <UserCard shop={shop} />; */
+                }
               })
             )}
           </Grid>
