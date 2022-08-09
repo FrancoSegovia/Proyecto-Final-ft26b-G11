@@ -12,7 +12,7 @@ export default function shopFilter(array, filter, order) {
     response = array.filter(
       (s) => s.category.toUpperCase() === filter.toUpperCase()
     );
-    return response
+    return response;
   } else {
     response = array.filter(
       (s) => s.category.toUpperCase() === filter.toUpperCase()

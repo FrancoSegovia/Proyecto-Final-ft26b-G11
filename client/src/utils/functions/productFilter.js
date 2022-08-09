@@ -1,6 +1,6 @@
-import productsOrder from "./order.js";
+import productOrder from "./order.js";
 
-export default function typeFilter(array, filter, order) {
+export default function productFilter(array, filter, order) {
   let response;
 
   if (filter === "ALLP") {
@@ -12,7 +12,7 @@ export default function typeFilter(array, filter, order) {
   if (order === "") {
     return response;
   } else {
-    response = productsOrder(response, order);
+    response = productOrder(response, order);
     return response;
   }
 }
