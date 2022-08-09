@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import defaultShop from "../../../../media/defaultShop.jpg";
+
 import {
   Card,
   Container,
@@ -11,11 +14,9 @@ import {
   Fade,
   Modal,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import ClearIcon from "@mui/icons-material/Clear";
-import defaultShop from '../../../../media/defaultShop.jpg';
+import { Clear, Add } from "@mui/icons-material";
 
-function UserCard({ shop }) {
+export default function UserCard({ shop }) {
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);
   const onCardClose = (e) => setOpen(false);
@@ -66,7 +67,7 @@ function UserCard({ shop }) {
               style={closeButtonStyle}
               onClick={() => setOpen(false)}
             >
-              <ClearIcon />
+              <Clear />
             </IconButton>
 
             <Typography
@@ -80,12 +81,29 @@ function UserCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "20px", textAlign: "center" }}
+              variant="h5"
+              component="h5"
+              style={{
+                margin: "20px",
+                textAlign: "center",
+                wordWrap: "break-word",
+              }}
+            >
+              {shop.description?.length
+                ? shop.description
+                : "Este negocio no cuenta con una descripción."}
+            </Typography>
+
+            <Typography
+              id="transition-modal-title"
+              style={{ marginTop: "15px", textAlign: "center" }}
               variant="h5"
               component="h5"
               color="textSecondary"
             >
-            {shop.products.length ? `Menú de ${shop.name}` : "Este negocio aún no cuenta con productos."}
+              {shop.products.length
+                ? `Menú de ${shop.name}`
+                : "Este negocio aún no cuenta con productos."}
             </Typography>
 
             <Container
@@ -94,12 +112,12 @@ function UserCard({ shop }) {
                 flexWrap: "wrap",
                 justifyContent: "space-evenly",
                 marginBottom: "20px",
+                "&hover": { cursor: "default" },
               }}
             >
               {shop.products.map((product) => {
                 return (
                   <Card
-                    sx={{ "&:hover": { cursor: "pointer" } }}
                     style={{
                       margin: "15px 0px",
                       backgroundColor: "whitesmoke",
@@ -170,15 +188,19 @@ function UserCard({ shop }) {
               component="div"
               style={{ textAlign: "left" }}
             >
-              {shop.category.map((c) => c)}
+              {shop.category}
             </Typography>
           </CardContent>
 
-          <CardMedia component="img" style={styles.media} image={shop.image ? shop.image : defaultShop} />
+          <CardMedia
+            component="img"
+            style={styles.media}
+            image={shop.image ? shop.image : defaultShop}
+          />
         </Container>
       </Card>
     </div>
   );
 }
 
-export default UserCard;
+
