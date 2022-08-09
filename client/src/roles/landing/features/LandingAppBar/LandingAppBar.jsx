@@ -1,8 +1,14 @@
 import React from "react";
-// import Box from '@mui/material/Box';
-// import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import AppBar from "../AppBar/AppBar";
-import ToolBar from "../ToolBar/ToolBar";
+import Toolbar from "../ToolBar/ToolBar";
+
+const rightLink = {
+  fontSize: 16,
+  color: 'common.white',
+  ml: 3,
+};
 
 export default function LandingAppBar() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import Button from '../Button/Button';
-import Typography from '../Typography/Button';
+import Typography from '../Typography/Typography';
 import LandingHeroLayout from './LandingHeroLayout';
 
 export default function LandingHero() {
@@ -8,7 +8,7 @@ export default function LandingHero() {
     <>
       <LandingHeroLayout
         sxBackground={{
-          backgroundImage: `url(${backgroundImage})`,
+          // backgroundImage: `url(${backgroundImage})`,
           backgroundColor: "#7fc7d9", // Average color of the background image.
           backgroundPosition: "center",
         }}
@@ -16,7 +16,7 @@ export default function LandingHero() {
         {/* Increase the network loading priority of the background image. */}
         <img
           style={{ display: "none" }}
-          src={backgroundImage}
+          // src={backgroundImage}
           alt="increase priority"
         />
         <Typography color="inherit" align="center" variant="h2" marked="center">
