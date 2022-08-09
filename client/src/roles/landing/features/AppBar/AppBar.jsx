@@ -1,11 +1,6 @@
 import React from 'react';
-// import Box from '@mui/material/Box';
-// import Link from '@mui/material/Link';
-// import AppBar from '../components/AppBar';
-// import Toolbar from '../components/Toolbar';
+import MuiAppBar from '@mui/material/AppBar';
 
-export default function AppBar() {
-    return (<>
-        
-    </>)
+export default function AppBar(props) {
+  return <MuiAppBar elevation={0} position="fixed" {...props} />;
 }
