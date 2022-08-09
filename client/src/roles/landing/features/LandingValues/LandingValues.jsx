@@ -1,14 +1,13 @@
 import React from "react";
 
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import Typography from '../Typography/Typography';
+import { Box, Grid } from "@mui/material";
+import Container from "@mui/material/Container";
+import Typography from "../Typography/Typography";
 
 const item = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   px: 5,
 };
 
