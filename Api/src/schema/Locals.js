@@ -25,7 +25,7 @@ const localSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  products: [
+  Products: [
     new mongoose.Schema({
       name: {
         type: String,
@@ -42,6 +42,10 @@ const localSchema = mongoose.Schema({
       price: {
         type: Number,
         required: false,
+      },
+      inCart: {
+        type: Boolean,
+        required: true
       },
       type: [
         {
@@ -62,3 +66,4 @@ localSchema.set("toJSON", {
 });
 
 module.exports = mongoose.model("Local", localSchema);
+
