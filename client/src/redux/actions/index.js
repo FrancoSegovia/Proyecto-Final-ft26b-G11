@@ -8,6 +8,9 @@ export const FILTER_SHOPS = "FILTER_SHOPS";
 export const ORDER_PRODUCTS = "ORDER_PRODUCTS";
 export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 /////////////////////////////////////////////////
+export const ADD_SHOPPINGCART = "ADD_SHOPPINGCART";
+export const DELETE_SHOPPINGCART = "DELETE_SHOPPINGCART";
+/////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
 
@@ -87,6 +90,32 @@ export const filterProducts = (value) => {
   };
 };
 
+/////////////////////////////////////////////////
+export const addShoppingCart = (id) => {
+  return {
+    type: ADD_SHOPPINGCART,
+    payload: id,
+  };
+};
+// export const addShoppingCart = (id) => (dispatch) => {
+//   return axios
+//    .post(path, id)
+//    .then((product) => {
+//      dispath({
+//        type: ADD_SHOPPINGCART,
+//        payload: product.data
+//      })
+//    .catch(error => console.error(error))
+// })
+// }
+
+export const deleteShoppingCart = (id) => {
+  console.log(id);
+  return {
+    type: DELETE_SHOPPINGCART,
+    payload: id,
+  };
+};
 /////////////////////////////////////////////////
 
 export const errorCleaner = () => {
