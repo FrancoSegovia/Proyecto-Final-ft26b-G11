@@ -1,13 +1,16 @@
 const express = require("express");
+const cors = require("cors")
 const mongoose = require("mongoose");
 const routes = require("./routes/index.js");
 // const { isAuthenticated } = require("./routes/middlewares");
 require("dotenv").config();
 
+
 const app = express();
 const port = process.env.PORT || 3001;
 
 //middleware
+app.use(cors());
 app.use(express.json());
 // app.use(isAuthenticated); //! ACA PODRIA APLICAR EL MIDDLEWARE PARA VALIDAR POR TOKEN TODAS LAS RUTAS
 app.use((req, res, next) => {

@@ -1,7 +1,11 @@
-const localSchema = require("./Locals")
+const products = require("./owner")
 const mongoose = require("mongoose")
 
-const prod = localSchema.pro
-console.log("soy pro", prod)
 
-module.exports = mongoose.model("Products", prod)
+function getModelByName(name) {
+    return mongoose.model(name);
+  }
+
+
+
+module.exports = mongoose.model("Product", getModelByName)
