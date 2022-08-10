@@ -9,7 +9,7 @@ const router = Router();
 
 router.use("/owner", ownerRoute);
 router.use("/delivery", deliveryRoute);
-router.use("/users", usersRoute);
+router.use("/user", usersRoute);
 router.use("/local", local);
 
 module.exports = router;

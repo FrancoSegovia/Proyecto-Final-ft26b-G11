@@ -61,4 +61,4 @@ localSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Locals", localSchema);
+module.exports = mongoose.model("Local", localSchema);

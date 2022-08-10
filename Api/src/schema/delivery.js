@@ -45,4 +45,4 @@ deliverySchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Deliverys", deliverySchema);
+module.exports = mongoose.model("Delivery", deliverySchema);
