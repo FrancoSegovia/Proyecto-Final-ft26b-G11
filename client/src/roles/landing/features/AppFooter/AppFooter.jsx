@@ -6,11 +6,12 @@ import Container from '@mui/material/Container';
 import Typography from '../Typography/Typography.jsx';
 
 const linksStyle = {
-  color:"black",
+  color:"#b3e5fc",
   fontSize:"15px",
   fontWeight:"200",
-
+  cursor:"pointer"
 }
+
 
 export default function AppFooter() {
   return (
@@ -22,7 +23,7 @@ export default function AppFooter() {
         <Grid container spacing={2} justifyContent="center">
 
           <Grid item xs={3} sm={3} md={3}>
-            <Typography variant="h6" marked="left" gutterBottom>
+            <Typography variant="h6" marked="left" gutterBottom style={{color:"#b3e5fc"}}>
               Github
             </Typography>
             <Typography variant="h6"  gutterBottom noWrap>
@@ -31,11 +32,11 @@ export default function AppFooter() {
             
           </Grid>
           <Grid item xs={3} sm={3} md={2.5}>
-            <Typography variant="h6" marked="left" gutterBottom noWrap>
+            <Typography variant="h6" marked="left" gutterBottom noWrap style={{color:"#b3e5fc"}}>
               Información adicional
             </Typography>
             <Typography variant="h6"  gutterBottom noWrap>
-              <Link to="#" style={linksStyle}>Sobre nosotros</Link>
+              <Link to="#" style={linksStyle} sx={{"&:hover":{ color:"black"}}}>Sobre nosotros</Link>
             </Typography>
             
           </Grid>

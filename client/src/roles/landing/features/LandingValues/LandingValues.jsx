@@ -16,7 +16,7 @@ export default function LandingValues() {
     <>
       <Box
         component="section"
-        sx={{ display: "flex", overflow: "hidden", bgcolor: "secondary.light" }}
+        sx={{ display: "flex", overflow: "hidden", bgcolor: "#1976d2" }}
       >
         <Container
           sx={{ mt: 15, mb: 30, display: "flex", position: "relative" }}
@@ -27,19 +27,19 @@ export default function LandingValues() {
             alt="curvy lines"
             sx={{ pointerEvents: "none", position: "absolute", top: -180 }}
           />
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={4}>
+          <Grid container spacing={5} style={{backgroundColor:"#b3e5fc", borderRadius:"25px"}}>
+            <Grid item xs={12} md={4} >
               <Box sx={item}>
                 <Box
                   component="img"
-                  src="/static/themes/onepirate/productValues1.svg"
+                  src=""
                   alt="suitcase"
                   sx={{ height: 55 }}
                 />
                 <Typography variant="h6" sx={{ my: 5 }}>
                   The best luxury hotels
                 </Typography>
-                <Typography variant="h5">
+                <Typography variant="h5" style={{padding:"0px 5px 50px 5px"}}>
                   {
                     "From the latest trendy boutique hotel to the iconic palace with XXL pool"
                   }
@@ -61,7 +61,7 @@ export default function LandingValues() {
                 <Typography variant="h6" sx={{ my: 5 }}>
                   New experiences
                 </Typography>
-                <Typography variant="h5">
+                <Typography variant="h5" style={{padding:"0px 5px 50px 5px"}}>
                   {
                     "Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… "
                   }
@@ -81,7 +81,7 @@ export default function LandingValues() {
                 <Typography variant="h6" sx={{ my: 5 }}>
                   Exclusive rates
                 </Typography>
-                <Typography variant="h5">
+                <Typography variant="h5" style={{padding:"0px 5px 50px 5px"}}>
                   {
                     "By registering, you will access specially negotiated rates "
                   }

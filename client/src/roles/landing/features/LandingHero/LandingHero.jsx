@@ -1,7 +1,9 @@
+import { Icon, IconButton } from "@mui/material";
 import React from "react";
 import Button from "../Button/Button";
 import Typography from "../Typography/Typography";
 import LandingHeroLayout from "./LandingHeroLayout";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export default function LandingHero() {
   return (
@@ -20,7 +22,7 @@ export default function LandingHero() {
           alt="increase priority"
         />
         <Typography color="#1976d2" align="center" variant="h2" marked="center">
-          ¡Disfrutá de tus platos preferidos!
+        ¡Tus platos preferidos a tan solo un <br/><span style={{color:"#b3e5fc"}}>Click!</span>
         </Typography>
         <Typography
           color="#1976d2"
@@ -28,23 +30,19 @@ export default function LandingHero() {
           variant="h5"
           sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
         >
-          Enjoy secret offers up to -70% off the best luxury hotels every
-          Sunday.
+          ¡Descuento imperdible por tu primera compra!
         </Typography>
         <Button
-          color="secondary"
           variant="contained"
           size="large"
           component="a"
-          href="/premium-themes/onepirate/sign-up/"
-          sx={{ minWidth: 200 }}
+          sx={{ minWidth: 200, backgroundColor:"#1976d2" }}
         >
-          Register
+          REGISTRARME
         </Button>
-        <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
-          Discover the experience
-        </Typography>
+        
       </LandingHeroLayout>
+      
     </>
   );
 }
