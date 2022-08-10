@@ -15,7 +15,7 @@ const item = {
 const number = {
   fontSize: 24,
   fontFamily: "default",
-  color: "secondary.main",
+  color: "#1976d2",
   fontWeight: "medium",
 };
 
@@ -25,10 +25,11 @@ const image = {
 };
 
 export default function LandingHowItWorks() {
+
   return (
     <Box
       component="section"
-      sx={{ display: "flex", bgcolor: "secondary.light", overflow: "hidden" }}
+      sx={{ display: "flex", bgcolor: "white", overflow: "hidden" }}
     >
       <Container
         sx={{
@@ -52,7 +53,7 @@ export default function LandingHowItWorks() {
           }}
         />
         <Typography variant="h4" marked="center" component="h2" sx={{ mb: 14 }}>
-          How it works
+          ¿Cómo funciona?
         </Typography>
         <div>
           <Grid container spacing={5}>
@@ -103,14 +104,13 @@ export default function LandingHowItWorks() {
           </Grid>
         </div>
         <Button
-          color="secondary"
           size="large"
           variant="contained"
           component="a"
           href="/premium-themes/onepirate/sign-up/"
           sx={{ mt: 8 }}
         >
-          Get started
+          INGRESA AHORA
         </Button>
       </Container>
     </Box>

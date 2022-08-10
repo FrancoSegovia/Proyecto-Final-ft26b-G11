@@ -37,28 +37,28 @@ const styles = ({ theme }) => ({
     width: 73,
     display: "block",
     margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#1976d2",
   },
   [`& .${markClassesMapping.center.h3}`]: {
     height: 4,
     width: 55,
     display: "block",
     margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#1976d2",
   },
   [`& .${markClassesMapping.center.h4}`]: {
     height: 4,
     width: 55,
     display: "block",
     margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor:"#1976d2",
   },
   [`& .${markClassesMapping.left.h6}`]: {
     height: 2,
     width: 28,
     display: "block",
     marginTop: theme.spacing(0.5),
-    background: "currentColor",
+    background: "#b3e5fc",
   },
 });
 
