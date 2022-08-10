@@ -12,6 +12,8 @@ import {
   FILTER_PRODUCTS,
   QUERY_ERROR,
   ERROR_CLEANER,
+  ADD_SHOPPINGCART,
+  DELETE_SHOPPINGCART,
 } from "../actions";
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   shops: [],
   shopFilter: "",
   shopOrder: "",
+  cart:[],
   error: false,
 };
 
@@ -85,19 +88,33 @@ const reducer = (state = initialState, { type, payload }) => {
 
     /////////////////////////////////////////////////
 
-    case QUERY_ERROR: {
+    case QUERY_ERROR: 
       return {
         ...state,
         error: payload,
       };
-    }
 
-    case ERROR_CLEANER: {
+    case ERROR_CLEANER: 
       return {
         ...state,
         error: payload,
       };
-    }
+    
+
+    /////////////////////////////////////////////////
+
+    case ADD_SHOPPINGCART:
+      return {
+        ...state,
+        cart: [...state.cart, payload]
+      }
+
+      case DELETE_SHOPPINGCART :
+        const updatedCart = state.cart.filter((p) => p !== payload)
+        return {
+          ...state,
+          cart: [...updatedCart]
+        }
 
     /////////////////////////////////////////////////
 

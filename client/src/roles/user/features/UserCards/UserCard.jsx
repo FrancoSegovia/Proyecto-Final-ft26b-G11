@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
 import defaultShop from "../../../../media/defaultShop.jpg";
 
 import {
+  Button,
   Card,
-  Container,
   CardContent,
+  CardMedia,
+  Container,
   IconButton,
   Typography,
-  CardMedia,
   CardActions,
   Box,
   Fade,
   Modal,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
+import { addShoppingCart } from "../../../../redux/actions";
 
 export default function UserCard({ shop }) {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);
   const onCardClose = (e) => setOpen(false);
+  const onButtonClick = (e) => {
+    dispatch(addShoppingCart(e.target.value));
+  };
 
   const styles = {
     media: {
@@ -155,6 +162,15 @@ export default function UserCard({ shop }) {
                       >
                         {"$" + product.price}
                       </Typography>
+                      <Button
+                        value={product._id}
+                        variant="contained"
+                        size="small"
+                        disableElevation
+                        onClick={onButtonClick}
+                      >
+                        Añadir al Carrito
+                      </Button>
                     </CardContent>
                   </Card>
                 );
@@ -202,5 +218,3 @@ export default function UserCard({ shop }) {
     </div>
   );
 }
-
-

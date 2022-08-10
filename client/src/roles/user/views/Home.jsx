@@ -6,6 +6,7 @@ import UserCard from "../features/UserCards/UserCard";
 import Navbar from "../features/UserNavbar/UserNavbar.jsx";
 import UserShopOrder from "../features/UserShopOrder/UserShopOrder.jsx";
 import UserShopFilter from "../features/UserShopFilter/UserShopFilter.jsx";
+import ShoppingCart from "../features/UserShoppingCart/ShoppingCart"
 
 import { Grid } from "@mui/material";
 
@@ -59,7 +60,7 @@ export default function Home() {
           </Grid>
 
           <Grid item xs={2} style={{ textAlign: "center" }}>
-            {/* <item>ACÁ VA EL COMPONENTE DE CARRITO</item> */}
+            <ShoppingCart />
           </Grid>
         </Grid>
       </div>

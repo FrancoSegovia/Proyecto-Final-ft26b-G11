@@ -1,7 +1,7 @@
 import React from "react";
-import Button from '../Button/Button';
-import Typography from '../Typography/Typography';
-import LandingHeroLayout from './LandingHeroLayout';
+import Button from "../Button/Button";
+import Typography from "../Typography/Typography";
+import LandingHeroLayout from "./LandingHeroLayout";
 
 export default function LandingHero() {
   return (
