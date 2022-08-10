@@ -9,7 +9,7 @@ export default function LandingHero() {
       <LandingHeroLayout
         sxBackground={{
           // backgroundImage: `url(${backgroundImage})`,
-          backgroundColor: "#7fc7d9", // Average color of the background image.
+          backgroundColor: "white", // Average color of the background image.
           backgroundPosition: "center",
         }}
       >
@@ -19,11 +19,11 @@ export default function LandingHero() {
           // src={backgroundImage}
           alt="increase priority"
         />
-        <Typography color="inherit" align="center" variant="h2" marked="center">
-          Upgrade your Sundays
+        <Typography color="#1976d2" align="center" variant="h2" marked="center">
+          ¡Disfrutá de tus platos preferidos!
         </Typography>
         <Typography
-          color="inherit"
+          color="#1976d2"
           align="center"
           variant="h5"
           sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
