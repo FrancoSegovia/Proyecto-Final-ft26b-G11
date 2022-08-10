@@ -34,7 +34,7 @@ export default function Navbar() {
             <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
                 Iniciar Sesión
                 <IconButton style={{ color: "white" }}>
-                  <PersonIcon />
+                  <PersonIcon/>
                 </IconButton>
             </Button>
           </Toolbar>
