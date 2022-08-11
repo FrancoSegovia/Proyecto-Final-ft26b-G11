@@ -1,11 +1,10 @@
 const products = require("./owner")
 const mongoose = require("mongoose")
 
+const prod = new mongoose.Schema ({
 
-function getModelByName(name) {
-    return mongoose.model(name);
-  }
-
+})
 
 
-module.exports = mongoose.model("Product", getModelByName)
+
+module.exports = mongoose.model("Product", prod)

@@ -1,6 +1,6 @@
 const Product = require("../../schema/Products")
 
-const getProducts = async (res, res) => {
+const getProducts = async (req, res) => {
     const products = await Product.find();
 
     if(products) {

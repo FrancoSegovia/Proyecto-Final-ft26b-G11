@@ -35,3 +35,5 @@ const addProductCart = async (req, res) => {
         })
     }
 }
+
+module.exports = addProductCart
