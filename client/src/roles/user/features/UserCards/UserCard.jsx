@@ -124,55 +124,56 @@ export default function UserCard({ shop }) {
             >
               {shop.products.map((product) => {
                 return (
-                  <Card
-                    style={{
-                      margin: "15px 0px",
-                      backgroundColor: "whitesmoke",
-                      padding: "20px",
-                      maxWidth: "200px",
-                    }}
-                  >
-                    <CardContent
+                  <div key={product._id}>
+                    <Card
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        textAlign: "center",
-                        alignItems: "center",
-                        padding: "10px",
+                        margin: "15px 0px",
+                        backgroundColor: "whitesmoke",
+                        padding: "20px",
+                        maxWidth: "200px",
                       }}
                     >
-                      <CardMedia
-                        component="img"
-                        style={styles.media}
-                        image={product.image}
-                      />
-
-                      <Typography
-                        style={{ marginTop: "18px" }}
-                        variant="h4"
-                        color="textPrimary"
-                        component="div"
+                      <CardContent
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          textAlign: "center",
+                          alignItems: "center",
+                          padding: "10px",
+                        }}
                       >
-                        {product.name}
-                      </Typography>
-                      <Typography
-                        variant="h4"
-                        color="textPrimary"
-                        component="div"
-                      >
-                        {"$" + product.price}
-                      </Typography>
-                      <Button
-                        value={product._id}
-                        variant="contained"
-                        size="small"
-                        disableElevation
-                        onClick={onButtonClick}
-                      >
-                        Añadir al Carrito
-                      </Button>
-                    </CardContent>
-                  </Card>
+                        <CardMedia
+                          component="img"
+                          style={styles.media}
+                          image={product.image}
+                        />
+                        <Typography
+                          style={{ marginTop: "18px" }}
+                          variant="h4"
+                          color="textPrimary"
+                          component="div"
+                        >
+                          {product.name}
+                        </Typography>
+                        <Typography
+                          variant="h4"
+                          color="textPrimary"
+                          component="div"
+                        >
+                          {"$" + product.price}
+                        </Typography>
+                        <Button
+                          value={product._id}
+                          variant="contained"
+                          size="small"
+                          disableElevation
+                          onClick={onButtonClick}
+                        >
+                          Añadir al Carrito
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
                 );
               })}
             </Container>

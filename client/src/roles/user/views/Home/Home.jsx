@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllShops } from "../../../redux/actions/index.js";
+import { getAllShops } from "../../../../redux/actions/index.js";
 
-import UserCard from "../features/UserCards/UserCard";
-import Navbar from "../features/UserNavbar/UserNavbar.jsx";
-import UserShopOrder from "../features/UserShopOrder/UserShopOrder.jsx";
-import UserShopFilter from "../features/UserShopFilter/UserShopFilter.jsx";
-import ShoppingCart from "../features/UserShoppingCart/ShoppingCart"
+import UserCard from "../../features/UserCards/UserCard";
+import Navbar from "../../features/UserNavbar/UserNavbar.jsx";
+import UserShopOrder from "../../features/UserShopOrder/UserShopOrder.jsx";
+import UserShopFilter from "../../features/UserShopFilter/UserShopFilter.jsx";
+import ShoppingCart from "../../features/UserShoppingCart/ShoppingCart"
 
 import { Grid } from "@mui/material";
 
@@ -54,7 +54,11 @@ export default function Home() {
               </p>
             ) : (
               shops.map((shop) => {
-                return <UserCard shop={shop} />;
+                return (
+                  <div key={shop._id}>
+                    <UserCard shop={shop} />{" "}
+                  </div>
+                );
               })
             )}
           </Grid>
