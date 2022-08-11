@@ -80,6 +80,10 @@ const productSchema = mongoose.Schema({
     type: Number,
     // required: false,
   },
+  inCart: {
+    type: Boolean,
+    default: false
+  },
   type: [
     {
       type: String,
