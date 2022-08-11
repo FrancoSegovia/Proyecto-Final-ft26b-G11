@@ -1,5 +1,6 @@
 import shopOrder from "../../utils/functions/shopOrder";
 import shopFilter from "../../utils/functions/shopFilter";
+import jwtDecode from "jwt-decode";
 // import productOrder from "../../utils/functions/productOrder";
 // import productFitler from "../../utils/functions/productFilter";
 
@@ -12,6 +13,9 @@ import {
   FILTER_PRODUCTS,
   QUERY_ERROR,
   ERROR_CLEANER,
+  SIGN_UP,
+  SIGN_IN,
+  USER_LOADED,
   ADD_SHOPPINGCART,
   DELETE_SHOPPINGCART,
 } from "../actions";
@@ -25,6 +29,14 @@ const initialState = {
   shopOrder: "",
   cart:[],
   error: false,
+  user: {
+    type: "",
+    token: localStorage.getItem("token"),
+    name: "",
+    lastName: "",
+    eMail: "",
+    _id: ""
+  }
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -115,6 +127,26 @@ const reducer = (state = initialState, { type, payload }) => {
           ...state,
           cart: [...updatedCart]
         }
+
+    /////////////////////////////////////////////////
+
+    case USER_LOADED:
+    case SIGN_IN:
+    case SIGN_UP: {
+      const user = jwtDecode(payload);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          token: payload,
+          type: user.type,
+          name: user.name,
+          lastName: user.lastName,
+          eMail: user.email,
+          _id: user._id,
+        },
+      };
+    }
 
     /////////////////////////////////////////////////
 
