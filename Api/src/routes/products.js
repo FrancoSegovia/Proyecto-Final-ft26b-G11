@@ -11,7 +11,7 @@ router.post("/", (req, res) => {
   const product = productSchema(req.body);
 
   const products = getModelByName("product")
-    console.log(products)
+    
   products
     .save()
     .then((data) => res.json(data))
