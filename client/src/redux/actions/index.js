@@ -10,6 +10,10 @@ export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 /////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
+////////////////////////////////////////////////
+export const SIGN_UP = "SIGN_UP";
+export const USER_LOADED = "USER_LOADED";
+export const SIGN_IN = "SIGN_IN";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -95,3 +99,64 @@ export const errorCleaner = () => {
     payload: false,
   };
 };
+
+////////////////////////////////////////////////
+export const signUpOwner = (user) => {
+  return (dispatch) => {
+    axios
+      .post("http://localhost:3001/signup/owner", user)
+      .then((token) => {
+        localStorage.setItem("token", token.data);
+
+        dispatch({
+          type: SIGN_UP,
+          payload: token.data,
+        });
+      })
+      .catch((error) => console.error(error.message));
+  };
+};
+
+export const signUpUser = (user) => {
+  return (dispatch) => {
+    axios
+      .post("http://localhost:3001/signup/user", user)
+      .then((token) => {
+        localStorage.setItem("token", token.data);
+
+        dispatch({
+          type: SIGN_UP,
+          payload: token.data,
+        });
+      })
+      .catch((error) => console.error(error.message));
+  };
+};
+
+export const signIn = (creds) => {
+  return (dispatch) => {
+    axios
+      .post("http://localhost:3001/signin", creds)
+      .then((token) => {
+        localStorage.setItem("token", token.data);
+
+        dispatch({
+          type: SIGN_IN,
+          payload: token.data,
+        });
+      })
+      .catch((error) => console.error(error.message));
+  };
+};
+
+export const loadUser = () => {
+  return (dispatch, getState ) => {
+    const token = getState().state.user.token;
+    if (token) {
+      dispatch({
+        type: USER_LOADED,
+        payload: token 
+      })
+    } else return null;
+  }
+}
