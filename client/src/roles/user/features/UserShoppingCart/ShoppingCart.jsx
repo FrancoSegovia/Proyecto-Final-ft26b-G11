@@ -1,15 +1,33 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { deleteShoppingCart } from "../../../../redux/actions";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cart = useSelector((state) => state.cart);
+
   const onClick = (e) => {
+    e.preventDefault()
     dispatch(deleteShoppingCart(e.target.value));
-  }
+  };
+
+  const onBuyClick = (e) => {
+    e.preventDefault()
+    navigate("/*");
+  };
 
   const styles = {
     media: {
@@ -20,16 +38,15 @@ export default function ShoppingCart() {
   };
   return (
     <>
-      <Grid>
+      <Stack
+      >
         <Typography
           id="transition-modal-title"
           style={{ textAlign: "center" }}
           variant="h5"
-          component="h5"
         >
           Carrito de Compras
         </Typography>
-
         <br></br>
         {!cart.length
           ? "NO HAY NADA EN TU CARRITO FLACO"
@@ -49,7 +66,17 @@ export default function ShoppingCart() {
                 </div>
               );
             })}
-      </Grid>
+        <br></br>
+        <Button
+          variant="contained"
+          size="medium"
+          disableElevation
+          disabled={!cart.length}
+          onClick={onBuyClick}
+        >
+          Comprar
+        </Button>
+      </Stack>
     </>
   );
 }
