@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -19,11 +20,6 @@ const ownerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  //!------------------------------
-  // state: {
-  //   type: String,
-  // },
-  //!------------------------------
   email: {
     type: String,
     required: true,
@@ -34,50 +30,66 @@ const ownerSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  local: [
+});
+
+const localSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  direction: {
+    type: String,
+    // required: true,
+  },
+  category: {
+    type: String,
+    // required: true,
+  },
+  schedule: {
+    type: String,
+    // required: true,
+  },
+  description: {
+    type: String,
+    // required: true,
+  },
+  image: {
+    type: String,
+    // required: true,
+  },
+  owner: {
+    type: Schema.ObjectId,
+    ref: "owner",
+  },
+});
+
+const productSchema = mongoose.Schema({
+  name: {
+    type: String,
+    // required: false,
+  },
+  description: {
+    type: String,
+    // required: false,
+  },
+  image: {
+    type: String,
+    // required: false,
+  },
+  price: {
+    type: Number,
+    // required: false,
+  },
+  type: [
     {
-      name: {
-        type: String,
-        // required: true,
-      },
-      direction: {
-        type: String,
-        // required: true,
-      },
-      tel: {
-        type: Number,
-        // required: true,
-      },
-      type: {
-        type: String,
-        // required: true,
-      },
-      image: {
-        type: String,
-        // required: true,
-      },
-      products: [
-        {
-          name: {
-            type: String,
-            // required: true,
-          },
-          description: {
-            type: String,
-            // required: true,
-          },
-          image: {
-            type: String,
-            // required: false,
-          },
-          price: {
-            type: Number,
-            // required: true,
-          },
-        },
-      ],
+      type: String,
+      // required: false,
     },
   ],
+  local: {
+    type: Schema.ObjectId,
+    ref: "local",
+  },
 });
 
 //!------NO ESTA ANDANDO--------------------
@@ -175,7 +187,7 @@ function login(email, password) {
       Object.assign({}, ownerObject),
       process.env.TOKEN_SECRET,
       {
-        expiresIn: 60 * 60 * 2,
+        expiresIn: 60 * 60 * 10,
       }
     );
     return {
@@ -185,22 +197,35 @@ function login(email, password) {
 }
 
 function findOwnerById(_id) {
-  return this.findById(_id)
-  .then(owner => {
+  return this.findById(_id).then((owner) => {
     return {
       _id: owner._id,
       email: owner.email,
       emailVerified: owner.emailVerified,
       name: owner.name,
       lastname: owner.lastname,
-    }
-  })
+    };
+  });
+}
+
+//?--------------metodos CRUD-----------------
+
+function addLocal(localInfo, ownerId) {
+  if (!localInfo.name) throw new Error("name is required");
+  localInfo.owner = ownerId;
+  console.log(localInfo.owner);
+  const local = new this(localInfo);
+  return local.save();
 }
 
 ownerSchema.statics.signup = signup;
 ownerSchema.statics.sendConfirmationEmail = sendConfirmationEmail;
 ownerSchema.statics.confirmAccount = confirmAccount;
 ownerSchema.statics.login = login;
-ownerSchema.statics.findOwnerById = findOwnerById
+ownerSchema.statics.findOwnerById = findOwnerById;
+localSchema.statics.addLocal = addLocal;
+// ownerSchema.statics.deleteLocal = deleteLocal;
 
 module.exports = mongoose.model("owner", ownerSchema);
+module.exports = mongoose.model("local", localSchema);
+module.exports = mongoose.model("product", productSchema);

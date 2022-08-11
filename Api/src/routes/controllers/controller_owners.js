@@ -1,5 +1,8 @@
 const ownerSchema = require("../../schema/owner");
+const localSchema = require("../../schema/owner");
+
 const mongoose = require("mongoose");
+const owner = require("../../schema/owner");
 
 //!-------------------------------------
 function getModelByName(name) {
@@ -83,28 +86,43 @@ const login = (req, res) => {
 
 const currentOwner = (req, res) => {
   if (!req.owner)
-    return res
-      .status(200)
-      .send({ success: false, data: {owner: null} });
+    return res.status(200).send({ success: false, data: { owner: null } });
 
   const Owner = getModelByName("owner");
 
   return Owner.findOwnerById(req.owner._id)
-  .then(owner => {
-    res.status(200).send({success: true, data: {owner}})
-  }).catch(error => res.status(200).send({success: false, error: error.message}))
+    .then((owner) => {
+      res.status(200).send({ success: true, data: { owner } });
+    })
+    .catch((error) =>
+      res.status(200).send({ success: false, error: error.message })
+    );
 };
 
 //!-------------------------------------
 
-//?---------------------------------------
+//?---------------RUTAS CRUD----------------------------
 
-const post = (req, res) => {
-  const owner = ownerSchema(req.body);
-  owner
-    .save()
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+const getOne = (req, res) => {
+  const Owner = getModelByName("owner");
+  const Local = getModelByName("local");
+  const { id } = req.params
+  Local.find({ id }, function (err, locals) {
+    Owner.populate(locals, { path: "owner" }, function (err, locals) {
+      res.status(200).send(locals);
+    });
+  });
 };
 
-module.exports = { post, signup, confirmAccount, login, currentOwner };
+const addLocal = (req, res) => {
+  const Local = getModelByName("local");
+  try {
+    Local.addLocal(req.body.local, req.owner._id)
+      .then(data =>{ res.status(200).send({success: true, data: {data}})
+}).catch((error) => res.status(200).send({message:error}))
+  } catch (error) {
+    res.status(200).send({success: false, error: error.message})
+  }
+};
+
+module.exports = { signup, confirmAccount, login, currentOwner, getOne, addLocal };
