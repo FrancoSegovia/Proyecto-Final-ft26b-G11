@@ -10,8 +10,11 @@ router.post("/currentOwner",isAuthenticated, ownerController.currentOwner); //!D
 //!ESTA ULTIMA RUTA ESTA PROTEGIDA, DEVUELVE TODOS LOS DATOS DEL SIGNUP
 //! NO SIRVE PARA NADA ESTA RUTA CREO, SOLO PARA VERIFICAR QUE ES UNA RUTA PROTEGIDA Y MOSTRAR UN PAR DE DATOS
 //?-----------------------------------------
-router.get('/', isAuthenticated, ownerController.getOne)
+router.post("/add_local/add_product", isAuthenticated,ownerController.addProduct)
+router.get('/', isAuthenticated, ownerController.getLocal)
+router.get('/:id', isAuthenticated, ownerController.getLocalById)
 router.post("/add_local", isAuthenticated,ownerController.addLocal)
+
 
 // router.delete('/:id', isAuthenticated, ownerController.deleteLocal)
 

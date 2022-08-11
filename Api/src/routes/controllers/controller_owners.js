@@ -1,8 +1,7 @@
 const ownerSchema = require("../../schema/owner");
 const localSchema = require("../../schema/owner");
-
+const productSchema = require("../../schema/owner");
 const mongoose = require("mongoose");
-const owner = require("../../schema/owner");
 
 //!-------------------------------------
 function getModelByName(name) {
@@ -103,10 +102,10 @@ const currentOwner = (req, res) => {
 
 //?---------------RUTAS CRUD----------------------------
 
-const getOne = (req, res) => {
+const getLocal = (req, res) => {
   const Owner = getModelByName("owner");
   const Local = getModelByName("local");
-  const { id } = req.params
+  const { id } = req.params;
   Local.find({ id }, function (err, locals) {
     Owner.populate(locals, { path: "owner" }, function (err, locals) {
       res.status(200).send(locals);
@@ -114,15 +113,52 @@ const getOne = (req, res) => {
   });
 };
 
+const getLocalById = (req, res) => {
+  const { id } = req.params;
+  const Local = getModelByName("local");
+  Local.findById(id)
+    .then((data) => res.json(data))
+    .catch((error) => res.status(200).send({ message: error }));
+};
+
 const addLocal = (req, res) => {
   const Local = getModelByName("local");
   try {
     Local.addLocal(req.body.local, req.owner._id)
-      .then(data =>{ res.status(200).send({success: true, data: {data}})
-}).catch((error) => res.status(200).send({message:error}))
+      .then((data) => {
+        res.status(200).send({ success: true, data: { data } });
+      })
+      .catch((error) => res.status(200).send({ message: error }));
   } catch (error) {
-    res.status(200).send({success: false, error: error.message})
+    res.status(200).send({ success: false, error: error.message });
   }
 };
 
-module.exports = { signup, confirmAccount, login, currentOwner, getOne, addLocal };
+const addProduct = (req, res) => {
+  // const local = productSchema
+  // console.log(local);
+  const Local = getModelByName("local");
+  const Product = getModelByName("product");
+  const local = Local.findById(req.body._id)
+  // console.log(local);
+  try {
+    Product.addProduct(req.body.product, req.local)
+      .then((data) => {
+        res.status(200).send({ success: true, data: { data } });
+      })
+      .catch((error) => res.status(200).send({ message: error }));
+  } catch (error) {
+    res.status(200).send({ success: false, error: error.message });
+  }
+};
+
+module.exports = {
+  signup,
+  confirmAccount,
+  login,
+  currentOwner,
+  getLocal,
+  getLocalById,
+  addLocal,
+  addProduct,
+};

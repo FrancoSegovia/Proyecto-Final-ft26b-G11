@@ -89,6 +89,7 @@ const productSchema = mongoose.Schema({
   local: {
     type: Schema.ObjectId,
     ref: "local",
+    // required: true
   },
 });
 
@@ -213,9 +214,16 @@ function findOwnerById(_id) {
 function addLocal(localInfo, ownerId) {
   if (!localInfo.name) throw new Error("name is required");
   localInfo.owner = ownerId;
-  console.log(localInfo.owner);
   const local = new this(localInfo);
   return local.save();
+}
+
+function addProduct(productInfo, localId) {
+  console.log(localId);
+  if (!productInfo.name) throw new Error("name is required");
+  productInfo.local = localId;
+  const product = new this(productInfo);
+  return product.save();
 }
 
 ownerSchema.statics.signup = signup;
@@ -224,6 +232,7 @@ ownerSchema.statics.confirmAccount = confirmAccount;
 ownerSchema.statics.login = login;
 ownerSchema.statics.findOwnerById = findOwnerById;
 localSchema.statics.addLocal = addLocal;
+productSchema.statics.addProduct = addProduct;
 // ownerSchema.statics.deleteLocal = deleteLocal;
 
 module.exports = mongoose.model("owner", ownerSchema);
