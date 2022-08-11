@@ -7,19 +7,16 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   CssBaseline,
-  FormControlLabel,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { LockOutlined, ArrowBack, AddBusiness } from "@mui/icons-material";
+import {  ArrowBack, AddBusiness } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/base";
 
