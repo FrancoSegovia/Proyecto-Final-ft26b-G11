@@ -1,21 +1,18 @@
-const ownerSchema = require("../../schema/owner");
-const localSchema = require("../../schema/owner");
-const productSchema = require("../../schema/owner");
 const mongoose = require("mongoose");
-
+const ownerSchema = require("../../schema/Owner");
+const localSchema = require("../../schema/Local");
+const productSchema = require("../../schema/Product");
 //!-------------------------------------
+
 function getModelByName(name) {
   return mongoose.model(name);
 }
-
 const signup = (req, res) => {
   if (!req.body.owner)
     return res
       .status(200)
       .send({ success: false, error: "owner info not found" });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.signup(req.body.owner)
       .then(() => {
@@ -35,8 +32,7 @@ const signup = (req, res) => {
 //!-------------------------------------
 
 const confirmAccount = (req, res) => {
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.confirmAccount(req.params.token)
       .then(() => {
@@ -64,9 +60,7 @@ const login = (req, res) => {
     return res
       .status(200)
       .send({ success: false, error: "password is not provided" });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.login(req.body.email, req.body.password)
       .then((data) => {
@@ -81,14 +75,14 @@ const login = (req, res) => {
 };
 
 //!-------------------------------------
-//!-------------------------------------
 
+//?---------------RUTAS CRUD----------------------------
+
+//*---------------GET DETAIL OWNER----------------------------
 const currentOwner = (req, res) => {
   if (!req.owner)
     return res.status(200).send({ success: false, data: { owner: null } });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   return Owner.findOwnerById(req.owner._id)
     .then((owner) => {
       res.status(200).send({ success: true, data: { owner } });
@@ -97,14 +91,12 @@ const currentOwner = (req, res) => {
       res.status(200).send({ success: false, error: error.message })
     );
 };
+//*---------------GET DETAIL OWNER----------------------------
 
-//!-------------------------------------
-
-//?---------------RUTAS CRUD----------------------------
-
+//*---------------GET GENERAL LOCAL----------------------------
 const getLocal = (req, res) => {
-  const Owner = getModelByName("owner");
-  const Local = getModelByName("local");
+  const Owner = getModelByName("Owner");
+  const Local = getModelByName("Local");
   const { id } = req.params;
   Local.find({ id }, function (err, locals) {
     Owner.populate(locals, { path: "owner" }, function (err, locals) {
@@ -112,7 +104,9 @@ const getLocal = (req, res) => {
     });
   });
 };
+//*---------------GET GENERAL LOCAL----------------------------
 
+//*---------------GET DETAIL LOCAL----------------------------
 const getLocalById = (req, res) => {
   const { id } = req.params;
   const Local = getModelByName("local");
@@ -120,9 +114,11 @@ const getLocalById = (req, res) => {
     .then((data) => res.json(data))
     .catch((error) => res.status(200).send({ message: error }));
 };
+//*---------------GET DETAIL LOCAL----------------------------
 
+//*---------------POST LOCAL----------------------------
 const addLocal = (req, res) => {
-  const Local = getModelByName("local");
+  const Local = getModelByName("Local");
   try {
     Local.addLocal(req.body.local, req.owner._id)
       .then((data) => {
@@ -133,14 +129,12 @@ const addLocal = (req, res) => {
     res.status(200).send({ success: false, error: error.message });
   }
 };
+//*---------------POST LOCAL----------------------------
 
+//*---------------POST PRODUCT----------------------------
 const addProduct = (req, res) => {
-  // const local = productSchema
-  // console.log(local);
-  const Local = getModelByName("local");
-  const Product = getModelByName("product");
-  const local = Local.findById(req.body._id)
-  // console.log(local);
+  const Local = getModelByName("Local");
+  const Product = getModelByName("Product");
   try {
     Product.addProduct(req.body.product, req.local)
       .then((data) => {
@@ -151,6 +145,7 @@ const addProduct = (req, res) => {
     res.status(200).send({ success: false, error: error.message });
   }
 };
+//*---------------POST PRODUCT----------------------------
 
 module.exports = {
   signup,
