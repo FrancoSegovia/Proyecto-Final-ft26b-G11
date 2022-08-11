@@ -8,6 +8,8 @@ import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
 import Payment from "./roles/user/views/Payment/Payment"
 
 import Dashboard from "./roles/admin/views/Dashboard";
+import Shops from "./roles/admin/views/Shops";
+import Users from "./roles/admin/views/Users";
 
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
 
 
                     {/* Admin Views */}
-        <Route exact path="/admin/dashboard" element={<Dashboard />} /> 
+        <Route exact path="/admin/dashboard" element={<Dashboard />} />
+        <Route exact path="/admin/shops" element={<Shops />} /> 
+        <Route exact path="/admin/users" element={<Users />} /> 
+    
         
         
         <Route exact path="/pay" element={<Payment />} />

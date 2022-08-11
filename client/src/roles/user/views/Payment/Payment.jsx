@@ -1,6 +1,6 @@
 import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elemets, CardElement } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elemets, CardElement } from "@stripe/react-stripe-js";
 
 //Abajo va una key de stripe
 //const stipePromise = loadStripe("key")
