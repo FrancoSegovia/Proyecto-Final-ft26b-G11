@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
-
-
 import {
   AppBar,
   Box,
@@ -31,12 +29,14 @@ export default function Navbar() {
             >
               Click!
             </Typography>
-            <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
-                Iniciar Sesión
-                <IconButton style={{ color: "white" }}>
-                  <PersonIcon/>
-                </IconButton>
-            </Button>
+            <Link to="/signin" style={{textDecoration:"none"}}>
+              <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
+                  Iniciar Sesión
+                  <IconButton style={{ color: "white" }}>
+                    <PersonIcon/>
+                  </IconButton>
+              </Button>
+            </Link>
           </Toolbar>
           
         </AppBar>

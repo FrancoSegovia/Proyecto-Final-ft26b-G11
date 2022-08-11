@@ -4,6 +4,7 @@ import { Box, Grid } from "@mui/material";
 import Container from "@mui/material/Container";
 import Button from "../Button/Button.jsx";
 import Typography from "../Typography/Typography.jsx";
+import { Link } from "react-router-dom";
 
 const item = {
   display: "flex",
@@ -103,15 +104,16 @@ export default function LandingHowItWorks() {
             </Grid>
           </Grid>
         </div>
-        <Button
-          size="large"
-          variant="contained"
-          component="a"
-          href="/premium-themes/onepirate/sign-up/"
-          sx={{ mt: 8 }}
-        >
-          INGRESA AHORA
-        </Button>
+        <Link to="/signup" style={{textDecoration:"none"}}>
+          <Button
+            size="large"
+            variant="contained"
+            component="a"
+            sx={{ mt: 8 }}
+          >
+            INGRESA AHORA
+          </Button>
+        </Link>
       </Container>
     </Box>
   );

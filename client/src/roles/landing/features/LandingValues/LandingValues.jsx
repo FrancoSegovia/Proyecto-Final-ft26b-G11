@@ -19,23 +19,11 @@ export default function LandingValues() {
         sx={{ display: "flex", overflow: "hidden", bgcolor: "#1976d2" }}
       >
         <Container
-          sx={{ mt: 15, mb: 30, display: "flex", position: "relative" }}
+          sx={{ mt: 20, mb: 15, display: "flex"}}
         >
-          <Box
-            component="img"
-            src="/static/themes/onepirate/productCurvyLines.png"
-            alt="curvy lines"
-            sx={{ pointerEvents: "none", position: "absolute", top: -180 }}
-          />
           <Grid container spacing={5} style={{backgroundColor:"#b3e5fc", borderRadius:"25px"}}>
             <Grid item xs={12} md={4} >
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src=""
-                  alt="suitcase"
-                  sx={{ height: 55 }}
-                />
                 <Typography variant="h6" sx={{ my: 5 }}>
                   The best luxury hotels
                 </Typography>
@@ -52,12 +40,6 @@ export default function LandingValues() {
             </Grid>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src="/static/themes/onepirate/productValues2.svg"
-                  alt="graph"
-                  sx={{ height: 55 }}
-                />
                 <Typography variant="h6" sx={{ my: 5 }}>
                   New experiences
                 </Typography>
@@ -72,12 +54,6 @@ export default function LandingValues() {
             </Grid>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src="/static/themes/onepirate/productValues3.svg"
-                  alt="clock"
-                  sx={{ height: 55 }}
-                />
                 <Typography variant="h6" sx={{ my: 5 }}>
                   Exclusive rates
                 </Typography>

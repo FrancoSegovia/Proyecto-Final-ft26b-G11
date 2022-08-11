@@ -4,6 +4,7 @@ import Button from "../Button/Button";
 import Typography from "../Typography/Typography";
 import LandingHeroLayout from "./LandingHeroLayout";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { Link } from "react-router-dom";
 
 export default function LandingHero() {
   return (
@@ -22,7 +23,7 @@ export default function LandingHero() {
           alt="increase priority"
         />
         <Typography color="#1976d2" align="center" variant="h2" marked="center">
-        ¡Tus platos preferidos a tan solo un <br/><span style={{color:"#b3e5fc"}}>Click!</span>
+        ¡Tus platos preferidos a tan solo un <br/><span style={{color:"#b3e5fc", fontWeight:"bolder"}}>Click!</span>
         </Typography>
         <Typography
           color="#1976d2"
@@ -30,17 +31,18 @@ export default function LandingHero() {
           variant="h5"
           sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
         >
-          ¡Descuento imperdible por tu primera compra!
+          ¡Registrate ahora!
         </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          component="a"
-          sx={{ minWidth: 200, backgroundColor:"#1976d2" }}
-        >
-          REGISTRARME
-        </Button>
-        
+        <Link to="/signup" style={{textDecoration:"none"}}>
+          <Button
+            variant="contained"
+            size="large"
+            component="a"
+            sx={{ minWidth: 200, backgroundColor:"#1976d2" }}
+          >
+            REGISTRARME
+          </Button>
+        </Link>
       </LandingHeroLayout>
       
     </>
