@@ -26,21 +26,11 @@ const schema = Schema(
     ],
     local: {
       type: Schema.Types.ObjectId,
-      ref: "local",
+      ref: "Local",
       // required: true
     },
   },
   { collection: "products" }
 );
-
-function addProduct(productInfo, localId) {
-  // console.log(localId);
-  if (!productInfo.name) throw new Error("name is required");
-  productInfo.local = localId;
-  const product = new this(productInfo);
-  return product.save();
-}
-
-schema.statics.addProduct = addProduct;
 
 module.exports = model("Product", schema);

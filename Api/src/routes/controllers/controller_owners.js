@@ -132,15 +132,28 @@ const addLocal = (req, res) => {
 //*---------------POST LOCAL----------------------------
 
 //*---------------POST PRODUCT----------------------------
-const addProduct = (req, res) => {
-  const Local = getModelByName("Local");
+const addProduct = async (req, res) => {
   const Product = getModelByName("Product");
+
+  const { name, idLocal } = req.body;
+
+  const localId = await localSchema.findById(idLocal);
+
+  if (!name) {
+    return res.status(400).json({
+      error: 'required "name" field is missing',
+    });
+  }
+
+  const newProduct = new Product({
+    name,
+    local: localId.id,
+  });
   try {
-    Product.addProduct(req.body.product, req.local)
-      .then((data) => {
-        res.status(200).send({ success: true, data: { data } });
-      })
-      .catch((error) => res.status(200).send({ message: error }));
+    const savedProduct = await newProduct.save();
+    localId.product = localId.product.concat(savedProduct._id);
+    await localId.save();
+    res.json(savedProduct);
   } catch (error) {
     res.status(200).send({ success: false, error: error.message });
   }

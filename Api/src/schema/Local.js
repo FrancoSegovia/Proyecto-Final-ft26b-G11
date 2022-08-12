@@ -28,8 +28,13 @@ const schema = Schema(
     },
     owner: {
       type: Schema.ObjectId,
-      ref: "owner",
+      ref: "Owner",
     },
+    product: [{
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      // required: true
+    }],
   },
   { collection: "locals" }
 );

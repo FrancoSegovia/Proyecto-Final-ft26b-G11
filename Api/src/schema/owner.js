@@ -30,16 +30,21 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
+    // local: [{
+    //   type: Schema.ObjectId,
+    //   ref: "Local",
+    // }],
   },
   { collection: "owners" }
 );
 
 //!------NO ESTA ANDANDO--------------------
-// ownerSchema.set("toJSON", {
+// schema.set("toJSON", {
 //   transform: (document, returnedObject) => {
 //     returnedObject.id = returnedObject._id;
 //     delete returnedObject._id;
 //     delete returnedObject.__v;
+//     delete returnedObject.password
 //   },
 // });
 //!------NO ESTA ANDANDO--------------------
