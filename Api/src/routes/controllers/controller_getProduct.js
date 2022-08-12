@@ -1,4 +1,4 @@
-const product = require("../../schema/owner");
+const product = require("../../schema/Product");
 const mongoose = require("mongoose")
 
 
