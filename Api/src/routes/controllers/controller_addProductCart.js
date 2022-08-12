@@ -43,7 +43,7 @@ const addProductCart = async (req, res) => {
         const newProduct = await newProductInCart.save();
         res.json(newProduct)
             
-        .catch((error) => console.log(error));
+        
     }else  {
         res.status(400).json({
             message: "The product is in Cart"

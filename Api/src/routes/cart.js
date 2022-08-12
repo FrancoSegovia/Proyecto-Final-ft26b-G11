@@ -6,6 +6,7 @@ const router = express.Router()
 // RUTA GET PARA TRAER PRODUCTOS DE LA DB
 // RUTA GET PARA TRAER LOS PRODUCTOS QUE ESTAN EN EL CARRITO
 
+router.delete("/products-cart/:productId", controllers.deleteProduct)
 router.get("/products", controllers.getProduct )
 router.get("/products-cart", controllers.getProductCart)
 
@@ -19,6 +20,5 @@ router.put("/products-cart/:productId", controllers.putProduct)
 
 // RUTA DELETE PARA ELIMINAR PRODUCTOS DEL CARRITO
 
-router.delete("/products-cart/:productId", controllers.deleteProduct)
 
 module.exports = router
