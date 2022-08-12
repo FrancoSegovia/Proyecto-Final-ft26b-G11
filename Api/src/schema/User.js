@@ -50,26 +50,26 @@ const schema = Schema(
     //   type: Number,
     //   required: false,
     // },
-    // credentials: [
-    //   {
-    //     name: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     number: {
-    //       type: Number,
-    //       required: true,
-    //     },
-    //     code: {
-    //       type: Number,
-    //       required: true,
-    //     },
-    //     dateOfExpire: {
-    //       type: Date,
-    //       required: true,
-    //     },
-    //   },
-    // ],
+    credentials: [
+      {
+        name: {
+          type: String,
+          required: false,
+        },
+        number: {
+          type: Number,
+          required: false,
+        },
+        code: {
+          type: Number,
+          required: false,
+        },
+        dateOfExpire: {
+          type: Date,
+          required: false,
+        },
+      },
+    ],
   },
   { collection: "users" }
 );

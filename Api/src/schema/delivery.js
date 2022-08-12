@@ -1,8 +1,4 @@
 const { Schema, model } = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const { isValidEmail } = require("../routes/controllers/helpers");
 
 const schema = Schema(
   {
