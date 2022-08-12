@@ -8,15 +8,20 @@ function getModelByName(name) {
 
 
 const getProducts = (req, res) => {
-    const products = getModelByName("product");
+    const { name } = req.query;
+    const products = getModelByName("Product")
+    if (name) {
     
-    const Products = products.find()
-
-    if(Products) {
-        res.json({Products});
-    }else {
-        res.json({ message: "There isn't products"})
-    }
+      products
+          .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+          .then((data) => res.json(data))
+          .catch((error) => res.json({ message: error }));
+        } else {
+        products
+            .find()
+            .then((data) => res.json(data))
+            .catch((error) => res.json({ message: error }));
+  }
 }
 
 module.exports = getProducts;

@@ -1,12 +1,12 @@
 const Cart = require("../../schema/Cart");
 
-const putProduct = (req, res) => {
+const putProduct = async (req, res) => {
     const { productId } = req.params;
     const { query } = req.query;
     const body = req.body;
 
     // Buscamos el producto en el carrito
-    const searchProduct = Cart.findById(productId);
+    const searchProduct = await Cart.findById(productId);
 
     // Si no hay query "add" o "del"
     if(!query) {
@@ -16,7 +16,7 @@ const putProduct = (req, res) => {
     } else if(searchProduct && query === "add") {
         body.amount = body.amount + 1;
 
-        Cart.findByIdAndUpdate(productId, body, {
+       await Cart.findByIdAndUpdate(productId, body, {
             new: true,
         }).then((product) => {
             res.json({
@@ -28,7 +28,7 @@ const putProduct = (req, res) => {
     } else if(searchProduct && query === "del") {
         body.amount = body.amount - 1;
 
-        Cart.findByIdAndUpdate(productId, body, {
+        await Cart.findByIdAndUpdate(productId, body, {
             new: true,
         }).then((product) => {
             res.json({
@@ -37,7 +37,7 @@ const putProduct = (req, res) => {
         });
 
     } else {
-        res.status(400).json({ message: "Error"})
+        res.status(400).json({ message: "Error lala"})
     }
 
 }

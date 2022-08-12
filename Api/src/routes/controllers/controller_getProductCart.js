@@ -7,10 +7,12 @@ const mongoose = require("mongoose");
 
 const getProductsCart = (req, res) => {
    const productInCart = cartSchema.find();
-
+   
 
     if(productInCart) {
-        res.json({ productInCart })
+        productInCart
+        .then((data) => res.json({ data }) )
+        .catch((error) => res.json({ message: error }));
     } else {
         res.json({ message: "There is not product in Cart"})
     }

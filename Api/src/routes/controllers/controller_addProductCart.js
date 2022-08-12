@@ -1,26 +1,30 @@
 const Cart = require("../../schema/Cart");
-const Product = require("../../schema/owner");
+const Product = require("../../schema/Product");
 const mongoose = require("mongoose");
 
 function getModelByName(name) {
     return mongoose.model(name);
   }
 
-const addProductCart = (req, res) => {
+const addProductCart = async (req, res) => {
     const { name, image, price } = req.body;
 
-    const product = getModelByName("product")
-
+    const product = getModelByName("Product")
+    
     // Nos fijamos si tenemos el producto
-    const productExist = product.findOne({ name })
+
+    const productExist = await product.findOne({ name })
 
     // Nos fijamos si todos los campos vienen con info
+
     const isNotEmptyCart = name !== "" && image !== "" && price !== "";
 
     // Nos fijamos si el producto esta en el carrito
-    const inCart = Cart.findOne({name});
 
+    const inCart = await Cart.findOne({name});
+    
     // Si no tenemos el producto
+
     if(!productExist){
         res.status(400).json({
             message: "This product is not in our database "
@@ -36,14 +40,11 @@ const addProductCart = (req, res) => {
             { inCart: true, name, image, price},
             { new: true}
         )
-        .then((product) => {
-            newProductInCart.save();
-            res.json({
-                message: "Product added successfully"
-            });
-        })
+        const newProduct = await newProductInCart.save();
+        res.json(newProduct)
+            
         .catch((error) => console.log(error));
-    }else if(inCart) {
+    }else  {
         res.status(400).json({
             message: "The product is in Cart"
         })

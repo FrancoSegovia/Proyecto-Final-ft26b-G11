@@ -1,5 +1,5 @@
 const Cart = require("../../schema/Cart");
-const Product = require("../../schema/owner");
+const Product = require("../../schema/Product");
 const mongoose = require("mongoose");
 
 function getModelByName(name) {
@@ -12,7 +12,7 @@ const deleteProduct = (req, res) => {
     // Buscamos el producto en el carrito
     const productInCart = Cart.findById(productId);
 
-    const product = getModelByName("product")
+    const product = getModelByName("Product")
 
     // Buscamos el producto en nuestra DB por el nombre en el que esta en el carrito
     const { name, image, price, _id } = product.findOne({
