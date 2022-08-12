@@ -5,14 +5,14 @@ function isAuthenticated(req, res, next) {
   if (!access_token)
     return res
       .status(403)
-      .send({ success: false, message: "owner not Authorized" });
+      .send({ success: false, message: "not Authorized" });
 
   if (access_token) {
     const owner = verifyAuthToken(access_token);
     if (!owner)
       return res
         .status(403)
-        .send({ success: false, message: "owner not Authorized" });
+        .send({ success: false, message: "not Authorized" });
 
     req.owner = owner;
   }

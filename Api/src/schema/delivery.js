@@ -1,45 +1,49 @@
-const mongoose = require("mongoose");
-require("mongoose-type-email");
-const deliverySchema = mongoose.Schema({
-  nameDelivery: {
-    firstname: {
+const { Schema, model } = require("mongoose");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const { isValidEmail } = require("../routes/controllers/helpers");
+
+const schema = Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: true,
+    },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    password: {
       type: String,
       required: true,
     },
-    surname: {
+    transport: {
       type: String,
       required: true,
     },
+    tel: {
+      type: Number,
+      required: true,
+    },
+    shipments: {
+      type: Number,
+      required: true,
+    },
   },
+  { collection: "deliverys" }
+);
 
-  email: {
-    type: mongoose.SchemaTypes.Email,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  transport: {
-    type: String,
-    required: true,
-  },
-  tel: {
-    type: Number,
-    required: true,
-  },
-  shipments: {
-    type: Number,
-    required: true,
-  },
-});
-
-deliverySchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id;
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
-module.exports = mongoose.model("Delivery", deliverySchema);
+module.exports = model("Delivery", schema);

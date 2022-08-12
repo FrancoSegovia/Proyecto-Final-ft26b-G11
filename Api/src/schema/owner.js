@@ -151,6 +151,4 @@ schema.statics.confirmAccount = confirmAccount;
 schema.statics.login = login;
 schema.statics.findOwnerById = findOwnerById;
 
-// ownerSchema.statics.deleteLocal = deleteLocal;
-
 module.exports = model("Owner", schema);
