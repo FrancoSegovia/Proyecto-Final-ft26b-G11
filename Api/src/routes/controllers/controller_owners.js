@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
+
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -109,7 +110,7 @@ const getLocal = (req, res) => {
 //*---------------GET DETAIL LOCAL----------------------------
 const getLocalById = (req, res) => {
   const { id } = req.params;
-  const Local = getModelByName("local");
+  const Local = getModelByName("Local");
   Local.findById(id)
     .then((data) => res.json(data))
     .catch((error) => res.status(200).send({ message: error }));
@@ -135,23 +136,26 @@ const addLocal = (req, res) => {
 const addProduct = async (req, res) => {
   const Product = getModelByName("Product");
 
-  const { name, local } = req.body;
+  const { name, description, image, price, type, local } = req.body;
 
   const localId = await localSchema.findById(local);
 
-  if (!name) {
+  if (!name || !description || !image || !price || !type) {
     return res.status(400).json({
-      error: 'required "name" field is missing',
+      error: "required field",
     });
   }
 
   const newProduct = new Product({
     name,
+    description,
+    image,
+    price,
+    type,
     local: localId.id,
   });
   try {
     const savedProduct = await newProduct.save();
-    localId.product = localId.product.concat(savedProduct._id);
     await localId.save();
     res.json(savedProduct);
   } catch (error) {
@@ -159,6 +163,69 @@ const addProduct = async (req, res) => {
   }
 };
 //*---------------POST PRODUCT----------------------------
+
+const updateLocal = (req, res) => {
+  const { id } = req.params;
+  const { name, direction, category, schedule, description, image } = req.body;
+
+  localSchema
+    .updateOne(
+      { _id: id },
+      { $set: { name, direction, category, schedule, description, image } }
+    )
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
+
+const deleteLocal = (req, res) => {
+  const { id } = req.params;
+
+  localSchema
+    .remove({ _id: id })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
+
+const updateProduct = (req, res) => {
+  const { id } = req.params;
+  const { name, description, image, price, type } = req.body;
+
+  productSchema
+    .updateOne({ _id: id }, { $set: { name, description, image, price, type } })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
+
+const deleteProduct = (req, res) => {
+  const { id } = req.params;
+
+  productSchema
+    .remove({ _id: id })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
+
+const getProduct = (req, res) => {
+  const Local = getModelByName("Local");
+  const Product = getModelByName("Product");
+
+  const { id } = req.params;
+  Product.find({ id }, function (err, products) {
+    Local.populate(products, { path: "local" }, function (err, products) {
+      res.status(200).send(products);
+    });
+  });
+};
+
+const updateCurrentOwner = (req, res) => {
+  const { id } = req.params;
+  const { name, lastname, password} = req.body;
+
+  ownerSchema
+    .updateOne({ _id: id }, { $set: { name, lastname, password } })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
 
 module.exports = {
   signup,
@@ -169,4 +236,11 @@ module.exports = {
   getLocalById,
   addLocal,
   addProduct,
+  updateLocal,
+  deleteLocal,
+  updateProduct,
+  deleteProduct,
+  getProduct,
+  updateCurrentOwner,
+
 };

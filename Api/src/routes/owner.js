@@ -3,18 +3,22 @@ const router = express.Router();
 const { isAuthenticated } = require("../routes/middlewares");
 const ownerController = require("../routes/controllers/controller_owners");
 
-router.post("/signup", ownerController.signup); //!REGISTRO
-router.get("/confirm/:token", ownerController.confirmAccount); //!TOKEN
-router.post("/login", ownerController.login); //!LOGUEO
- //!DE LA FORMA QUE APLICO EL MIDDLEWARE isAuthenticated EN ESTA RUTA LO PUEDO HACER PARA EL RESTO DE LAS RUTAS DE MANERA INDIVIDUAL
-//!ESTA ULTIMA RUTA ESTA PROTEGIDA, DEVUELVE TODOS LOS DATOS DEL SIGNUP
-//! NO SIRVE PARA NADA ESTA RUTA CREO, SOLO PARA VERIFICAR QUE ES UNA RUTA PROTEGIDA Y MOSTRAR UN PAR DE DATOS
-//?-----------------------------------------
-router.get("/currentOwner", isAuthenticated, ownerController.currentOwner);
-router.get("/", isAuthenticated, ownerController.getLocal);
-router.get("/:id", isAuthenticated, ownerController.getLocalById);
-router.post("/add_local", isAuthenticated, ownerController.addLocal);
-router.post("/add_local/add_product",isAuthenticated,ownerController.addProduct);
-// router.delete('/:id', isAuthenticated, ownerController.deleteLocal)
+router.post("/signup", ownerController.signup); //*REGISTRO
+router.get("/confirm/:token", ownerController.confirmAccount); //*EMAIL Y VERIFICACION
+router.post("/login", ownerController.login); //*LOGUEO
+
+router.get("/currentOwner", isAuthenticated, ownerController.currentOwner); //*DETAIL OWNER
+router.put("/currentOwner/update/:id",isAuthenticated,ownerController.updateCurrentOwner); //? UPDATE OWNER PERO ME SACA EL HASH
+
+router.get("/local", isAuthenticated, ownerController.getLocal);//? GET LOCALS PERO TODOS, NO SEPARADOS POR OWNER
+router.post("/local/add_local", isAuthenticated, ownerController.addLocal); //*ADD LOCALS
+router.put("/local/update/:id",isAuthenticated,ownerController.updateLocal); //*UPDATE LOCAL
+router.delete('/local/:id', isAuthenticated, ownerController.deleteLocal) //*DELETE LOCAL
+router.get("/local/:id", isAuthenticated, ownerController.getLocalById); //*DETAIL LOCAL
+
+router.get("/products", isAuthenticated, ownerController.getProduct);//? GET PRODUCT PERO TODOS, NO SEPARADOS POR LOCAL
+router.post("/local/add_product",isAuthenticated,ownerController.addProduct); //*ADD PRODUCTS
+router.put("/local/product/update/:id",isAuthenticated,ownerController.updateProduct); //*UPDATE PRODUCT
+router.delete('/local/product/:id', isAuthenticated, ownerController.deleteProduct) //*DELETE PRODUCT
 
 module.exports = router;

@@ -4,30 +4,30 @@ const schema = Schema(
   {
     name: {
       type: String,
-      // required: false,
+      required: true,
     },
     description: {
       type: String,
-      // required: false,
+      required: true,
     },
     image: {
       type: String,
-      // required: false,
+      required: true,
     },
     price: {
       type: Number,
-      // required: false,
+      required: true,
     },
     type: [
       {
         type: String,
-        // required: false,
+        required: true,
       },
     ],
     local: {
       type: Schema.Types.ObjectId,
       ref: "Local",
-      // required: true
+      required: true,
     },
   },
   { collection: "products" }
