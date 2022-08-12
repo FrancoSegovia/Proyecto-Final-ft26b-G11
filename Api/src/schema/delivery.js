@@ -11,10 +11,7 @@ const deliverySchema = mongoose.Schema({
       required: true,
     },
   },
-  document: {
-    type: String,
-    required: true,
-  },
+
   email: {
     type: mongoose.SchemaTypes.Email,
     required: true,

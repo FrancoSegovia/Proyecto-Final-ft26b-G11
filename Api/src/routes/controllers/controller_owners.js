@@ -1,22 +1,18 @@
-const ownerSchema = require("../../schema/owner");
-const localSchema = require("../../schema/owner");
-
 const mongoose = require("mongoose");
-const owner = require("../../schema/owner");
-
+const ownerSchema = require("../../schema/Owner");
+const localSchema = require("../../schema/Local");
+const productSchema = require("../../schema/Product");
 //!-------------------------------------
+
 function getModelByName(name) {
   return mongoose.model(name);
 }
-
 const signup = (req, res) => {
   if (!req.body.owner)
     return res
       .status(200)
       .send({ success: false, error: "owner info not found" });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.signup(req.body.owner)
       .then(() => {
@@ -36,8 +32,7 @@ const signup = (req, res) => {
 //!-------------------------------------
 
 const confirmAccount = (req, res) => {
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.confirmAccount(req.params.token)
       .then(() => {
@@ -65,9 +60,7 @@ const login = (req, res) => {
     return res
       .status(200)
       .send({ success: false, error: "password is not provided" });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   try {
     Owner.login(req.body.email, req.body.password)
       .then((data) => {
@@ -82,14 +75,14 @@ const login = (req, res) => {
 };
 
 //!-------------------------------------
-//!-------------------------------------
 
+//?---------------RUTAS CRUD----------------------------
+
+//*---------------GET DETAIL OWNER----------------------------
 const currentOwner = (req, res) => {
   if (!req.owner)
     return res.status(200).send({ success: false, data: { owner: null } });
-
-  const Owner = getModelByName("owner");
-
+  const Owner = getModelByName("Owner");
   return Owner.findOwnerById(req.owner._id)
     .then((owner) => {
       res.status(200).send({ success: true, data: { owner } });
@@ -98,31 +91,82 @@ const currentOwner = (req, res) => {
       res.status(200).send({ success: false, error: error.message })
     );
 };
+//*---------------GET DETAIL OWNER----------------------------
 
-//!-------------------------------------
-
-//?---------------RUTAS CRUD----------------------------
-
-const getOne = (req, res) => {
-  const Owner = getModelByName("owner");
-  const Local = getModelByName("local");
-  const { id } = req.params
+//*---------------GET GENERAL LOCAL----------------------------
+const getLocal = (req, res) => {
+  const Owner = getModelByName("Owner");
+  const Local = getModelByName("Local");
+  const { id } = req.params;
   Local.find({ id }, function (err, locals) {
     Owner.populate(locals, { path: "owner" }, function (err, locals) {
       res.status(200).send(locals);
     });
   });
 };
+//*---------------GET GENERAL LOCAL----------------------------
 
-const addLocal = (req, res) => {
+//*---------------GET DETAIL LOCAL----------------------------
+const getLocalById = (req, res) => {
+  const { id } = req.params;
   const Local = getModelByName("local");
+  Local.findById(id)
+    .then((data) => res.json(data))
+    .catch((error) => res.status(200).send({ message: error }));
+};
+//*---------------GET DETAIL LOCAL----------------------------
+
+//*---------------POST LOCAL----------------------------
+const addLocal = (req, res) => {
+  const Local = getModelByName("Local");
   try {
     Local.addLocal(req.body.local, req.owner._id)
-      .then(data =>{ res.status(200).send({success: true, data: {data}})
-}).catch((error) => res.status(200).send({message:error}))
+      .then((data) => {
+        res.status(200).send({ success: true, data: { data } });
+      })
+      .catch((error) => res.status(200).send({ message: error }));
   } catch (error) {
-    res.status(200).send({success: false, error: error.message})
+    res.status(200).send({ success: false, error: error.message });
   }
 };
+//*---------------POST LOCAL----------------------------
 
-module.exports = { signup, confirmAccount, login, currentOwner, getOne, addLocal };
+//*---------------POST PRODUCT----------------------------
+const addProduct = async (req, res) => {
+  const Product = getModelByName("Product");
+
+  const { name, local } = req.body;
+
+  const localId = await localSchema.findById(local);
+
+  if (!name) {
+    return res.status(400).json({
+      error: 'required "name" field is missing',
+    });
+  }
+
+  const newProduct = new Product({
+    name,
+    local: localId.id,
+  });
+  try {
+    const savedProduct = await newProduct.save();
+    localId.product = localId.product.concat(savedProduct._id);
+    await localId.save();
+    res.json(savedProduct);
+  } catch (error) {
+    res.status(200).send({ success: false, error: error.message });
+  }
+};
+//*---------------POST PRODUCT----------------------------
+
+module.exports = {
+  signup,
+  confirmAccount,
+  login,
+  currentOwner,
+  getLocal,
+  getLocalById,
+  addLocal,
+  addProduct,
+};
