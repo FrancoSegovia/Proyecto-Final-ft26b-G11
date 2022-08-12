@@ -30,10 +30,6 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
-    // local: [{
-    //   type: Schema.ObjectId,
-    //   ref: "Local",
-    // }],
   },
   { collection: "owners" }
 );

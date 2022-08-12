@@ -135,9 +135,9 @@ const addLocal = (req, res) => {
 const addProduct = async (req, res) => {
   const Product = getModelByName("Product");
 
-  const { name, idLocal } = req.body;
+  const { name, local } = req.body;
 
-  const localId = await localSchema.findById(idLocal);
+  const localId = await localSchema.findById(local);
 
   if (!name) {
     return res.status(400).json({
