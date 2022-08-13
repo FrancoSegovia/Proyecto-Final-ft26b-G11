@@ -29,7 +29,7 @@ export default function Navbar() {
             >
               Click!
             </Typography>
-            <Link to="/signin" style={{textDecoration:"none"}}>
+            <Link to="/SignIn" style={{textDecoration:"none"}}>
               <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
                   Iniciar Sesión
                   <IconButton style={{ color: "white" }}>

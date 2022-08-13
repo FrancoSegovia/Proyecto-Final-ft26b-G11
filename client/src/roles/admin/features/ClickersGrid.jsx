@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import CloseIcon from '@mui/icons-material/Close';
+import Banhamm from '@mui/icons-material/Gavel';
 
 
 function createData(name, userType, id) {
@@ -116,15 +117,6 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -303,21 +295,13 @@ export default function EnhancedTable() {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
-                      selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
+     
                       </TableCell>
                 
                       <TableCell
@@ -332,11 +316,11 @@ export default function EnhancedTable() {
                       <TableCell align="left" padding="none">{row.id}</TableCell>
                       <TableCell align="left">
                         <Box sx={{display:"flex"}}>
-                          <IconButton>
-                            X
+                          <IconButton sx={{color:"#29b6f6"}}>
+                            <Banhamm/>
                           </IconButton>
-                          <IconButton>
-                            X
+                          <IconButton sx={{color:"#f44336"}}>
+                            <CloseIcon/>
                           </IconButton>
                         </Box>
                       </TableCell>

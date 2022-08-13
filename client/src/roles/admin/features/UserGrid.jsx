@@ -22,6 +22,9 @@ import { visuallyHidden } from '@mui/utils';
 import CloseIcon from '@mui/icons-material/Close';
 import Banhamm from '@mui/icons-material/Gavel';
 import { Select, MenuItem } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '../../../redux/actions';
 
 
 function createData(name, userType, id) {
@@ -218,6 +221,16 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
+
+  const users = useSelector(state => state.users);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [])
+  
+
+  //! Happy accident!
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -296,10 +309,10 @@ export default function EnhancedTable() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                .map((user, index) => {
+                  const isItemSelected = isSelected(user.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -308,19 +321,9 @@ export default function EnhancedTable() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={user.name}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          onClick={(event) => handleClick(event, row.name)}
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
                 
                       <TableCell
                         component="th"
@@ -328,7 +331,7 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {user.name}
                       </TableCell>
                       <TableCell align="left" padding="none" >
                           {/* <Select value={{row.userType}}>
@@ -336,7 +339,7 @@ export default function EnhancedTable() {
                             <MenuItem value={"standard"}>Estándar</MenuItem>
                           </Select> */}
                       </TableCell>
-                      <TableCell align="left" padding="none">{row.id}</TableCell>
+                      <TableCell align="left" padding="none">{user._id}</TableCell>
                       <TableCell align="left">
                         <Box sx={{display:"flex"}}>
                           <IconButton sx={{color:"#29b6f6"}}>
