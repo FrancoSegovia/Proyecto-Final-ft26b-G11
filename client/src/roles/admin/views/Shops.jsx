@@ -15,12 +15,121 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+
+import CloseIcon from '@mui/icons-material/Close';  //!  X
+import EditIcon from '@mui/icons-material/Edit';    //!  pencil
+
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../features/ListItems';
-import Chart from '../features/Chart';
-import Deposits from '../features/Deposits';
-import Orders from '../features/Orders';
+
+
+import AdminCard from '../features/AdminCard';
+import image from '../../../media/defaultShop.jpg'
+
+const negocios = [
+  {
+    image,
+    name:"Ñamfifruli",
+    category:"Restaurant",
+    products:[
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      },
+      {
+        image,
+        name:"Papafrula",
+        price:"500",
+      }
+    ]
+  },
+  {
+    image,
+    name:"Oktubre",
+    category:"Heladeria",
+    products:[
+      {
+        image,
+        name:"Helado de vainilla",
+        price:"500",
+      }
+    ]
+  },
+  {
+    image,
+    name:"Luzbelito",
+    category:"Bodegón",
+    products:[
+      {
+        image,
+        name:"Milanesa con puré",
+        price:"500",
+      }
+    ]
+  },
+  {
+    image,
+    name:"Pizza Conmigo",
+    category:"Pizzeria",
+    products:[
+      {
+        image,
+        name:"Especial Kito Pizza",
+        price:"500",
+      }
+    ]
+  }
+  ,
+  {
+    image,
+    name:"El Paseo Familiar de Don José",
+    category:"Bodegón",
+    products:[
+      {
+        image,
+        name:"Papito jugó al Doom",
+        price:"250",
+      }
+    ]
+  }
+]
 
 
 const drawerWidth = 240;
@@ -134,6 +243,7 @@ function DashboardContent() {
             <Divider sx={{ my: 1 }} />
           </List>
         </Drawer>
+
         <Box
           component="main"
           sx={{
@@ -141,47 +251,19 @@ function DashboardContent() {
               theme.palette.mode === 'light'
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
-            flexGrow: 1,
+            flexGrow:3,
             height: '100vh',
             overflow: 'auto',
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display:"flex", flexWrap:"wrap", justifyContent:"space-evenly", rowGap:"50px", gap:"30px"}}>
+            {negocios.map(negocio => {
+              return (
+                  <AdminCard 
+                    shop={negocio}
+                  />
+            )})}
           </Container>
         </Box>
       </Box>

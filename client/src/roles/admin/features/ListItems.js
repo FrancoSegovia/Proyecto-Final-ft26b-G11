@@ -9,26 +9,40 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import PedalBikeIcon from '@mui/icons-material/PedalBike';
+import GroupsIcon from '@mui/icons-material/Groups';
+import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 
+
 export const mainListItems = (
   <React.Fragment>
-    <Link to="/admin/dashboard" style={{textDecoration:"none", color:"black" }}>
-        <ListItemButton>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Estadísticas"/>
-        </ListItemButton>
-    </Link>
 
     <Link to="/admin/users" style={{textDecoration:"none", color:"black"}}>
         <ListItemButton>
           <ListItemIcon>
-            <PeopleIcon /> 
+            <GroupsIcon /> 
           </ListItemIcon>
-          <ListItemText primary="Usuarios" />
+          <ListItemText primary="Clientes" />
+        </ListItemButton>
+    </Link>
+
+    <Link to="/admin/owners" style={{textDecoration:"none", color:"black"}}>
+        <ListItemButton>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dueños" />
+        </ListItemButton>
+    </Link>
+
+    <Link to="/admin/clickers" style={{textDecoration:"none", color:"black"}}>
+        <ListItemButton>
+          <ListItemIcon>
+            <PedalBikeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Clickers" />
         </ListItemButton>
     </Link>
 
