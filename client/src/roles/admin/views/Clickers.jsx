@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../features/ListItems';
-import UserGrid from '../features/UserGrid';
+import ClickersGrid from '../features/ClickersGrid';
 
 
 const drawerWidth = 240;
@@ -104,9 +104,13 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Control de clientes
+              Control de Clickers
             </Typography>
-
+            <IconButton color="inherit">
+              <Badge badgeContent={2} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -143,7 +147,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              <UserGrid/>
+              <ClickersGrid/>
             </Grid>
           </Container>
         </Box>

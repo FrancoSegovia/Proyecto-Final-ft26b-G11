@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllShops } from "../../../../redux/actions/index.js";
 
-import UserCard from "../../features/UserCards/UserCard";
+import UserCard from "../../features/UserCard/UserCard";
 import Navbar from "../../features/UserNavbar/UserNavbar.jsx";
 import UserShopOrder from "../../features/UserShopOrder/UserShopOrder.jsx";
 import UserShopFilter from "../../features/UserShopFilter/UserShopFilter.jsx";
