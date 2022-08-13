@@ -14,6 +14,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
+import StoreIcon from '@mui/icons-material/Store';
 
 
 export const mainListItems = (
@@ -49,9 +50,18 @@ export const mainListItems = (
     <Link to="/admin/shops" style={{textDecoration:"none", color:"black"}}>
         <ListItemButton>
           <ListItemIcon>
-            <ShoppingCartIcon />
+            <StoreIcon />
           </ListItemIcon>
           <ListItemText primary="Negocios" />
+        </ListItemButton>
+    </Link>
+
+    <Link to="/admin/orders" style={{textDecoration:"none", color:"black"}}>
+        <ListItemButton>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ordenes" />
         </ListItemButton>
     </Link>
 

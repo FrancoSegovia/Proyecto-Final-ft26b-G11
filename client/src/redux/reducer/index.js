@@ -18,6 +18,7 @@ import {
   USER_LOADED,
   ADD_SHOPPINGCART,
   DELETE_SHOPPINGCART,
+  ALL_USERS
 } from "../actions";
 
 const initialState = {
@@ -36,7 +37,8 @@ const initialState = {
     lastName: "",
     eMail: "",
     _id: ""
-  }
+  },
+  users:[]
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -53,6 +55,13 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         shops: payload,
+      };
+    }
+
+    case ALL_USERS: {
+      return {
+        ...state,
+        users: payload
       };
     }
 

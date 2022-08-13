@@ -27,6 +27,10 @@ import { mainListItems } from '../features/ListItems';
 import AdminCard from '../features/AdminCard';
 import image from '../../../media/defaultShop.jpg'
 
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { getAllShops } from '../../../redux/actions';
+
 const negocios = [
   {
     image,
@@ -186,6 +190,17 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+
+  const shops = useSelector(state => state.shops);
+
+  console.log(shops)
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllShops());
+  }, [])
+  
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -215,13 +230,9 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Control de negocios
+              Gestión de negocios
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -258,7 +269,7 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display:"flex", flexWrap:"wrap", justifyContent:"space-evenly", rowGap:"50px", gap:"30px"}}>
-            {negocios.map(negocio => {
+            {shops.map(negocio => {
               return (
                   <AdminCard 
                     shop={negocio}

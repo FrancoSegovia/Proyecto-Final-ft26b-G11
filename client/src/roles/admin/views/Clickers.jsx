@@ -21,6 +21,7 @@ import { mainListItems } from '../features/ListItems';
 import ClickersGrid from '../features/ClickersGrid';
 
 
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -106,11 +107,6 @@ function DashboardContent() {
             >
               Control de Clickers
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={2} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

@@ -18,9 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../features/ListItems';
-import OwnersGrid from '../features/OwnersGrid';
-
-
+import UserGrid from '../features/UserGrid';
 
 
 const drawerWidth = 240;
@@ -106,8 +104,9 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Control de dueños
+              Registro de compras
             </Typography>
+
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -144,7 +143,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              <OwnersGrid/>
+              {/* <UserGrid/> */}
             </Grid>
           </Container>
         </Box>

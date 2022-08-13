@@ -2,6 +2,8 @@ import axios from "axios";
 
 export const ALL_SHOPS = "ALL_SHOPS";
 export const QUERY_SHOPS = "QUERY_SHOPS";
+
+export const ALL_USERS = "ALL_USERS";
 /////////////////////////////////////////////////
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
@@ -63,6 +65,18 @@ export function addStore(payload) {
 //   return axios.post(`http://localhost:3001/local`, payload)
 //   .then()
 // }
+
+export const getAllUsers = (dispatch) => {
+  return axios
+    .get("http://localhost:3001/users")
+    .then((users) => {
+      dispatch({
+        type: ALL_USERS,
+        payload: users.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
 
 /////////////////////////////////////////////////
 
@@ -189,3 +203,4 @@ export const loadUser = () => {
     } else return null;
   }
 }
+

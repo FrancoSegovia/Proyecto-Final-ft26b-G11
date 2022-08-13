@@ -23,7 +23,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit'; 
 
 export default function AdminCard({ shop }) {
-  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);

@@ -16,12 +16,15 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { useSelector, useDispatch } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
+import Banhamm from '@mui/icons-material/Gavel';
+import { Select, MenuItem } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '../../../redux/actions';
 
 
 function createData(name, userType, id) {
@@ -131,7 +134,6 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -219,6 +221,16 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
+
+  const users = useSelector(state => state.users);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [])
+  
+
+  //! Happy accident!
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -297,31 +309,21 @@ export default function EnhancedTable() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                .map((user, index) => {
+                  const isItemSelected = isSelected(user.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={user.name}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
                 
                       <TableCell
                         component="th"
@@ -329,17 +331,22 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {user.name}
                       </TableCell>
-                      <TableCell align="left" padding="none" >{row.userType}</TableCell>
-                      <TableCell align="right" padding="none">{row.id}</TableCell>
-                      <TableCell align="center">
-                        <Box sx={{display:"flex", justifyContent:"center"}}>
-                          <IconButton>
-                            X
+                      <TableCell align="left" padding="none" >
+                          {/* <Select value={{row.userType}}>
+                            <MenuItem value={"admin"}>Admin</MenuItem>
+                            <MenuItem value={"standard"}>Estándar</MenuItem>
+                          </Select> */}
+                      </TableCell>
+                      <TableCell align="left" padding="none">{user._id}</TableCell>
+                      <TableCell align="left">
+                        <Box sx={{display:"flex"}}>
+                          <IconButton sx={{color:"#29b6f6"}}>
+                            <Banhamm/>
                           </IconButton>
-                          <IconButton>
-                            X
+                          <IconButton sx={{color:"#f44336"}}>
+                            <CloseIcon/>
                           </IconButton>
                         </Box>
                       </TableCell>
