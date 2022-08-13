@@ -16,12 +16,12 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { useSelector, useDispatch } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
+import Banhamm from '@mui/icons-material/Gavel';
+import { Select, MenuItem } from '@mui/material';
 
 
 function createData(name, userType, id) {
@@ -131,7 +131,6 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -306,7 +305,6 @@ export default function EnhancedTable() {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -316,6 +314,7 @@ export default function EnhancedTable() {
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
+                          onClick={(event) => handleClick(event, row.name)}
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
@@ -331,15 +330,20 @@ export default function EnhancedTable() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="left" padding="none" >{row.userType}</TableCell>
-                      <TableCell align="right" padding="none">{row.id}</TableCell>
-                      <TableCell align="center">
-                        <Box sx={{display:"flex", justifyContent:"center"}}>
-                          <IconButton>
-                            X
+                      <TableCell align="left" padding="none" >
+                          {/* <Select value={{row.userType}}>
+                            <MenuItem value={"admin"}>Admin</MenuItem>
+                            <MenuItem value={"standard"}>Estándar</MenuItem>
+                          </Select> */}
+                      </TableCell>
+                      <TableCell align="left" padding="none">{row.id}</TableCell>
+                      <TableCell align="left">
+                        <Box sx={{display:"flex"}}>
+                          <IconButton sx={{color:"#29b6f6"}}>
+                            <Banhamm/>
                           </IconButton>
-                          <IconButton>
-                            X
+                          <IconButton sx={{color:"#f44336"}}>
+                            <CloseIcon/>
                           </IconButton>
                         </Box>
                       </TableCell>

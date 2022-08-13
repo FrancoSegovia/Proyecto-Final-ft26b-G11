@@ -16,12 +16,10 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { useSelector, useDispatch } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 function createData(name, userType, id) {
@@ -131,7 +129,6 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -270,7 +267,6 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -333,9 +329,9 @@ export default function EnhancedTable() {
                         {row.name}
                       </TableCell>
                       <TableCell align="left" padding="none" >{row.userType}</TableCell>
-                      <TableCell align="right" padding="none">{row.id}</TableCell>
-                      <TableCell align="center">
-                        <Box sx={{display:"flex", justifyContent:"center"}}>
+                      <TableCell align="left" padding="none">{row.id}</TableCell>
+                      <TableCell align="left">
+                        <Box sx={{display:"flex"}}>
                           <IconButton>
                             X
                           </IconButton>
