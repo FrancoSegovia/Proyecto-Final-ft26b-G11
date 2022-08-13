@@ -111,9 +111,24 @@ const updateCurrentUser = (req, res) => {
   const { name, lastname, password} = req.body;
 
   userSchema
-    .updateOne({ _id: id }, { $set: { name, lastname, password } })
+    .updateOne({ _id: id }, { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };
 
-module.exports = { get,signup,confirmAccount,login, currentUser, updateCurrentUser };
+const getLocal = (req, res) => {
+    const { name } = req.query;
+    if (name) {
+      localSchema
+        .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
+    } else {
+      localSchema
+        .find()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
+    }
+  }
+
+module.exports = { get,signup,confirmAccount,login, currentUser, updateCurrentUser, getLocal };

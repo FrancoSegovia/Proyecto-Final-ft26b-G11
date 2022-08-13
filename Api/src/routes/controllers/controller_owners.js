@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
-
+const bcrypt = require("bcrypt");
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -222,7 +222,7 @@ const updateCurrentOwner = (req, res) => {
   const { name, lastname, password} = req.body;
 
   ownerSchema
-    .updateOne({ _id: id }, { $set: { name, lastname, password } })
+    .updateOne({ _id: id }, { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };

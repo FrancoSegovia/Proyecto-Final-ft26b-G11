@@ -30,6 +30,10 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
+    isBanned: {
+      type: Boolean,
+      default: false,
+    },
     // phone: {
     //   type: Number,
     //   required: true,
@@ -144,7 +148,7 @@ function login(email, password) {
   return this.findOne({ email }).then((user) => {
     if (!user) throw new Error("incorrect credentials");
     if (!user.emailVerified) throw new Error("user is not confirmed");
-
+    if (user.isBanned === true) throw new Error("user is banned")
     const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) throw new Error("incorrect credentials");
 

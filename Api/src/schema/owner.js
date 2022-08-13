@@ -30,6 +30,10 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
+    isBanned: {
+      type: Boolean,
+      default: false,
+    },
   },
   { collection: "owners" }
 );

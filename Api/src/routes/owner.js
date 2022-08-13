@@ -8,7 +8,7 @@ router.get("/confirm/:token", ownerController.confirmAccount); //*EMAIL Y VERIFI
 router.post("/login", ownerController.login); //*LOGUEO
 
 router.get("/currentOwner", isAuthenticated, ownerController.currentOwner); //*DETAIL OWNER
-router.put("/currentOwner/update/:id",isAuthenticated,ownerController.updateCurrentOwner); //? UPDATE OWNER PERO ME SACA EL HASH
+router.put("/currentOwner/update/:id",isAuthenticated,ownerController.updateCurrentOwner); //* UPDATE OWNER
 
 router.get("/local", isAuthenticated, ownerController.getLocal);//? GET LOCALS PERO TODOS, NO SEPARADOS POR OWNER
 router.post("/local/add_local", isAuthenticated, ownerController.addLocal); //*ADD LOCALS
