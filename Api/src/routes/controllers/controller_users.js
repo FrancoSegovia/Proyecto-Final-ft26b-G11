@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const userSchema = require("../../schema/User");
-const deliverySchema = require("../../schema/delivery")
+const deliverySchema = require("../../schema/Delivery")
 const productSchema = require("../../schema/Product");
 const bcrypt = require("bcrypt");
 
@@ -84,9 +84,10 @@ const login = (req, res) => {
   const User = getModelByName("User");
   const Owner = getModelByName("Owner");
   const Delivery = getModelByName("Delivery");
-
   try {
     User.login(req.body.email, req.body.password)
+    Owner.login(req.body.email, req.body.password)
+    Delivery.login(req.body.email, req.body.password)
       .then((data) => {
         res.status(200).send(data);
       })

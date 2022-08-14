@@ -117,6 +117,7 @@ function signup(userInfo) {
       if (user) throw new Error("user already exists");
 
       const newUser = {
+        type: userInfo.type,
         email: userInfo.email,
         password: bcrypt.hashSync(userInfo.password, 9),
         name: userInfo.name,
@@ -158,6 +159,7 @@ function login(email, password) {
 
     const userObject = {
       _id: user._id,
+      type: user.type,
       email: user.email,
       emailVerified: user.emailVerified,
       name: user.name,
