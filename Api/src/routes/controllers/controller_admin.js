@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const userSchema = require("../../schema/User");
-const deliverySchema = require("../../schema/delivery");
+const deliverySchema = require("../../schema/Delivery");
+const bcrypt = require("bcrypt");
 
 const getOwner = (req, res) => {
   const { name } = req.query;
@@ -46,28 +47,34 @@ const deleteLocal = (req, res) => {
 const deleteUser = (req, res) => {
   const { id } = req.params;
 
-  userSchema
-    .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+  userSchema.findOne({ _id: id }).then((data) => {
+    data.isBanned = true;
+    data.save().then(() => {
+      res.json({ data });
+    });
+  });
 };
 
 const deleteOwner = (req, res) => {
   const { id } = req.params;
 
-  ownerSchema
-    .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+  ownerSchema.findOne({ _id: id }).then((data) => {
+    data.isBanned = true;
+    data.save().then(() => {
+      res.json({ data });
+    });
+  });
 };
 
 const deleteDelivery = (req, res) => {
   const { id } = req.params;
 
-  deliverySchema
-    .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+  deliverySchema.findOne({ _id: id }).then((data) => {
+    data.isBanned = true;
+    data.save().then(() => {
+      res.json({ data });
+    });
+  });
 };
 
 module.exports = {

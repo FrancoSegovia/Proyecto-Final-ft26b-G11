@@ -30,6 +30,14 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
+    isBanned: {
+      type: Boolean,
+      default: false,
+    },
+    local: {
+      type: Schema.ObjectId,
+      ref: "Local",
+    },
   },
   { collection: "owners" }
 );
@@ -62,8 +70,8 @@ function sendConfirmationEmail(owner) {
     .sendMail({
       from: process.env.MAIL_ADMIN_ADDRESS,
       to: owner.email,
-      subject: "Please, confirm your email!",
-      html: `<p>Confirm your Email <a href="${urlConfirm}">Confirm</a></p>`,
+      subject: "Bienvenido a nuestra Plataforma!",
+      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
     })
     .then(() => owner);
 }

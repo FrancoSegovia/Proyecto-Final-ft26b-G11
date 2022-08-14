@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const ownerSchema = require("../../schema/Owner");
 const userSchema = require("../../schema/User");
-const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
+const bcrypt = require("bcrypt");
 
 const get = (req, res) => {
   const { name } = req.query;
@@ -17,8 +18,6 @@ const get = (req, res) => {
       .catch((error) => res.json({ message: error }));
   }
 };
-
-
 
 //!-----------------------------------------------------
 function getModelByName(name) {
@@ -81,7 +80,7 @@ const login = (req, res) => {
   try {
     User.login(req.body.email, req.body.password)
       .then((data) => {
-        res.status(200).send({ success: true, data });
+        res.status(200).send(data);
       })
       .catch((error) =>
         res.status(200).send({ success: false, error: error.message })
@@ -94,12 +93,12 @@ const login = (req, res) => {
 //!-------------------------------------
 
 const currentUser = (req, res) => {
-  if (!req.user)
+  const {id} = req.params;
+  if (!id)
     return res.status(200).send({ success: false, data: { user: null } });
-  const User = getModelByName("User");
-  return User.findUserById(req.user._id)
+userSchema.findById(id)
     .then((user) => {
-      res.status(200).send({ success: true, data: { user } });
+      res.status(200).send( user );
     })
     .catch((error) =>
       res.status(200).send({ success: false, error: error.message })
@@ -108,12 +107,38 @@ const currentUser = (req, res) => {
 
 const updateCurrentUser = (req, res) => {
   const { id } = req.params;
-  const { name, lastname, password} = req.body;
+  const { name, lastname, password } = req.body;
 
   userSchema
-    .updateOne({ _id: id }, { $set: { name, lastname, password } })
+    .updateOne(
+      { _id: id },
+      { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
+    )
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };
 
-module.exports = { get,signup,confirmAccount,login, currentUser, updateCurrentUser };
+const getLocal = (req, res) => {
+  const { name } = req.query;
+  if (name) {
+    localSchema
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  } else {
+    localSchema
+      .find()
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  }
+};
+
+module.exports = {
+  get,
+  signup,
+  confirmAccount,
+  login,
+  currentUser,
+  updateCurrentUser,
+  getLocal,
+};
