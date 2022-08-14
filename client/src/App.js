@@ -21,6 +21,8 @@ import Owners from "./roles/admin/views/Owners";
 import Clickers from "./roles/admin/views/Clickers";
 import Orders from "./roles/admin/views/Orders";
 
+import ClickerHome from "./roles/delivery/views/ClickerHome"
+
 
 function App() {
 
@@ -28,7 +30,7 @@ function App() {
     <div>
       <Routes>
 
-        <Route exact path="/create" element={<CreateStore />} />
+        <Route exact path="/owner/create" element={<CreateStore />} />
         <Route exact path="/SignUp" element={<UserSignUp />} />
         <Route exact path="/SignIn" element={<UserSignIn/>} />
         
@@ -45,7 +47,9 @@ function App() {
         <Route exact path="/admin/owners" element={<Owners />} /> 
         <Route exact path="/admin/clickers" element={<Clickers />} />
         <Route exact path="/admin/orders" element={<Orders />} />  
-        
+
+                    {/* Delivery Views */}
+        <Route exact path="/delivery/home" element={<ClickerHome />} />  
         
         <Route exact path="/pay" element={<Payment />} />
 
