@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 export default function SignUp() {
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state_user = useSelector(state => state.user)
