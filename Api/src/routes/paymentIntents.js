@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     payment_method: id, 
     confirm: true
    })
-   console.log("soy payment method",payment_method)
+   
    res.send({message: "paymente succesfull"})
 })
 
