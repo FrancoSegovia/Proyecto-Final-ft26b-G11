@@ -33,7 +33,7 @@ export default function LandingHero() {
         >
           ¡Registrate ahora!
         </Typography>
-        <Link to="/signup" style={{textDecoration:"none"}}>
+        <Link to="/SignUp" style={{textDecoration:"none"}}>
           <Button
             variant="contained"
             size="large"
