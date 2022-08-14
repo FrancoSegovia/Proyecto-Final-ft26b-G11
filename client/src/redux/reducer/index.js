@@ -13,11 +13,10 @@ import {
   FILTER_PRODUCTS,
   QUERY_ERROR,
   ERROR_CLEANER,
-  SIGN_UP,
   SIGN_IN,
-  USER_LOADED,
   ADD_SHOPPINGCART,
   DELETE_SHOPPINGCART,
+  SIGN_OUT,
   ALL_USERS
 } from "../actions";
 
@@ -36,6 +35,10 @@ const initialState = {
     name: "",
     lastName: "",
     eMail: "",
+    _id: "",
+    phone: null,
+    vehicle: ""
+  }
     _id: ""
   },
   users:[]
@@ -139,23 +142,40 @@ const reducer = (state = initialState, { type, payload }) => {
 
     /////////////////////////////////////////////////
 
-    case USER_LOADED:
-    case SIGN_IN:
-    case SIGN_UP: {
-      const user = jwtDecode(payload);
+    case SIGN_IN: {
+      const data = jwtDecode(payload);
+      return {
+        ...state,
+        user:{
+          ...state.user,
+          token: payload,
+          _id: data._id,
+          type: data.type,
+          name: data.name,
+          lastName: data.lastName,
+          eMail: data.email,
+          phone: data.phone ? data.phone : null,
+          vehicle: data.vehicle ? data.vehicle : "",
+        }
+      }
+    }
+ 
+    case SIGN_OUT:
+      localStorage.removeItem("token");
       return {
         ...state,
         user: {
           ...state.user,
-          token: payload,
-          type: user.type,
-          name: user.name,
-          lastName: user.lastName,
-          eMail: user.email,
-          _id: user._id,
+          type: "",
+          token: null,
+          name: "",
+          lastName: "",
+          eMail: "",
+          _id: "",
+          phone: null,
+          vehicle: ""
         },
       };
-    }
 
     /////////////////////////////////////////////////
 

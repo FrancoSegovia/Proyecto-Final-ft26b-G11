@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,9 +10,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { signUpOwner, signUpUser } from "../../redux/actions";
+import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
 import { Link } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
+import { Select, MenuItem } from '@mui/material';
 
 const theme = createTheme();
 
@@ -24,10 +23,13 @@ export default function SignUp() {
   const state_user = useSelector(state => state.user)
 
   const [user, setUser] = React.useState({
+    type: state_user.type,
     name:"",
     lastName: "",
     eMail: "",
     password: "",
+    phone: null,
+    vehicle: ""
   });
 
 
@@ -37,22 +39,31 @@ export default function SignUp() {
       dispatch(signUpOwner(user));
     }else if (state_user.type==="user"){
       dispatch(signUpUser(user))
-    }
+    }else dispatch(signUpDelivery(user))
 
     setUser({
       name:"",
       lastName: "",
       eMail: "",
       password: "",
+      phone: null,
+      vehicle: ""
     })
   };
 
   const handleChange = (event) => {
     event.preventDefault();
+      setUser({
+        ...user,
+        [event.target.name]: event.target.value})
+  };
+
+  const onSelect = (event) => {
     setUser({
       ...user,
-      [event.target.name]: event.target.value})
-  };
+      [event.target.name]: event.target.value
+    })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -124,6 +135,26 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
+              {state_user.type === "delivery" && (
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="phone"
+                  label="Phone"
+                  id="phone"
+                  autoComplete="new-phone"
+                  onChange={handleChange}
+                  value={user.phone}
+                />
+              </Grid>
+              )}
+              {state_user.type === "delivery" && (
+                <Select value={user.vehicle} onChange={onSelect} name={"vehicle"}>
+                  <MenuItem value={"AUTO"}>Comida</MenuItem>
+                  <MenuItem value={"MOTO"}>Bebida</MenuItem>
+                </Select>
+              )}
             </Grid>
             <Link to="/" style={{ textDecoration: "none", color: "white" }}>
               <Button

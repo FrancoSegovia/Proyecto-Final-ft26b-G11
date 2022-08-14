@@ -1,17 +1,16 @@
+import React, { useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 
 import LandingPage from "./roles/landing/views/LandingPage/LandingPage";
 
 import Home from "./roles/user/views/Home/Home.jsx";
+import Payment from "./roles/user/views/Payment/Payment";
 
 import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
 
+
 import UserSignUp from "./roles/Auth/UserSignUp.jsx";
 import UserSignIn from "./roles/Auth/UserSignIn.jsx";
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { loadUser } from './redux/actions/index';
 
 import Payment from "./roles/user/views/Payment/Payment"
 
@@ -26,13 +25,6 @@ import ClickerHome from "./roles/delivery/views/ClickerHome"
 
 
 function App() {
-
-  const dispatch = useDispatch();
-
-  //!no usar hasta que esté lista la ruta del back
-  // useEffect(()=> {
-  //   dispatch(loadUser());
-  // },[])
 
   return (
     <div>
@@ -66,4 +58,4 @@ function App() {
   );
 }
 
-export default App;
+
