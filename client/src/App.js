@@ -8,10 +8,6 @@ import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
 
 import UserSignUp from "./roles/Auth/UserSignUp.jsx";
 import UserSignIn from "./roles/Auth/UserSignIn.jsx";
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { loadUser } from './redux/actions/index';
 
 import Payment from "./roles/user/views/Payment/Payment"
 
@@ -24,13 +20,6 @@ import Orders from "./roles/admin/views/Orders";
 
 
 function App() {
-
-  const dispatch = useDispatch();
-
-  //!no usar hasta que esté lista la ruta del back
-  // useEffect(()=> {
-  //   dispatch(loadUser());
-  // },[])
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
 export const QUERY_SHOPS = "QUERY_SHOPS";
@@ -17,8 +18,11 @@ export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
 ////////////////////////////////////////////////
 export const SIGN_UP = "SIGN_UP";
-export const USER_LOADED = "USER_LOADED";
 export const SIGN_IN = "SIGN_IN";
+export const SIGN_OUT = "SIGN_OUT";
+export const USER_LOADED = "USER_LOADED";
+////////////////////////////////////////////////
+
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -144,42 +148,44 @@ export const errorCleaner = () => {
 };
 
 ////////////////////////////////////////////////
-export const signUpOwner = (user) => {
-  return (dispatch) => {
-    axios
-      .post("http://localhost:3001/signup/owner", user)
-      .then((token) => {
-        localStorage.setItem("token", token.data);
 
-        dispatch({
-          type: SIGN_UP,
-          payload: token.data,
-        });
-      })
-      .catch((error) => console.error(error.message));
+export function signUpOwner(user) {
+  return async function () {
+    try {
+      let respuesta = await axios.post("http://localhost:3001/account/signup/owner",user);
+      return respuesta;
+    } catch (error) {
+      console.error(error);
+    }
   };
-};
+}
 
-export const signUpUser = (user) => {
-  return (dispatch) => {
-    axios
-      .post("http://localhost:3001/signup/user", user)
-      .then((token) => {
-        localStorage.setItem("token", token.data);
-
-        dispatch({
-          type: SIGN_UP,
-          payload: token.data,
-        });
-      })
-      .catch((error) => console.error(error.message));
+export function signUpUser(user) {
+  return async function () {
+    try {
+      let respuesta = await axios.post("http://localhost:3001/account/signup/user",user);
+      return respuesta;
+    } catch (error) {
+      console.error(error);
+    }
   };
-};
+}
+
+export function signUpDelivery(user) {
+  return async function () {
+    try {
+      let respuesta = await axios.post("http://localhost:3001/account/signup/delivery",user);
+      return respuesta;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
 
 export const signIn = (creds) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:3001/signin", creds)
+      .post("http://localhost:3001/account/signin", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
 
@@ -192,15 +198,11 @@ export const signIn = (creds) => {
   };
 };
 
-export const loadUser = () => {
-  return (dispatch, getState ) => {
-    const token = getState().state.user.token;
-    if (token) {
-      dispatch({
-        type: USER_LOADED,
-        payload: token 
-      })
-    } else return null;
+export const signOut = () => {
+  return (dispatch) => {
+    dispatch({
+      type: SIGN_OUT
+    })
   }
 }
 
