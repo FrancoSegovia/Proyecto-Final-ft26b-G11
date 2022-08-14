@@ -54,26 +54,26 @@ const schema = Schema(
     //   type: Number,
     //   required: false,
     // },
-    credentials: [
-      {
-        name: {
-          type: String,
-          required: false,
-        },
-        number: {
-          type: Number,
-          required: false,
-        },
-        code: {
-          type: Number,
-          required: false,
-        },
-        dateOfExpire: {
-          type: Date,
-          required: false,
-        },
-      },
-    ],
+    // credentials: [
+    //   {
+    //     name: {
+    //       type: String,
+    //       required: false,
+    //     },
+    //     number: {
+    //       type: Number,
+    //       required: false,
+    //     },
+    //     code: {
+    //       type: Number,
+    //       required: false,
+    //     },
+    //     dateOfExpire: {
+    //       type: Date,
+    //       required: false,
+    //     },
+    //   },
+    // ],
   },
   { collection: "users" }
 );
@@ -95,8 +95,8 @@ function sendConfirmationEmail(user) {
     .sendMail({
       from: process.env.MAIL_ADMIN_ADDRESS,
       to: user.email,
-      subject: "Please, confirm your email!",
-      html: `<p>Confirm your Email <a href="${urlConfirm}">Confirm</a></p>`,
+      subject: "Bienvenido a nuestra Plataforma!",
+      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
     })
     .then(() => user);
 }

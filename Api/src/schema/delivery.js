@@ -53,7 +53,7 @@ const schema = Schema(
 function sendConfirmationEmail(delivery) {
   let transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
-    port: process.env.MAIL_PORT,
+    port: process.env.MAIL_PORTT,
     secure: false,
     auth: {
       delivery: process.env.MAIL_USERNAME,
@@ -67,8 +67,8 @@ function sendConfirmationEmail(delivery) {
     .sendMail({
       from: process.env.MAIL_ADMIN_ADDRESS,
       to: delivery.email,
-      subject: "Please, confirm your email!",
-      html: `<p>Confirm your Email <a href="${urlConfirm}">Confirm</a></p>`,
+      subject: "Bienvenido a nuestra Plataforma!",
+      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
     })
     .then(() => delivery);
 }

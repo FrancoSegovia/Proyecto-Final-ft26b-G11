@@ -65,7 +65,7 @@ const login = (req, res) => {
   try {
     Delivery.login(req.body.email, req.body.password)
       .then((data) => {
-        res.status(200).send({ success: true, data });
+        res.status(200).send(data);
       })
       .catch((error) =>
         res.status(200).send({ success: false, error: error.message })
@@ -78,17 +78,17 @@ const login = (req, res) => {
 //!-------------------------------------
 
 const currentDelivery = (req, res) => {
-  if (!req.delivery)
-    return res.status(200).send({ success: false, data: { delivery: null } });
-  const Delivery = getModelByName("Delivery");
-  return Delivery.findUserById(req.delivery._id)
-    .then((delivery) => {
-      res.status(200).send({ success: true, data: { delivery } });
-    })
-    .catch((error) =>
-      res.status(200).send({ success: false, error: error.message })
-    );
-};
+    const {id} = req.params;
+    if (!id)
+      return res.status(200).send({ success: false, data: { delivery: null } });
+  deliverySchema.findById(id)
+      .then((delivery) => {
+        res.status(200).send( delivery );
+      })
+      .catch((error) =>
+        res.status(200).send({ success: false, error: error.message })
+      );
+  };
 
 const updatecurrentDelivery = (req, res) => {
   const { id } = req.params;
