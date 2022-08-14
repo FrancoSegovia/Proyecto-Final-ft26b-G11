@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
-
+const bcrypt = require("bcrypt");
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -65,7 +65,7 @@ const login = (req, res) => {
   try {
     Owner.login(req.body.email, req.body.password)
       .then((data) => {
-        res.status(200).send({ success: true, data });
+        res.status(200).send(data);
       })
       .catch((error) =>
         res.status(200).send({ success: false, error: error.message })
@@ -86,7 +86,7 @@ const currentOwner = (req, res) => {
   const Owner = getModelByName("Owner");
   return Owner.findOwnerById(req.owner._id)
     .then((owner) => {
-      res.status(200).send({ success: true, data: { owner } });
+      res.status(200).send(owner);
     })
     .catch((error) =>
       res.status(200).send({ success: false, error: error.message })
@@ -95,15 +95,12 @@ const currentOwner = (req, res) => {
 //*---------------GET DETAIL OWNER----------------------------
 
 //*---------------GET GENERAL LOCAL----------------------------
-const getLocal = (req, res) => {
-  const Owner = getModelByName("Owner");
-  const Local = getModelByName("Local");
+const getLocal = async (req, res) => {
   const { id } = req.params;
-  Local.find({ id }, function (err, locals) {
-    Owner.populate(locals, { path: "owner" }, function (err, locals) {
-      res.status(200).send(locals);
-    });
-  });
+const ownerId = await ownerSchema.findById(id)
+  localSchema.find({owner: ownerId})
+      .then((data) => res.json(data))
+      .catch((error) => res.status(200).send({ message: error }));
 };
 //*---------------GET GENERAL LOCAL----------------------------
 
@@ -123,7 +120,7 @@ const addLocal = (req, res) => {
   try {
     Local.addLocal(req.body.local, req.owner._id)
       .then((data) => {
-        res.status(200).send({ success: true, data: { data } });
+        res.status(200).send(data);
       })
       .catch((error) => res.status(200).send({ message: error }));
   } catch (error) {
@@ -205,24 +202,20 @@ const deleteProduct = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-const getProduct = (req, res) => {
-  const Local = getModelByName("Local");
-  const Product = getModelByName("Product");
-
+const getProduct = async (req, res) => {
   const { id } = req.params;
-  Product.find({ id }, function (err, products) {
-    Local.populate(products, { path: "local" }, function (err, products) {
-      res.status(200).send(products);
-    });
-  });
-};
+const localId = await localSchema.findById(id)
+  productSchema.find({local: localId})
+      .then((data) => res.json(data))
+      .catch((error) => res.status(200).send({ message: error }));
+}
 
 const updateCurrentOwner = (req, res) => {
   const { id } = req.params;
   const { name, lastname, password} = req.body;
 
   ownerSchema
-    .updateOne({ _id: id }, { $set: { name, lastname, password } })
+    .updateOne({ _id: id }, { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };

@@ -30,6 +30,10 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
+    isBanned: {
+      type: Boolean,
+      default: false,
+    },
     // phone: {
     //   type: Number,
     //   required: true,
@@ -50,26 +54,26 @@ const schema = Schema(
     //   type: Number,
     //   required: false,
     // },
-    credentials: [
-      {
-        name: {
-          type: String,
-          required: false,
-        },
-        number: {
-          type: Number,
-          required: false,
-        },
-        code: {
-          type: Number,
-          required: false,
-        },
-        dateOfExpire: {
-          type: Date,
-          required: false,
-        },
-      },
-    ],
+    // credentials: [
+    //   {
+    //     name: {
+    //       type: String,
+    //       required: false,
+    //     },
+    //     number: {
+    //       type: Number,
+    //       required: false,
+    //     },
+    //     code: {
+    //       type: Number,
+    //       required: false,
+    //     },
+    //     dateOfExpire: {
+    //       type: Date,
+    //       required: false,
+    //     },
+    //   },
+    // ],
   },
   { collection: "users" }
 );
@@ -91,8 +95,8 @@ function sendConfirmationEmail(user) {
     .sendMail({
       from: process.env.MAIL_ADMIN_ADDRESS,
       to: user.email,
-      subject: "Please, confirm your email!",
-      html: `<p>Confirm your Email <a href="${urlConfirm}">Confirm</a></p>`,
+      subject: "Bienvenido a nuestra Plataforma!",
+      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
     })
     .then(() => user);
 }
@@ -144,7 +148,7 @@ function login(email, password) {
   return this.findOne({ email }).then((user) => {
     if (!user) throw new Error("incorrect credentials");
     if (!user.emailVerified) throw new Error("user is not confirmed");
-
+    if (user.isBanned === true) throw new Error("user is banned")
     const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) throw new Error("incorrect credentials");
 
