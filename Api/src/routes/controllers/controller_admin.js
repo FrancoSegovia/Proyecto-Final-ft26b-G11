@@ -1,19 +1,92 @@
 const mongoose = require("mongoose");
-const ownerSchema = require("../../schema/Owner");
+const adminSchema = require("../../schema/Admin");
 const localSchema = require("../../schema/Local");
 const userSchema = require("../../schema/User");
 const deliverySchema = require("../../schema/Delivery");
 const bcrypt = require("bcrypt");
 
-const getOwner = (req, res) => {
+
+function getModelByName(name) {
+  return mongoose.model(name);
+}
+const signup = (req, res) => {
+  if (!req.body.admin)
+    return res
+      .status(200)
+      .send({ success: false, error: "admin info not found" });
+  const Admin = getModelByName("Admin");
+  try {
+    Admin.signup(req.body.admin)
+      .then(() => {
+        res
+          .status(200)
+          .send({ success: true, message: "admin created succesfully" });
+      })
+      .catch((error) =>
+        res.status(200).send({ success: false, error: error.message })
+      );
+  } catch (error) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
+
+//!-------------------------------------
+//!-------------------------------------
+
+const confirmAccount = (req, res) => {
+  const Admin = getModelByName("Admin");
+  try {
+    Admin.confirmAccount(req.params.token)
+      .then(() => {
+        res
+          .status(200)
+          .send({ success: true, message: "admin confirmed succesfully" });
+      })
+      .catch((err) =>
+        res.status(200).send({ success: false, error: err.message })
+      );
+  } catch (err) {
+    res.status(200).send({ success: false, error: err.message });
+  }
+};
+
+//!-------------------------------------
+//!-------------------------------------
+
+const login = (req, res) => {
+  if (!req.body.email)
+    return res
+      .status(200)
+      .send({ success: false, error: "email is not provided" });
+  if (!req.body.password)
+    return res
+      .status(200)
+      .send({ success: false, error: "password is not provided" });
+  const Admin = getModelByName("Admin");
+  try {
+    Admin.login(req.body.email, req.body.password)
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((error) =>
+        res.status(200).send({ success: false, error: error.message })
+      );
+  } catch (error) {
+    res.status(200).send({ success: false, error: error.message });
+  }
+};
+
+//!-------------------------------------
+
+const getAdmin = (req, res) => {
   const { name } = req.query;
   if (name) {
-    ownerSchema
+    adminSchema
       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   } else {
-    ownerSchema
+    adminSchema
       .find()
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
@@ -55,10 +128,10 @@ const deleteUser = (req, res) => {
   });
 };
 
-const deleteOwner = (req, res) => {
+const deleteAdmin = (req, res) => {
   const { id } = req.params;
 
-  ownerSchema.findOne({ _id: id }).then((data) => {
+  adminSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
     data.save().then(() => {
       res.json({ data });
@@ -78,10 +151,13 @@ const deleteDelivery = (req, res) => {
 };
 
 module.exports = {
-  getOwner,
+  login,
+  confirmAccount,
+  signup,
+  getAdmin,
   getDelivery,
   deleteLocal,
   deleteUser,
-  deleteOwner,
+  deleteAdmin,
   deleteDelivery,
 };
