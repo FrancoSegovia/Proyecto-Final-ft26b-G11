@@ -188,7 +188,6 @@ export const signIn = (creds) => {
       .post("http://localhost:3001/account/signin", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
-
         dispatch({
           type: SIGN_IN,
           payload: token.data,
