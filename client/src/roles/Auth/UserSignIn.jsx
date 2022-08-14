@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signIn } from '../../redux/actions';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,6 @@ import { ArrowBack } from '@mui/icons-material';
 const theme = createTheme();
 
 export default function SignIn() {
-
   const dispatch = useDispatch();
   const [creds, setCreds] = useState({
     eMail: "",
@@ -85,14 +84,16 @@ export default function SignIn() {
               value={creds.password}
               onChange={handleChange}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            </Link>
              <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/" style={{ textDecoration: "none", color: "white" }}>
@@ -104,7 +105,7 @@ export default function SignIn() {
             </Grid>
             <Grid container>
               <Grid item>
-                <Link to="/" variant="body2">
+                <Link to="/SignUp" variant="body2">
                   "Don't have an account? Sign Up"
                 </Link>
               </Grid>
