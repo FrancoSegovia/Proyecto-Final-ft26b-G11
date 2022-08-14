@@ -7,7 +7,6 @@ import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
 import Payment from "./roles/user/views/Payment/Payment";
 
 export default function App() {
-
   //Utilizar un useEffect para traer los datos del tipo de usuario
   //Mediante un condicional redirigirlo al Routes que le corresponda
   //Dejar la landing y el LogIn/Register para cuando no tenga userStatus
