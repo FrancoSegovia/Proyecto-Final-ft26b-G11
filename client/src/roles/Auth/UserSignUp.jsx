@@ -23,31 +23,32 @@ export default function SignUp() {
   const state_user = useSelector(state => state.user)
 
   const [user, setUser] = React.useState({
-    type: state_user.type,
-    name:"",
-    lastName: "",
-    eMail: "",
-    password: "",
-    phone: null,
-    vehicle: ""
+  type: "user",
+  name:"",
+  lastname: "",
+  email: "",
+  password: "",
+  phone: null,
+  // vehicle: ""
   });
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(state_user.type === "owner"){
+    if(user.type === "owner"){
       dispatch(signUpOwner(user));
-    }else if (state_user.type==="user"){
+    }else if (user.type==="user"){
       dispatch(signUpUser(user))
     }else dispatch(signUpDelivery(user))
 
     setUser({
-      name:"",
-      lastName: "",
-      eMail: "",
-      password: "",
-      phone: null,
-      vehicle: ""
+        type: "user",
+        name:"",
+        lastname: "",
+        email: "",
+        password: "",
+        phone: null,
+        // vehicle: ""
     })
   };
 
@@ -102,24 +103,24 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Apellido"
-                  name="lastName"
+                  name="lastname"
                   autoComplete="family-name"
                   onChange={handleChange}
-                  value={user.lastName}
+                  value={user.lastname}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="eMail"
+                  id="email"
                   label="Dirección de correo electrónico"
-                  name="eMail"
+                  name="email"
                   autoComplete="eMail"
                   onChange={handleChange}
-                  value={user.eMail}
+                  value={user.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -156,17 +157,18 @@ export default function SignUp() {
                 </Select>
               )}
             </Grid>
-            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+            {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 2, mb: 3 }}
-                disabled= {!user.name.length || !user.lastName.length || !user.eMail.length || !user.eMail.includes("@") || !user.eMail.includes(".com") || !user.password.length}
+                disabled= {!user.name.length || !user.lastname.length || !user.email.length || !user.email.includes("@") || !user.email.includes(".com") || !user.password.length}
               >
-                iniciar sesión
+                Registrarme
               </Button>
-            </Link>
+            {/* </Link> */}
              <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
               <Grid item>
                 <Link to="/landing" style={{ textDecoration: "none", color: "white" }}>

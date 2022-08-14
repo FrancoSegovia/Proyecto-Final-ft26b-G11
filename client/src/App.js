@@ -12,7 +12,7 @@ import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
 import UserSignUp from "./roles/Auth/UserSignUp.jsx";
 import UserSignIn from "./roles/Auth/UserSignIn.jsx";
 
-import Payment from "./roles/user/views/Payment/Payment"
+// import Payment from "./roles/user/views/Payment/Payment"
 
 
 import Shops from "./roles/admin/views/Shops";
@@ -58,4 +58,5 @@ function App() {
   );
 }
 
+export default App
 

@@ -6,6 +6,10 @@ const { isValidEmail } = require("../routes/controllers/helpers");
 
 const schema = Schema(
   {
+    type: {
+      type: String,
+      required: false,
+    },
     name: {
       type: String,
       required: true,
@@ -34,10 +38,10 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
-    // phone: {
-    //   type: Number,
-    //   required: true,
-    // },
+    phone: {
+      type: Number,
+      required: false,
+    },
     // favorites: {
     //   type: Array,
     //   default: undefined,

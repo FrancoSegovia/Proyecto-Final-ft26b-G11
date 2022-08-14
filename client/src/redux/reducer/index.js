@@ -38,11 +38,10 @@ const initialState = {
     _id: "",
     phone: null,
     vehicle: ""
-  }
-    _id: ""
   },
-  users:[]
-};
+    _id: "",
+    users:[]
+  }
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {

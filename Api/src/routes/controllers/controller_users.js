@@ -23,14 +23,38 @@ const get = (req, res) => {
 function getModelByName(name) {
   return mongoose.model(name);
 }
+// const signup = (req, res) => {
+//   if (!req.body.user)
+//     return res
+//       .status(200)
+//       .send({ success: false, error: "user info not found" });
+//   const User = getModelByName("User");
+//   try {
+//     User.signup(req.body.user)
+//       .then(() => {
+//         res
+//           .status(200)
+//           .send({ success: true, message: "user created succesfully" });
+//       })
+//       .catch((error) =>
+//         res.status(200).send({ success: false, error: error.message })
+//       );
+//   } catch (error) {
+//     res.status(500).send({ success: false, error: error.message });
+//   }
+// };
+
+
 const signup = (req, res) => {
-  if (!req.body.user)
+  console.log(req.body);
+  if (!req.body)
+
     return res
       .status(200)
       .send({ success: false, error: "user info not found" });
   const User = getModelByName("User");
   try {
-    User.signup(req.body.user)
+    User.signup(req.body)
       .then(() => {
         res
           .status(200)

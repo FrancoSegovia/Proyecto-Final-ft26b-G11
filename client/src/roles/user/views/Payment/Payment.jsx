@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 // import { loadStripe } from "@stripe/stripe-js";
 // import { Elemets, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -6,15 +6,15 @@ import React from "react";
 //Abajo va una key de stripe
 //const stipePromise = loadStripe("key")
 
-export default function Payment() {
-  return <>"Pasarela con stripe"</>;
+// export default function Payment() {
+//   return <>"Pasarela con stripe"</>;
   // return (
 //     <>
 //         <Elements stripe={sripePromise}>
 //         <PaymentForm>
 //         </Elements>
 //     </>
-}
+// }
 
 //export default function PaymentForm(seguro recibe algo){
 //

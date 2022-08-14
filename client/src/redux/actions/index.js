@@ -149,10 +149,10 @@ export const errorCleaner = () => {
 
 ////////////////////////////////////////////////
 
-export function signUpOwner(user) {
+export function signUpOwner({name, lastname, email, password}) {
   return async function () {
     try {
-      let respuesta = await axios.post("http://localhost:3001/account/signup/owner",user);
+      let respuesta = await axios.post("http://localhost:3001/account/owner/signup", {name, lastname, email, password});
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -163,7 +163,8 @@ export function signUpOwner(user) {
 export function signUpUser(user) {
   return async function () {
     try {
-      let respuesta = await axios.post("http://localhost:3001/account/signup/user",user);
+      console.log(user)
+      let respuesta = await axios.post("http://localhost:3001/account/user/signup",user);
       return respuesta;
     } catch (error) {
       console.error(error);
