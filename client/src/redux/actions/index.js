@@ -72,7 +72,7 @@ export function addStore(payload) {
 
 export const getAllUsers = (dispatch) => {
   return axios
-    .get("http://localhost:3001/users")
+    .get("http://localhost:3001/account/admin/users")
     .then((users) => {
       dispatch({
         type: ALL_USERS,
