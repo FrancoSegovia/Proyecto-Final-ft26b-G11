@@ -14,10 +14,12 @@ import { signIn } from '../../redux/actions';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [creds, setCreds] = useState({
     eMail: "",

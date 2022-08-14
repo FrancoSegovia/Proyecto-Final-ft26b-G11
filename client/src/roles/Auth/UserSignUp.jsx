@@ -14,11 +14,12 @@ import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
 import { Link } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { Select, MenuItem } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignUp() {
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const state_user = useSelector(state => state.user)
 
@@ -50,6 +51,7 @@ export default function SignUp() {
         phone: null,
         // vehicle: ""
     })
+    navigate("/SignIn", { replace: true })
   };
 
   const handleChange = (event) => {
