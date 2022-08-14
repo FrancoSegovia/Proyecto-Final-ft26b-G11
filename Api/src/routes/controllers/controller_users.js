@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const userSchema = require("../../schema/User");
+const deliverySchema = require("../../schema/delivery")
 const productSchema = require("../../schema/Product");
 const bcrypt = require("bcrypt");
 
@@ -23,30 +24,9 @@ const get = (req, res) => {
 function getModelByName(name) {
   return mongoose.model(name);
 }
-// const signup = (req, res) => {
-//   if (!req.body.user)
-//     return res
-//       .status(200)
-//       .send({ success: false, error: "user info not found" });
-//   const User = getModelByName("User");
-//   try {
-//     User.signup(req.body.user)
-//       .then(() => {
-//         res
-//           .status(200)
-//           .send({ success: true, message: "user created succesfully" });
-//       })
-//       .catch((error) =>
-//         res.status(200).send({ success: false, error: error.message })
-//       );
-//   } catch (error) {
-//     res.status(500).send({ success: false, error: error.message });
-//   }
-// };
-
 
 const signup = (req, res) => {
-  console.log(req.body);
+
   if (!req.body)
 
     return res
@@ -100,7 +80,11 @@ const login = (req, res) => {
     return res
       .status(200)
       .send({ success: false, error: "password is not provided" });
+
   const User = getModelByName("User");
+  const Owner = getModelByName("Owner");
+  const Delivery = getModelByName("Delivery");
+
   try {
     User.login(req.body.email, req.body.password)
       .then((data) => {

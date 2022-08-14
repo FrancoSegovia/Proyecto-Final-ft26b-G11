@@ -123,7 +123,7 @@ function login(email, password) {
   return this.findOne({ email }).then((owner) => {
     if (!owner) throw new Error("incorrect credentials");
     if (!owner.emailVerified) throw new Error("owner is not confirmed");
-
+    if (user.isBanned === true) throw new Error("user is banned")
     const isMatch = bcrypt.compareSync(password, owner.password);
     if (!isMatch) throw new Error("incorrect credentials");
 

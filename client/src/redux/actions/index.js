@@ -163,7 +163,6 @@ export function signUpOwner({name, lastname, email, password}) {
 export function signUpUser(user) {
   return async function () {
     try {
-      console.log(user)
       let respuesta = await axios.post("http://localhost:3001/account/user/signup",user);
       return respuesta;
     } catch (error) {
@@ -186,7 +185,7 @@ export function signUpDelivery(user) {
 export const signIn = (creds) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:3001/account/signin", creds)
+      .post("http://localhost:3001/account/user/login", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
 

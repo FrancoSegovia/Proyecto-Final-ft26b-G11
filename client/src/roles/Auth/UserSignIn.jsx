@@ -20,7 +20,7 @@ const theme = createTheme();
 export default function SignIn() {
   const dispatch = useDispatch();
   const [creds, setCreds] = useState({
-    eMail: "",
+    email: "",
     password: ""
   });
 
@@ -28,7 +28,7 @@ export default function SignIn() {
     event.preventDefault();
     dispatch(signIn(creds));
     setCreds({
-      eMail: "",
+      email: "",
       password: ""
     })
 
@@ -66,10 +66,10 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Dirección de correo electrónico"
-              name="eMail"
+              name="email"
               autoComplete="email"
               autoFocus
-              value={creds.eMail}
+              value={creds.email}
               onChange={handleChange}
             />
             <TextField
@@ -89,7 +89,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 3}}
-              disabled={creds.eMail.trim() === "" || !creds.eMail.includes("@") || creds.password.trim() === "" ? true : false}
+              disabled={creds.email.trim() === "" || !creds.email.includes("@") || creds.password.trim() === "" ? true : false}
             >
               Iniciar sesión
             </Button>
