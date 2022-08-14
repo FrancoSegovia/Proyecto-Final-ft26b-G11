@@ -31,7 +31,7 @@ export default function Navbar() {
             </Typography>
             <Link to="/SignIn" style={{textDecoration:"none"}}>
               <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
-                  Iniciar Sesión
+                  Cerrar Sesión
                   <IconButton style={{ color: "white" }}>
                     <PersonIcon/>
                   </IconButton>

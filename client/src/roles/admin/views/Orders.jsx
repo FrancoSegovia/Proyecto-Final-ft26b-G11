@@ -104,7 +104,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Control de clientes
+              Registro de compras
             </Typography>
 
           </Toolbar>
@@ -143,7 +143,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              <UserGrid/>
+              {/* <UserGrid/> */}
             </Grid>
           </Container>
         </Box>

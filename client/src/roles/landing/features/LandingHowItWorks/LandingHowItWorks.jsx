@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Icon } from "@mui/material";
 import Container from "@mui/material/Container";
 import Button from "../Button/Button.jsx";
 import Typography from "../Typography/Typography.jsx";
 import { Link } from "react-router-dom";
+import { ShoppingCart, AddCard as AddCardIcon, AccessTime as AccessTimeIcon} from "@mui/icons-material";
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 
 const item = {
   display: "flex",
@@ -14,7 +16,7 @@ const item = {
 };
 
 const number = {
-  fontSize: 24,
+  fontSize: 30,
   fontFamily: "default",
   color: "#1976d2",
   fontWeight: "medium",
@@ -28,10 +30,12 @@ const image = {
 export default function LandingHowItWorks() {
 
   return (
+    <>
     <Box
       component="section"
       sx={{ display: "flex", bgcolor: "white", overflow: "hidden" }}
     >
+      
       <Container
         sx={{
           mt: 10,
@@ -53,52 +57,35 @@ export default function LandingHowItWorks() {
             opacity: 0.7,
           }}
         />
-        <Typography variant="h4" marked="center" component="h2" sx={{ mb: 14 }}>
+        <Typography variant="h4" marked="center" component="h2" sx={{ mb: 14, color:"#1976d2" }}>
           ¿Cómo funciona?
         </Typography>
         <div>
           <Grid container spacing={5}>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
+                <ShoppingCart sx={{fontSize:"100px", translate:"0px -30px", color:"#1976d2"}}/>
                 <Box sx={number}>1.</Box>
-                <Box
-                  component="img"
-                  src="/static/themes/onepirate/productHowItWorks1.svg"
-                  alt="suitcase"
-                  sx={image}
-                />
-                <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                <Typography variant="h5" align="center" sx={{color:"#1976d2"}}>
+                  Ingrese a la página y agregue productos a su carrito.
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
+                <AddCardIcon  sx={{fontSize:"100px", translate:"0px -30px", color:"#1976d2"}}/>
                 <Box sx={number}>2.</Box>
-                <Box
-                  component="img"
-                  src="/static/themes/onepirate/productHowItWorks2.svg"
-                  alt="graph"
-                  sx={image}
-                />
-                <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited
-                  quantities, so be quick.
+                <Typography variant="h5" align="center" sx={{color:"#1976d2"}}>
+                  Ingrese un método de pago y siga los pasos para completar sus credenciales.
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
+                <DirectionsBikeIcon sx={{fontSize:"100px", translate:"0px -30px", color:"#1976d2"}}/>
                 <Box sx={number}>3.</Box>
-                <Box
-                  component="img"
-                  src="/static/themes/onepirate/productHowItWorks3.svg"
-                  alt="clock"
-                  sx={image}
-                />
-                <Typography variant="h5" align="center">
-                  {"New offers every week. New experiences, new surprises. "}
-                  {"Your Sundays will no longer be alike."}
+                <Typography variant="h5" align="center" sx={{color:"#1976d2"}}>
+                  ¡Listo! Un Clicker estará llevando el pedido hasta su casa.
                 </Typography>
               </Box>
             </Grid>
@@ -116,5 +103,6 @@ export default function LandingHowItWorks() {
         </Link>
       </Container>
     </Box>
+    </>
   );
 }
