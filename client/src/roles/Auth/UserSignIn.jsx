@@ -54,11 +54,11 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Iniciar sesión
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -66,7 +66,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Dirección de correo electrónico"
               name="eMail"
               autoComplete="email"
               autoFocus
@@ -78,7 +78,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -89,23 +89,24 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 2, mb: 3}}
+              disabled={creds.eMail.trim() === "" || !creds.eMail.includes("@") || creds.password.trim() === "" ? true : false}
             >
-              Sign In
+              Iniciar sesión
             </Button>
-             <Grid container justifyContent="flex-end">
+             <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
               <Grid item>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/landing" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>
                 </Link>
               </Grid>
             </Grid>
-            <Grid container>
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/" variant="body2">
-                  "Don't have an account? Sign Up"
+                <Link to="/SignUp" style={{ textDecoration: "none"}}>
+                  ¿Aún no estas registrado? ¡Registrarse!
                 </Link>
               </Grid>
             </Grid>

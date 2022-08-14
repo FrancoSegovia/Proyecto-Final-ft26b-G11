@@ -66,11 +66,11 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registro
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -81,7 +81,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="name"
-                  label="First Name"
+                  label="Nombre"
                   autoFocus
                   onChange={handleChange}
                   value={user.name}
@@ -92,7 +92,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Apellido"
                   name="lastName"
                   autoComplete="family-name"
                   onChange={handleChange}
@@ -104,7 +104,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="eMail"
-                  label="Email Address"
+                  label="Dirección de correo electrónico"
                   name="eMail"
                   autoComplete="eMail"
                   onChange={handleChange}
@@ -116,7 +116,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Contraseña"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -130,25 +130,25 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                disabled= {!user.name.length || !user.lastName.length || !user.eMail.length || !user.password.length}
+                sx={{ mt: 2, mb: 3 }}
+                disabled= {!user.name.length || !user.lastName.length || !user.eMail.length || !user.eMail.includes("@") || !user.eMail.includes(".com") || !user.password.length}
               >
-                Sign Up
+                iniciar sesión
               </Button>
             </Link>
-             <Grid container justifyContent="flex-end">
+             <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
               <Grid item>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/landing" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>
                 </Link>
               </Grid>
             </Grid>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/" variant="body2">
-                  Already have an account? Sign in
+                <Link to="/SignIn" style={{ textDecoration: "none"}}>
+                  ¿Ya tienes una cuenta? ¡Inicia sesión!
                 </Link> 
               </Grid> 
             </Grid>
