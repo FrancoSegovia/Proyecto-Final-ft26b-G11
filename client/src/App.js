@@ -25,13 +25,13 @@ export default function App() {
   return (
     <div>
       <Routes>
-        <Route element={<ProtectedLanding />}>
+        {/* <Route element={<ProtectedLanding />}> */}
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/SignUp" element={<UserSignUp />} />
           <Route exact path="/SignIn" element={<UserSignIn />} />
-        </Route>
+        {/* </Route> */}
 
-        <Route element={<ProtectedRoutes />}>
+        {/* <Route element={<ProtectedRoutes />}> */}
           <Route exact path="/user/home" element={<Home />} />
           <Route exact path="/user/pay" element={<Payment />} />
 
@@ -45,7 +45,7 @@ export default function App() {
           <Route exact path="/owner/create" element={<CreateStore />} />
 
           <Route exact path="/delivery" element={<ClickerHome />} />
-        </Route>
+        {/* </Route> */}
       </Routes>
     </div>
   );
