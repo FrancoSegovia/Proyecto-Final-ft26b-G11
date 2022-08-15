@@ -6,7 +6,6 @@ const userController = require("../routes/controllers/controller_users")
 
 router.post("/signup", ownerController.signup); //*REGISTRO
 router.get("/confirm/:token", ownerController.confirmAccount); //*EMAIL Y VERIFICACION
-router.post("/login", userController.login); //*LOGUEO
 
 router.get("/currentOwner", isAuthenticated, ownerController.currentOwner); //*DETAIL OWNER
 router.put("/currentOwner/update/:id",isAuthenticated,ownerController.updateCurrentOwner); //* UPDATE OWNER

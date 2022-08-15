@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
-const ownerSchema = require("../../schema/Owner");
 const userSchema = require("../../schema/User");
-const deliverySchema = require("../../schema/Delivery");
-const productSchema = require("../../schema/Product");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -92,13 +89,15 @@ const login = async (req, res) => {
     correctModel = await User.findOne({ email });
     console.log(correctModel);
 
-    if (!correctModel) throw new Error("incorrect credentials");
-    if (!correctModel.emailVerified) throw new Error("user is not confirmed");
-    if (correctModel.isBanned === true) throw new Error("user is banned");
-    const isMatch = bcrypt.compareSync(password, correctModel.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
     if (correctModel !== null) {
+      if (!correctModel.emailVerified)
+        return res.status(400).send({ message: "Email is not verified" });
+      if (correctModel.isBanned === true)
+        return res.status(400).send({ message: "User banned" });
+      const isMatch = bcrypt.compareSync(password, correctModel.password);
+      if (!isMatch)
+        return res.status(400).send({ message: "Incorrect password" });
+
       const userObject = {
         _id: correctModel._id,
         direction: correctModel.direction,
@@ -117,7 +116,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return accessToken;
+      return res.status(200).send({ accessToken });
     }
   }
 
@@ -126,13 +125,15 @@ const login = async (req, res) => {
     correctModel = await Delivery.findOne({ email });
     console.log(correctModel);
 
-    if (!correctModel) throw new Error("incorrect credentials");
-    if (!correctModel.emailVerified) throw new Error("user is not confirmed");
-    if (correctModel.isBanned === true) throw new Error("user is banned");
-    const isMatch = bcrypt.compareSync(password, correctModel.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
     if (correctModel !== null) {
+      if (!correctModel.emailVerified)
+        return res.status(400).send({ message: "Email is not verified" });
+      if (correctModel.isBanned === true)
+        return res.status(400).send({ message: "Delivery banned" });
+      const isMatch = bcrypt.compareSync(password, correctModel.password);
+      if (!isMatch)
+        return res.status(400).send({ message: "Incorrect password" });
+
       const userObject = {
         _id: correctModel._id,
         direction: correctModel.direction,
@@ -151,7 +152,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return accessToken;
+      return res.status(200).send({ accessToken });
     }
   }
   if (await Owner.find({ email: req.body.email })) {
@@ -159,13 +160,15 @@ const login = async (req, res) => {
     correctModel = await Owner.findOne({ email });
     console.log(correctModel);
 
-    if (!correctModel) throw new Error("incorrect credentials");
-    if (!correctModel.emailVerified) throw new Error("user is not confirmed");
-    if (correctModel.isBanned === true) throw new Error("user is banned");
-    const isMatch = bcrypt.compareSync(password, correctModel.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
     if (correctModel !== null) {
+      if (!correctModel.emailVerified)
+        return res.status(400).send({ message: "Email is not verified" });
+      if (correctModel.isBanned === true)
+        return res.status(400).send({ message: "Owner banned" });
+      const isMatch = bcrypt.compareSync(password, correctModel.password);
+      if (!isMatch)
+        return res.status(400).send({ message: "Incorrect password" });
+
       const userObject = {
         _id: correctModel._id,
         direction: correctModel.direction,
@@ -184,49 +187,49 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return accessToken;
+      return res.status(200).send({ accessToken });
     }
   }
+  if (await Admin.find({ email: req.body.email })) {
+    console.log("correctModel");
+    correctModel = await User.findOne({ email });
+    console.log(correctModel);
+
+    if (correctModel !== null) {
+      if (!correctModel.emailVerified)
+        return res.status(400).send({ message: "Email is not verified" });
+      if (correctModel.isBanned === true)
+        return res.status(400).send({ message: "User banned" });
+      const isMatch = bcrypt.compareSync(password, correctModel.password);
+      if (!isMatch)
+        return res.status(400).send({ message: "Incorrect password" });
+
+      const userObject = {
+        _id: correctModel._id,
+        direction: correctModel.direction,
+        type: correctModel.type,
+        email: correctModel.email,
+        emailVerified: correctModel.emailVerified,
+        name: correctModel.name,
+        lastname: correctModel.lastname,
+      };
+
+      const accessToken = jwt.sign(
+        Object.assign({}, userObject),
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: 60 * 60 * 10,
+        }
+      );
+      console.log(accessToken);
+      return res.status(200).send({ accessToken });
+    }
+  }
+  if (!correctModel)
+    return res.status(400).send({ message: "Incorrect credentials" });
 };
-
-// correctModel.then((user) => {
-
-// console.log(userObject);
-
-// }
-
 //!-------------------------------------
 
-// function login(email, password, correctModel) {
-//   if (!isValidEmail(email)) throw new Error("email is invalid");
-
-//   return correctModel.findOne({ email }).then((user) => {
-//     if (!user) throw new Error("incorrect credentials");
-//     if (!user.emailVerified) throw new Error("user is not confirmed");
-//     if (user.isBanned === true) throw new Error("user is banned")
-//     const isMatch = bcrypt.compareSync(password, user.password);
-//     if (!isMatch) throw new Error("incorrect credentials");
-
-//     const userObject = {
-//       _id: user._id,
-//       type: user.type,
-//       email: user.email,
-//       emailVerified: user.emailVerified,
-//       name: user.name,
-//       lastname: user.lastname,
-//     };
-//     const accessToken = jwt.sign(
-//       Object.assign({}, userObject),
-//       process.env.TOKEN_SECRET,
-//       {
-//         expiresIn: 60 * 60 * 10,
-//       }
-//     );
-//     return {
-//       accessToken,
-//     };
-//   });
-// }
 //!-------------------------------------
 
 const currentUser = (req, res) => {

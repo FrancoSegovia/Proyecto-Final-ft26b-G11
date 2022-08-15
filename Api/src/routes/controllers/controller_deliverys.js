@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const deliverySchema = require("../../schema/Delivery");
-const localSchema = require("../../schema/Local");
-const productSchema = require("../../schema/Product");
 const bcrypt = require("bcrypt");
 //!-------------------------------------
 
@@ -50,32 +48,7 @@ const confirmAccount = (req, res) => {
 };
 
 //!-------------------------------------
-//!-------------------------------------
 
-const login = (req, res) => {
-  if (!req.body.email)
-    return res
-      .status(200)
-      .send({ success: false, error: "email is not provided" });
-  if (!req.body.password)
-    return res
-      .status(200)
-      .send({ success: false, error: "password is not provided" });
-  const Delivery = getModelByName("Delivery");
-  try {
-    Delivery.login(req.body.email, req.body.password)
-      .then((data) => {
-        res.status(200).send(data);
-      })
-      .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
-      );
-  } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
-  }
-};
-
-//!-------------------------------------
 
 const currentDelivery = (req, res) => {
     const {id} = req.params;
@@ -100,4 +73,4 @@ const updatecurrentDelivery = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-module.exports = { signup,confirmAccount,login, currentDelivery, updatecurrentDelivery };
+module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery };

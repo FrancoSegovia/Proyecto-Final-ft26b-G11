@@ -157,40 +157,9 @@ function confirmAccount(token) {
   });
 }
 
-function login(email, password, correctModel) {
-  if (!isValidEmail(email)) throw new Error("email is invalid");
-
-  return correctModel.findOne({ email }).then((user) => {
-    if (!user) throw new Error("incorrect credentials");
-    if (!user.emailVerified) throw new Error("user is not confirmed");
-    if (user.isBanned === true) throw new Error("user is banned")
-    const isMatch = bcrypt.compareSync(password, user.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
-    const userObject = {
-      _id: user._id,
-      type: user.type,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      name: user.name,
-      lastname: user.lastname,
-    };
-    const accessToken = jwt.sign(
-      Object.assign({}, userObject),
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: 60 * 60 * 10,
-      }
-    );
-    return {
-      accessToken,
-    };
-  });
-}
 
 schema.statics.signup = signup;
 schema.statics.sendConfirmationEmail = sendConfirmationEmail;
 schema.statics.confirmAccount = confirmAccount;
-schema.statics.login = login;
 
 module.exports = model("User", schema);

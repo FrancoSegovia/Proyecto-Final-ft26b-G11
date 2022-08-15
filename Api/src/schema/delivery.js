@@ -34,14 +34,14 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
-    // transport: {
-    //   type: String,
-    //   required: true,
-    // },
-    // tel: {
-    //   type: Number,
-    //   required: true,
-    // },
+    vehicle: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
     // shipments: {
     //   type: Number,
     //   required: true,
@@ -114,40 +114,9 @@ function confirmAccount(token) {
   });
 }
 
-function login(email, password) {
-  if (!isValidEmail(email)) throw new Error("email is invalid");
-
-  return this.findOne({ email }).then((delivery) => {
-    if (!delivery) throw new Error("incorrect credentials");
-    if (!delivery.emailVerified) throw new Error("delivery is not confirmed");
-    if (delivery.isBanned === true) throw new Error("delivery is banned")
-    const isMatch = bcrypt.compareSync(password, delivery.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
-    const deliveryObject = {
-      _id: delivery._id,
-      email: delivery.email,
-      emailVerified: delivery.emailVerified,
-      name: delivery.name,
-      lastname: delivery.lastname,
-    };
-    const accessToken = jwt.sign(
-      Object.assign({}, deliveryObject),
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: 60 * 60 * 10,
-      }
-    );
-    return {
-      accessToken,
-    };
-  });
-}
-
 schema.statics.signup = signup;
 schema.statics.sendConfirmationEmail = sendConfirmationEmail;
 schema.statics.confirmAccount = confirmAccount;
-schema.statics.login = login;
 
 module.exports = model("Delivery", schema);
 

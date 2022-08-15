@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post("/signup", userController.signup); //*REGISTRO
 router.get("/confirm/:token", userController.confirmAccount); //*EMAIL Y VERIFICACION
-router.post("/login", userController.login); //*LOGUEO
 
 router.get("/currentUser/:id", isAuthenticated, userController.currentUser); //*DETAIL USER
 router.put("/currentUser/update/:id",isAuthenticated, userController.updateCurrentUser); //* UPDATE USER

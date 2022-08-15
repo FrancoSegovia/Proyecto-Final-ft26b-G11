@@ -6,16 +6,6 @@ const { isValidEmail } = require("../routes/controllers/helpers");
 
 const schema = Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastname: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     password: {
       type: String,
       required: true,
@@ -28,11 +18,7 @@ const schema = Schema(
     },
     emailVerified: {
       type: Boolean,
-      default: false,
-    },
-    isBanned: {
-      type: Boolean,
-      default: false,
+      default: true,
     },
   },
   { collection: "admins" }

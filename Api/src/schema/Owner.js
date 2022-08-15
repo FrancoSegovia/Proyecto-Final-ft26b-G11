@@ -117,35 +117,35 @@ function confirmAccount(token) {
   });
 }
 
-// function login(email, password) {
-//   if (!isValidEmail(email)) throw new Error("email is invalid");
+function login(email, password) {
+  if (!isValidEmail(email)) throw new Error("email is invalid");
 
-//   return this.findOne({ email }).then((owner) => {
-//     if (!owner) throw new Error("incorrect credentials");
-//     if (!owner.emailVerified) throw new Error("owner is not confirmed");
-//     if (user.isBanned === true) throw new Error("user is banned")
-//     const isMatch = bcrypt.compareSync(password, owner.password);
-//     if (!isMatch) throw new Error("incorrect credentials");
+  return this.findOne({ email }).then((owner) => {
+    if (!owner) throw new Error("incorrect credentials");
+    if (!owner.emailVerified) throw new Error("owner is not confirmed");
+    if (user.isBanned === true) throw new Error("user is banned")
+    const isMatch = bcrypt.compareSync(password, owner.password);
+    if (!isMatch) throw new Error("incorrect credentials");
 
-//     const ownerObject = {
-//       _id: owner._id,
-//       email: owner.email,
-//       emailVerified: owner.emailVerified,
-//       name: owner.name,
-//       lastname: owner.lastname,
-//     };
-//     const accessToken = jwt.sign(
-//       Object.assign({}, ownerObject),
-//       process.env.TOKEN_SECRET,
-//       {
-//         expiresIn: 60 * 60 * 10,
-//       }
-//     );
-//     return {
-//       accessToken,
-//     };
-//   });
-// }
+    const ownerObject = {
+      _id: owner._id,
+      email: owner.email,
+      emailVerified: owner.emailVerified,
+      name: owner.name,
+      lastname: owner.lastname,
+    };
+    const accessToken = jwt.sign(
+      Object.assign({}, ownerObject),
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: 60 * 60 * 10,
+      }
+    );
+    return {
+      accessToken,
+    };
+  });
+}
 
 function findOwnerById(_id) {
   return this.findById(_id).then((owner) => {
