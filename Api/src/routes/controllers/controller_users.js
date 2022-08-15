@@ -193,9 +193,7 @@ const login = async (req, res) => {
     }
   }
   if (await Admin.find({ email: req.body.email })) {
-    console.log("correctModel");
     correctModel = await Admin.findOne({ email });
-    console.log(correctModel);
 
     if (correctModel !== null) {
       if (password !== correctModel.password)
