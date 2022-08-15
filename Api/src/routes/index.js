@@ -5,7 +5,6 @@ const deliveryRoute = require("./delivery");
 const usersRoute = require("./user");
 const adminRoute = require("./admin");
 const cart = require("./cart")
-const product = require("./products")
 const userController = require("../routes/controllers/controller_users")
 
 const router = Router();

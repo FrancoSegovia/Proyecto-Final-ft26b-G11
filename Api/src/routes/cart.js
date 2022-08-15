@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.delete("/products-cart/:productId", controllers.deleteProduct)
 router.get("/products", controllers.getProduct )
-router.get("/products-cart", controllers.getProductCart)
+router.get("/products-cart/:id", controllers.getProductCart)
 
 // RUTA POST PARA AGREGAR PRODUCTOS AL CARRITO
 
