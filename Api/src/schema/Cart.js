@@ -20,7 +20,7 @@ const schema =  Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        required: false,
+        required: true,
       }, 
 }, { collection: "carts" } 
 );
