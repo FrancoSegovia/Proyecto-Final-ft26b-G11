@@ -31,7 +31,8 @@ export default function SignUp() {
   email: "",
   password: "",
   phone: null,
-  // vehicle: ""
+  direction:"",
+  vehicle: ""
   });
 
   useEffect(() => {
@@ -55,7 +56,8 @@ export default function SignUp() {
         email: "",
         password: "",
         phone: null,
-        // vehicle: ""
+        direction:"",
+        vehicle: ""
     })
     navigate("/SignIn", { replace: true })
   };
@@ -131,6 +133,22 @@ export default function SignUp() {
                   value={user.email}
                 />
               </Grid>
+
+              {user.type === "user" && (
+                <Grid item xs={12}>
+                  <TextField
+                  required
+                  fullWidth
+                  name="direction"
+                  label="Dirección"
+                  id="direction"
+                  autoComplete="new-direction"
+                  onChange={handleChange}
+                  value={user.direction}
+                />
+                </Grid>
+              )}
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -144,6 +162,7 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
+              
               {(user.type === "delivery" || user.type === "users") && (
               <Grid item xs={12}>
                 <TextField
@@ -159,14 +178,18 @@ export default function SignUp() {
               </Grid>
               )}
 
-              <Grid item xs={12}>
+              
               {user.type === "delivery" && (
+                <Grid item xs={12}>
                 <Select fullWidth value={user.vehicle} onChange={onSelect} name={"vehicle"} >
                   <MenuItem value={"AUTO"}>Auto</MenuItem>
                   <MenuItem value={"MOTO"}>Moto</MenuItem>
                 </Select>
+                </Grid>
               )}
-              </Grid>
+              
+
+              
               
             </Grid>
             {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
