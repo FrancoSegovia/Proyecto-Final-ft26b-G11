@@ -191,11 +191,14 @@ export function signUpDelivery(user) {
 }
 
 export const signIn = (creds) => {
+  console.log("estoy en la action")
   return (dispatch) => {
     axios
-      .post("http://localhost:3001/account/user/login", creds)
+      .post("http://localhost:3001/account/login", creds)
       .then((token) => {
+        console.log(token.data)
         localStorage.setItem("token", token.data);
+        console.log(localStorage.getItem("token"))
         dispatch({
           type: SIGN_IN,
           payload: token.data,

@@ -33,7 +33,7 @@ export default function SignIn() {
       email: "",
       password: ""
     })
-
+    navigate('/');
   };
 
 
