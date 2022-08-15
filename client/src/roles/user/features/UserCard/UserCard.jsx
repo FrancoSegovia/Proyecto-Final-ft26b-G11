@@ -103,7 +103,7 @@ export default function UserCard({ shop }) {
                 : "Este negocio no cuenta con una descripción."}
             </Typography>
 
-            <Typography
+            {/* <Typography
               id="transition-modal-title"
               style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
               variant="h5"
@@ -113,7 +113,7 @@ export default function UserCard({ shop }) {
               {shop.products.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
-            </Typography>
+            </Typography> */}
 
             <Container
               style={{
@@ -126,7 +126,7 @@ export default function UserCard({ shop }) {
                 gap:"50px"
               }}
             >
-              {shop.products.map((product) => {
+              {/* {shop.products.map((product) => {
                 return (
                   <div key={product._id}>
                     <Card
@@ -179,7 +179,7 @@ export default function UserCard({ shop }) {
                     </Card>
                   </div>
                 );
-              })}
+              })} */}
             </Container>
           </Box>
         </Fade>
