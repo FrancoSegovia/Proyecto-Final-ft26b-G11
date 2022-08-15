@@ -117,7 +117,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return res.status(200).send({ accessToken });
+      return res.status(200).json(accessToken);
     }
   }
 

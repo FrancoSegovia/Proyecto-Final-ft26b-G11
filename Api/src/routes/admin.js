@@ -17,6 +17,4 @@ router.delete('/users/:id', adminController.deleteUser) //*DELETE USER
 router.delete('/owner/:id', isAuthenticated, adminController.deleteOwner) //*DELETE OWNER
 router.delete('/delivery/:id', isAuthenticated, adminController.deleteDelivery) //*DELETE DELIVERY
 
-//!TRAER PRODUCTOS SEPARADOS POR LOCAL
-
 module.exports = router;
