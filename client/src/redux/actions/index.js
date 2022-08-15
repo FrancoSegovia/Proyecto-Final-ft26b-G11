@@ -23,7 +23,6 @@ export const SIGN_OUT = "SIGN_OUT";
 export const USER_LOADED = "USER_LOADED";
 ////////////////////////////////////////////////
 
-
 export const getAllShops = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/local")
@@ -149,10 +148,13 @@ export const errorCleaner = () => {
 
 ////////////////////////////////////////////////
 
-export function signUpOwner({name, lastname, email, password}) {
+export function signUpOwner({ name, lastname, email, password }) {
   return async function () {
     try {
-      let respuesta = await axios.post("http://localhost:3001/account/owner/signup", {name, lastname, email, password});
+      let respuesta = await axios.post(
+        "http://localhost:3001/account/owner/signup",
+        { name, lastname, email, password }
+      );
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -163,7 +165,10 @@ export function signUpOwner({name, lastname, email, password}) {
 export function signUpUser(user) {
   return async function () {
     try {
-      let respuesta = await axios.post("http://localhost:3001/account/user/signup",user);
+      let respuesta = await axios.post(
+        "http://localhost:3001/account/user/signup",
+        user
+      );
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -174,7 +179,10 @@ export function signUpUser(user) {
 export function signUpDelivery(user) {
   return async function () {
     try {
-      let respuesta = await axios.post("http://localhost:3001/account/signup/delivery",user);
+      let respuesta = await axios.post(
+        "http://localhost:3001/account/signup/delivery",
+        user
+      );
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -188,7 +196,6 @@ export const signIn = (creds) => {
       .post("http://localhost:3001/account/user/login", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
-
         dispatch({
           type: SIGN_IN,
           payload: token.data,
@@ -201,8 +208,7 @@ export const signIn = (creds) => {
 export const signOut = () => {
   return (dispatch) => {
     dispatch({
-      type: SIGN_OUT
-    })
-  }
-}
-
+      type: SIGN_OUT,
+    });
+  };
+};
