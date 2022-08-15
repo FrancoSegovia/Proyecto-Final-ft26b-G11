@@ -127,7 +127,7 @@ const deleteUser = (req, res) => {
     });
   });
 };
-
+//!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 const deleteAdmin = (req, res) => {
   const { id } = req.params;
 

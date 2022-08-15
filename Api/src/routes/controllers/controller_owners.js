@@ -52,28 +52,28 @@ const confirmAccount = (req, res) => {
 //!-------------------------------------
 //!-------------------------------------
 
-const login = (req, res) => {
-  if (!req.body.email)
-    return res
-      .status(200)
-      .send({ success: false, error: "email is not provided" });
-  if (!req.body.password)
-    return res
-      .status(200)
-      .send({ success: false, error: "password is not provided" });
-  const Owner = getModelByName("Owner");
-  try {
-    Owner.login(req.body.email, req.body.password)
-      .then((data) => {
-        res.status(200).send(data);
-      })
-      .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
-      );
-  } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
-  }
-};
+// const login = (req, res) => {
+//   if (!req.body.email)
+//     return res
+//       .status(200)
+//       .send({ success: false, error: "email is not provided" });
+//   if (!req.body.password)
+//     return res
+//       .status(200)
+//       .send({ success: false, error: "password is not provided" });
+//   const Owner = getModelByName("Owner");
+//   try {
+//     Owner.login(req.body.email, req.body.password)
+//       .then((data) => {
+//         res.status(200).send(data);
+//       })
+//       .catch((error) =>
+//         res.status(200).send({ success: false, error: error.message })
+//       );
+//   } catch (error) {
+//     res.status(200).send({ success: false, error: error.message });
+//   }
+// };
 
 //!-------------------------------------
 
@@ -223,7 +223,7 @@ const updateCurrentOwner = (req, res) => {
 module.exports = {
   signup,
   confirmAccount,
-  login,
+  // login,
   currentOwner,
   getLocal,
   getLocalById,

@@ -3,12 +3,21 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const { isValidEmail } = require("../routes/controllers/helpers");
+const ownerSchema = require("../schema/Owner");
+const userSchema = require("../schema/User");
+const deliverySchema = require("../schema/Delivery")
+const productSchema = require("../schema/Product");
 
 const schema = Schema(
   {
     type: {
       type: String,
       required: false,
+      default: "user"
+    },
+    direction: {
+      type: String,
+      required: true,
     },
     name: {
       type: String,
@@ -117,6 +126,7 @@ function signup(userInfo) {
       if (user) throw new Error("user already exists");
 
       const newUser = {
+        direction: userInfo.direction,
         type: userInfo.type,
         email: userInfo.email,
         password: bcrypt.hashSync(userInfo.password, 9),
@@ -147,10 +157,10 @@ function confirmAccount(token) {
   });
 }
 
-function login(email, password) {
+function login(email, password, correctModel) {
   if (!isValidEmail(email)) throw new Error("email is invalid");
 
-  return this.findOne({ email }).then((user) => {
+  return correctModel.findOne({ email }).then((user) => {
     if (!user) throw new Error("incorrect credentials");
     if (!user.emailVerified) throw new Error("user is not confirmed");
     if (user.isBanned === true) throw new Error("user is banned")
