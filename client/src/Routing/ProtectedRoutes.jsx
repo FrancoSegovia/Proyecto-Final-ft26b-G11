@@ -1,9 +1,8 @@
 import { Navigate, Outlet } from "react-router";
-import jwtDecode from "jwt-decode";
 
 const useAuth = () => {
+  console.log("hola")
   if (localStorage.getItem("token") !== null) {
-    console.log(jwtDecode(localStorage.getItem("token")));
     return true;
   } else return false;
 };

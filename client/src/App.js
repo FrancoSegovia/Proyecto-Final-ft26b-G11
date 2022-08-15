@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import { loadUser } from "./redux/actions/index";
@@ -26,22 +26,23 @@ import Orders from "./roles/admin/views/Orders";
 import ClickerHome from "./roles/delivery/views/ClickerHome";
 
 export default function App() {
+
   return (
     <div>
       <Routes>
-        {/* <Route element={<ProtectedLanding />}> */}
+        <Route element={<ProtectedLanding />}>
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/SignUp" element={<UserSignUp />} />
           <Route exact path="/SignIn" element={<UserSignIn />} />
-        {/* </Route> */}
+        </Route>
 
-        {/* <Route element={<ProtectedRoutes />}> */}
-          {/* <Route element={<ProtectedUser />}> */}
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedUser />}>
             <Route exact path="/user/home" element={<Home />} />
             <Route exact path="/user/pay" element={<Payment />} />
-          {/* </Route> */}
+          </Route>
 
-          <Route elment={<ProtectedAdmin />}>
+          <Route element={<ProtectedAdmin />}>
             <Route exact path="/admin/shops" element={<Shops />} />
             <Route exact path="/admin/users" element={<Users />} />
             <Route exact path="/admin/owners" element={<Owners />} />
@@ -57,7 +58,7 @@ export default function App() {
           <Route element={<ProtectedDelivery />}>
             <Route exact path="/delivery" element={<ClickerHome />} />
           </Route>
-        {/* </Route> */}
+        </Route>
       </Routes>
     </div>
   );
