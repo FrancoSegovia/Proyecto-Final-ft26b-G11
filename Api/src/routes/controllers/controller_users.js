@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const admindSchema = require("../../schema/Admin")
 
 const get = (req, res) => {
   const { name } = req.query;
