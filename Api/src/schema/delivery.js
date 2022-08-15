@@ -6,6 +6,11 @@ const { isValidEmail } = require("../routes/controllers/helpers");
 
 const schema = Schema(
   {
+    type: {
+      type: String,
+      required: false,
+      default: "delivery"
+    },
     name: {
       type: String,
       required: true,
@@ -42,13 +47,35 @@ const schema = Schema(
       type: Number,
       required: true,
     },
-    // shipments: {
-    //   type: Number,
-    //   required: true,
-    // },
   },
   { collection: "deliverys" }
 );
+
+
+function signup(deliveryInfo) {
+  if (!deliveryInfo.email || !isValidEmail(deliveryInfo.email))
+    throw new Error("email is invalid");
+  if (!deliveryInfo.password) throw new Error("password is required");
+  if (!deliveryInfo.name) throw new Error("name is required");
+  if (!deliveryInfo.lastname) throw new Error("lastname is required");
+
+  return this.findOne({ email: deliveryInfo.email })
+    .then((delivery) => {
+      if (delivery) throw new Error("delivery already exists");
+
+      const newDelivery = {
+        phone: deliveryInfo.phone,
+        vehicle: deliveryInfo.vehicle,
+        email: deliveryInfo.email,
+        password: bcrypt.hashSync(deliveryInfo.password, 9),
+        name: deliveryInfo.name,
+        lastname: deliveryInfo.lastname,
+      };
+      return this.create(newDelivery);
+    })
+    .then((deliveryCreated) => this.sendConfirmationEmail(deliveryCreated))
+    .then((delivery) => delivery);
+}
 
 function sendConfirmationEmail(delivery) {
   let transporter = nodemailer.createTransport({
@@ -56,7 +83,7 @@ function sendConfirmationEmail(delivery) {
     port: process.env.MAIL_PORT,
     secure: false,
     auth: {
-      delivery: process.env.MAIL_USERNAME,
+      user: process.env.MAIL_USERNAME,
       pass: process.env.MAIL_PASSWORD,
     },
   });
@@ -71,29 +98,6 @@ function sendConfirmationEmail(delivery) {
       html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
     })
     .then(() => delivery);
-}
-
-function signup(deliveryInfo) {
-  if (!deliveryInfo.email || !isValidEmail(deliveryInfo.email))
-    throw new Error("email is invalid");
-  if (!deliveryInfo.password) throw new Error("password is required");
-  if (!deliveryInfo.name) throw new Error("name is required");
-  if (!deliveryInfo.lastname) throw new Error("lastname is required");
-
-  return this.findOne({ email: deliveryInfo.email })
-    .then((delivery) => {
-      if (delivery) throw new Error("delivery already exists");
-
-      const newDelivery = {
-        email: deliveryInfo.email,
-        password: bcrypt.hashSync(deliveryInfo.password, 9),
-        name: deliveryInfo.name,
-        lastname: deliveryInfo.lastname,
-      };
-      return this.create(newDelivery);
-    })
-    .then((deliveryCreated) => this.sendConfirmationEmail(deliveryCreated))
-    .then((delivery) => delivery);
 }
 
 function confirmAccount(token) {

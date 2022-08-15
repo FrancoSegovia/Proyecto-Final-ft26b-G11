@@ -15,7 +15,7 @@ router.use("/delivery", deliveryRoute);
 router.use("/user", usersRoute);
 router.use("/admin", adminRoute);
 router.use("/cart", cart)
-router.use("/login", ownerRoute,deliveryRoute,usersRoute, userController.login)
+router.use("/login", ownerRoute,deliveryRoute,usersRoute, userController.login) //*LOGIN GENERAL
 
 
 module.exports = router;

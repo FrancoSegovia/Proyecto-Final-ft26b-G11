@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require("../routes/middlewares");
 const ownerController = require("../routes/controllers/controller_owners");
-const userController = require("../routes/controllers/controller_users")
 
 router.post("/signup", ownerController.signup); //*REGISTRO
 router.get("/confirm/:token", ownerController.confirmAccount); //*EMAIL Y VERIFICACION

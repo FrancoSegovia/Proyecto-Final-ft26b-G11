@@ -9,6 +9,7 @@ const userController = require("./controllers/controller_users");
 router.post("/login", userController.login); //*LOGUEO
 
 router.get("/local", isAuthenticated, ownerController.getLocal);//* GET ALL LOCALS
+router.get("/local/detail/:id", isAuthenticated, ownerController.getLocalById); //*DETAIL LOCAL
 router.get("/users", isAuthenticated, userController.get); //*GET ALL USERS Y BY NAME
 router.get("/owner", isAuthenticated, adminController.getOwner);//* GET ALL OWNERS Y BY NAME
 router.get("/delivery", isAuthenticated, adminController.getDelivery);//* *GET ALL DELIVERYS Y BY NAME

@@ -1,7 +1,6 @@
 const express = require("express");
 const { isAuthenticated } = require("../routes/middlewares");
 const deliveryController = require("../routes/controllers/controller_deliverys") 
-const userController = require("../routes/controllers/controller_users") 
 const router = express.Router();
 
 router.post("/signup", deliveryController.signup); //*REGISTRO
