@@ -6,9 +6,6 @@ import { Button, Card, CardContent, CardMedia, Container, Typography } from "@mu
 import UserCard from "../../user/features/UserCard/UserCard.jsx";
 import Navbar from "../../delivery/features/ClickerNavbar/ClickerNavbar";
 
-import UserShopOrder from "../../user/features/UserShopOrder/UserShopOrder.jsx";
-import UserShopFilter from "../../user/features/UserShopFilter/UserShopFilter.jsx";
-import ShoppingCart from "../../user/features/UserShoppingCart/ShoppingCart.jsx";
 
 import { Grid } from "@mui/material";
 

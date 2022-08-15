@@ -146,7 +146,7 @@ export default function Home() {
             xs={7}
             style={{ textAlign: "center" }}
           >
-            {error || !shopss.length ? (
+            {error || !shops.length ? (
               <p
                 style={{
                   fontSize: "16px",
@@ -158,10 +158,10 @@ export default function Home() {
                 No pudimos encontrar el Negocio solicitado.
               </p>
             ) : (
-              shopss.map((shop) => {
+              shops.map((shop) => {
                 return (
                   <div key={shop._id}>
-                    <UserCard shop={shop} />{" "}
+                    <UserCard shop={shop} />
                   </div>
                 );
               })
