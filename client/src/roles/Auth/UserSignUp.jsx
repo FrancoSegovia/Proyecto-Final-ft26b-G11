@@ -1,80 +1,79 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
-import { Link } from 'react-router-dom';
-import { ArrowBack } from '@mui/icons-material';
-import { Select, MenuItem } from '@mui/material';
+import { Link } from "react-router-dom";
+import { ArrowBack } from "@mui/icons-material";
+import { Select, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const theme = createTheme();
 
 export default function SignUp() {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [user, setUser] = React.useState({
-  type: "user",
-  name:"",
-  lastname: "",
-  email: "",
-  password: "",
-  phone: null,
-  direction:"",
-  vehicle: ""
+    type: "user",
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    phone: null,
+    direction: "",
+    vehicle: "",
   });
 
   useEffect(() => {
     const localS = localStorage.getItem("type");
-    setUser({...user, type:localS})
-  }, [])
-  
+    setUser({ ...user, type: localS });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(user.type === "owner"){
+    if (user.type === "owner") {
       dispatch(signUpOwner(user));
-    }else if (user.type==="user"){
-      dispatch(signUpUser(user))
-    }else dispatch(signUpDelivery(user))
+    } else if (user.type === "user") {
+      dispatch(signUpUser(user));
+    } else dispatch(signUpDelivery(user));
 
     setUser({
-        type: "user",
-        name:"",
-        lastname: "",
-        email: "",
-        password: "",
-        phone: null,
-        direction:"",
-        vehicle: ""
-    })
-    navigate("/SignIn", { replace: true })
+      type: "user",
+      name: "",
+      lastname: "",
+      email: "",
+      password: "",
+      phone: null,
+      direction: "",
+      vehicle: "",
+    });
+    navigate("/SignIn", { replace: true });
   };
 
   const handleChange = (event) => {
     event.preventDefault();
-      setUser({
-        ...user,
-        [event.target.name]: event.target.value})
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const onSelect = (event) => {
     setUser({
       ...user,
-      [event.target.name]: event.target.value
-    })
-  }
+      [event.target.name]: event.target.value,
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -83,18 +82,23 @@ export default function SignUp() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Registro
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -137,15 +141,15 @@ export default function SignUp() {
               {user.type === "user" && (
                 <Grid item xs={12}>
                   <TextField
-                  required
-                  fullWidth
-                  name="direction"
-                  label="Dirección"
-                  id="direction"
-                  autoComplete="new-direction"
-                  onChange={handleChange}
-                  value={user.direction}
-                />
+                    required
+                    fullWidth
+                    name="direction"
+                    label="Dirección"
+                    id="direction"
+                    autoComplete="new-direction"
+                    onChange={handleChange}
+                    value={user.direction}
+                  />
                 </Grid>
               )}
 
@@ -162,49 +166,60 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
-              
-              {(user.type === "delivery" || user.type === "users") && (
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="phone"
-                  label="Teléfono"
-                  id="phone"
-                  autoComplete="new-phone"
-                  onChange={handleChange}
-                  value={user.phone}
-                />
-              </Grid>
-              )}
 
-              
-              {user.type === "delivery" && (
+              {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
-                <Select fullWidth value={user.vehicle} onChange={onSelect} name={"vehicle"} >
-                  <MenuItem value={"AUTO"}>Auto</MenuItem>
-                  <MenuItem value={"MOTO"}>Moto</MenuItem>
-                </Select>
+                  <TextField
+                    required
+                    fullWidth
+                    name="phone"
+                    label="Teléfono"
+                    id="phone"
+                    autoComplete="new-phone"
+                    onChange={handleChange}
+                    value={user.phone}
+                  />
                 </Grid>
               )}
-              
 
-              
-              
+              {user.type === "delivery" && (
+                <Grid item xs={12}>
+                  <Select
+                    fullWidth
+                    value={user.vehicle}
+                    onChange={onSelect}
+                    name={"vehicle"}
+                  >
+                    <MenuItem value={"AUTO"}>Auto</MenuItem>
+                    <MenuItem value={"MOTO"}>Moto</MenuItem>
+                  </Select>
+                </Grid>
+              )}
             </Grid>
             {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
-         
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 2, mb: 3 }}
-                disabled= {!user.name.length || !user.lastname.length || !user.email.length || !user.email.includes("@") || !user.email.includes(".com") || !user.password.length}
-              >
-                Registrarme
-              </Button>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 2, mb: 3 }}
+              disabled={
+                !user.name.length ||
+                !user.lastname.length ||
+                !user.email.length ||
+                !user.email.includes("@") ||
+                !user.email.includes(".com") ||
+                !user.password.length
+              }
+            >
+              Registrarme
+            </Button>
             {/* </Link> */}
-             <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
+            <Grid
+              container
+              justifyContent="flex-end"
+              style={{ marginBottom: "15px" }}
+            >
               <Grid item>
                 <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
@@ -215,10 +230,10 @@ export default function SignUp() {
             </Grid>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/SignIn" style={{ textDecoration: "none"}}>
+                <Link to="/SignIn" style={{ textDecoration: "none" }}>
                   ¿Ya tienes una cuenta? ¡Inicia sesión!
-                </Link> 
-              </Grid> 
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Box>

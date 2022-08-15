@@ -17,7 +17,7 @@ import {
   ADD_SHOPPINGCART,
   DELETE_SHOPPINGCART,
   SIGN_OUT,
-  ALL_USERS
+  ALL_USERS,
 } from "../actions";
 
 const initialState = {
@@ -27,7 +27,7 @@ const initialState = {
   shops: [],
   shopFilter: "",
   shopOrder: "",
-  cart:[],
+  cart: [],
   error: false,
   user: {
     type: "",
@@ -37,11 +37,11 @@ const initialState = {
     eMail: "",
     _id: "",
     phone: null,
-    vehicle: ""
+    vehicle: "",
   },
-    _id: "",
-    users:[]
-  }
+  _id: "",
+  users: [],
+};
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -63,7 +63,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case ALL_USERS: {
       return {
         ...state,
-        users: payload
+        users: payload,
       };
     }
 
@@ -111,33 +111,32 @@ const reducer = (state = initialState, { type, payload }) => {
 
     /////////////////////////////////////////////////
 
-    case QUERY_ERROR: 
+    case QUERY_ERROR:
       return {
         ...state,
         error: payload,
       };
 
-    case ERROR_CLEANER: 
+    case ERROR_CLEANER:
       return {
         ...state,
         error: payload,
       };
-    
 
     /////////////////////////////////////////////////
 
     case ADD_SHOPPINGCART:
       return {
         ...state,
-        cart: [...state.cart, payload]
-      }
+        cart: [...state.cart, payload],
+      };
 
-      case DELETE_SHOPPINGCART :
-        const updatedCart = state.cart.filter((p) => p !== payload)
-        return {
-          ...state,
-          cart: [...updatedCart]
-        }
+    case DELETE_SHOPPINGCART:
+      const updatedCart = state.cart.filter((p) => p !== payload);
+      return {
+        ...state,
+        cart: [...updatedCart],
+      };
 
     /////////////////////////////////////////////////
 
@@ -145,7 +144,7 @@ const reducer = (state = initialState, { type, payload }) => {
       const data = jwtDecode(payload);
       return {
         ...state,
-        user:{
+        user: {
           ...state.user,
           token: payload,
           _id: data._id,
@@ -155,10 +154,10 @@ const reducer = (state = initialState, { type, payload }) => {
           eMail: data.email,
           phone: data.phone ? data.phone : null,
           vehicle: data.vehicle ? data.vehicle : "",
-        }
-      }
+        },
+      };
     }
- 
+
     case SIGN_OUT:
       localStorage.removeItem("token");
       return {
@@ -172,7 +171,7 @@ const reducer = (state = initialState, { type, payload }) => {
           eMail: "",
           _id: "",
           phone: null,
-          vehicle: ""
+          vehicle: "",
         },
       };
 
