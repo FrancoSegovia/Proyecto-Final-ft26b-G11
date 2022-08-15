@@ -23,10 +23,10 @@ export default function App() {
   useEffect(() => {
     console.log("hola");
     userType = localStorage.getItem("token");
+    console.log(userType.toString())
   });
 
-  console.log(userType);
-  if (userType === undefined || userType === "") {
+  if (userType === undefined || userType.type === "") {
     return (
       <div>
         <Routes>
@@ -36,7 +36,7 @@ export default function App() {
         </Routes>
       </div>
     );
-  } else if (userType === "admin") {
+  } else if (userType.type === "admin") {
     return (
       <div>
         <Routes>
@@ -49,7 +49,7 @@ export default function App() {
         </Routes>
       </div>
     );
-  } else if (userType === "user") {
+  } else if (userType.type === "user") {
     return (
       <div>
         <Routes>
@@ -58,7 +58,7 @@ export default function App() {
         </Routes>
       </div>
     );
-  } else if (userType === "owner") {
+  } else if (userType.type === "owner") {
     return (
       <div>
         <Routes>
@@ -67,7 +67,7 @@ export default function App() {
         </Routes>
       </div>
     );
-  } else if (userType === "delivery") {
+  } else if (userType.type === "delivery") {
     return (
       <div>
         <Routes>
