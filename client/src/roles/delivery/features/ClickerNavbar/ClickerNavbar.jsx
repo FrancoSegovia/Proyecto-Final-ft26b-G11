@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import {
   AppBar,
@@ -11,11 +11,19 @@ import {
   Typography,
 } from "@mui/material";
 import { AddBusiness } from "@mui/icons-material";
+import { signOut } from "../../../../redux/actions";
 
 
 export default function Navbar() {
 
   // const StyledInputBase = styled(InputBase)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLogoutClick = () => {
+    dispatch(signOut());
+    navigate("/");
+  }
 
   return (
     <div>
@@ -29,14 +37,12 @@ export default function Navbar() {
             >
               Click!
             </Typography>
-            <Link to="/SignIn" style={{textDecoration:"none"}}>
-              <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}}>
+              <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={onLogoutClick}>
                   Cerrar Sesión
                   <IconButton style={{ color: "white" }}>
                     <PersonIcon/>
                   </IconButton>
               </Button>
-            </Link>
           </Toolbar>
           
         </AppBar>

@@ -36,7 +36,7 @@ export default function UserMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title="Account settings">
+        <Tooltip title="Mi cuenta">
           <IconButton
             onClick={handleClick}
             size="small"
@@ -89,7 +89,7 @@ export default function UserMenu() {
           <Avatar style={{backgroundColor:"#b3e5fc", color:"#1976d2"}} /> Historial de compras
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem onClick={() => {navigate("/user/profile")}}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

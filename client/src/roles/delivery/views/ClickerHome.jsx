@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllShops } from "../../../redux/actions/index.js";
-import { Container, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, Container, Typography } from "@mui/material";
 
 import UserCard from "../../user/features/UserCard/UserCard.jsx";
 import Navbar from "../../delivery/features/ClickerNavbar/ClickerNavbar";
@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div style={{ marginTop: "75px", backgroundColor: "white" }}>
+      <div style={{ marginTop: "75px", backgroundColor: "white", display:"flex", flexDirection:"column", padding:"20px" }}>
         <Grid
           container
           justifyContent="center"
@@ -48,10 +48,22 @@ export default function Home() {
             style={{ textAlign: "center", backgroundColor:"green" }}
           >
             <Container>
-              SAS
+                    
             </Container>
           </Grid>
 
+       
+
+        </Grid>
+
+        <Grid
+          container
+          justifyContent="center"
+          direction="row"
+          rowSpacing={1}
+          style={{ padding: "35px 0px", backgroundColor:"red" }}
+          >
+            Juasjuas
         </Grid>
       </div>
     </>
