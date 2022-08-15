@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const localSchema = require("../../schema/Local");
 const admindSchema = require("../../schema/Admin")
 
 //!-----------------------------------------------------
