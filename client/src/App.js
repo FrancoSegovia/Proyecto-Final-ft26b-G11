@@ -44,18 +44,18 @@ export default function App() {
             <Route exact path="/user/pay" element={<Payment />} />
           {/* </Route> */}
 
-          <Route element={<ProtectedAdmin />}>
+          {/* <Route element={<ProtectedAdmin />}> */}
             <Route exact path="/admin/shops" element={<Shops />} />
             <Route exact path="/admin/users" element={<Users />} />
             <Route exact path="/admin/owners" element={<Owners />} />
             <Route exact path="/admin/clickers" element={<Clickers />} />
             <Route exact path="/admin/orders" element={<Orders />} />
-          </Route>
+          {/* </Route> */}
 
-          <Route element={<ProtectedOwner />}>
+          {/* <Route element={<ProtectedOwner />}> */}
             <Route exact path="/owner/create" element={<CreateStore />} />
             <Route exact path="/owner/create" element={<CreateStore />} />
-          </Route>
+          {/* </Route> */}
 
           {/* <Route element={<ProtectedDelivery />}> */}
             <Route exact path="/delivery" element={<ClickerHome />} />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import defaultShop from '../../../../media/defaultShop.jpg';
+import axios from "axios";
 
 import {
   Button,
@@ -22,8 +23,18 @@ export default function UserCard({ shop }) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const onCardClick = (e) => setOpen(true);
-  const onCardClose = (e) => setOpen(false);
+  const [products, setProducts] = useState([]);
+
+  const onCardClick = async () =>  {
+    setOpen(true);
+    let products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
+    setProducts(products.data);
+  };
+
+  const onCardClose = () => {
+    setOpen(false);
+    setProducts([]);
+  }
   const onButtonClick = (e) => {
     dispatch(addShoppingCart(e.target.value));
   };
@@ -104,17 +115,17 @@ export default function UserCard({ shop }) {
                 : "Este negocio no cuenta con una descripción."}
             </Typography>
 
-            {/* <Typography
+            <Typography
               id="transition-modal-title"
               style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
               variant="h5"
               component="h5"
               color="textSecondary"
             >
-              {shop.products?.length
+              {products?.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
-            </Typography> */}
+            </Typography>
 
             <Container
               style={{
@@ -127,7 +138,7 @@ export default function UserCard({ shop }) {
                 gap:"50px"
               }}
             >
-              {/* {shop.products.map((product) => {
+              {products?.map((product) => {
                 return (
                   <div key={product._id}>
                     <Card
@@ -180,7 +191,7 @@ export default function UserCard({ shop }) {
                     </Card>
                   </div>
                 );
-              })} */}
+              })}
             </Container>
           </Box>
         </Fade>
