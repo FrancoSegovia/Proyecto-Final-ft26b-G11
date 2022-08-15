@@ -1,19 +1,19 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
-import { signIn } from '../../redux/actions';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowBack } from '@mui/icons-material';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { signIn } from "../../redux/actions";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowBack } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -23,26 +23,30 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [creds, setCreds] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setTimeout(() => {
+      navigate("/admin/shops");
+    }, 2000);
+
     dispatch(signIn(creds));
     setCreds({
       email: "",
-      password: ""
-    })
-    // navigate('/user/home');
+      password: "",
+    });
   };
-
 
   const handleChange = (event) => {
     event.preventDefault();
     setCreds({
       ...creds,
-      [event.target.name]: event.target.value})
-    };
+      [event.target.name]: event.target.value,
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,18 +55,23 @@ export default function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Iniciar sesión
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -91,12 +100,22 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 3}}
-              disabled={creds.email.trim() === "" || !creds.email.includes("@") || creds.password.trim() === "" ? true : false}
+              sx={{ mt: 2, mb: 3 }}
+              disabled={
+                creds.email.trim() === "" ||
+                !creds.email.includes("@") ||
+                creds.password.trim() === ""
+                  ? true
+                  : false
+              }
             >
               Iniciar sesión
             </Button>
-             <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
+            <Grid
+              container
+              justifyContent="flex-end"
+              style={{ marginBottom: "15px" }}
+            >
               <Grid item>
                 <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
@@ -107,7 +126,7 @@ export default function SignIn() {
             </Grid>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/SignUp" style={{ textDecoration: "none"}}>
+                <Link to="/SignUp" style={{ textDecoration: "none" }}>
                   ¿Aún no estas registrado? ¡Registrarse!
                 </Link>
               </Grid>

@@ -10,7 +10,7 @@ const useAuth = () => {
 
 export default function ProtectedAdmin(){
     const [token, auth] = useAuth();
-    return auth ? (
+     return auth ? (
       <Outlet />
     ) : token.type === "user" ? (
       <Navigate to={"/user/home"} />

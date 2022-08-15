@@ -18,6 +18,7 @@ import {
   DELETE_SHOPPINGCART,
   SIGN_OUT,
   ALL_USERS,
+  GET_SHOPPINGCART,
 } from "../actions";
 
 const initialState = {
@@ -124,6 +125,11 @@ const reducer = (state = initialState, { type, payload }) => {
       };
 
     /////////////////////////////////////////////////
+
+    case GET_SHOPPINGCART:
+      return {
+        ...state,
+      };
 
     case ADD_SHOPPINGCART:
       return {
