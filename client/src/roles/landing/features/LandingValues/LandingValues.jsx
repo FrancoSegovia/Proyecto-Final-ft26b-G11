@@ -1,16 +1,23 @@
 import React from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid, IconButton } from "@mui/material";
 import Container from "@mui/material/Container";
 import Typography from "../Typography/Typography";
 import TopSvg from '../svg/TopSvg'
 import BotSvg from '../svg/BotSvg'
+import { Link } from 'react-router-dom';
+import { Person } from '@mui/icons-material/';
+import { AddBusiness } from "@mui/icons-material";
 
 const item = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
   px: 5,
+  backgroundColor:"#b3e5fc",
+  height:"36vh",
+  borderRadius:"25px",
+  color:"#1976d2",
+  gap:5
 };
 
 export default function LandingValues() {
@@ -31,25 +38,24 @@ export default function LandingValues() {
           sx={{ mt: 15, mb: 15, display: "flex", justifyContent:"center"}}
         >
           
-          <Grid container spacing={5} style={{backgroundColor:"#b3e5fc", borderRadius:"25px", justifyContent:"center", marginLeft:"5px", marginRight:"5px"}}>
-            <Grid item xs={12} md={4} >
+          <Grid container style={{borderRadius:"25px", justifyContent:"center", marginLeft:"5px", marginRight:"5px", gap:"20px"}}>
+            <Grid item xs={12} md={4}>
                 
-              <Box sx={item}>
-                <Typography variant="h5" sx={{ my: 5 }}>
+              <Box sx={item}  >
+                <Typography variant="h5" style={{marginTop:"70px"}}>
                   ¡Convertite en repartidor!
                 </Typography>
-                <Typography variant="h5" style={{padding:"0px 5px 50px 5px"}}>
-                  {
-                    "From the latest trendy boutique hotel to the iconic palace with XXL pool"
-                  }
-
-                  {
-                    ", go for a mini-vacation just a few subway stops away from your home."
-                  }
-                </Typography>
+                <Link to="/SignUp" style={{textDecoration:"none"}}>
+                  <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={() => localStorage.setItem("type", "delivery")}>
+                      ¡Quiero ser Clicker!
+                      <IconButton style={{ color: "white" }}>
+                        <Person/>
+                      </IconButton>
+                  </Button>
+                </Link>
               </Box>
             </Grid>
-            <Grid item xs={12} md={4}>
+            {/* <Grid item xs={12} md={4}>
               <Box sx={item}>
                 <Typography variant="h6" sx={{ my: 5 }}>
                   New experiences
@@ -62,18 +68,20 @@ export default function LandingValues() {
                   {"your Sundays will not be alike."}
                 </Typography>
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} md={4}>
               <Box sx={item}>
-                <Typography variant="h6" sx={{ my: 5 }}>
-                  Exclusive rates
+                <Typography variant="h5" style={{marginTop:"70px"}}>
+                  ¡Administrá tu negocio!
                 </Typography>
-                <Typography variant="h5" style={{padding:"0px 5px 50px 5px"}}>
-                  {
-                    "By registering, you will access specially negotiated rates "
-                  }
-                  {"that you will not find anywhere else."}
-                </Typography>
+                <Link to="/SignUp" style={{textDecoration:"none"}}>
+                  <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={() => localStorage.setItem("type", "owner")}>
+                      ¡Registrate como dueño!
+                      <IconButton style={{ color: "white" }}>
+                        <AddBusiness/>
+                      </IconButton>
+                  </Button>
+                </Link>
               </Box>
             </Grid>
           </Grid>

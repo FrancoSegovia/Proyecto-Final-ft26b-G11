@@ -79,6 +79,7 @@ const login = async (req, res) => {
       .send({ success: false, error: "password is not provided" });
 
   const User = getModelByName("User");
+  const Admin = getModelByName("Admin");
   const Owner = getModelByName("Owner");
   const Delivery = getModelByName("Delivery");
 
@@ -116,7 +117,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return res.status(200).send({ accessToken });
+      return res.status(200).json(accessToken);
     }
   }
 
@@ -192,26 +193,16 @@ const login = async (req, res) => {
   }
   if (await Admin.find({ email: req.body.email })) {
     console.log("correctModel");
-    correctModel = await User.findOne({ email });
+    correctModel = await Admin.findOne({ email });
     console.log(correctModel);
 
     if (correctModel !== null) {
-      if (!correctModel.emailVerified)
-        return res.status(400).send({ message: "Email is not verified" });
-      if (correctModel.isBanned === true)
-        return res.status(400).send({ message: "User banned" });
-      const isMatch = bcrypt.compareSync(password, correctModel.password);
-      if (!isMatch)
+      if (password !== correctModel.password)
         return res.status(400).send({ message: "Incorrect password" });
 
       const userObject = {
         _id: correctModel._id,
-        direction: correctModel.direction,
-        type: correctModel.type,
         email: correctModel.email,
-        emailVerified: correctModel.emailVerified,
-        name: correctModel.name,
-        lastname: correctModel.lastname,
       };
 
       const accessToken = jwt.sign(
@@ -221,12 +212,11 @@ const login = async (req, res) => {
           expiresIn: 60 * 60 * 10,
         }
       );
-      console.log(accessToken);
       return res.status(200).send({ accessToken });
     }
   }
   if (!correctModel)
-    return res.status(400).send({ message: "Incorrect credentials" });
+    return res.status(400).send({ message: "Incorrect email" });
 };
 //!-------------------------------------
 

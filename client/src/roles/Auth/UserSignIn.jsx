@@ -36,6 +36,7 @@ export default function SignIn() {
     navigate('/');
   };
 
+
   const handleChange = (event) => {
     event.preventDefault();
     setCreds({
@@ -97,7 +98,7 @@ export default function SignIn() {
             </Button>
              <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
               <Grid item>
-                <Link to="/landing" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>

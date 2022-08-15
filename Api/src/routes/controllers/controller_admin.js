@@ -1,14 +1,7 @@
 const mongoose = require("mongoose");
-const adminSchema = require("../../schema/Admin");
 const localSchema = require("../../schema/Local");
 const userSchema = require("../../schema/User");
 const deliverySchema = require("../../schema/Delivery");
-
-function getModelByName(name) {
-  return mongoose.model(name);
-}
-
-//!-------------------------------------
 
 const getOwner = (req, res) => {
   const { name } = req.query;

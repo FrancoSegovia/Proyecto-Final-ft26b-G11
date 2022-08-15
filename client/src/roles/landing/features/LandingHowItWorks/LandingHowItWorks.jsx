@@ -97,6 +97,7 @@ export default function LandingHowItWorks() {
             variant="contained"
             component="a"
             sx={{ mt: 8 }}
+            onClick={() => localStorage.setItem("type", "user")}
           >
             INGRESA AHORA
           </Button>
