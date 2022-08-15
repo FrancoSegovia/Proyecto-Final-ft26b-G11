@@ -7,6 +7,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Link } from "react-router-dom";
 
 export default function LandingHero() {
+
   return (
     <>
       <LandingHeroLayout
@@ -39,6 +40,7 @@ export default function LandingHero() {
             size="large"
             component="a"
             sx={{ minWidth: 200, backgroundColor:"#1976d2" }}
+            onClick={() => localStorage.setItem("type", "user")}
           >
             REGISTRARME
           </Button>
