@@ -7,13 +7,13 @@ function getModelByName(name) {
   return mongoose.model(name);
 }
 const signup = (req, res) => {
-  if (!req.body.delivery)
+  if (!req.body)
     return res
       .status(200)
       .send({ success: false, error: "delivery info not found" });
   const Delivery = getModelByName("Delivery");
   try {
-    Delivery.signup(req.body.delivery)
+    Delivery.signup(req.body)
       .then(() => {
         res
           .status(200)

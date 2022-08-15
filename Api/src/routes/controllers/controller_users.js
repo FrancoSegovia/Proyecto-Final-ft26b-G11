@@ -4,21 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const admindSchema = require("../../schema/Admin")
 
-const get = (req, res) => {
-  const { name } = req.query;
-  if (name) {
-    userSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
-  } else {
-    userSchema
-      .find()
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
-  }
-};
-
 //!-----------------------------------------------------
 function getModelByName(name) {
   return mongoose.model(name);
@@ -154,7 +139,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return res.status(200).send({ accessToken });
+      return res.status(200).json(accessToken);
     }
   }
   if (await Owner.find({ email: req.body.email })) {
@@ -189,7 +174,7 @@ const login = async (req, res) => {
         }
       );
       console.log(accessToken);
-      return res.status(200).send({ accessToken });
+      return res.status(200).json(accessToken);
     }
   }
   if (await Admin.find({ email: req.body.email })) {
@@ -211,15 +196,27 @@ const login = async (req, res) => {
           expiresIn: 60 * 60 * 10,
         }
       );
-      return res.status(200).send({ accessToken });
+      return res.status(200).json(accessToken);
     }
   }
   if (!correctModel)
     return res.status(400).send({ message: "Incorrect email" });
 };
 //!-------------------------------------
-
-//!-------------------------------------
+const get = (req, res) => {
+  const { name } = req.query;
+  if (name) {
+    userSchema
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  } else {
+    userSchema
+      .find()
+      .then((data) => res.json(data))
+      .catch((error) => res.json({ message: error }));
+  }
+};
 
 const currentUser = (req, res) => {
   const { id } = req.params;

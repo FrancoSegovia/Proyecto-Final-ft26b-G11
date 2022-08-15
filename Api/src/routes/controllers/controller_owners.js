@@ -9,13 +9,13 @@ function getModelByName(name) {
   return mongoose.model(name);
 }
 const signup = (req, res) => {
-  if (!req.body.owner)
+  if (!req.body)
     return res
       .status(200)
       .send({ success: false, error: "owner info not found" });
   const Owner = getModelByName("Owner");
   try {
-    Owner.signup(req.body.owner)
+    Owner.signup(req.body)
       .then(() => {
         res
           .status(200)

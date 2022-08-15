@@ -6,6 +6,11 @@ const { isValidEmail } = require("../routes/controllers/helpers");
 
 const schema = Schema(
   {
+    type: {
+      type: String,
+      required: false,
+      default: "owner"
+    },
     name: {
       type: String,
       required: true,
@@ -53,29 +58,6 @@ const schema = Schema(
 // });
 //!------NO ESTA ANDANDO--------------------
 
-function sendConfirmationEmail(owner) {
-  let transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: process.env.MAIL_PORT,
-    secure: false,
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  });
-  var token = jwt.sign({ email: owner.email }, process.env.TOKEN_SECRET);
-
-  const urlConfirm = `${process.env.APIGATEWAY_URL}/account/owner/confirm/${token}`;
-  return transporter
-    .sendMail({
-      from: process.env.MAIL_ADMIN_ADDRESS,
-      to: owner.email,
-      subject: "Bienvenido a nuestra Plataforma!",
-      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
-    })
-    .then(() => owner);
-}
-
 function signup(ownerInfo) {
   if (!ownerInfo.email || !isValidEmail(ownerInfo.email))
     throw new Error("email is invalid");
@@ -99,6 +81,29 @@ function signup(ownerInfo) {
     .then((owner) => owner);
 }
 
+function sendConfirmationEmail(owner) {
+  let transporter = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
+    secure: false,
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+    },
+  });
+  var token = jwt.sign({ email: owner.email }, process.env.TOKEN_SECRET);
+
+  const urlConfirm = `${process.env.APIGATEWAY_URL}/account/owner/confirm/${token}`;
+  return transporter
+    .sendMail({
+      from: process.env.MAIL_ADMIN_ADDRESS,
+      to: owner.email,
+      subject: "Bienvenido a nuestra Plataforma!",
+      html: `<p>Confirma tu Email <a href="${urlConfirm}">Confirmar</a></p>`,
+    })
+    .then(() => owner);
+}
+
 function confirmAccount(token) {
   var email = null;
   try {
@@ -117,35 +122,7 @@ function confirmAccount(token) {
   });
 }
 
-function login(email, password) {
-  if (!isValidEmail(email)) throw new Error("email is invalid");
 
-  return this.findOne({ email }).then((owner) => {
-    if (!owner) throw new Error("incorrect credentials");
-    if (!owner.emailVerified) throw new Error("owner is not confirmed");
-    if (user.isBanned === true) throw new Error("user is banned")
-    const isMatch = bcrypt.compareSync(password, owner.password);
-    if (!isMatch) throw new Error("incorrect credentials");
-
-    const ownerObject = {
-      _id: owner._id,
-      email: owner.email,
-      emailVerified: owner.emailVerified,
-      name: owner.name,
-      lastname: owner.lastname,
-    };
-    const accessToken = jwt.sign(
-      Object.assign({}, ownerObject),
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: 60 * 60 * 10,
-      }
-    );
-    return {
-      accessToken,
-    };
-  });
-}
 
 function findOwnerById(_id) {
   return this.findById(_id).then((owner) => {
@@ -156,7 +133,6 @@ function findOwnerById(_id) {
 schema.statics.signup = signup;
 schema.statics.sendConfirmationEmail = sendConfirmationEmail;
 schema.statics.confirmAccount = confirmAccount;
-// schema.statics.login = login;
 schema.statics.findOwnerById = findOwnerById;
 
 module.exports = model("Owner", schema);
