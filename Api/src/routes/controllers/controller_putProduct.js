@@ -22,6 +22,7 @@ const putProduct = async (req, res) => {
        await Cart.findByIdAndUpdate(_id, body, {
             new: true,
         }).then((product) => {
+            console.log("soy add", product)
             res.json({
                 message: `The product: ${product.name} was update`
             });
@@ -34,6 +35,7 @@ const putProduct = async (req, res) => {
         await Cart.findByIdAndUpdate(_id, body, {
             new: true,
         }).then((product) => {
+            console.log("soy del",product)
             res.json({
                 message: `The product: ${product.name} was update`
             });

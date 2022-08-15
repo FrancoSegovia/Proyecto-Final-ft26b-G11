@@ -2,8 +2,12 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import { loadUser } from "./redux/actions/index";
-import ProtectedRoutes from "./ProtectedRoutes";
-import ProtectedLanding from "./ProtectedLanding";
+import ProtectedRoutes from "./Routing/ProtectedRoutes";
+import ProtectedLanding from "./Routing/ProtectedLanding";
+import ProtectedUser from "./Routing/ProtectedUser";
+import ProtectedAdmin from "./Routing/ProtectedAdmin";
+import ProtectedOwner from "./Routing/ProtectedOwner";
+import ProtectedDelivery from "./Routing/ProtectedDelivery";
 
 import LandingPage from "./roles/landing/views/LandingPage/LandingPage";
 import UserSignUp from "./roles/Auth/UserSignUp.jsx";
@@ -31,21 +35,29 @@ export default function App() {
           <Route exact path="/SignIn" element={<UserSignIn />} />
         {/* </Route> */}
 
-        {/* <Route element={<ProtectedRoutes />}> */}
-          <Route exact path="/user/home" element={<Home />} />
-          <Route exact path="/user/pay" element={<Payment />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedUser />}>
+            <Route exact path="/user/home" element={<Home />} />
+            <Route exact path="/user/pay" element={<Payment />} />
+          </Route>
 
-          <Route exact path="/admin/shops" element={<Shops />} />
-          <Route exact path="/admin/users" element={<Users />} />
-          <Route exact path="/admin/owners" element={<Owners />} />
-          <Route exact path="/admin/clickers" element={<Clickers />} />
-          <Route exact path="/admin/orders" element={<Orders />} />
+          <Route elment={<ProtectedAdmin />}>
+            <Route exact path="/admin/shops" element={<Shops />} />
+            <Route exact path="/admin/users" element={<Users />} />
+            <Route exact path="/admin/owners" element={<Owners />} />
+            <Route exact path="/admin/clickers" element={<Clickers />} />
+            <Route exact path="/admin/orders" element={<Orders />} />
+          </Route>
 
-          <Route exact path="/owner/create" element={<CreateStore />} />
-          <Route exact path="/owner/create" element={<CreateStore />} />
+          <Route element={<ProtectedOwner />}>
+            <Route exact path="/owner/create" element={<CreateStore />} />
+            <Route exact path="/owner/create" element={<CreateStore />} />
+          </Route>
 
-          <Route exact path="/delivery" element={<ClickerHome />} />
-        {/* </Route> */}
+          <Route element={<ProtectedDelivery />}>
+            <Route exact path="/delivery" element={<ClickerHome />} />
+          </Route>
+        </Route>
       </Routes>
     </div>
   );

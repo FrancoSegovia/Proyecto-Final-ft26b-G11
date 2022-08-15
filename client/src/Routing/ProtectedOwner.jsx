@@ -3,13 +3,12 @@ import jwtDecode from "jwt-decode";
 
 const useAuth = () => {
   const token = jwtDecode(localStorage.getItem("token"));
-  console.log(token.type);
-  if (token === undefined) {
+  if (token.type.toLowerCase() === "owner") {
     return [token, true];
   } else return [token, false];
 };
 
-export default function ProtectedLanding() {
+export default function ProtectedOwner() {
   const [token, auth] = useAuth();
   return auth ? (
     <Outlet />
@@ -17,8 +16,6 @@ export default function ProtectedLanding() {
     <Navigate to={"/user/home"} />
   ) : token.type === "admin" ? (
     <Navigate to={"/admin/shops"} />
-  ) : token.type === "owner" ? (
-    <Navigate to={"/owner/create"} />
   ) : (
     <Navigate to={"/delivery"} />
   );
