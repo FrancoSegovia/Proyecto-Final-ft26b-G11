@@ -38,7 +38,7 @@ export const getAllShops = () => (dispatch) => {
 
 export const getQueryShops = (query) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/local?name=${query}`)
+    .get(`http://localhost:3001/account/user/local?name=${query}`)
     .then((shops) => {
       dispatch({
         type: QUERY_SHOPS,
@@ -81,6 +81,13 @@ export const getAllUsers = (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
+export const deleteUser = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/users/${id}`)
+    .catch((error) => console.error(error.message));
+};
+
 
 /////////////////////////////////////////////////
 

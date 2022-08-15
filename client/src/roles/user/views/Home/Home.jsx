@@ -19,6 +19,111 @@ export default function Home() {
     dispatch(getAllShops());
   }, []);
 
+  const shopss = [
+    {
+      image:null,
+      name:"Ñamfifruli",
+      category:"Restaurant",
+      products:[
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        },
+        {
+          image:null,
+          name:"Papafrula",
+          price:"500",
+        }
+      ]
+    },
+    {
+      image:null,
+      name:"Oktubre",
+      category:"Heladeria",
+      products:[
+        {
+          image:null,
+          name:"Helado de vainilla",
+          price:"500",
+        }
+      ]
+    },
+    {
+      image:null,
+      name:"Luzbelito",
+      category:"Bodegón",
+      products:[
+        {
+          image:null,
+          name:"Milanesa con puré",
+          price:"500",
+        }
+      ]
+    },
+    {
+      image:null,
+      name:"Pizza Conmigo",
+      category:"Pizzeria",
+      products:[
+        {
+          image:null,
+          name:"Especial Kito Pizza",
+          price:"500",
+        }
+      ]
+    }
+    ,
+    {
+      image:null,
+      name:"El Paseo Familiar de Don José",
+      category:"Bodegón",
+      products:[
+        {
+          image:null,
+          name:"Papito jugó al Doom",
+          price:"250",
+        }
+      ]
+    }
+  ]
+
+  // console.log(shopss)
   return (
     <>
       <Navbar />
