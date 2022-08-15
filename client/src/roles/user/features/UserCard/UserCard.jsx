@@ -33,6 +33,7 @@ export default function UserCard({ shop }) {
       alignSelf: "center",
       width: "150px",
       borderRadius: "15%",
+      marginRight:"25px",
     },
   };
 
@@ -66,6 +67,7 @@ export default function UserCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
+        style={{backdropFilter:"blur(2px)", transition:"0"}}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -103,7 +105,7 @@ export default function UserCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "15px", textAlign: "center" }}
+              style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -119,7 +121,9 @@ export default function UserCard({ shop }) {
                 flexWrap: "wrap",
                 justifyContent: "space-evenly",
                 marginBottom: "20px",
+                marginTop: "20px",
                 "&hover": { cursor: "default" },
+                gap:"50px"
               }}
             >
               {shop.products.map((product) => {
@@ -127,10 +131,10 @@ export default function UserCard({ shop }) {
                   <div key={product._id}>
                     <Card
                       style={{
-                        margin: "15px 0px",
                         backgroundColor: "whitesmoke",
                         padding: "20px",
-                        maxWidth: "200px",
+                        minWidth:"250px",
+                        maxWidth: "250px",
                       }}
                     >
                       <CardContent
@@ -182,28 +186,19 @@ export default function UserCard({ shop }) {
       </Modal>
 
       <Card
-        sx={{ maxWidth: 400, minWidth: 400, "&:hover": { cursor: "pointer" } }}
-        style={{ marginTop: "15px", backgroundColor: "whitesmoke" }}
-        onClick={onCardClick}
+        sx={{ maxWidth: "30vw", minWidth: "1.5vw", maxHeight:200, minHeight:200,  "&:hover": { cursor: "pointer", outline:"3px solid #4fc3f7"  }, backgroundColor:"whitesmoke", display:"flex", justifyContent:"space-between" }}
+        style={{ marginTop: "15px", padding:"25px" }}
       >
-        <Container
-          style={{
-            display: "flex",
-            marginTop: "20px",
-            marginBottom: "20px",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <CardContent>
-            <Typography variant="h4" color="textPrimary" component="div">
+
+          <CardContent style={{ minWidth: 220,marginBottom: "20px",maxWidth: 200, marginLeft:"30px"}} onClick={onCardClick}>
+            <Typography variant="h4" color="textPrimary" component="div" align="left">
               {shop.name}
             </Typography>
             <Typography
               variant="h6"
               color="textSecondary"
               component="div"
-              style={{ textAlign: "left" }}
+              style={{ textAlign: "left"}}
             >
               {shop.category}
             </Typography>
@@ -213,8 +208,9 @@ export default function UserCard({ shop }) {
             component="img"
             style={styles.media}
             image={shop.image ? shop.image : defaultShop}
+            onClick={onCardClick}
           />
-        </Container>
+     
       </Card>
     </div>
   );

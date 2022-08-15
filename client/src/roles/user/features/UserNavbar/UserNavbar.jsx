@@ -19,12 +19,14 @@ import {
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import { AddBusiness, Search } from "@mui/icons-material";
+import UserMenu from "../UserMenu/UserMenu";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
   const [leyenda, setLeyenda] = useState("");
   const dispatch = useDispatch();
   const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
+  const localS = localStorage.getItem("type");
 
   function onChange(e) {
     e.preventDefault();
@@ -120,6 +122,9 @@ export default function Navbar() {
                 )}
               </Container>
             </Container>
+
+            {localS !== "user" 
+            ? 
             <Link
               to="/create"
               style={{ textDecoration: "none", color: "white" }}
@@ -131,6 +136,11 @@ export default function Navbar() {
                 </IconButton>
               </Button>
             </Link>
+            : 
+            <UserMenu/>
+            }
+            
+
           </Toolbar>
         </AppBar>
       </Box>

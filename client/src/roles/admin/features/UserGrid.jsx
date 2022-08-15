@@ -25,7 +25,7 @@ import { Select, MenuItem } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../../redux/actions';
-
+import { deleteUser } from '../../../redux/actions';
 
 function createData(name, userType, id) {
   return {
@@ -342,12 +342,13 @@ export default function EnhancedTable() {
                       <TableCell align="left" padding="none">{user._id}</TableCell>
                       <TableCell align="left">
                         <Box sx={{display:"flex"}}>
-                          <IconButton sx={{color:"#29b6f6"}}>
+                        <IconButton sx={{color:"#f44336"}} onClick={() => {dispatch(deleteUser(user._id))}}>
                             <Banhamm/>
                           </IconButton>
-                          <IconButton sx={{color:"#f44336"}}>
+                          {/* <IconButton sx={{color:"#f44336"}}>
                             <CloseIcon/>
-                          </IconButton>
+                            color:"#29b6f6"
+                          </IconButton> */}
                         </Box>
                       </TableCell>
 

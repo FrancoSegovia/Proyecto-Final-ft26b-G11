@@ -29,11 +29,11 @@ export default function App() {
   return (
     <div>
       <Routes>
-        <Route element={<ProtectedLanding />}>
+        {/* <Route element={<ProtectedLanding />}> */}
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/SignUp" element={<UserSignUp />} />
           <Route exact path="/SignIn" element={<UserSignIn />} />
-        </Route>
+        {/* </Route> */}
 
         <Route element={<ProtectedRoutes />}>
           <Route element={<ProtectedUser />}>
