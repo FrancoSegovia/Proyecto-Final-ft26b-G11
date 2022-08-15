@@ -23,6 +23,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import CloseIcon from '@mui/icons-material/Close';
 import Banhamm from '@mui/icons-material/Gavel';
+import { useDispatch } from 'react-redux';
+import { deleteUser } from '../../../redux/actions';
 
 
 function createData(name, userType, id) {
@@ -253,6 +255,8 @@ export default function EnhancedTable() {
     setSelected(newSelected);
   };
 
+    
+  const dispatch = useDispatch()
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -319,12 +323,13 @@ export default function EnhancedTable() {
                       <TableCell align="left" padding="none">{row.id}</TableCell>
                       <TableCell align="left">
                         <Box sx={{display:"flex"}}>
-                          <IconButton sx={{color:"#29b6f6"}}>
+                        <IconButton sx={{color:"#f44336"}} onClick={() => {dispatch(deleteUser(row.id))} }>
                             <Banhamm/>
                           </IconButton>
-                          <IconButton sx={{color:"#f44336"}}>
+                          {/* <IconButton sx={{color:"#f44336"}}>
                             <CloseIcon/>
-                          </IconButton>
+                            color:"#29b6f6"
+                          </IconButton> */}
                         </Box>
                       </TableCell>
 

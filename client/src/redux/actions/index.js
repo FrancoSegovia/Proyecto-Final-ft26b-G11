@@ -25,8 +25,9 @@ export const USER_LOADED = "USER_LOADED";
 
 export const getAllShops = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/local")
+    .get("http://localhost:3001/account/user/local")
     .then((shops) => {
+      console.log(shops.data)
       dispatch({
         type: ALL_SHOPS,
         payload: shops.data,
@@ -37,7 +38,7 @@ export const getAllShops = () => (dispatch) => {
 
 export const getQueryShops = (query) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/local?name=${query}`)
+    .get(`http://localhost:3001/account/user/local?name=${query}`)
     .then((shops) => {
       dispatch({
         type: QUERY_SHOPS,
@@ -80,6 +81,13 @@ export const getAllUsers = (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
+export const deleteUser = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/users/${id}`)
+    .catch((error) => console.error(error.message));
+};
+
 
 /////////////////////////////////////////////////
 
