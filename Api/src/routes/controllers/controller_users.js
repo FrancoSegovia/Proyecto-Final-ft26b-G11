@@ -73,9 +73,7 @@ const login = async (req, res) => {
   let correctModel;
 
   if (await User.find({ email: req.body.email })) {
-    console.log("correctModel");
     correctModel = await User.findOne({ email });
-    console.log(correctModel);
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
@@ -103,15 +101,12 @@ const login = async (req, res) => {
           expiresIn: 60 * 60 * 10,
         }
       );
-      console.log(accessToken);
       return res.status(200).json(accessToken);
     }
   }
 
   if (await Delivery.find({ email: req.body.email })) {
-    console.log("correctModel1");
     correctModel = await Delivery.findOne({ email });
-    console.log(correctModel);
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
@@ -139,14 +134,11 @@ const login = async (req, res) => {
           expiresIn: 60 * 60 * 10,
         }
       );
-      console.log(accessToken);
       return res.status(200).json(accessToken);
     }
   }
   if (await Owner.find({ email: req.body.email })) {
-    console.log("correctModel2");
     correctModel = await Owner.findOne({ email });
-    console.log(correctModel);
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
@@ -174,7 +166,6 @@ const login = async (req, res) => {
           expiresIn: 60 * 60 * 10,
         }
       );
-      console.log(accessToken);
       return res.status(200).json(accessToken);
     }
   }
