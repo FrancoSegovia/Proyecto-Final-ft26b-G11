@@ -25,8 +25,9 @@ export const USER_LOADED = "USER_LOADED";
 
 export const getAllShops = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/local")
+    .get("http://localhost:3001/account/user/local")
     .then((shops) => {
+      console.log(shops.data)
       dispatch({
         type: ALL_SHOPS,
         payload: shops.data,
