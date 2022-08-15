@@ -91,7 +91,6 @@ export const deleteUser = (id) => {
     .catch((error) => console.error(error.message));
 };
 
-/////////////////////////////////////////////////
 
 export const orderShops = (value) => {
   return {

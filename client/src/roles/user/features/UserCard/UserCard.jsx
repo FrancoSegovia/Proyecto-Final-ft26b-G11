@@ -28,6 +28,7 @@ export default function UserCard({ shop }) {
     dispatch(addShoppingCart(e.target.value));
   };
 
+  console.log(shop);
   const styles = {
     media: {
       alignSelf: "center",
@@ -110,7 +111,7 @@ export default function UserCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {shop.products.length
+              {shop.products?.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
             </Typography> */}
