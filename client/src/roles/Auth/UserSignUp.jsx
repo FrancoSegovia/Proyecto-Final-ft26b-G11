@@ -15,14 +15,14 @@ import { Link } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { Select, MenuItem } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 const theme = createTheme();
 
 export default function SignUp() {
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const state_user = useSelector(state => state.user)
 
   const [user, setUser] = React.useState({
   type: "user",
@@ -34,6 +34,11 @@ export default function SignUp() {
   // vehicle: ""
   });
 
+  useEffect(() => {
+    const localS = localStorage.getItem("type");
+    setUser({...user, type:localS})
+  }, [])
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -139,13 +144,13 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
-              {state_user.type === "delivery" && (
+              {(user.type === "delivery" || user.type === "users") && (
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   name="phone"
-                  label="Phone"
+                  label="Teléfono"
                   id="phone"
                   autoComplete="new-phone"
                   onChange={handleChange}
@@ -153,15 +158,19 @@ export default function SignUp() {
                 />
               </Grid>
               )}
-              {state_user.type === "delivery" && (
-                <Select value={user.vehicle} onChange={onSelect} name={"vehicle"}>
-                  <MenuItem value={"AUTO"}>Comida</MenuItem>
-                  <MenuItem value={"MOTO"}>Bebida</MenuItem>
+
+              <Grid item xs={12}>
+              {user.type === "delivery" && (
+                <Select fullWidth value={user.vehicle} onChange={onSelect} name={"vehicle"} >
+                  <MenuItem value={"AUTO"}>Auto</MenuItem>
+                  <MenuItem value={"MOTO"}>Moto</MenuItem>
                 </Select>
               )}
+              </Grid>
+              
             </Grid>
             {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         
               <Button
                 type="submit"
                 fullWidth
@@ -174,7 +183,7 @@ export default function SignUp() {
             {/* </Link> */}
              <Grid container justifyContent="flex-end" style={{marginBottom:"15px"}}>
               <Grid item>
-                <Link to="/landing" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>
