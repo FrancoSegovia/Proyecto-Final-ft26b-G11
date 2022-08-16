@@ -11,14 +11,13 @@ router.post("/", async (req, res) => {
      const payment = await stripe.paymentIntents.create({
       amount,
       currency: "USD",
-      description: "Food",
       payment_method: id, 
       confirm: true
      })
-     console.log(payment)
+     console.log("soy payment", payment)
      res.send({message: "paymente succesfull"})
    } catch (error) {
-      console.log(error)
+      console.log("soy error", error)
       res.json({message: error.raw.message})
   }
    
