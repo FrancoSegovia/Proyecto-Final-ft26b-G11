@@ -11,8 +11,11 @@ const addProductCart = async (req, res) => {
     
     const { user } = req.params
     const { _id } = req.body;
-    console.log("soy body", req.body)
-   
+    
+    const productId = await Product.findOne(_id);
+    const productsId = productId._id
+    console.log("soy body", productsId)
+
     const userId = await User.findOne(user)
     const usersId = userId._id
         
@@ -21,7 +24,7 @@ const addProductCart = async (req, res) => {
     
     // Nos fijamos si tenemos el producto
 
-    const productExist = await product.findOne({ _id })
+    const productExist = await product.findOne({ productsId })
 
     // Nos fijamos si todos los campos vienen con info
 
@@ -29,7 +32,7 @@ const addProductCart = async (req, res) => {
 
     // Nos fijamos si el producto esta en el carrito
 
-    const inCart = await Cart.findOne({_id});
+    const inCart = await Cart.findOne({productsId});
     
     // Si no tenemos el producto 
 
