@@ -8,10 +8,13 @@ function getModelByName(name) {
   }
 
 const addProductCart = async (req, res) => {
-    const { name, image, price, user } = req.body;
-   
     
+    const { user } = req.params
+    const { name, image, price} = req.body;
    
+    const userId = await User.findOne(user)
+    const usersId = userId._id
+        console.log("soy user", usersId)
 
     const product = getModelByName("Product")
     
@@ -31,12 +34,12 @@ const addProductCart = async (req, res) => {
 
     if(!productExist){
         res.status(400).json({
-            message: "This product is not in our database "
+            message: "This product is not in our database " 
         })
 
     // Si nos envian algo y NO esta en el carrito lo agregamos    
     } else if (isNotEmptyCart && !inCart){
-        const newProductInCart = new Cart({ name, image, price, amount: 1, user});
+        const newProductInCart = new Cart({ name, image, price, amount: 1, user: usersId});
 
     // Actualizamos la prop inCart
         product.findByIdAndUpdate(

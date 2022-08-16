@@ -12,7 +12,7 @@ router.get("/products-cart/:id", controllers.getProductCart)
 
 // RUTA POST PARA AGREGAR PRODUCTOS AL CARRITO
 
-router.post("/products-cart/", controllers.addProductCart)
+router.post("/products-cart/:id", controllers.addProductCart)
 
 // RUTA PUT PARA DISMINUIR O MODIFICAR LA CANTIDAD DE PRODUCTOS DEL CARRITO
 
