@@ -138,8 +138,9 @@ export const getShoppingCart = () => (dispatch) => {
 export const addShoppingCart = (id) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"))
   return axios
-    .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
+    .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, {id:id})
     .then((product) => {
+      console.log(product.data)
       dispatch({
         type: ADD_SHOPPINGCART,
         payload: product.data,

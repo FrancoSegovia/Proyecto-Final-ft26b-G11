@@ -55,9 +55,10 @@ export default function ShoppingCart() {
         {!cart.length
           ? "El Carrito se encuentra Vacio"
           : cart.map((p) => {
+            console.log(p)
               return (
                 <div>
-                  <i>{p}</i>
+                  <i>{p.name}</i>
                   <Button
                     value={p}
                     variant="contained"
