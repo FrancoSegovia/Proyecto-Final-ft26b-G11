@@ -49,7 +49,7 @@ export default function ShoppingCart() {
         </Typography>
         <br></br>
         {!cart.length
-          ? "NO HAY NADA EN TU CARRITO FLACO"
+          ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
               return (
                 <div>

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import defaultShop from "../../../media/defaultShop.jpg";
+import defaultProduct from "../../../media/defaultProduct.png";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 import {
   Button,
@@ -17,27 +20,52 @@ import {
   Grid
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
-import { addShoppingCart } from "../../../redux/actions";
+import { addShoppingCart, deleteShop } from "../../../redux/actions";
 
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit'; 
+import { deleteProduct } from "../../../redux/actions";
 
 export default function AdminCard({ shop }) {
 
   const [open, setOpen] = useState(false);
-  const onCardClick = (e) => setOpen(true);
+  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+
+  const data = jwtDecode(localStorage.getItem("token"));
+
+  console.log(shop._id);
+
+  const onRemoveClick = () => {
+    dispatch(deleteShop(shop._id));
+  }
+
   const onCardClose = (e) => setOpen(false);
+  const onCardClick = async () =>  {
+    setOpen(true);
+    const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
+    setProducts(products.data);
+  };
 
   const styles = {
     media: {
       alignSelf: "center",
       width: "150px",
       borderRadius: "15%",
-      marginRight:"25px",
+      marginRight:"2vw",
     },
+    modalMedia: {
+      alignSelf: "center",
+      width: "150px",
+      minHeight:"110px",
+      maxHeight:"110px",
+      borderRadius: "15%",
+      objectFit:"cover"
+    }
   };
 
   const closeBtnStyle = {
+    width:"32vw",
     position:"sticky",
     backgroundColor:"#f44336",
     color:"white",
@@ -47,6 +75,7 @@ export default function AdminCard({ shop }) {
   }
 
   const editBtnStyle = {
+    width:"32vw",
     position:"sticky",
     backgroundColor:"#29b6f6",
     color:"white",
@@ -91,7 +120,7 @@ export default function AdminCard({ shop }) {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 1300,
-    maxHeight: "calc(100vh - 10px)",
+    maxHeight: data.type !== "owner" ? "calc(100vh - 10px)" : "calc(100vh - 100px)",
     overflow: "hidden",
     overflowY: "auto",
     bgcolor: "background.paper",
@@ -150,7 +179,7 @@ export default function AdminCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {shop.products.length
+              {products.length
                 ? `Menú de "${shop.name}"`
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
@@ -166,7 +195,7 @@ export default function AdminCard({ shop }) {
                 gap:"50px"
               }}
             >
-              {shop.products.map((product) => {
+              {products.map((product) => {
                 return (
                   <div key={product._id}>
                     <Card
@@ -188,11 +217,11 @@ export default function AdminCard({ shop }) {
                       >
                         <CardMedia
                           component="img"
-                          style={styles.media}
-                          image={product.image}
+                          style={styles.modalMedia}
+                          image={product.image ? product.image : defaultProduct}
                         />
                         <Typography
-                          style={{ marginTop: "18px" }}
+                          style={{ marginTop: "18px", fontSize:"1vw" }}
                           variant="h4"
                           color="textPrimary"
                           component="div"
@@ -207,12 +236,26 @@ export default function AdminCard({ shop }) {
                           {"$" + product.price}
                         </Typography>
 
-                        <IconButton sx={closeModalBtnStyle}>
+                        <IconButton sx={closeModalBtnStyle} onClick={() => {dispatch(deleteProduct(product._id)) }}>
                             <CloseIcon/>
                         </IconButton>
-                        <IconButton sx={editModalBtnStyle}>
+
+                        {/* {data.type === "owner" ?
+                          <IconButton sx={editModalBtnStyle}>
                             <EditIcon/>
-                        </IconButton> 
+                          </IconButton>
+
+                        :
+                        <>
+                          <IconButton sx={closeModalBtnStyle}>
+                            <CloseIcon/>
+                          </IconButton>
+                          <IconButton sx={editModalBtnStyle}>
+                            <EditIcon/>
+                          </IconButton>
+                          </>
+                        } */}
+                         
 
                       </CardContent>
                     </Card>
@@ -255,12 +298,22 @@ export default function AdminCard({ shop }) {
       </Card>
 
       <Box style={{ position:"sticky", display:"flex", flexDirection:"column", gap:"5px", marginTop:"7px"}}>
-            <Button sx={editBtnStyle}>
+
+            {data.type === "owner" ? 
+            <>
+            {/* <Button sx={editBtnStyle}>
                 <EditIcon/>
-            </Button> 
-            <Button sx={closeBtnStyle}>
-                <CloseIcon/>
+            </Button> */}
+            <Button sx={closeBtnStyle} onClick={onRemoveClick}>
+              <CloseIcon/>
             </Button>
+            </>
+             :
+                <Button sx={closeBtnStyle} onClick={onRemoveClick}>
+                    <CloseIcon/>
+                </Button>
+             }
+            
             
       </Box>
 

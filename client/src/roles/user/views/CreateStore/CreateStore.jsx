@@ -35,7 +35,7 @@ export default function CreateStore() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(addStore(newShop));
-    navigate("/");
+    navigate("/owner/home");
   };
 
   const onInputChange = (e) => {
@@ -149,7 +149,7 @@ export default function CreateStore() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                <Link to="/owner/home" style={{ textDecoration: "none", color: "white" }}>
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>

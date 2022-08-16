@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import defaultShop from '../../../../media/defaultShop.jpg';
 import axios from "axios";
+import ShoppingCart from "../UserShoppingCart/ShoppingCart";
 
 import {
   Button,
@@ -15,6 +16,7 @@ import {
   Box,
   Fade,
   Modal,
+  Grid,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
 import { addShoppingCart } from "../../../../redux/actions";
@@ -24,29 +26,43 @@ export default function UserCard({ shop }) {
 
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  let localS = localStorage.getItem("type");
 
   const onCardClick = async () =>  {
     setOpen(true);
-    let products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
+    const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
     setProducts(products.data);
   };
 
   const onCardClose = () => {
     setOpen(false);
-    setProducts([]);
+    setTimeout(() => {
+      setProducts([]);
+    }, 1000);
+    
   }
   const onButtonClick = (e) => {
     dispatch(addShoppingCart(e.target.value));
   };
 
-  console.log(shop);
+
   const styles = {
     media: {
       alignSelf: "center",
       width: "150px",
+      maxHeight:"110px",
       borderRadius: "15%",
       marginRight:"25px",
+      objectFit:"cover"
     },
+    modalMedia: {
+      alignSelf: "center",
+      width: "150px",
+      minHeight:"110px",
+      maxHeight:"110px",
+      borderRadius: "15%",
+      objectFit:"cover"
+    }
   };
 
   const closeButtonStyle = {
@@ -62,8 +78,8 @@ export default function UserCard({ shop }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
-    maxHeight: "calc(100vh - 210px)",
+    width: 1200,
+    maxHeight: "calc(100vh - 100px)",
     overflow: "hidden",
     overflowY: "auto",
     bgcolor: "background.paper",
@@ -79,7 +95,7 @@ export default function UserCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
-        style={{backdropFilter:"blur(2px)", transition:"0"}}
+        style={{backdropFilter:"blur(3px)", transition:"0"}}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -135,18 +151,22 @@ export default function UserCard({ shop }) {
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"50px"
+                gap:"20px",
               }}
             >
+              <Grid container align="center" style={{rowGap:"50px"}}>
+              <Grid item xs={7} >
               {products?.map((product) => {
                 return (
-                  <div key={product._id}>
+                  <div key={product._id} >
                     <Card
                       style={{
                         backgroundColor: "whitesmoke",
-                        padding: "20px",
+                        padding: "50px",
                         minWidth:"250px",
                         maxWidth: "250px",
+                        minHeight:(localS !== "owner" ? "40vh" : "20vh"),
+                        maxHeight:"40vh"
                       }}
                     >
                       <CardContent
@@ -155,17 +175,18 @@ export default function UserCard({ shop }) {
                           flexDirection: "column",
                           textAlign: "center",
                           alignItems: "center",
+                          justifyContent:"center",
                           padding: "10px",
                         }}
                       >
                         <CardMedia
                           component="img"
-                          style={styles.media}
+                          style={styles.modalMedia}
                           image={product.image}
                         />
                         <Typography
                           style={{ marginTop: "18px" }}
-                          variant="h4"
+                          variant="h5"
                           color="textPrimary"
                           component="div"
                         >
@@ -178,20 +199,33 @@ export default function UserCard({ shop }) {
                         >
                           {"$" + product.price}
                         </Typography>
-                        <Button
-                          value={product._id}
-                          variant="contained"
-                          size="small"
-                          disableElevation
-                          onClick={onButtonClick}
-                        >
-                          Añadir al Carrito
-                        </Button>
+
+                        { localS !== "owner" ? 
+                          <Button
+                            value={product._id}
+                            variant="contained"
+                            size="medium"
+                            disableElevation
+                            onClick={onButtonClick}
+                            style={{marginTop:"30px"}}
+                          >
+                            Añadir al Carrito
+                          </Button> 
+                        :
+                          null
+                      }
+
+                        
                       </CardContent>
                     </Card>
                   </div>
                 );
               })}
+              </Grid>
+                  <Grid item xs={2}>
+                      <ShoppingCart/>
+                  </Grid>
+              </Grid>
             </Container>
           </Box>
         </Fade>

@@ -15,7 +15,7 @@ export default function ProtectedAdmin(){
     ) : token.type === "user" ? (
       <Navigate to={"/user/home"} />
     ) : token.type === "owner" ? (
-      <Navigate to={"/owner/create"} />
+      <Navigate to={"/owner/home"} />
     ) : (
       <Navigate to={"/delivery"} />
     );

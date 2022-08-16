@@ -18,7 +18,7 @@ export default function ProtectedLanding() {
   ) : token.type === "admin" ? (
     <Navigate to={"/admin/shops"} />
   ) : token.type === "owner" ? (
-    <Navigate to={"/owner/create"} />
+    <Navigate to={"/owner/home"} />
   ) : (
     <Navigate to={"/delivery"} />
   );

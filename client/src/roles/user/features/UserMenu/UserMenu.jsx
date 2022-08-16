@@ -11,9 +11,9 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Person } from '@mui/icons-material';
+import { Person, AddBusiness } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../../../../redux/actions';
 
 export default function UserMenu() {
@@ -21,6 +21,8 @@ export default function UserMenu() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  let localS = useSelector(state => state.user.type);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,19 +86,41 @@ export default function UserMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        
+        {localS.toLocaleLowerCase() !== "user" 
+        ? <>
+          <MenuItem onClick={() => {navigate("/owner/settings")}}>
+            <ListItemIcon>
+              <Settings style={{ color:"#1976d2"}} /> 
+            </ListItemIcon>
+            Gestionar mis negocios
+          </MenuItem>
 
-        <MenuItem>
-          <Avatar style={{backgroundColor:"#b3e5fc", color:"#1976d2"}} /> Historial de compras
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={() => {navigate("/user/profile")}}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Opciones de cuenta
-        </MenuItem>
-        <MenuItem onClick={onLogoutClick}>
-          <ListItemIcon>
+          <MenuItem onClick={() => {navigate("/owner/create")}}>
+            <ListItemIcon>
+            <AddBusiness style={{ color:"#1976d2"}} /> 
+            </ListItemIcon>
+            Agregar un nuevo negocio
+          </MenuItem>
+          <Divider />
+          </>
+        :
+          <>
+          <MenuItem>
+            <Avatar style={{backgroundColor:"#b3e5fc", color:"#1976d2"}} /> Historial de compras
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={() => {navigate("/user/profile")}}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Opciones de cuenta
+          </MenuItem>
+          </>
+      }
+        
+        <MenuItem onClick={onLogoutClick} >
+          <ListItemIcon style={{ color:"#1976d2"}}>
             <Logout fontSize="small" />
           </ListItemIcon>
           Cerrar sesión
