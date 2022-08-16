@@ -1,5 +1,5 @@
 import React from "react";
-
+import {useNavigate} from "react-router"
 import { useDispatch } from "react-redux";
 import { paymentFuncion } from "../../../../redux/actions";
 
@@ -14,6 +14,7 @@ import Checkbox from "@mui/material/Checkbox";
 
 export default function PaymentForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const stripe = useStripe();
   const elements = useElements();
 
@@ -25,17 +26,13 @@ export default function PaymentForm() {
         type: "card",
         card: elements.getElement(CardElement),
       })
-      .then((PaymentMethod) => {
-        const { id } = PaymentMethod;
-        dispatch(paymentFuncion(id, JSON.parse(localStorage.getItem("total"))));
+      .then(({paymentMethod}) => {
+        let {id}  = paymentMethod
+        dispatch(paymentFuncion(id, JSON.parse(localStorage.getItem("total"))* 100));
       })
       .catch((error) => console.error(error));
+    navigate('user/home')
   };
-
-
-  const handleChange = () => {
-    console.log(elements.getElement(CardElement))
-  }
 
   return (
     <React.Fragment>
@@ -45,9 +42,7 @@ export default function PaymentForm() {
       <Grid>
         <Grid item xs={12} md={6}>
           <Box component="form" onSubmit={handleSubmit}>
-            <Grid item xs={12}>
-              <CardElement onChange={handleChange}/>
-            </Grid>
+              <CardElement />
             <Button
               type="submit"
               fullWidth

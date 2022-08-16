@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   
      const payment = await stripe.paymentIntents.create({
       amount,
-      currency: "USD",
+      currency: "ARS",
       payment_method: id, 
       confirm: true
      })
@@ -18,9 +18,8 @@ router.post("/", async (req, res) => {
      res.send({message: "paymente succesfull"})
    } catch (error) {
       console.log("soy error", error)
-      res.json({message: error.raw.message})
+      res.status(400).json({message: error.raw.message})
   }
-   
   })
 
 module.exports = router;

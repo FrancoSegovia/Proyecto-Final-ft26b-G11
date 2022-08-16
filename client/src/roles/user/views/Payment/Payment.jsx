@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import AddressForm from "./AdressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
@@ -51,6 +52,7 @@ function getStepContent(step) {
 const theme = createTheme();
 
 export default function Payment() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -69,6 +71,13 @@ export default function Payment() {
           variant="outlined"
           sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
         >
+          <Button
+            variant="contained"
+            onClick={() => navigate("/user/home")}
+            sx={{ mt: 0.5 , ml: 0.5 }}
+          >
+            {"Volver"}
+          </Button>
           <Typography component="h1" variant="h4" align="center">
             Checkout
           </Typography>
@@ -79,9 +88,9 @@ export default function Payment() {
               </Step>
             ))}
           </Stepper>
-          <React.Fragment>
+          <>
             {activeStep === steps.length ? (
-              <React.Fragment>
+              <>
                 <Typography variant="h5" gutterBottom>
                   Thank you for your order.
                 </Typography>
@@ -90,9 +99,9 @@ export default function Payment() {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 {getStepContent(activeStep)}
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   {activeStep !== 0 && (
@@ -103,18 +112,20 @@ export default function Payment() {
                   {activeStep === steps.length - 1 ? (
                     true
                   ) : (
-                    <Button
-                      variant="contained"
-                      onClick={handleNext}
-                      sx={{ mt: 3, ml: 1 }}
-                    >
-                      {"Siguiente"}
-                    </Button>
+                    <>
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 3, ml: 1 }}
+                      >
+                        {"Siguiente"}
+                      </Button>
+                    </>
                   )}
                 </Box>
-              </React.Fragment>
+              </>
             )}
-          </React.Fragment>
+          </>
         </Paper>
       </Container>
     </ThemeProvider>

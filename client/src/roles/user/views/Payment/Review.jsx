@@ -1,12 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 
-const products = JSON.parse(localStorage.getItem("cart"))
-const total = JSON.parse(localStorage.getItem("total"))
 
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
@@ -17,6 +15,12 @@ const payments = [
 ];
 
 export default function Review() {
+  const products = JSON.parse(localStorage.getItem("cart"))
+  const total = JSON.parse(localStorage.getItem("total"))
+  
+  // useEffect(()=> {
+  // })
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
