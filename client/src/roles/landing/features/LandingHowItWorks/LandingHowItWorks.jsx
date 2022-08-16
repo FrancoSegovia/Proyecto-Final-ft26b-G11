@@ -91,7 +91,7 @@ export default function LandingHowItWorks() {
             </Grid>
           </Grid>
         </div>
-        <Link to="/signup" style={{textDecoration:"none"}}>
+        <Link to="/SignIn" style={{textDecoration:"none"}}>
           <Button
             size="large"
             variant="contained"

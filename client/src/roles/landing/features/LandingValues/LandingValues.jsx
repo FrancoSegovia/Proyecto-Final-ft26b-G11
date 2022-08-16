@@ -46,7 +46,7 @@ export default function LandingValues() {
                   ¡Convertite en repartidor!
                 </Typography>
                 <Link to="/SignUp" style={{textDecoration:"none"}}>
-                  <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={() => localStorage.setItem("type", "delivery")}>
+                  <Button disabled variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={() => localStorage.setItem("type", "delivery")}>
                       ¡Quiero ser Clicker!
                       <IconButton style={{ color: "white" }}>
                         <Person/>
