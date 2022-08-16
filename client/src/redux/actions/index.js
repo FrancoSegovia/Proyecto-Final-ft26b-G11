@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-
+import {toast} from "react-toastify"
+import swal from 'sweetalert'
 import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
@@ -188,9 +189,11 @@ export const  paymentFuncion = (id, amount) => {
   return axios.post("http://localhost:3001/account/pay", {id, amount})
   .then((message) =>{ 
     localStorage.setItem("cart", JSON.stringify([]))
-    console.log(message.data)
+    console.log(message.data.message)
+    swal("Good job!", message.data.message, "success")
+    // toast(message.data.message, {position: toast.POSITION.BOTTON_RIGHT})
   })
-  .catch((error) => console.error(error.message))
+  .catch((error) => swal("Ha ocurrido un error!", error.message.message, "error"))
 }
 
 ////////////////////////////////////////////////
