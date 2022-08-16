@@ -9,41 +9,35 @@ function getModelByName(name) {
 
 const addProductCart = async (req, res) => {
     
-    const { user } = req.params
-    const { _id } = req.body;
+    const { } = req.params
+    const { name, image, price, user} = req.body;
+   
     
-    const productId = await Product.findOne(_id);
-    const productsId = productId._id
-    console.log("soy body", productsId)
-
-    const userId = await User.findOne(user)
-    const usersId = userId._id
-        
 
     const product = getModelByName("Product")
     
     // Nos fijamos si tenemos el producto
 
-    const productExist = await product.findOne({ productsId })
+    const productExist = await product.findOne({ name })
 
     // Nos fijamos si todos los campos vienen con info
 
-    const isNotEmptyCart = _id !== ""  ;
+    const isNotEmptyCart = name !== "" && image !== "" && price !== "" ;
 
     // Nos fijamos si el producto esta en el carrito
 
-    const inCart = await Cart.findOne({productsId});
+    const inCart = await Cart.findOne({name});
     
     // Si no tenemos el producto 
 
     if(!productExist){
         res.status(400).json({
-            message: "This product is not in our database " 
+            message: "This product is not in our database "
         })
 
     // Si nos envian algo y NO esta en el carrito lo agregamos    
     } else if (isNotEmptyCart && !inCart){
-        const newProductInCart = new Cart({ name, image, price, amount: 1, user: usersId});
+        const newProductInCart = new Cart({ name, image, price, amount: 1, user});
 
     // Actualizamos la prop inCart
         product.findByIdAndUpdate(
@@ -59,6 +53,7 @@ const addProductCart = async (req, res) => {
         res.status(400).json({
             message: "The product is in Cart"
         })
+        
     }
 }
 
