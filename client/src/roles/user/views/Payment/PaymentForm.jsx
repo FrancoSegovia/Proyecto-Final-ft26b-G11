@@ -31,7 +31,10 @@ export default function PaymentForm() {
         dispatch(paymentFuncion(id, JSON.parse(localStorage.getItem("total"))* 100));
       })
       .catch((error) => console.error(error));
-    navigate('user/home')
+
+      setTimeout(() => {
+        navigate('/user/home')
+      },5000)
   };
 
   return (

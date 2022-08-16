@@ -186,7 +186,10 @@ export const deleteShoppingCart = (id) => {
 ////////////////////////////////////////////////
 export const  paymentFuncion = (id, amount) => {
   return axios.post("http://localhost:3001/account/pay", {id, amount})
-  .then((message) => console.log(message.data))
+  .then((message) =>{ 
+    localStorage.setItem("cart", JSON.stringify([]))
+    console.log(message.data)
+  })
   .catch((error) => console.error(error.message))
 }
 
