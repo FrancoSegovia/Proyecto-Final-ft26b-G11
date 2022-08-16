@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import defaultShop from '../../../../media/defaultShop.jpg';
+import { useDispatch, useSelector } from "react-redux";
+import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
 import ShoppingCart from "../UserShoppingCart/ShoppingCart";
 
@@ -23,12 +23,13 @@ import { addShoppingCart } from "../../../../redux/actions";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
   let localS = localStorage.getItem("type");
 
-  const onCardClick = async () =>  {
+  const onCardClick = async () => {
     setOpen(true);
     const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
     setProducts(products.data);
@@ -36,6 +37,7 @@ export default function UserCard({ shop }) {
 
   const onCardClose = () => {
     setOpen(false);
+
     setTimeout(() => {
       setProducts([]);
     }, 1000);
@@ -54,6 +56,7 @@ export default function UserCard({ shop }) {
       borderRadius: "15%",
       marginRight:"25px",
       objectFit:"cover"
+
     },
     modalMedia: {
       alignSelf: "center",
@@ -96,6 +99,7 @@ export default function UserCard({ shop }) {
         onClose={onCardClose}
         closeAfterTransition
         style={{backdropFilter:"blur(3px)", transition:"0"}}
+
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -133,7 +137,11 @@ export default function UserCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
+              style={{
+                marginTop: "15px",
+                textAlign: "center",
+                marginBottom: "15px",
+              }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -200,6 +208,7 @@ export default function UserCard({ shop }) {
                           {"$" + product.price}
                         </Typography>
 
+
                         { localS !== "owner" ? 
                           <Button
                             value={product._id}
@@ -215,7 +224,7 @@ export default function UserCard({ shop }) {
                           null
                       }
 
-                        
+                       
                       </CardContent>
                     </Card>
                   </div>
@@ -232,31 +241,51 @@ export default function UserCard({ shop }) {
       </Modal>
 
       <Card
-        sx={{ maxWidth: "30vw", minWidth: "1.5vw", maxHeight:200, minHeight:200,  "&:hover": { cursor: "pointer", outline:"3px solid #4fc3f7"  }, backgroundColor:"whitesmoke", display:"flex", justifyContent:"space-between" }}
-        style={{ marginTop: "15px", padding:"25px" }}
+        sx={{
+          maxWidth: "30vw",
+          minWidth: "1.5vw",
+          maxHeight: 200,
+          minHeight: 200,
+          "&:hover": { cursor: "pointer", outline: "3px solid #4fc3f7" },
+          backgroundColor: "whitesmoke",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        style={{ marginTop: "15px", padding: "25px" }}
       >
+        <CardContent
+          style={{
+            minWidth: 220,
+            marginBottom: "20px",
+            maxWidth: 200,
+            marginLeft: "30px",
+          }}
+          onClick={onCardClick}
+        >
+          <Typography
+            variant="h4"
+            color="textPrimary"
+            component="div"
+            align="left"
+          >
+            {shop.name}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="textSecondary"
+            component="div"
+            style={{ textAlign: "left" }}
+          >
+            {shop.category}
+          </Typography>
+        </CardContent>
 
-          <CardContent style={{ minWidth: 220,marginBottom: "20px",maxWidth: 200, marginLeft:"30px"}} onClick={onCardClick}>
-            <Typography variant="h4" color="textPrimary" component="div" align="left">
-              {shop.name}
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              component="div"
-              style={{ textAlign: "left"}}
-            >
-              {shop.category}
-            </Typography>
-          </CardContent>
-
-          <CardMedia
-            component="img"
-            style={styles.media}
-            image={shop.image ? shop.image : defaultShop}
-            onClick={onCardClick}
-          />
-     
+        <CardMedia
+          component="img"
+          style={styles.media}
+          image={shop.image ? shop.image : defaultShop}
+          onClick={onCardClick}
+        />
       </Card>
     </div>
   );

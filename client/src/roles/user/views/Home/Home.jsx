@@ -17,11 +17,13 @@ export default function Home() {
   const localS = localStorage.getItem("type");
 
   useEffect(() => {
+    if(localStorage.getItem("cart") === null){
+      localStorage.setItem("cart", JSON.stringify([]))
+      localStorage.setItem("total", JSON.stringify(0))
+    }
     dispatch(getAllShops());
   }, []);
 
-
-  // console.log(shopss)
   return (
     <>
       <Navbar />

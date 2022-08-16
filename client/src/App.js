@@ -44,31 +44,31 @@ export default function App() {
           <Route exact path="/SignIn" element={<UserSignIn />} />
         {/* </Route> */}
 
-        {/* <Route element={<ProtectedRoutes />}>
-          <Route element={<ProtectedUser />}> */}
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedUser />}>
             <Route exact path="/user/home" element={<Home />} />
             <Route exact path="/user/profile" element={<Profile />} />
             <Route exact path="/user/pay" element={<Payment />} />
-          {/* </Route> */}
+          </Route>
 
-          {/* <Route element={<ProtectedAdmin />}> */}
+          <Route element={<ProtectedAdmin />}>
             <Route exact path="/admin/shops" element={<Shops />} />
             <Route exact path="/admin/users" element={<Users />} />
             <Route exact path="/admin/owners" element={<Owners />} />
             <Route exact path="/admin/clickers" element={<Clickers />} />
             <Route exact path="/admin/orders" element={<Orders />} />
-          {/* </Route> */}
+          </Route>
 
-          {/* <Route element={<ProtectedOwner />}> */}
+          <Route element={<ProtectedOwner />}>
             <Route exact path="/owner/home" element={<OwnerHome />} />
             <Route exact path="/owner/create" element={<CreateStore />} />
             <Route exact path="/owner/settings" element={<OwnerSettings />} />
-          {/* </Route> */}
+          </Route>
 
-          {/* <Route element={<ProtectedDelivery />}> */}
+          <Route element={<ProtectedDelivery />}>
             <Route exact path="/delivery" element={<ClickerHome />} />
-          {/* </Route> */}
-        {/* </Route> */}
+          </Route>
+        </Route>
       </Routes>
     </div>
   );

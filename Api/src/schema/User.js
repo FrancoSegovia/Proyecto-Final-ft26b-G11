@@ -51,6 +51,11 @@ const schema = Schema(
       type: Number,
       required: false,
     },
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref: "Cart",
+      required: false,
+    }, 
     // favorites: {
     //   type: Array,
     //   default: undefined,

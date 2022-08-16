@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {  ArrowBack, AddBusiness } from "@mui/icons-material";
+import { ArrowBack, AddBusiness } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/base";
 
