@@ -5,6 +5,7 @@ import { loadUser } from "./redux/actions/index";
 import ProtectedRoutes from "./Routing/ProtectedRoutes";
 import ProtectedLanding from "./Routing/ProtectedLanding";
 import ProtectedUser from "./Routing/ProtectedUser";
+import ProtectedPayment from "./Routing/ProtectedPayment";
 import ProtectedAdmin from "./Routing/ProtectedAdmin";
 import ProtectedOwner from "./Routing/ProtectedOwner";
 import ProtectedDelivery from "./Routing/ProtectedDelivery";
@@ -41,7 +42,9 @@ export default function App() {
           <Route element={<ProtectedUser />}>
             <Route exact path="/user/home" element={<Home />} />
             <Route exact path="/user/profile" element={<Profile />} />
-            <Route exact path="/user/pay" element={<Payment />} />
+            <Route element={<ProtectedPayment />}>
+              <Route exact path="/user/pay" element={<Payment />} />
+            </Route>
           </Route>
 
           <Route element={<ProtectedAdmin />}>
