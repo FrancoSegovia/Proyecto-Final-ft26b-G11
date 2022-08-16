@@ -129,21 +129,21 @@ const reducer = (state = initialState, { type, payload }) => {
     case GET_SHOPPINGCART:
       return {
         ...state,
-        cart: payload
+        cart: payload,
       };
 
     case ADD_SHOPPINGCART:
-      let newCart = [...state.cart, payload]
-      localStorage.setItem("cart", JSON.stringify(newCart))
+      let newCart = [...state.cart, payload];
+      localStorage.setItem("cart", JSON.stringify(newCart));
       return {
         ...state,
         cart: [...state.cart, payload],
       };
 
     case DELETE_SHOPPINGCART:
-      let newCart2 = JSON.parse(localStorage.getItem("cart"))
-      newCart2 = newCart2.filter((p) => p._id !== payload)
-      localStorage.setItem("cart", JSON.stringify(newCart2))
+      let newCart2 = JSON.parse(localStorage.getItem("cart"));
+      newCart2 = newCart2.filter((p) => p._id !== payload);
+      localStorage.setItem("cart", JSON.stringify(newCart2));
       const updatedCart = state.cart.filter((p) => p._id !== payload);
       return {
         ...state,

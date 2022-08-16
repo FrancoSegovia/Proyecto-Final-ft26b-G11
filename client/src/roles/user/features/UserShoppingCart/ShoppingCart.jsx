@@ -19,7 +19,6 @@ export default function ShoppingCart() {
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
-  // let total = 0
 
   useEffect(() => {
     dispatch(getShoppingCart());
