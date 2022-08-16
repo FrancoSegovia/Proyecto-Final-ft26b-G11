@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import defaultShop from '../../../../media/defaultShop.jpg';
+import { useDispatch, useSelector } from "react-redux";
+import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
 
 import {
@@ -21,22 +21,26 @@ import { addShoppingCart } from "../../../../redux/actions";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
 
-  const onCardClick = async () =>  {
+  const onCardClick = async () => {
     setOpen(true);
-    let products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
+    let products = await axios.get(
+      `http://localhost:3001/account/user/local/products/${shop._id}`
+    );
     setProducts(products.data);
   };
 
   const onCardClose = () => {
     setOpen(false);
     setProducts([]);
-  }
-  const onButtonClick = (e) => {
-    dispatch(addShoppingCart(e.target.value));
+  };
+
+  const onButtonClick = (product) => {
+    dispatch(addShoppingCart(product));
   };
 
   const styles = {
@@ -44,7 +48,7 @@ export default function UserCard({ shop }) {
       alignSelf: "center",
       width: "150px",
       borderRadius: "15%",
-      marginRight:"25px",
+      marginRight: "25px",
     },
   };
 
@@ -78,7 +82,7 @@ export default function UserCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
-        style={{backdropFilter:"blur(2px)", transition:"0"}}
+        style={{ backdropFilter: "blur(2px)", transition: "0" }}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -116,7 +120,11 @@ export default function UserCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
+              style={{
+                marginTop: "15px",
+                textAlign: "center",
+                marginBottom: "15px",
+              }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -134,7 +142,7 @@ export default function UserCard({ shop }) {
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"50px"
+                gap: "50px",
               }}
             >
               {products?.map((product) => {
@@ -144,7 +152,7 @@ export default function UserCard({ shop }) {
                       style={{
                         backgroundColor: "whitesmoke",
                         padding: "20px",
-                        minWidth:"250px",
+                        minWidth: "250px",
                         maxWidth: "250px",
                       }}
                     >
@@ -178,11 +186,12 @@ export default function UserCard({ shop }) {
                           {"$" + product.price}
                         </Typography>
                         <Button
-                          value={product._id}
+                          // value={product}
                           variant="contained"
                           size="small"
                           disableElevation
-                          onClick={onButtonClick}
+                          disabled={cart.find((c) => c.name === product.name)}
+                          onClick={() => onButtonClick(product)}
                         >
                           Añadir al Carrito
                         </Button>
@@ -197,31 +206,51 @@ export default function UserCard({ shop }) {
       </Modal>
 
       <Card
-        sx={{ maxWidth: "30vw", minWidth: "1.5vw", maxHeight:200, minHeight:200,  "&:hover": { cursor: "pointer", outline:"3px solid #4fc3f7"  }, backgroundColor:"whitesmoke", display:"flex", justifyContent:"space-between" }}
-        style={{ marginTop: "15px", padding:"25px" }}
+        sx={{
+          maxWidth: "30vw",
+          minWidth: "1.5vw",
+          maxHeight: 200,
+          minHeight: 200,
+          "&:hover": { cursor: "pointer", outline: "3px solid #4fc3f7" },
+          backgroundColor: "whitesmoke",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        style={{ marginTop: "15px", padding: "25px" }}
       >
+        <CardContent
+          style={{
+            minWidth: 220,
+            marginBottom: "20px",
+            maxWidth: 200,
+            marginLeft: "30px",
+          }}
+          onClick={onCardClick}
+        >
+          <Typography
+            variant="h4"
+            color="textPrimary"
+            component="div"
+            align="left"
+          >
+            {shop.name}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="textSecondary"
+            component="div"
+            style={{ textAlign: "left" }}
+          >
+            {shop.category}
+          </Typography>
+        </CardContent>
 
-          <CardContent style={{ minWidth: 220,marginBottom: "20px",maxWidth: 200, marginLeft:"30px"}} onClick={onCardClick}>
-            <Typography variant="h4" color="textPrimary" component="div" align="left">
-              {shop.name}
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              component="div"
-              style={{ textAlign: "left"}}
-            >
-              {shop.category}
-            </Typography>
-          </CardContent>
-
-          <CardMedia
-            component="img"
-            style={styles.media}
-            image={shop.image ? shop.image : defaultShop}
-            onClick={onCardClick}
-          />
-     
+        <CardMedia
+          component="img"
+          style={styles.media}
+          image={shop.image ? shop.image : defaultShop}
+          onClick={onCardClick}
+        />
       </Card>
     </div>
   );

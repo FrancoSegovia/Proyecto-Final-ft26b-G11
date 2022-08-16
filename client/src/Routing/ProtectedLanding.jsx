@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode";
 
 const useAuth = () => {
   const token = localStorage.getItem("token");
-  console.log(token);
   if (token === undefined || token === null) {
     return [token, true];
   } else return [jwtDecode(token), false];

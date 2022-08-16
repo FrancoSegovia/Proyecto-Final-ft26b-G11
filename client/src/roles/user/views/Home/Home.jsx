@@ -16,6 +16,10 @@ export default function Home() {
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
+    if(localStorage.getItem("cart") === null){
+      localStorage.setItem("cart", JSON.stringify([]))
+      localStorage.setItem("total", JSON.stringify(0))
+    }
     dispatch(getAllShops());
   }, []);
 

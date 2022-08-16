@@ -1,45 +1,19 @@
-// import React from "react";
+import React from "react";
+import PaymentForm from "./PaymentForm";
 
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elemets, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
-//Abajo va una key de stripe
-//const stipePromise = loadStripe("key")
+const stripePromise = loadStripe(
+  "pk_test_51LUzvLBavWXziNSXlVdW8y5eI5o8aNmA0xHdKeP0KOaLQIc5FHAnSm0moURAUZS4b4302oyeqxv7by9leW2cmddg00kKPu246r"
+);
 
-// export default function Payment() {
-//   return <>"Pasarela con stripe"</>;
-  // return (
-//     <>
-//         <Elements stripe={sripePromise}>
-//         <PaymentForm>
-//         </Elements>
-//     </>
-// }
-
-//export default function PaymentForm(seguro recibe algo){
-//
-//  const stripe = useStripe()
-//  const elements = useElemets
-
-// const handleSubmit = (e) => {
-//      e.preventDefault();
-//
-//  stripe.createPaymentMethod({
-//    type:'card',
-//    card: elements.getElement(CardElement)
-//  })
-//    .then(({error, paymenMethod}) => {
-//
-//    })
-//
-//  }
-//
-// return (
-//     <>
-//      <form onSumbit={handleSubmit}>
-//          <CardElement/>
-//          <button>Buy</button>
-//      <form>
-//     </>
-// )
-// }
+export default function Payment() {
+  return (
+    <>
+      <Elements stripe={stripePromise}>
+        <PaymentForm />
+      </Elements>
+    </>
+  );
+}
