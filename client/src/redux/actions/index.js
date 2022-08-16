@@ -121,45 +121,73 @@ export const filterProducts = (value) => {
 };
 
 /////////////////////////////////////////////////
-export const getShoppingCart = () => (dispatch) => {
-  const token = jwtDecode(localStorage.getItem("token"))
-  return axios
-    .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
-    .then((products) => {
-      console.log(products.data)
-      dispatch({
-        type: GET_SHOPPINGCART,
-        payload: products.data,
-      });
-    })
-    .catch((error) => console.error(error.message));
-};
+export const getShoppingCart = () => {
+  let cart = JSON.parse(localStorage.getItem("cart"));
+  return {
+    type: GET_SHOPPINGCART,
+    payload: cart,
+  }
+}
 
-export const addShoppingCart = (id) => (dispatch) => {
-  const token = jwtDecode(localStorage.getItem("token"))
-  return axios
-    .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
-    .then((product) => {
-      dispatch({
-        type: ADD_SHOPPINGCART,
-        payload: product.data,
-      });
-    })
-    .catch((error) => console.error(error));
-};
+export const addShoppingCart = (product) => {
+  return {
+    type: ADD_SHOPPINGCART,
+    payload: product,
+  }
+}
+export const deleteShoppingCart = (id) => {
+  return {
+    type: DELETE_SHOPPINGCART,
+    payload: id,
+  }
+}
 
-export const deleteShoppingCart = (id) => (dispatch) => {
-  const token = jwtDecode(localStorage.getItem("token"))
-  return axios
-    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
-    .then((product) => {
-      dispatch({
-        type: DELETE_SHOPPINGCART,
-        payload: id,
-      });
-    })
-    .catch((error) => console.error(error));
-};
+// export const getShoppingCart = () => (dispatch) => {
+//   const token = jwtDecode(localStorage.getItem("token"))
+//   return axios
+//     .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
+//     .then((products) => {
+//       console.log(products.data)
+//       dispatch({
+//         type: GET_SHOPPINGCART,
+//         payload: products.data,
+//       });
+//     })
+//     .catch((error) => console.error(error.message));
+// };
+
+// export const addShoppingCart = (id) => (dispatch) => {
+//   const token = jwtDecode(localStorage.getItem("token"))
+//   return axios
+//     .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, {id:id})
+//     .then((product) => {
+//       console.log(product.data)
+//       dispatch({
+//         type: ADD_SHOPPINGCART,
+//         payload: product.data,
+//       });
+//     })
+//     .catch((error) => console.error(error));
+// };
+
+// export const deleteShoppingCart = (id) => (dispatch) => {
+//   const token = jwtDecode(localStorage.getItem("token"))
+//   return axios
+//     .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
+//     .then((product) => {
+//       dispatch({
+//         type: DELETE_SHOPPINGCART,
+//         payload: id,
+//       });
+//     })
+//     .catch((error) => console.error(error));
+// };
+
+////////////////////////////////////////////////
+export const  paymentFuncion = (id, amount) => {
+  return axios.post("http://localhost:3001/account/owner/signup", {id: id, amount: amount})
+  .then((data) => console.log(data))
+}
 
 ////////////////////////////////////////////////
 
@@ -206,12 +234,10 @@ export function signUpDelivery(user) {
 }
 
 export const signIn = (creds) => {
-  console.log("estoy en la action");
   return (dispatch) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
-        console.log(token.data);
         localStorage.setItem("token", token.data);
         dispatch({
           type: SIGN_IN,
