@@ -14,6 +14,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
+  const localS = localStorage.getItem("type");
 
   useEffect(() => {
     if(localStorage.getItem("cart") === null){
@@ -22,110 +23,6 @@ export default function Home() {
     }
     dispatch(getAllShops());
   }, []);
-
-  // const shopss = [
-  //   {
-  //     image:null,
-  //     name:"Ñamfifruli",
-  //     category:"Restaurant",
-  //     products:[
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       },
-  //       {
-  //         image:null,
-  //         name:"Papafrula",
-  //         price:"500",
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     image:null,
-  //     name:"Oktubre",
-  //     category:"Heladeria",
-  //     products:[
-  //       {
-  //         image:null,
-  //         name:"Helado de vainilla",
-  //         price:"500",
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     image:null,
-  //     name:"Luzbelito",
-  //     category:"Bodegón",
-  //     products:[
-  //       {
-  //         image:null,
-  //         name:"Milanesa con puré",
-  //         price:"500",
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     image:null,
-  //     name:"Pizza Conmigo",
-  //     category:"Pizzeria",
-  //     products:[
-  //       {
-  //         image:null,
-  //         name:"Especial Kito Pizza",
-  //         price:"500",
-  //       }
-  //     ]
-  //   }
-  //   ,
-  //   {
-  //     image:null,
-  //     name:"El Paseo Familiar de Don José",
-  //     category:"Bodegón",
-  //     products:[
-  //       {
-  //         image:null,
-  //         name:"Papito jugó al Doom",
-  //         price:"250",
-  //       }
-  //     ]
-  //   }
-  // ]
 
   return (
     <>
@@ -171,9 +68,15 @@ export default function Home() {
             )}
           </Grid>
 
-          <Grid item xs={2} style={{ textAlign: "center" }}>
-            <ShoppingCart />
-          </Grid>
+              {localS === "user" 
+              ? 
+              <Grid item xs={2} style={{ textAlign: "center" }}>
+                <ShoppingCart />
+              </Grid> 
+              :
+              null
+            }
+          
         </Grid>
       </div>
     </>

@@ -19,6 +19,8 @@ import {
   SIGN_OUT,
   ALL_USERS,
   GET_SHOPPINGCART,
+  OWNER_DETAIL,
+  OWNER_SHOPS,
 } from "../actions";
 
 const initialState = {
@@ -42,6 +44,8 @@ const initialState = {
   },
   _id: "",
   users: [],
+  owner:{},
+  ownerShops:[]
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -123,7 +127,20 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         error: payload,
       };
+    
+    case OWNER_DETAIL:
+      return {
+        ...state,
+        owner: payload,
+    };
 
+    case OWNER_SHOPS:
+      console.log("CUACK CUACK");
+      return {
+        ...state,
+        ownerShops: payload
+  };
+  
     /////////////////////////////////////////////////
 
     case GET_SHOPPINGCART:
@@ -172,6 +189,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_OUT:
       localStorage.removeItem("token");
+      localStorage.removeItem("type");
       return {
         ...state,
         user: {

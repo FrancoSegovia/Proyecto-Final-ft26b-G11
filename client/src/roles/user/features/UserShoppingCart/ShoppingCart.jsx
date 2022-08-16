@@ -65,7 +65,7 @@ export default function ShoppingCart() {
         </Typography>
         <br></br>
         {!cart.length
-          ? "El Carrito se encuentra Vacio"
+          ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
               return (
                 <div>

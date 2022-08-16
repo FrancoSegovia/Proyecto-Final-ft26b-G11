@@ -26,6 +26,8 @@ export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
 export const USER_LOADED = "USER_LOADED";
 ////////////////////////////////////////////////
+export const OWNER_DETAIL = "OWNER_DETAIL";
+export const OWNER_SHOPS= "OWNER_SHOPS";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -58,15 +60,25 @@ export const getQueryShops = (query) => (dispatch) => {
 };
 
 export function addStore(payload) {
+
   return async function () {
     try {
-      var respuesta = await axios.post(`http://localhost:3001/local`, payload);
+      var respuesta = await axios.post(`http://localhost:3001/account/owner/local/add_local`, payload, setHeaders());
       return respuesta;
     } catch (error) {
       console.error(error);
     }
   };
 }
+
+export const deleteShop = (id) => {
+  console.log("Llegué hasta acá y no hice un chori");
+  return axios
+    .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
+    .catch((error) => console.error(error.message));
+};
+
+
 //Hay que pasar la function de arriba como promesa
 // export const addcosa = (paylaod) => {
 //   return axios.post(`http://localhost:3001/account/owner/local`, payload)
@@ -89,6 +101,39 @@ export const getAllUsers = (dispatch) => {
 export const deleteUser = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/users/${id}`)
+    .catch((error) => console.error(error.message));
+};
+
+export const getOwnerDetails = (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
+    .then((owner) => {
+      console.log(owner.data)
+      dispatch({
+        type: OWNER_DETAIL,
+        payload: owner.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const getOwnerShops = (id) => (dispatch) => {
+  console.log("buenas buenasss")
+  return axios
+    .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
+    .then((shops) => {
+      console.log("Sos un puto");
+      dispatch({
+        type: OWNER_SHOPS,
+        payload: shops.data,
+      });
+    })
+    .catch((error) => console.error(error.message, "JAJAAAAAAAAA"));
+};
+
+export const deleteProduct = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/owner/local/product/${id}`)
     .catch((error) => console.error(error.message));
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import { loadUser } from "./redux/actions/index";
@@ -25,17 +25,24 @@ import Orders from "./roles/admin/views/Orders";
 
 import ClickerHome from "./roles/delivery/views/ClickerHome";
 import Profile from "./roles/user/views/Profile/Profile";
+import OwnerHome from "./roles/owner/views/OwnerHome";
+import OwnerSettings from "./roles/owner/views/OwnerSettings";
 
 export default function App() {
+
+  // useEffect(() => {
+  //   localStorage.setItem("type", "invited")
+  // }, [])
+  
 
   return (
     <div>
       <Routes>
-        <Route element={<ProtectedLanding />}>
+        {/* <Route element={<ProtectedLanding />}> */}
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/SignUp" element={<UserSignUp />} />
           <Route exact path="/SignIn" element={<UserSignIn />} />
-        </Route>
+        {/* </Route> */}
 
         <Route element={<ProtectedRoutes />}>
           <Route element={<ProtectedUser />}>
@@ -53,8 +60,9 @@ export default function App() {
           </Route>
 
           <Route element={<ProtectedOwner />}>
+            <Route exact path="/owner/home" element={<OwnerHome />} />
             <Route exact path="/owner/create" element={<CreateStore />} />
-            <Route exact path="/owner/create" element={<CreateStore />} />
+            <Route exact path="/owner/settings" element={<OwnerSettings />} />
           </Route>
 
           <Route element={<ProtectedDelivery />}>
