@@ -10,25 +10,29 @@ function getModelByName(name) {
 const addProductCart = async (req, res) => {
     
     const { user } = req.params
-    const { name, image, price} = req.body;
-   
+    const { _id } = req.body;
+    
+    const productId = await Product.findOne(_id);
+    const productsId = productId._id
+    console.log("soy body", productsId)
+
     const userId = await User.findOne(user)
     const usersId = userId._id
-        console.log("soy user", usersId)
+        
 
     const product = getModelByName("Product")
     
     // Nos fijamos si tenemos el producto
 
-    const productExist = await product.findOne({ name })
+    const productExist = await product.findOne({ productsId })
 
     // Nos fijamos si todos los campos vienen con info
 
-    const isNotEmptyCart = name !== "" && image !== "" && price !== "" ;
+    const isNotEmptyCart = _id !== ""  ;
 
     // Nos fijamos si el producto esta en el carrito
 
-    const inCart = await Cart.findOne({name});
+    const inCart = await Cart.findOne({productsId});
     
     // Si no tenemos el producto 
 
