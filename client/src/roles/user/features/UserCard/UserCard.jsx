@@ -39,7 +39,6 @@ export default function UserCard({ shop }) {
     dispatch(addShoppingCart(e.target.value));
   };
 
-  console.log(shop);
   const styles = {
     media: {
       alignSelf: "center",

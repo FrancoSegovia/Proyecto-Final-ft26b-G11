@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 
 const useAuth = () => {
-  console.log("hola")
   if (localStorage.getItem("token") !== null) {
     return true;
   } else return false;

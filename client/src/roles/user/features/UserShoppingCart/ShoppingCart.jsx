@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,13 +11,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { deleteShoppingCart } from "../../../../redux/actions";
+import { deleteShoppingCart, getShoppingCart } from "../../../../redux/actions";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
+
+  useEffect(() =>{
+    dispatch(getShoppingCart())
+  },[])
 
   const onClick = (e) => {
     e.preventDefault()
@@ -49,7 +53,7 @@ export default function ShoppingCart() {
         </Typography>
         <br></br>
         {!cart.length
-          ? "NO HAY NADA EN TU CARRITO FLACO"
+          ? "El Carrito se encuentra Vacio"
           : cart.map((p) => {
               return (
                 <div>

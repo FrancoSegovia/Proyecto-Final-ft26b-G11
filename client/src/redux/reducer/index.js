@@ -129,6 +129,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case GET_SHOPPINGCART:
       return {
         ...state,
+        cart: payload
       };
 
     case ADD_SHOPPINGCART:

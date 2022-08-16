@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Navigate } from "react-router";
+import jwtDecode from "jwt-decode";
+
 import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
@@ -29,7 +30,6 @@ export const getAllShops = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/account/user/local")
     .then((shops) => {
-      console.log(shops.data);
       dispatch({
         type: ALL_SHOPS,
         payload: shops.data,
@@ -122,9 +122,11 @@ export const filterProducts = (value) => {
 
 /////////////////////////////////////////////////
 export const getShoppingCart = () => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"))
   return axios
-    .get(`http://localhost:3001/account/cart/products-cart`)
+    .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
     .then((products) => {
+      console.log(products.data)
       dispatch({
         type: GET_SHOPPINGCART,
         payload: products.data,
@@ -134,8 +136,9 @@ export const getShoppingCart = () => (dispatch) => {
 };
 
 export const addShoppingCart = (id) => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"))
   return axios
-    .post(`http://localhost:3001/account/cart/products-cart`, id)
+    .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
     .then((product) => {
       dispatch({
         type: ADD_SHOPPINGCART,
@@ -146,8 +149,9 @@ export const addShoppingCart = (id) => (dispatch) => {
 };
 
 export const deleteShoppingCart = (id) => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"))
   return axios
-    .delete(`http://localhost:3001/account/cart/products-cart`, id)
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
     .then((product) => {
       dispatch({
         type: DELETE_SHOPPINGCART,
