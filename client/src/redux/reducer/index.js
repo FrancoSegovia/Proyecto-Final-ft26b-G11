@@ -1,5 +1,6 @@
 import shopOrder from "../../utils/functions/shopOrder";
 import shopFilter from "../../utils/functions/shopFilter";
+import jwtDecode from "jwt-decode";
 // import productOrder from "../../utils/functions/productOrder";
 // import productFitler from "../../utils/functions/productFilter";
 
@@ -12,6 +13,12 @@ import {
   FILTER_PRODUCTS,
   QUERY_ERROR,
   ERROR_CLEANER,
+  SIGN_IN,
+  ADD_SHOPPINGCART,
+  DELETE_SHOPPINGCART,
+  SIGN_OUT,
+  ALL_USERS,
+  GET_SHOPPINGCART,
 } from "../actions";
 
 const initialState = {
@@ -21,7 +28,20 @@ const initialState = {
   shops: [],
   shopFilter: "",
   shopOrder: "",
+  cart: [],
   error: false,
+  user: {
+    type: "",
+    token: localStorage.getItem("token"),
+    name: "",
+    lastName: "",
+    eMail: "",
+    _id: "",
+    phone: null,
+    vehicle: "",
+  },
+  _id: "",
+  users: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -38,6 +58,13 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         shops: payload,
+      };
+    }
+
+    case ALL_USERS: {
+      return {
+        ...state,
+        users: payload,
       };
     }
 
@@ -85,19 +112,83 @@ const reducer = (state = initialState, { type, payload }) => {
 
     /////////////////////////////////////////////////
 
-    case QUERY_ERROR: {
+    case QUERY_ERROR:
       return {
         ...state,
         error: payload,
+      };
+
+    case ERROR_CLEANER:
+      return {
+        ...state,
+        error: payload,
+      };
+
+    /////////////////////////////////////////////////
+
+    case GET_SHOPPINGCART:
+      return {
+        ...state,
+        cart: payload,
+      };
+
+    case ADD_SHOPPINGCART:
+      let newCart = [...state.cart, payload];
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      return {
+        ...state,
+        cart: [...state.cart, payload],
+      };
+
+    case DELETE_SHOPPINGCART:
+      let newCart2 = JSON.parse(localStorage.getItem("cart"));
+      newCart2 = newCart2.filter((p) => p._id !== payload);
+      localStorage.setItem("cart", JSON.stringify(newCart2));
+      const updatedCart = state.cart.filter((p) => p._id !== payload);
+      return {
+        ...state,
+        cart: [...updatedCart],
+      };
+
+    /////////////////////////////////////////////////
+
+    case SIGN_IN: {
+      const data = jwtDecode(payload);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          token: payload,
+          _id: data._id,
+          type: data.type,
+          name: data.name,
+          lastName: data.lastName,
+          eMail: data.email,
+          phone: data.phone ? data.phone : null,
+          vehicle: data.vehicle ? data.vehicle : "",
+        },
       };
     }
 
-    case ERROR_CLEANER: {
+    case SIGN_OUT:
+      localStorage.removeItem("token");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("total");
+      localStorage.removeItem("type");
       return {
         ...state,
-        error: payload,
+        user: {
+          ...state.user,
+          type: "",
+          token: null,
+          name: "",
+          lastName: "",
+          eMail: "",
+          _id: "",
+          phone: null,
+          vehicle: "",
+        },
       };
-    }
 
     /////////////////////////////////////////////////
 

@@ -1,13 +1,12 @@
 const express = require("express");
+const { isAuthenticated } = require("../routes/middlewares");
+const deliveryController = require("../routes/controllers/controller_deliverys") 
 const router = express.Router();
 
-const deliverySchema = require('../schema/Delivery.js')
+router.post("/signup", deliveryController.signup); //*REGISTRO
+router.get("/confirm/:token", deliveryController.confirmAccount); //*EMAIL Y VERIFICACION
 
-router.post("/", (req, res) => {
-    const delivery = deliverySchema(req.body)
-    delivery
-    .save().then((data) => res.json(data))
-    .catch((error) => res.json({message: error}))
-})
+router.get("/currentDelivery/:id", isAuthenticated, deliveryController.currentDelivery); //*DETAIL DELIVERY
+router.put("/currentDelivery/update/:id",isAuthenticated, deliveryController.updatecurrentDelivery); //* UPDATE DELIVERY
 
 module.exports = router;

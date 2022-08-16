@@ -1,0 +1,33 @@
+const { Schema, model } = require("mongoose")
+
+const schema =  Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    }, 
+    price: {
+        type: Number, 
+        required: true
+    }, 
+    // product: {
+    //     type: [Schema.Types.ObjectId],
+    //     ref: "Product",
+    //     required: true,
+    // },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      }, 
+}, { collection: "carts" } 
+);
+
+module.exports = model("Cart", schema)
