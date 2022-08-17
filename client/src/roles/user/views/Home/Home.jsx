@@ -16,7 +16,6 @@ export default function Home() {
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
   const localS = jwtDecode(localStorage.getItem("token")).type
-  console.log(localS)
 
   useEffect(() => {
     if (localStorage.getItem("cart") === null) {

@@ -18,6 +18,10 @@ import {
   Fade,
   Modal,
   Grid,
+  FormControl,
+  TextField,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
 import { addShoppingCart, deleteShop } from "../../../redux/actions";
@@ -25,9 +29,11 @@ import { addShoppingCart, deleteShop } from "../../../redux/actions";
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit'; 
 import { deleteProduct } from "../../../redux/actions";
+import AddIcon from '@mui/icons-material/Add';
 
 export default function AdminCard({ shop }) {
   const [open, setOpen] = useState(false);
+  const [newProductOpen, setNewProductOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
@@ -40,18 +46,22 @@ export default function AdminCard({ shop }) {
   }
 
   const onCardClose = (e) => setOpen(false);
+
   const onCardClick = async () =>  {
     setOpen(true);
     const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
     setProducts(products.data);
   };
 
+
   const styles = {
     media: {
+      justifySelf:"right",
+      position:"absolute",
       alignSelf: "center",
-      width: "150px",
+      width: "10vw",
+      marginRight:"25px",
       borderRadius: "15%",
-      marginRight:"2vw",
     },
     modalMedia: {
       alignSelf: "center",
@@ -62,6 +72,15 @@ export default function AdminCard({ shop }) {
       objectFit:"cover"
     }
   };
+
+  const addBtnStyle = {
+    fontSize:"1vw",
+    color:"white",
+    backgroundColor:"#1976d2",
+    '&:hover':{
+      backgroundColor:"#1667b8"
+    }
+  }
 
   const closeBtnStyle = {
     width:"32vw",
@@ -118,7 +137,25 @@ export default function AdminCard({ shop }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1300,
+    width: "80vw",
+    maxHeight: data.type !== "owner" ? "calc(100vh - 10px)" : "calc(100vh - 100px)",
+    overflow: "hidden",
+    overflowY: "auto",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const productModalStyle = {
+    outline: "none",
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80vw",
+    minHeight:"",
     maxHeight: data.type !== "owner" ? "calc(100vh - 10px)" : "calc(100vh - 100px)",
     overflow: "hidden",
     overflowY: "auto",
@@ -129,6 +166,8 @@ export default function AdminCard({ shop }) {
 
   return (
     <div>
+
+                      {/*MODAL DE TIENDA*/}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -242,6 +281,7 @@ export default function AdminCard({ shop }) {
                             <CloseIcon/>
                         </IconButton>
 
+
                         {/* {data.type === "owner" ?
                           <IconButton sx={editModalBtnStyle}>
                             <EditIcon/>
@@ -263,6 +303,96 @@ export default function AdminCard({ shop }) {
                   </div>
                 );
               })}
+
+              {data.type === "owner" ? 
+                <IconButton sx={addBtnStyle} onClick={() => {
+                  setNewProductOpen(true)
+                  setOpen(false)
+                  }}>
+                      <AddIcon/>
+                </IconButton>
+              :
+                <></>
+            }
+
+              
+
+            </Container>
+          </Box>
+        </Fade>
+      </Modal>
+
+                {/*MODAL DE AGREGAR PRODUCTOS*/}
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={newProductOpen}
+        onClose={(e) => setNewProductOpen(false)}
+        closeAfterTransition
+        style={{ backdropFilter: "blur(2px)", transition: "0" }}
+      >
+        <Fade in={newProductOpen}>
+          <Box sx={productModalStyle}>
+            <IconButton
+              sx={{ "&:hover": { backgroundColor: "#e8e8e8" } }}
+              style={closeButtonStyle}
+              onClick={() => {
+                setNewProductOpen(false)
+                setOpen(true);
+              }}
+            >
+              <Clear />
+            </IconButton>
+
+            <Typography
+              id="transition-modal-title"
+              style={{ textAlign: "center" }}
+              variant="h4"
+              component="h4"
+            >
+              AGREGAR NUEVO PRODUCTO
+            </Typography>
+
+            <Typography
+              id="transition-modal-title"
+              style={{
+                marginTop: "15px",
+                textAlign: "center",
+                marginBottom: "15px",
+              }}
+              variant="h5"
+              component="h5"
+              color="textSecondary"
+            >
+              ({shop.name})
+            </Typography>
+
+            <Container
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly",
+                marginBottom: "20px",
+                marginTop: "20px",
+                "&hover": { cursor: "default" },
+                gap: "50px",
+              }}
+            >
+              {/* <FormControl sx={{ width: '25ch', gap:"25px" }}>
+                <TextField label="Nombre del producto"></TextField>
+                <TextField label="Precio del producto"></TextField>
+                <Select>
+                  <MenuItem value={"Comida"}>Comida</MenuItem>
+                  <MenuItem value={"Bebida"}>Bebida</MenuItem>
+                </Select>
+
+                <Button variant="contained">
+                    AGREGAR PRODUCTO
+                </Button>
+
+              </FormControl> */}
+
             </Container>
           </Box>
         </Fade>
@@ -309,12 +439,14 @@ export default function AdminCard({ shop }) {
             {shop.category}
           </Typography>
         </CardContent>
+        <div style={{display:"flex", justifyContent:"right"}}>
         <CardMedia
           component="img"
           style={styles.media}
           image={shop.image ? shop.image : defaultShop}
           onClick={onCardClick}
         />
+        </div>
       </Card>
 
       <Box style={{ position:"sticky", display:"flex", flexDirection:"column", gap:"5px", marginTop:"7px"}}>

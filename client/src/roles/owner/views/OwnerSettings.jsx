@@ -1,5 +1,5 @@
 import { ArrowBack, Edit } from '@mui/icons-material';
-import { Box, Button, Container, Grid, IconButton } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Typography } from '@mui/material';
 import jwtDecode from 'jwt-decode';
 import React from 'react'
 import { useState } from 'react';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { getOwnerDetails, getOwnerShops } from '../../../redux/actions';
 import AdminCard from '../../admin/features/AdminCard';
+import { Home } from '@mui/icons-material';
 
 function OwnerSettings() {
     const dispatch = useDispatch();
@@ -17,7 +18,6 @@ function OwnerSettings() {
     const ownerShops = useSelector(state => state.ownerShops);
     const data = jwtDecode(localStorage.getItem("token"));
 
-    console.log(data)
     
     useEffect(() => {
         dispatch(getOwnerShops(data._id));
@@ -27,8 +27,9 @@ function OwnerSettings() {
     
   return (
     <>
-        <Box style={{display:"flex", flexDirection:"column",alignItems:"center", minWidth:"100vw", minHeight:"100vh", justifyContent:"center", rowGap:"30px"}} >
-            <Box style={{display:"flex", flexDirection:"row", gap:"50px"}}>
+        <Box style={{ display:"flex", flexDirection:"column",alignItems:"center", minWidth:"100vw", minHeight:"100vh", justifyContent:"center"}} >
+          <Typography variant="h4" color="primary.main" sx={{ display:"block", fontFamily:"roboto"}}>GESTIONAR NEGOCIOS</Typography>
+            <Box style={{ padding:"20px", maxWidth:"68vw",display:"flex", flexDirection:"row", gap:"25px", flexWrap:"wrap", justifyContent:"space-between"}}>
                 {ownerShops.map(shop => {
                   return (
 
@@ -39,8 +40,8 @@ function OwnerSettings() {
                   )
                 })}
             </Box>
-                <Link to="/owner/home" style={{ textDecoration: "none", color: "white"}}>
-                  <Button variant="contained" startIcon={<ArrowBack />}>
+                <Link to="/owner/home" style={{ textDecoration: "none", color: "white", padding:"20px"}}>
+                  <Button variant="contained" startIcon={<ArrowBack />} endIcon={<Home/>}>
                     Regresar
                   </Button>
                 </Link>
