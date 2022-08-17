@@ -1,10 +1,10 @@
-import * as React from "react"
+import React from "react";
 
 const TopSvg = (props) => (
   <div
     style={{
       height: 200,
-      overflow: "hidden"
+      overflow: "hidden",
     }}
   >
     <svg
@@ -25,6 +25,6 @@ const TopSvg = (props) => (
       />
     </svg>
   </div>
-)
+);
 
-export default TopSvg
+export default TopSvg;

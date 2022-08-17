@@ -39,11 +39,11 @@ export default function ShoppingCart() {
   // const onAdd = () => {};
 
   const total = () => {
-    let total = 0
-    cart.map((p) => total = total + p.price)
-    localStorage.setItem("total", JSON.stringify(total))
-    return total
-  }
+    let total = 0;
+    cart.map((p) => (total = total + p.price));
+    localStorage.setItem("total", JSON.stringify(total));
+    return total;
+  };
 
   const styles = {
     media: {
@@ -109,7 +109,7 @@ export default function ShoppingCart() {
           color="textPrimary"
           component="div"
         >
-          {!cart.length ? "Total = 0$" : `Total = ${total()}$` }
+          {!cart.length ? "Total = 0$" : `Total = ${total()}$`}
         </Typography>
         <Button
           variant="contained"

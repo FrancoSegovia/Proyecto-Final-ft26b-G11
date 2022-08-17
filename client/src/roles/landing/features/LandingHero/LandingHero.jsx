@@ -1,10 +1,11 @@
-import { Icon, IconButton } from "@mui/material";
 import React from "react";
-import Button from "../Button/Button";
-import Typography from "../Typography/Typography";
-import LandingHeroLayout from "./LandingHeroLayout";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Link } from "react-router-dom";
+import Button from "../Button/Button";
+import LandingHeroLayout from "./LandingHeroLayout";
+import Typography from "../Typography/Typography";
+
+import { Icon, IconButton } from "@mui/material";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export default function LandingHero() {
 

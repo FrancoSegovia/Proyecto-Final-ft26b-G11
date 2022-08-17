@@ -14,16 +14,15 @@ import {
   Box,
   Fade,
   Modal,
-  Grid
+  Grid,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
 import { addShoppingCart } from "../../../redux/actions";
 
-import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit'; 
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function AdminCard({ shop }) {
-
   const [open, setOpen] = useState(false);
   const onCardClick = (e) => setOpen(true);
   const onCardClose = (e) => setOpen(false);
@@ -33,53 +32,53 @@ export default function AdminCard({ shop }) {
       alignSelf: "center",
       width: "150px",
       borderRadius: "15%",
-      marginRight:"25px",
+      marginRight: "25px",
     },
   };
 
   const closeBtnStyle = {
-    position:"sticky",
-    backgroundColor:"#f44336",
-    color:"white",
-    "&:hover":{
-      backgroundColor:"#d32f2f"
-    }
-  }
+    position: "sticky",
+    backgroundColor: "#f44336",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#d32f2f",
+    },
+  };
 
   const editBtnStyle = {
-    position:"sticky",
-    backgroundColor:"#29b6f6",
-    color:"white",
-    '&:hover':{
-      backgroundColor:"#2293c7"
-    }
-  }
+    position: "sticky",
+    backgroundColor: "#29b6f6",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#2293c7",
+    },
+  };
 
   const closeModalBtnStyle = {
-    position:"absolute",
-    translate:"120px -35px",
-    backgroundColor:"#f44336",
-    color:"white",
-    "&:hover":{
-      backgroundColor:"#d32f2f"
+    position: "absolute",
+    translate: "120px -35px",
+    backgroundColor: "#f44336",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#d32f2f",
     },
-  }
+  };
 
   const editModalBtnStyle = {
-    position:"absolute",
-    translate:"-120px -35px",
-    backgroundColor:"#29b6f6",
-    color:"white",
-    '&:hover':{
-      backgroundColor:"#2293c7"
-    }
-  }
+    position: "absolute",
+    translate: "-120px -35px",
+    backgroundColor: "#29b6f6",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#2293c7",
+    },
+  };
 
   const closeButtonStyle = {
     alignSelf: "flex-end",
     transition: "0.25s",
-    position:"absolute",
-    float:"right"
+    position: "absolute",
+    float: "right",
   };
 
   const modalStyle = {
@@ -107,7 +106,7 @@ export default function AdminCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
-        style={{backdropFilter:"blur(2px)", transition:"0"}}
+        style={{ backdropFilter: "blur(2px)", transition: "0" }}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -145,7 +144,11 @@ export default function AdminCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
+              style={{
+                marginTop: "15px",
+                textAlign: "center",
+                marginBottom: "15px",
+              }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -163,7 +166,7 @@ export default function AdminCard({ shop }) {
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"50px"
+                gap: "50px",
               }}
             >
               {shop.products.map((product) => {
@@ -173,7 +176,7 @@ export default function AdminCard({ shop }) {
                       style={{
                         backgroundColor: "whitesmoke",
                         padding: "20px",
-                        minWidth:"250px",
+                        minWidth: "250px",
                         maxWidth: "250px",
                       }}
                     >
@@ -208,30 +211,51 @@ export default function AdminCard({ shop }) {
                         </Typography>
 
                         <IconButton sx={closeModalBtnStyle}>
-                            <CloseIcon/>
+                          <CloseIcon />
                         </IconButton>
                         <IconButton sx={editModalBtnStyle}>
-                            <EditIcon/>
-                        </IconButton> 
-
+                          <EditIcon />
+                        </IconButton>
                       </CardContent>
                     </Card>
                   </div>
                 );
               })}
             </Container>
-
           </Box>
         </Fade>
       </Modal>
 
       <Card
-        sx={{ maxWidth: "32vw", minWidth: "1.5vw", maxHeight:200, minHeight:200,  "&:hover": { cursor: "pointer", outline:"3px solid #4fc3f7"  }, backgroundColor:"whitesmoke", display:"flex", justifyContent:"space-between" }}
+        sx={{
+          maxWidth: "32vw",
+          minWidth: "1.5vw",
+          maxHeight: 200,
+          minHeight: 200,
+          "&:hover": { cursor: "pointer", outline: "3px solid #4fc3f7" },
+          backgroundColor: "whitesmoke",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
         style={{ marginTop: "15px" }}
       >
-          
-        <CardContent style={{ minWidth: 300, marginTop: "20px",marginBottom: "20px",maxWidth: 200, marginLeft:"30px"}} onClick={onCardClick}>
-          <Typography wrap variant="h4" color="textPrimary" component="div" style={{ fontSize:"2vw"}}>
+        <CardContent
+          style={{
+            minWidth: 300,
+            marginTop: "20px",
+            marginBottom: "20px",
+            maxWidth: 200,
+            marginLeft: "30px",
+          }}
+          onClick={onCardClick}
+        >
+          <Typography
+            wrap
+            variant="h4"
+            color="textPrimary"
+            component="div"
+            style={{ fontSize: "2vw" }}
+          >
             {shop.name}
           </Typography>
           <Typography
@@ -244,26 +268,29 @@ export default function AdminCard({ shop }) {
           </Typography>
         </CardContent>
         <CardMedia
-            component="img"
-            style={styles.media}
-            image={shop.image ? shop.image : defaultShop}
-            onClick={onCardClick}
-          />
-
-          
-
+          component="img"
+          style={styles.media}
+          image={shop.image ? shop.image : defaultShop}
+          onClick={onCardClick}
+        />
       </Card>
 
-      <Box style={{ position:"sticky", display:"flex", flexDirection:"column", gap:"5px", marginTop:"7px"}}>
-            <Button sx={editBtnStyle}>
-                <EditIcon/>
-            </Button> 
-            <Button sx={closeBtnStyle}>
-                <CloseIcon/>
-            </Button>
-            
+      <Box
+        style={{
+          position: "sticky",
+          display: "flex",
+          flexDirection: "column",
+          gap: "5px",
+          marginTop: "7px",
+        }}
+      >
+        <Button sx={editBtnStyle}>
+          <EditIcon />
+        </Button>
+        <Button sx={closeBtnStyle}>
+          <CloseIcon />
+        </Button>
       </Box>
-
     </div>
   );
 }
