@@ -1,20 +1,22 @@
 import React from "react";
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { paymentFuncion } from "../../../../redux/actions";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Box, Button, Grid } from "@mui/material";
-
-import StripeForm from "./StripeForm";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function PaymentForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -26,15 +28,17 @@ export default function PaymentForm() {
         type: "card",
         card: elements.getElement(CardElement),
       })
-      .then(({paymentMethod}) => {
-        let {id}  = paymentMethod
-        dispatch(paymentFuncion(id, JSON.parse(localStorage.getItem("total"))* 100));
+      .then(({ paymentMethod }) => {
+        let { id } = paymentMethod;
+        dispatch(
+          paymentFuncion(id, JSON.parse(localStorage.getItem("total")) * 100)
+        );
       })
       .catch((error) => console.error(error));
 
-      setTimeout(() => {
-        navigate('/user/home')
-      },5000)
+    setTimeout(() => {
+      navigate("/user/home");
+    }, 5000);
   };
 
   return (
@@ -45,7 +49,7 @@ export default function PaymentForm() {
       <Grid>
         <Grid item xs={12} md={6}>
           <Box component="form" onSubmit={handleSubmit}>
-              <CardElement />
+            <CardElement />
             <Button
               type="submit"
               fullWidth

@@ -51,7 +51,7 @@ const styles = ({ theme }) => ({
     width: 55,
     display: "block",
     margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor:"#1976d2",
+    backgroundColor: "#1976d2",
   },
   [`& .${markClassesMapping.left.h6}`]: {
     height: 2,

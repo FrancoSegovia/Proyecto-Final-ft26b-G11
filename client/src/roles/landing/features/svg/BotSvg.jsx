@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react";
 
 const BotSvg = (props) => (
   <div
@@ -25,6 +25,6 @@ const BotSvg = (props) => (
       />
     </svg>
   </div>
-)
+);
 
-export default BotSvg
+export default BotSvg;

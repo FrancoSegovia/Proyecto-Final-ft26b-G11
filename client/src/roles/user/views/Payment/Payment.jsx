@@ -1,25 +1,30 @@
 import React from "react";
 import { useNavigate } from "react-router";
+
 import AddressForm from "./AdressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Toolbar from "@mui/material/Toolbar";
-import Paper from "@mui/material/Paper";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import StripeForm from "./StripeForm";
+
+import CssBaseline from "@mui/material/CssBaseline";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Link,
+  Paper,
+  Step,
+  StepLabel,
+  Stepper,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 
 const stripePromise = loadStripe(
   "pk_test_51LUzvLBavWXziNSXlVdW8y5eI5o8aNmA0xHdKeP0KOaLQIc5FHAnSm0moURAUZS4b4302oyeqxv7by9leW2cmddg00kKPu246r"
@@ -42,11 +47,6 @@ function getStepContent(step) {
     default:
       throw new Error("Paso Desconocido");
   }
-}
-{
-  /* <Elements stripe={stripePromise}>
-<StripeForm />
-</Elements> */
 }
 
 const theme = createTheme();
@@ -74,7 +74,7 @@ export default function Payment() {
           <Button
             variant="contained"
             onClick={() => navigate("/user/home")}
-            sx={{ mt: 0.5 , ml: 0.5 }}
+            sx={{ mt: 0.5, ml: 0.5 }}
           >
             {"Volver"}
           </Button>

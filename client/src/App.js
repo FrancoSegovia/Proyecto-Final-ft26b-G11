@@ -1,34 +1,37 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
-import { loadUser } from "./redux/actions/index";
-import ProtectedRoutes from "./Routing/ProtectedRoutes";
-import ProtectedLanding from "./Routing/ProtectedLanding";
-import ProtectedUser from "./Routing/ProtectedUser";
-import ProtectedPayment from "./Routing/ProtectedPayment";
-import ProtectedAdmin from "./Routing/ProtectedAdmin";
-import ProtectedOwner from "./Routing/ProtectedOwner";
-import ProtectedDelivery from "./Routing/ProtectedDelivery";
-
+//////////////////////////////////////////////////////////////////////////
+import ProtectedRoutes from "./routing/ProtectedRoutes";
+import ProtectedLanding from "./routing/ProtectedLanding";
+import ProtectedUser from "./routing/ProtectedUser";
+import ProtectedPayment from "./routing/ProtectedPayment";
+import ProtectedAdmin from "./routing/ProtectedAdmin";
+import ProtectedOwner from "./routing/ProtectedOwner";
+import ProtectedDelivery from "./routing/ProtectedDelivery";
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 import LandingPage from "./roles/landing/views/LandingPage/LandingPage";
 import UserSignUp from "./roles/Auth/UserSignUp.jsx";
 import UserSignIn from "./roles/Auth/UserSignIn.jsx";
-
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 import Home from "./roles/user/views/Home/Home.jsx";
 import Payment from "./roles/user/views/Payment/Payment";
 import CreateStore from "./roles/user/views/CreateStore/CreateStore.jsx";
-
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 import Shops from "./roles/admin/views/Shops";
 import Users from "./roles/admin/views/Users";
 import Owners from "./roles/admin/views/Owners";
 import Clickers from "./roles/admin/views/Clickers";
 import Orders from "./roles/admin/views/Orders";
-
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 import ClickerHome from "./roles/delivery/views/ClickerHome";
 import Profile from "./roles/user/views/Profile/Profile";
+//////////////////////////////////////////////////////////////////////////
 
 export default function App() {
-
   return (
     <div>
       <Routes>
