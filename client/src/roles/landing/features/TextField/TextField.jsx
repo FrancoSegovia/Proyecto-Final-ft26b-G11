@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { styled } from "@mui/material/styles";
-import MuiTextField from "@mui/material/TextField";
+import { TextField } from "@mui/material";
 import { selectClasses } from "@mui/material/Select";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 
@@ -89,7 +89,7 @@ function TextField(props) {
   } = InputProps;
 
   return (
-    <MuiTextField
+    <TextField
       InputProps={{
         classes: {
           root: classes.root,

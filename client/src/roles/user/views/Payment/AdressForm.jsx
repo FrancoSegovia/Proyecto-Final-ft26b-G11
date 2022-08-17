@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import jwtDecode from "jwt-decode";
+
+import {
+  Checkbox,
+  Grid,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function AddressForm() {
   let [form, setForm] = useState({
@@ -12,19 +15,18 @@ export default function AddressForm() {
     lastName: "",
     address1: "",
     address2: "",
-
   });
 
   useEffect(() => {
-    let token = jwtDecode(localStorage.getItem("token"))
-    console.log(token)
+    let token = jwtDecode(localStorage.getItem("token"));
+    console.log(token);
     setForm({
-        firstName: token.name,
-        lastName: token.lastname,
-        address1: token.direction,
-        address2: token.email,
-      });
-  },[])
+      firstName: token.name,
+      lastName: token.lastname,
+      address1: token.direction,
+      address2: token.email,
+    });
+  }, []);
 
   const handleChange = (e) => {
     setForm({

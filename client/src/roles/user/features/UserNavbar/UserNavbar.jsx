@@ -123,24 +123,21 @@ export default function Navbar() {
               </Container>
             </Container>
 
-            {localS !== "user" 
-            ? 
-            <Link
-              to="/create"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              <Button variant="contained" color="primary" size="small">
-                Ingrese un nuevo negocio
-                <IconButton style={{ color: "white" }}>
-                  <AddBusiness />
-                </IconButton>
-              </Button>
-            </Link>
-            : 
-            <UserMenu/>
-            }
-            
-
+            {localS !== "user" ? (
+              <Link
+                to="/create"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <Button variant="contained" color="primary" size="small">
+                  Ingrese un nuevo negocio
+                  <IconButton style={{ color: "white" }}>
+                    <AddBusiness />
+                  </IconButton>
+                </Button>
+              </Link>
+            ) : (
+              <UserMenu />
+            )}
           </Toolbar>
         </AppBar>
       </Box>
