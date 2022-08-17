@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
+
 import ShoppingCart from "../UserShoppingCart/ShoppingCart";
+
+import { addShoppingCart } from "../../../../redux/actions";
+
 
 import {
   Button,
@@ -19,7 +23,6 @@ import {
   Grid,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
-import { addShoppingCart } from "../../../../redux/actions";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();

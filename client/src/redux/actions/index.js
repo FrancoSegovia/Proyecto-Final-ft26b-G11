@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import {toast} from "react-toastify"
-import swal from 'sweetalert'
+import { toast } from "react-toastify";
+import swal from "sweetalert";
 import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
@@ -104,6 +104,7 @@ export const deleteUser = (id) => {
     .catch((error) => console.error(error.message));
 };
 
+
 export const getOwnerDetails = (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
@@ -136,6 +137,7 @@ export const deleteProduct = (id) => {
     .delete(`http://localhost:3001/account/owner/local/product/${id}`)
     .catch((error) => console.error(error.message));
 };
+
 
 
 export const orderShops = (value) => {
@@ -172,21 +174,21 @@ export const getShoppingCart = () => {
   return {
     type: GET_SHOPPINGCART,
     payload: cart,
-  }
-}
+  };
+};
 
 export const addShoppingCart = (product) => {
   return {
     type: ADD_SHOPPINGCART,
     payload: product,
-  }
-}
+  };
+};
 export const deleteShoppingCart = (id) => {
   return {
     type: DELETE_SHOPPINGCART,
     payload: id,
-  }
-}
+  };
+};
 
 // export const getShoppingCart = () => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
@@ -230,16 +232,19 @@ export const deleteShoppingCart = (id) => {
 // };
 
 ////////////////////////////////////////////////
-export const  paymentFuncion = (id, amount) => {
-  return axios.post("http://localhost:3001/account/pay", {id, amount})
-  .then((message) =>{ 
-    localStorage.setItem("cart", JSON.stringify([]))
-    console.log(message.data.message)
-    swal("Good job!", message.data.message, "success")
-    // toast(message.data.message, {position: toast.POSITION.BOTTON_RIGHT})
-  })
-  .catch((error) => swal("Ha ocurrido un error!", error.message.message, "error"))
-}
+export const paymentFuncion = (id, amount) => {
+  return axios
+    .post("http://localhost:3001/account/pay", { id, amount })
+    .then((message) => {
+      localStorage.setItem("cart", JSON.stringify([]));
+      console.log(message.data.message);
+      swal("Good job!", message.data.message, "success");
+      // toast(message.data.message, {position: toast.POSITION.BOTTON_RIGHT})
+    })
+    .catch((error) =>
+      swal("Ha ocurrido un error!", error.message.message, "error")
+    );
+};
 
 ////////////////////////////////////////////////
 
