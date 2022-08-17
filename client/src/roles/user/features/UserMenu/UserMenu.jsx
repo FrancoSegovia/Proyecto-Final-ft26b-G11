@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../../../redux/actions";
+import jwtDecode from "jwt-decode";
 
 import {
   Avatar,
@@ -22,7 +23,9 @@ export default function UserMenu() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  let localS = useSelector(state => state.user.type);
+
+  const localS = jwtDecode(localStorage.getItem("token")).type
+  // console.log(JSON.parse(localS))
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -97,7 +100,7 @@ export default function UserMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         
-        {localS.toLocaleLowerCase() === "user" 
+        {localS !== "user" 
         ? <>
           <MenuItem onClick={() => {navigate("/owner/settings")}}>
             <ListItemIcon>

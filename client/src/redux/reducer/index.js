@@ -171,6 +171,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
+      console.log(data);
       return {
         ...state,
         user: {

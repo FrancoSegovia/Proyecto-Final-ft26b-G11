@@ -46,8 +46,8 @@ export default function UserCard({ shop }) {
     }, 1000);
     
   }
-  const onButtonClick = (e) => {
-    dispatch(addShoppingCart(e.target.value));
+  const onButtonClick = (product) => {
+    dispatch(addShoppingCart(product));
   };
 
 
@@ -211,17 +211,16 @@ export default function UserCard({ shop }) {
 
 
                         { localS !== "owner" ?
-                         null
-                          // <Button
-                          //   value={product._id}
-                          //   variant="contained"
-                          //   size="medium"
-                          //   disableElevation
-                          //   onClick={onButtonClick}
-                          //   style={{marginTop:"30px"}}
-                          // >
-                          //   Añadir al Carrito
-                          // </Button> 
+                          <Button
+ 
+                          variant="contained"
+                          size="small"
+                          disableElevation
+                          disabled={cart.find((c) => c.name === product.name)}
+                          onClick={() => onButtonClick(product)}
+                        >
+                          Añadir al Carrito
+                        </Button>
                         :
                           null
                       }
@@ -250,6 +249,7 @@ export default function UserCard({ shop }) {
           justifyContent: "space-between",
         }}
         style={{ marginTop: "15px", padding: "25px" }}
+        onClick={onCardClick}
       >
         <CardContent
           style={{
@@ -258,7 +258,7 @@ export default function UserCard({ shop }) {
             maxWidth: 200,
             marginLeft: "30px",
           }}
-          onClick={onCardClick}
+          
         >
           <Typography
             variant="h4"

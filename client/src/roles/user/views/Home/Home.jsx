@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllShops } from "../../../../redux/actions/index.js";
+import jwtDecode from "jwt-decode";
 
 import UserCard from "../../features/UserCard/UserCard";
 import Navbar from "../../features/UserNavbar/UserNavbar.jsx";
@@ -14,7 +15,8 @@ export default function Home() {
   const dispatch = useDispatch();
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
-  const localS = localStorage.getItem("type");
+  const localS = jwtDecode(localStorage.getItem("token")).type
+  console.log(localS)
 
   useEffect(() => {
     if (localStorage.getItem("cart") === null) {
@@ -67,7 +69,7 @@ export default function Home() {
               })
             )}
           </Grid>
-{/* 
+
               {localS === "user" 
               ? 
               <Grid item xs={2} style={{ textAlign: "center" }}>
@@ -75,7 +77,7 @@ export default function Home() {
               </Grid> 
               :
               null
-            } */}
+            }
           
         </Grid>
       </div>
