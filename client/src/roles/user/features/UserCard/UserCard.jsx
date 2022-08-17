@@ -162,8 +162,6 @@ export default function UserCard({ shop }) {
                 gap:"20px",
               }}
             >
-              <Grid container align="center" style={{rowGap:"50px"}}>
-              <Grid item xs={7} >
               {products?.map((product) => {
                 return (
                   <div key={product._id} >
@@ -209,17 +207,18 @@ export default function UserCard({ shop }) {
                         </Typography>
 
 
-                        { localS !== "owner" ? 
-                          <Button
-                            value={product._id}
-                            variant="contained"
-                            size="medium"
-                            disableElevation
-                            onClick={onButtonClick}
-                            style={{marginTop:"30px"}}
-                          >
-                            Añadir al Carrito
-                          </Button> 
+                        { localS !== "owner" ?
+                         null
+                          // <Button
+                          //   value={product._id}
+                          //   variant="contained"
+                          //   size="medium"
+                          //   disableElevation
+                          //   onClick={onButtonClick}
+                          //   style={{marginTop:"30px"}}
+                          // >
+                          //   Añadir al Carrito
+                          // </Button> 
                         :
                           null
                       }
@@ -230,11 +229,7 @@ export default function UserCard({ shop }) {
                   </div>
                 );
               })}
-              </Grid>
-                  <Grid item xs={2}>
-                      <ShoppingCart/>
-                  </Grid>
-              </Grid>
+       
             </Container>
           </Box>
         </Fade>

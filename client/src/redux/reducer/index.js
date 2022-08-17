@@ -190,6 +190,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case SIGN_OUT:
       localStorage.removeItem("token");
       localStorage.removeItem("type");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("total");
+
       return {
         ...state,
         user: {

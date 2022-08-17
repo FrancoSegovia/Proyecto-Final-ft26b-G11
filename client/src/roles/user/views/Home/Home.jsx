@@ -67,7 +67,7 @@ export default function Home() {
               })
             )}
           </Grid>
-
+{/* 
               {localS === "user" 
               ? 
               <Grid item xs={2} style={{ textAlign: "center" }}>
@@ -75,7 +75,7 @@ export default function Home() {
               </Grid> 
               :
               null
-            }
+            } */}
           
         </Grid>
       </div>

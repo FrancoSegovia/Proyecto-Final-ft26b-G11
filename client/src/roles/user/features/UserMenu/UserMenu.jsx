@@ -87,7 +87,7 @@ export default function UserMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         
-        {localS.toLocaleLowerCase() !== "user" 
+        {localS.toLocaleLowerCase() === "user" 
         ? <>
           <MenuItem onClick={() => {navigate("/owner/settings")}}>
             <ListItemIcon>
@@ -106,10 +106,7 @@ export default function UserMenu() {
           </>
         :
           <>
-          <MenuItem>
-            <Avatar style={{backgroundColor:"#b3e5fc", color:"#1976d2"}} /> Historial de compras
-          </MenuItem>
-          <Divider />
+          
           <MenuItem onClick={() => {navigate("/user/profile")}}>
             <ListItemIcon>
               <Settings fontSize="small" />
