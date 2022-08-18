@@ -21,6 +21,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../features/ListItems";
 import UserGrid from "../features/UserGrid";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../../redux/actions";
 
 const drawerWidth = 240;
 
@@ -75,7 +78,7 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>

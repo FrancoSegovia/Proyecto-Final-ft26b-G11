@@ -86,9 +86,9 @@ export const deleteShop = (id) => {
 //   .catch(error => console.error(error.message))
 // }
 
-export const getAllUsers = (dispatch) => {
+export const getAllUsers = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/account/admin/users")
+    .get("http://localhost:3001/account/admin/users", setHeaders())
     .then((users) => {
       dispatch({
         type: ALL_USERS,

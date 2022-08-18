@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const useAuth = () => {
   const token = jwtDecode(localStorage.getItem("token"));
-  if (token?.type.toLowerCase() === "admin") {
+  if (token.type.toLowerCase() === "admin") {
     return [token, true];
   } else return [token, false];
 };

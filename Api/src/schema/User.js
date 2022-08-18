@@ -138,6 +138,7 @@ function signup(userInfo) {
         password: bcrypt.hashSync(userInfo.password, 9),
         name: userInfo.name,
         lastname: userInfo.lastname,
+        isBanned:userInfo.isBanned
       };
       return this.create(newUser);
     })

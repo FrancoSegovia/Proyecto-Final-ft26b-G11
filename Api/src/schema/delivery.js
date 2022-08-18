@@ -70,6 +70,7 @@ function signup(deliveryInfo) {
         password: bcrypt.hashSync(deliveryInfo.password, 9),
         name: deliveryInfo.name,
         lastname: deliveryInfo.lastname,
+        isBanned: deliveryInfo.isBanned
       };
       return this.create(newDelivery);
     })
