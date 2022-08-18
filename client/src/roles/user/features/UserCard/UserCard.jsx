@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import defaultShop from '../../../../media/defaultShop.jpg';
-import axios from "axios";
+import getQueryProducts from "../../../../redux/actions"
 
 import {
   Button,
@@ -12,32 +12,55 @@ import {
   IconButton,
   Typography,
   CardActions,
+   InputBase,
   Box,
   Fade,
   Modal,
 } from "@mui/material";
-import { Clear, Add } from "@mui/icons-material";
+import { Clear, Add, DoNotDisturbOnTotalSilenceTwoTone } from "@mui/icons-material";
 import { addShoppingCart } from "../../../../redux/actions";
+import { styled, alpha } from "@mui/material/styles";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
+  const products = useSelector(state => state.modalProducts)
 
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // const [products, setProducts] = useState([]);
+  const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
 
   const onCardClick = async () =>  {
     setOpen(true);
-    let products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
-    setProducts(products.data);
+    dispatch(getQueryProducts())
+    //setProducts();
   };
 
   const onCardClose = () => {
     setOpen(false);
-    setProducts([]);
+    // setProducts([]);
   }
   const onButtonClick = (e) => {
     dispatch(addShoppingCart(e.target.value));
   };
+
+  const onChange = async (e) => {
+    e.prevent.default();
+    setSearch(e.target.value);
+    if (!regExp.test(e.target.value) && e.target.value !== "") {
+    return;
+    }
+    //agregar cartel "caracteres inválidos"?
+    if(search.length > 1){
+    dispatch(getQueryProducts(search.trim()))
+    // setProducts()
+    }else{
+    dispatch(getQueryProducts())
+      //setProducts(dispatch(getProducts()))
+    }
+  }
+
 
   console.log(shop);
   const styles = {
@@ -70,6 +93,60 @@ export default function UserCard({ shop }) {
     boxShadow: 24,
     p: 4,
   };
+
+
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    width: "100%",
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  // const StyledInputBase = styled(InputBase)
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      // transition: theme.transitions.create("width"),
+    },
+    width: "270px",
+    height: "40px !important",
+  }));
+
+
+
+  // <Search>
+  //   <SearchIconWrapper>
+  //     <Search />
+  //   </SearchIconWrapper>
+  //     <StyledInputBase
+  //     placeholder="Buscar Productos"
+  //     inputProps={{ "aria-label": "search" }}
+  //     name="search"
+  //     type="string"
+  //     value={search}
+  //     onChange={onChange}
+  //     autoFocus
+  //     />
+  // </Search>
+
+
 
   return (
     <div>
