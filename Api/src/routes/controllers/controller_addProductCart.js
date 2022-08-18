@@ -1,4 +1,4 @@
-const Cart = require("../../schema/Cart");
+// const Cart = require("../../schema/Cart");
 const Product = require("../../schema/Product");
 const User = require("../../schema/User")
 const mongoose = require("mongoose");
@@ -9,43 +9,29 @@ function getModelByName(name) {
   
   
 const addProductCart = async (req, res) => {
-
+    
     const { id } = req.params
-    const { idP } = req.body
-
-    const item = getModelByName("Cart")
-    const itemsProduct = item.findOne
-
-    console.log("soyItem", item)
+    const { _id } = req.body
     
+    const productExist = await Product.findById(_id)
 
-    const user = await User.findById(id)
-    // console.log(user)
-
-    const product = await Product.findById(idP)
-    // console.log("soyProduct", product)
-    // console.log(product)
-
-    const cart = new Cart({
-        user: id, 
-        items: [{
-            product: idP,
-            amount: 1
-        }]
-    })
-    console.log("soy cart", cart)
+        if(!productExist){
+        res.status(400).json({
+            message: "This product is not in our database "
+        })
+    } else {
+    const product = await Product.findById({_id}) 
     
+    const user = await User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}})
+  
    
-    const newProductInCart = await cart.save(); 
+    const newProductInCart = await user.save(); 
      res.json(newProductInCart)
 
-
-
-
-
+    }
 }
     
-module.exports = addProductCart
+module.exports = addProductCart 
 
   
   
@@ -56,7 +42,6 @@ module.exports = addProductCart
     
 //     // Nos fijamos si tenemos el producto
 
-//     const productExist = await product.findOne({ name })
 
 //     // Nos fijamos si todos los campos vienen con info
 

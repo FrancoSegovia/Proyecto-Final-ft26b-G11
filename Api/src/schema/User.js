@@ -51,11 +51,22 @@ const schema = Schema(
       type: Number,
       required: false,
     },
-    cart: {
-      type: Schema.Types.ObjectId,
-      ref: "Cart",
-      required: false,
-    }, 
+    cart: [ {
+      
+        
+            product: {
+                type: Schema.Types.ObjectId,
+                ref: "Product",
+                required: false
+            },
+
+            amount: {
+                type: Number,
+                default: 1
+            },
+        
+  }]
+    
     // favorites: {
     //   type: Array,
     //   default: undefined,

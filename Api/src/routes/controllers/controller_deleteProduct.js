@@ -1,4 +1,4 @@
-const Cart = require("../../schema/Cart");
+const User = require("../../schema/User");
 const Product = require("../../schema/Product");
 const mongoose = require("mongoose");
 
@@ -7,10 +7,11 @@ function getModelByName(name) {
   }
 
 const deleteProduct = (req, res) => {
-    const { productId } = req.params;
-
-    Cart
-      .remove({ _id: productId })
+    const { idP } = req.body;
+    const { id } = req.params;
+  
+     User
+      .remove({_id: idP})
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   }
