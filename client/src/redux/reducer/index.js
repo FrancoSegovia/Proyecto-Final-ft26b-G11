@@ -45,6 +45,7 @@ const initialState = {
     _id: "",
     phone: null,
     vehicle: "",
+    isBanned:false
   },
   _id: "",
   users: [],
@@ -198,6 +199,7 @@ const reducer = (state = initialState, { type, payload }) => {
           eMail: data.email,
           phone: data.phone ? data.phone : null,
           vehicle: data.vehicle ? data.vehicle : "",
+          isBanned:data.isBanned
         },
       };
     }
@@ -220,6 +222,7 @@ const reducer = (state = initialState, { type, payload }) => {
           _id: "",
           phone: null,
           vehicle: "",
+          isBanned:false
         },
       };
 

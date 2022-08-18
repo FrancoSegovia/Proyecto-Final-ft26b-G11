@@ -15,6 +15,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import StoreIcon from '@mui/icons-material/Store';
+import { Logout } from '@mui/icons-material';
+import AdminLogout from './AdminLogout';
+
 
 
 export const mainListItems = (
@@ -64,6 +67,10 @@ export const mainListItems = (
           <ListItemText primary="Ordenes" />
         </ListItemButton>
     </Link>
+
+    
+      <AdminLogout/>
+    
 
     {/* <Link>
         <ListItemButton>

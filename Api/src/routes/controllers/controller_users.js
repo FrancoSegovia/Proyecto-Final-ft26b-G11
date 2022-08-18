@@ -179,6 +179,7 @@ const login = async (req, res) => {
       const userObject = {
         _id: correctModel._id,
         email: correctModel.email,
+        type:correctModel.type
       };
 
       const accessToken = jwt.sign(

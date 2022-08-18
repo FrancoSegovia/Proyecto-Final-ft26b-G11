@@ -74,6 +74,7 @@ function signup(ownerInfo) {
         password: bcrypt.hashSync(ownerInfo.password, 9),
         name: ownerInfo.name,
         lastname: ownerInfo.lastname,
+        isBanned: ownerInfo.IsBanned
       };
       return this.create(newOwner);
     })
