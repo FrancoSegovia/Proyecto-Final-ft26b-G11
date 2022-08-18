@@ -58,7 +58,7 @@ const currentOwner = (req, res) => {
   if (!req.owner)
     return res.status(200).send({ success: false, data: { owner: null } });
   const Owner = getModelByName("Owner");
-  return Owner.findOwnerById(req.owner._id)
+  Owner.findOwnerById(req.owner._id)
     .then((owner) => {
       res.status(200).send(owner);
     })
@@ -71,10 +71,14 @@ const currentOwner = (req, res) => {
 //*---------------GET GENERAL LOCAL----------------------------
 const getLocal = async (req, res) => {
   const { id } = req.params;
-const ownerId = await ownerSchema.findById(id)
-  localSchema.find({owner: ownerId})
-      .then((data) => res.json(data))
-      .catch((error) => res.status(200).send({ message: error }));
+  const ownerId = await ownerSchema.findById(id);
+  localSchema
+    .find({ owner: ownerId })
+    .populate("products", {
+      inCart: 0,
+    })
+    .then((data) => res.json(data))
+    .catch((error) => res.status(200).send({ message: error }));
 };
 //*---------------GET GENERAL LOCAL----------------------------
 
@@ -83,6 +87,7 @@ const getLocalById = (req, res) => {
   const { id } = req.params;
   const Local = getModelByName("Local");
   Local.findById(id)
+    .populate("products")
     .then((data) => res.json(data))
     .catch((error) => res.status(200).send({ message: error }));
 };
@@ -110,12 +115,18 @@ const addProduct = async (req, res) => {
   const { name, description, image, price, type, local } = req.body;
 
   const localId = await localSchema.findById(local);
-
-  if (!name || !description || !image || !price || !type) {
-    return res.status(400).json({
-      error: "required field",
-    });
-  }
+  if (!name)
+    return res.status(400).json({ error: 'Required "name" field is missing' });
+  if (!description)
+    return res
+      .status(400)
+      .json({ error: 'Required "description" field is missing' });
+  if (!image)
+    return res.status(400).json({ error: 'Required "image" field is missing' });
+  if (!price)
+    return res.status(400).json({ error: 'Required "price" field is missing' });
+  if (!type)
+    return res.status(400).json({ error: 'Required "type" field is missing' });
 
   const newProduct = new Product({
     name,
@@ -127,7 +138,10 @@ const addProduct = async (req, res) => {
   });
   try {
     const savedProduct = await newProduct.save();
+
+    localId.products = localId.products.concat(savedProduct._id);
     await localId.save();
+
     res.json(savedProduct);
   } catch (error) {
     res.status(200).send({ success: false, error: error.message });
@@ -167,29 +181,41 @@ const updateProduct = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-const deleteProduct = (req, res) => {
-  const { id } = req.params;
-
-  productSchema
-    .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+const deleteProduct = async (req, res) => {
+  const { idL } = req.params;
+  const {idP} = req.body
+  const local = await localSchema.findOneAndUpdate({_id: idL}, {$pull : {products: {_id:idP}}});
+  console.log(local);
+  const deleteProduct = await productSchema.remove({ _id: idP })
+  //!VER PARECE Q FUNCIONA
+  // const deleteLocal = await localSchema.remove({})
 };
+
+// Customer.findOneAndUpdate(query, {$pull: {address: addressId}}, (err, data) => {
+//   if (err) {
+//       return res.status(500).json({ error: 'error in deleting address' });
+//   }
+//   res.json(data);   
+// });
 
 const getProduct = async (req, res) => {
   const { id } = req.params;
-const localId = await localSchema.findById(id)
-  productSchema.find({local: localId})
-      .then((data) => res.json(data))
-      .catch((error) => res.status(200).send({ message: error }));
-}
+  const localId = await localSchema.findById(id);
+  productSchema
+    .find({ local: localId })
+    .then((data) => res.json(data))
+    .catch((error) => res.status(200).send({ message: error }));
+};
 
 const updateCurrentOwner = (req, res) => {
   const { id } = req.params;
-  const { name, lastname, password} = req.body;
+  const { name, lastname, password } = req.body;
 
   ownerSchema
-    .updateOne({ _id: id }, { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } })
+    .updateOne(
+      { _id: id },
+      { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
+    )
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 };
@@ -208,5 +234,4 @@ module.exports = {
   deleteProduct,
   getProduct,
   updateCurrentOwner,
-
 };

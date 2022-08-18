@@ -26,6 +26,11 @@ const schema = Schema(
       type: String,
       // required: true,
     },
+    products: [{
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+
+    }],
     owner: {
       type: Schema.ObjectId,
       ref: "Owner",
