@@ -5,21 +5,12 @@ const schema =  Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
-      }, 
-    items: [
-        {
-            product: {
-                type: Schema.Types.ObjectId,
-                ref: "Product",
-                required: true
-            },
-
-            amount: {
-                type: Number,
-                default: 1
-            },
-        }
-    ]
+      },
+    order: {
+        type: Schema.Types.ObjectId,
+        ref: "Order",
+        required: true
+    }
 }, { collection: "carts" } 
 );
 

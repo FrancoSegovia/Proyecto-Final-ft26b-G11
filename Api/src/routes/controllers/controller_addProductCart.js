@@ -1,4 +1,5 @@
-const Cart = require("../../schema/Cart");
+const Order = require("../../schema/Order");
+const Cart = require("../../schema/Cart")
 const Product = require("../../schema/Product");
 const User = require("../../schema/User")
 const mongoose = require("mongoose");
@@ -8,35 +9,32 @@ function getModelByName(name) {
   }
   
   
-const addProductCart = async (req, res) => {
+const newOrder = async (req, res) => {
 
-    const { id } = req.params
+   
     const { idP } = req.body
 
-    const item = getModelByName("Cart")
-    const itemsProduct = item.findOne
-
-    console.log("soyItem", item)
+    const item = getModelByName("Order")
     
 
-    const user = await User.findById(id)
+   
     // console.log(user)
 
     const product = await Product.findById(idP)
     // console.log("soyProduct", product)
     // console.log(product)
 
-    const cart = new Cart({
-        user: id, 
+    const order = new Order({
+        
         items: [{
             product: idP,
             amount: 1
         }]
     })
-    console.log("soy cart", cart)
+ 
     
    
-    const newProductInCart = await cart.save(); 
+    const newProductInCart = await order.save(); 
      res.json(newProductInCart)
 
 
@@ -45,7 +43,7 @@ const addProductCart = async (req, res) => {
 
 }
     
-module.exports = addProductCart
+module.exports = newOrder
 
   
   
