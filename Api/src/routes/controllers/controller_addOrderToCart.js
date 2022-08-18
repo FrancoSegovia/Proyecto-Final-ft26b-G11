@@ -13,11 +13,31 @@ function getModelByName(name) {
 const addOrderToCart = async (req, res) => {
 
     const { id } = req.params
+    const { idO } = req.body
 
-    const user = User.findById(id)
+    const item = getModelByName("Cart")
+    
+    const user = await User.findById(id)
     console.log(id)
 
+    const order = await Order.findById(idO)
+    console.log(idO)
+
     
+
+    
+    
+
+    
+
+    // const cart = await Order.findById()
+    // console.log("soyProduct", product)
+    // console.log(product)
+
+    const cart = new Cart({
+        user: id, 
+        order: idO
+    })
 
 
 }
