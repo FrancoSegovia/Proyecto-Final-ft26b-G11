@@ -21,6 +21,7 @@ import {
   GET_SHOPPINGCART,
   OWNER_DETAIL,
   OWNER_SHOPS,
+  ALL_OWNERS
 } from "../actions";
 
 const initialState = {
@@ -45,6 +46,8 @@ const initialState = {
   },
   _id: "",
   users: [],
+  owners:[],
+  deliverys:[],
   owner:{},
   ownerShops:[]
 };
@@ -141,6 +144,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         ownerShops: payload
   };
+
+    case ALL_OWNERS:
+        return {
+          ...state,
+          owners: payload
+    };
   
     /////////////////////////////////////////////////
 

@@ -28,6 +28,7 @@ export const USER_LOADED = "USER_LOADED";
 ////////////////////////////////////////////////
 export const OWNER_DETAIL = "OWNER_DETAIL";
 export const OWNER_SHOPS= "OWNER_SHOPS";
+export const ALL_OWNERS = "ALL_OWNERS";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -72,7 +73,6 @@ export function addStore(payload) {
 }
 
 export const deleteShop = (id) => {
-  console.log("Llegué hasta acá y no hice un chori");
   return axios
     .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
     .catch((error) => console.error(error.message));
@@ -113,6 +113,19 @@ export const getOwnerDetails = (dispatch) => {
       dispatch({
         type: OWNER_DETAIL,
         payload: owner.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const getAllOwners = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/admin/owner`, setHeaders())
+    .then((owners) => {
+      console.log(owners.data)
+      dispatch({
+        type: ALL_OWNERS,
+        payload: owners.data,
       });
     })
     .catch((error) => console.error(error.message));

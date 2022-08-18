@@ -39,8 +39,6 @@ export default function AdminCard({ shop }) {
 
   const data = jwtDecode(localStorage.getItem("token"));
 
-  console.log(shop._id);
-
   const onRemoveClick = () => {
     dispatch(deleteShop(shop._id));
   }
@@ -57,7 +55,7 @@ export default function AdminCard({ shop }) {
   const styles = {
     media: {
       justifySelf:"right",
-      position:"absolute",
+      position:"sticky",
       alignSelf: "center",
       width: "10vw",
       marginRight:"25px",
@@ -410,6 +408,7 @@ export default function AdminCard({ shop }) {
           justifyContent: "space-between",
         }}
         style={{ marginTop: "15px" }}
+        onClick={onCardClick}
       >
         <CardContent
           style={{
@@ -419,7 +418,7 @@ export default function AdminCard({ shop }) {
             maxWidth: 200,
             marginLeft: "30px",
           }}
-          onClick={onCardClick}
+          
         >
           <Typography
             wrap
@@ -439,7 +438,7 @@ export default function AdminCard({ shop }) {
             {shop.category}
           </Typography>
         </CardContent>
-        <div style={{display:"flex", justifyContent:"right"}}>
+        <div style={{display:"flex", justifyContent:"center"}}>
         <CardMedia
           component="img"
           style={styles.media}
