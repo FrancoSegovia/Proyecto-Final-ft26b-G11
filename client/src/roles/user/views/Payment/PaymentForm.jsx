@@ -31,14 +31,10 @@ export default function PaymentForm() {
       .then(({ paymentMethod }) => {
         let { id } = paymentMethod;
         dispatch(
-          paymentFuncion(id, JSON.parse(localStorage.getItem("total")) * 100)
+          paymentFuncion(id, JSON.parse(localStorage.getItem("total")) * 100).then(() => navigate('/user/home'))
         );
       })
       .catch((error) => console.error(error));
-
-    setTimeout(() => {
-      navigate("/user/home");
-    }, 5000);
   };
 
   return (
