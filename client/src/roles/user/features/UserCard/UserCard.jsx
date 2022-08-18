@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import getQueryProducts from "../../../../redux/actions"
+import {getQueryProducts} from "../../../../redux/actions"
 import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
 
@@ -35,10 +35,12 @@ export default function UserCard({ shop }) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const products = useSelector(state => state.modalProducts)
+
   const [search, setSearch] = useState("");
   const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
-
   const [open, setOpen] = useState(false);
+  
+
   let localS = localStorage.getItem("type");
 
 
@@ -50,9 +52,9 @@ export default function UserCard({ shop }) {
 
   const onCardClose = () => {
     setOpen(false);
-    setTimeout(() => {
-      setProducts([]);
-    }, 1000);
+    // setTimeout(() => {
+    //   setProducts([]);
+    // }, 1000);
   }
   const onButtonClick = (product) => {
     dispatch(addShoppingCart(product));
@@ -245,7 +247,7 @@ export default function UserCard({ shop }) {
                 gap:"20px",
               }}
             >
-              {products?.map((product) => {
+              {/* {products?.map((product) => {
                 return (
                   <div key={product._id} >
                     <Card
@@ -310,7 +312,7 @@ export default function UserCard({ shop }) {
                     </Card>
                   </div>
                 );
-              })}
+              })} */}
        
             </Container>
           </Box>

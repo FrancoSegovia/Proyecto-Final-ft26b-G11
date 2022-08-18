@@ -87,12 +87,11 @@ function DashboardContent() {
 
   const shops = useSelector((state) => state.shops);
 
-  console.log(shops);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllShops());
-  }, []);
+  }, [shops]);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -167,7 +166,7 @@ function DashboardContent() {
               mb: 4,
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: "space-evenly",
+              justifyContent: "space-between",
               rowGap: "50px",
               gap: "30px",
             }}
