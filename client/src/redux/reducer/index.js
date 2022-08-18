@@ -19,8 +19,12 @@ import {
   SIGN_OUT,
   ALL_USERS,
   GET_SHOPPINGCART,
+
+  QUERY_PRODUCTS,
+
   OWNER_DETAIL,
   OWNER_SHOPS,
+
 } from "../actions";
 
 const initialState = {
@@ -44,8 +48,12 @@ const initialState = {
   },
   _id: "",
   users: [],
+
+  modalProducts: []
+
   owner:{},
   ownerShops:[]
+
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -65,6 +73,12 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    case QUERY_PRODUCTS: {
+      return {
+        ...state,
+        modalProducts: payload,
+      }
+    }  
     case ALL_USERS: {
       return {
         ...state,
