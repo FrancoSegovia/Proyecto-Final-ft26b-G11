@@ -52,7 +52,7 @@ const initialState = {
   users: [],
   owners:[],
   deliverys:[],
-  modalProducts: []
+  modalProducts: [],
   owner:{},
   ownerShops:[]
 
