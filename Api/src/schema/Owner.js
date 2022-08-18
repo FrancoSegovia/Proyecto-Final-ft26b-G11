@@ -39,10 +39,10 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
-    local: {
-      type: Schema.ObjectId,
+    locals: [{
+      type: Schema.Types.ObjectId,
       ref: "Local",
-    },
+    }],
   },
   { collection: "owners" }
 );
@@ -126,7 +126,7 @@ function confirmAccount(token) {
 
 
 function findOwnerById(_id) {
-  return this.findById(_id).then((owner) => {
+  return this.findById(_id).populate('locals').then((owner) => {
     return owner;
   });
 }

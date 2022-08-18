@@ -242,12 +242,12 @@ const getLocal = (req, res) => {
   const { name } = req.query;
   if (name) {
     localSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   } else {
     localSchema
-      .find()
+      .find().populate('products')
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   }
