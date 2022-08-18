@@ -19,7 +19,12 @@ import {
   SIGN_OUT,
   ALL_USERS,
   GET_SHOPPINGCART,
+
   QUERY_PRODUCTS,
+
+  OWNER_DETAIL,
+  OWNER_SHOPS,
+
 } from "../actions";
 
 const initialState = {
@@ -43,7 +48,12 @@ const initialState = {
   },
   _id: "",
   users: [],
+
   modalProducts: []
+
+  owner:{},
+  ownerShops:[]
+
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -131,22 +141,41 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         error: payload,
       };
+    
+    case OWNER_DETAIL:
+      return {
+        ...state,
+        owner: payload,
+    };
 
+    case OWNER_SHOPS:
+      console.log("CUACK CUACK");
+      return {
+        ...state,
+        ownerShops: payload
+  };
+  
     /////////////////////////////////////////////////
 
     case GET_SHOPPINGCART:
       return {
         ...state,
+        cart: payload,
       };
 
     case ADD_SHOPPINGCART:
+      let newCart = [...state.cart, payload];
+      localStorage.setItem("cart", JSON.stringify(newCart));
       return {
         ...state,
         cart: [...state.cart, payload],
       };
 
     case DELETE_SHOPPINGCART:
-      const updatedCart = state.cart.filter((p) => p !== payload);
+      let newCart2 = JSON.parse(localStorage.getItem("cart"));
+      newCart2 = newCart2.filter((p) => p._id !== payload);
+      localStorage.setItem("cart", JSON.stringify(newCart2));
+      const updatedCart = state.cart.filter((p) => p._id !== payload);
       return {
         ...state,
         cart: [...updatedCart],
@@ -156,6 +185,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
+      console.log(data);
       return {
         ...state,
         user: {
@@ -174,6 +204,10 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_OUT:
       localStorage.removeItem("token");
+      localStorage.removeItem("type");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("total");
+
       return {
         ...state,
         user: {

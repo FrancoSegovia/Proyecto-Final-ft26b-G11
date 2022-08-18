@@ -17,6 +17,6 @@ export default function ProtectedDelivery() {
   ) : token.type === "admin" ? (
     <Navigate to={"/admin/shops"} />
   ) : (
-    <Navigate to={"/owner/create"} />
+    <Navigate to={"/owner/home"} />
   );
 }

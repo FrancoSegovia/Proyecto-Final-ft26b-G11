@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllShops } from "../../../../redux/actions/index.js";
+import jwtDecode from "jwt-decode";
 
 import UserCard from "../../features/UserCard/UserCard";
 import Navbar from "../../features/UserNavbar/UserNavbar.jsx";
 import UserShopOrder from "../../features/UserShopOrder/UserShopOrder.jsx";
 import UserShopFilter from "../../features/UserShopFilter/UserShopFilter.jsx";
-import ShoppingCart from "../../features/UserShoppingCart/ShoppingCart"
+import ShoppingCart from "../../features/UserShoppingCart/ShoppingCart";
 
 import { Grid } from "@mui/material";
 
@@ -14,116 +15,16 @@ export default function Home() {
   const dispatch = useDispatch();
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
+  const localS = jwtDecode(localStorage.getItem("token")).type
 
   useEffect(() => {
+    if (localStorage.getItem("cart") === null) {
+      localStorage.setItem("cart", JSON.stringify([]));
+      localStorage.setItem("total", JSON.stringify(0));
+    }
     dispatch(getAllShops());
   }, []);
 
-  const shopss = [
-    {
-      image:null,
-      name:"Ñamfifruli",
-      category:"Restaurant",
-      products:[
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        },
-        {
-          image:null,
-          name:"Papafrula",
-          price:"500",
-        }
-      ]
-    },
-    {
-      image:null,
-      name:"Oktubre",
-      category:"Heladeria",
-      products:[
-        {
-          image:null,
-          name:"Helado de vainilla",
-          price:"500",
-        }
-      ]
-    },
-    {
-      image:null,
-      name:"Luzbelito",
-      category:"Bodegón",
-      products:[
-        {
-          image:null,
-          name:"Milanesa con puré",
-          price:"500",
-        }
-      ]
-    },
-    {
-      image:null,
-      name:"Pizza Conmigo",
-      category:"Pizzeria",
-      products:[
-        {
-          image:null,
-          name:"Especial Kito Pizza",
-          price:"500",
-        }
-      ]
-    }
-    ,
-    {
-      image:null,
-      name:"El Paseo Familiar de Don José",
-      category:"Bodegón",
-      products:[
-        {
-          image:null,
-          name:"Papito jugó al Doom",
-          price:"250",
-        }
-      ]
-    }
-  ]
-
-  // console.log(shopss)
   return (
     <>
       <Navbar />
@@ -168,9 +69,15 @@ export default function Home() {
             )}
           </Grid>
 
-          <Grid item xs={2} style={{ textAlign: "center" }}>
-            <ShoppingCart />
-          </Grid>
+              {localS === "user" 
+              ? 
+              <Grid item xs={2} style={{ textAlign: "center" }}>
+                <ShoppingCart />
+              </Grid> 
+              :
+              null
+            }
+          
         </Grid>
       </div>
     </>

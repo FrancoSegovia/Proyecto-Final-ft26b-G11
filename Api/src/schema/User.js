@@ -51,6 +51,11 @@ const schema = Schema(
       type: Number,
       required: false,
     },
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref: "Cart",
+      required: false,
+    }, 
     // favorites: {
     //   type: Array,
     //   default: undefined,
@@ -104,6 +109,7 @@ function sendConfirmationEmail(user) {
   var token = jwt.sign({ email: user.email }, process.env.TOKEN_SECRET);
 
   const urlConfirm = `${process.env.APIGATEWAY_URL}/account/user/confirm/${token}`;
+  const redirect = `${process.env.CLIENTGATEWAY_URL}/user/home`;
   return transporter
     .sendMail({
       from: process.env.MAIL_ADMIN_ADDRESS,

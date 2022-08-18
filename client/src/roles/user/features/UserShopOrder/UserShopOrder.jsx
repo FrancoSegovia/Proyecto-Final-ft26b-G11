@@ -17,8 +17,8 @@ export default function UserShopOrder() {
   return (
     <>
       <Box>
-        <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!shops.length}>
-          <Select value={order} onChange={onSelect} disabled={!shops.length}>
+        <FormControl sx={{ m: 1, minWidth: 270 }} >
+          <Select value={order} onChange={onSelect}>
             <MenuItem value={"disabled"} disabled>Ordenamiento</MenuItem>
             <MenuItem value={"DEFAULT"}>Default</MenuItem>
             <MenuItem value={"AZ"}>A-Z</MenuItem>

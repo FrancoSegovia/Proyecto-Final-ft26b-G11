@@ -92,7 +92,7 @@ const getLocalById = (req, res) => {
 const addLocal = (req, res) => {
   const Local = getModelByName("Local");
   try {
-    Local.addLocal(req.body.local, req.owner._id)
+    Local.addLocal(req.body, req.owner._id)
       .then((data) => {
         res.status(200).send(data);
       })

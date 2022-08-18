@@ -8,6 +8,7 @@ function isAuthenticated(req, res, next) {
       .send({ success: false, message: "not Authorized" });
 
   if (access_token) {
+    console.log(access_token)
     const owner = verifyAuthToken(access_token);
     if (!owner)
       return res

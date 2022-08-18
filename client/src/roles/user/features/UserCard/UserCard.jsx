@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import defaultShop from '../../../../media/defaultShop.jpg';
+
 import getQueryProducts from "../../../../redux/actions"
+import defaultShop from "../../../../media/defaultShop.jpg";
+import axios from "axios";
+
+
+import ShoppingCart from "../UserShoppingCart/ShoppingCart";
+
+import { addShoppingCart } from "../../../../redux/actions";
+
 
 import {
   Button,
@@ -16,22 +24,25 @@ import {
   Box,
   Fade,
   Modal,
+  Grid,
 } from "@mui/material";
-import { Clear, Add, DoNotDisturbOnTotalSilenceTwoTone } from "@mui/icons-material";
-import { addShoppingCart } from "../../../../redux/actions";
 import { styled, alpha } from "@mui/material/styles";
+  
+
+import { Clear, Add } from "@mui/icons-material";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   const products = useSelector(state => state.modalProducts)
-
-  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-
-  // const [products, setProducts] = useState([]);
   const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
 
-  const onCardClick = async () =>  {
+  const [open, setOpen] = useState(false);
+  let localS = localStorage.getItem("type");
+
+
+  const onCardClick = async () => {
     setOpen(true);
     dispatch(getQueryProducts())
     //setProducts();
@@ -39,12 +50,14 @@ export default function UserCard({ shop }) {
 
   const onCardClose = () => {
     setOpen(false);
-    // setProducts([]);
+    setTimeout(() => {
+      setProducts([]);
+    }, 1000);
   }
-  const onButtonClick = (e) => {
-    dispatch(addShoppingCart(e.target.value));
+  const onButtonClick = (product) => {
+    dispatch(addShoppingCart(product));
   };
-
+  
   const onChange = async (e) => {
     e.prevent.default();
     setSearch(e.target.value);
@@ -63,13 +76,25 @@ export default function UserCard({ shop }) {
 
 
   console.log(shop);
+  
   const styles = {
     media: {
       alignSelf: "center",
       width: "150px",
+      maxHeight:"110px",
       borderRadius: "15%",
       marginRight:"25px",
+      objectFit:"cover"
+
     },
+    modalMedia: {
+      alignSelf: "center",
+      width: "150px",
+      minHeight:"110px",
+      maxHeight:"110px",
+      borderRadius: "15%",
+      objectFit:"cover"
+    }
   };
 
   const closeButtonStyle = {
@@ -85,8 +110,8 @@ export default function UserCard({ shop }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
-    maxHeight: "calc(100vh - 210px)",
+    width: 1200,
+    maxHeight: "calc(100vh - 100px)",
     overflow: "hidden",
     overflowY: "auto",
     bgcolor: "background.paper",
@@ -156,7 +181,8 @@ export default function UserCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
-        style={{backdropFilter:"blur(2px)", transition:"0"}}
+        style={{backdropFilter:"blur(3px)", transition:"0"}}
+
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -194,7 +220,11 @@ export default function UserCard({ shop }) {
 
             <Typography
               id="transition-modal-title"
-              style={{ marginTop: "15px", textAlign: "center", marginBottom:"15px" }}
+              style={{
+                marginTop: "15px",
+                textAlign: "center",
+                marginBottom: "15px",
+              }}
               variant="h5"
               component="h5"
               color="textSecondary"
@@ -212,18 +242,20 @@ export default function UserCard({ shop }) {
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"50px"
+                gap:"20px",
               }}
             >
               {products?.map((product) => {
                 return (
-                  <div key={product._id}>
+                  <div key={product._id} >
                     <Card
                       style={{
                         backgroundColor: "whitesmoke",
-                        padding: "20px",
+                        padding: "50px",
                         minWidth:"250px",
                         maxWidth: "250px",
+                        minHeight:(localS !== "owner" ? "40vh" : "20vh"),
+                        maxHeight:"40vh"
                       }}
                     >
                       <CardContent
@@ -232,17 +264,18 @@ export default function UserCard({ shop }) {
                           flexDirection: "column",
                           textAlign: "center",
                           alignItems: "center",
+                          justifyContent:"center",
                           padding: "10px",
                         }}
                       >
                         <CardMedia
                           component="img"
-                          style={styles.media}
+                          style={styles.modalMedia}
                           image={product.image}
                         />
                         <Typography
                           style={{ marginTop: "18px" }}
-                          variant="h4"
+                          variant="h5"
                           color="textPrimary"
                           component="div"
                         >
@@ -255,51 +288,82 @@ export default function UserCard({ shop }) {
                         >
                           {"$" + product.price}
                         </Typography>
-                        <Button
-                          value={product._id}
+
+
+                        { localS !== "owner" ?
+                          <Button
+ 
                           variant="contained"
                           size="small"
                           disableElevation
-                          onClick={onButtonClick}
+                          disabled={cart.find((c) => c.name === product.name)}
+                          onClick={() => onButtonClick(product)}
                         >
                           Añadir al Carrito
                         </Button>
+                        :
+                          null
+                      }
+
+                       
                       </CardContent>
                     </Card>
                   </div>
                 );
               })}
+       
             </Container>
           </Box>
         </Fade>
       </Modal>
 
       <Card
-        sx={{ maxWidth: "30vw", minWidth: "1.5vw", maxHeight:200, minHeight:200,  "&:hover": { cursor: "pointer", outline:"3px solid #4fc3f7"  }, backgroundColor:"whitesmoke", display:"flex", justifyContent:"space-between" }}
-        style={{ marginTop: "15px", padding:"25px" }}
+        sx={{
+          maxWidth: "30vw",
+          minWidth: "1.5vw",
+          maxHeight: 200,
+          minHeight: 200,
+          "&:hover": { cursor: "pointer", outline: "3px solid #4fc3f7" },
+          backgroundColor: "whitesmoke",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        style={{ marginTop: "15px", padding: "25px" }}
+        onClick={onCardClick}
       >
+        <CardContent
+          style={{
+            minWidth: 220,
+            marginBottom: "20px",
+            maxWidth: 200,
+            marginLeft: "30px",
+          }}
+          
+        >
+          <Typography
+            variant="h4"
+            color="textPrimary"
+            component="div"
+            align="left"
+          >
+            {shop.name}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="textSecondary"
+            component="div"
+            style={{ textAlign: "left" }}
+          >
+            {shop.category}
+          </Typography>
+        </CardContent>
 
-          <CardContent style={{ minWidth: 220,marginBottom: "20px",maxWidth: 200, marginLeft:"30px"}} onClick={onCardClick}>
-            <Typography variant="h4" color="textPrimary" component="div" align="left">
-              {shop.name}
-            </Typography>
-            <Typography
-              variant="h6"
-              color="textSecondary"
-              component="div"
-              style={{ textAlign: "left"}}
-            >
-              {shop.category}
-            </Typography>
-          </CardContent>
-
-          <CardMedia
-            component="img"
-            style={styles.media}
-            image={shop.image ? shop.image : defaultShop}
-            onClick={onCardClick}
-          />
-     
+        <CardMedia
+          component="img"
+          style={styles.media}
+          image={shop.image ? shop.image : defaultShop}
+          onClick={onCardClick}
+        />
       </Card>
     </div>
   );

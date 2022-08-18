@@ -8,10 +8,11 @@ function getModelByName(name) {
   }
 
 const addProductCart = async (req, res) => {
-    const { name, image, price, user } = req.body;
+    
+    
+    const { name, image, price, user} = req.body;
    
     
-   
 
     const product = getModelByName("Product")
     
@@ -39,11 +40,8 @@ const addProductCart = async (req, res) => {
         const newProductInCart = new Cart({ name, image, price, amount: 1, user});
 
     // Actualizamos la prop inCart
-        product.findByIdAndUpdate(
-            productExist?._id,
-            { inCart: true, name, image, price},
-            { new: true}
-        )
+        product.findByIdAndUpdate(productExist?._id, { inCart: true, name, image, price}, { new: true} )
+        product.findByIdAndUpdate(!productExist, {$push: newProductInCart})
         const newProduct = await newProductInCart.save();
         res.json(newProduct)
             
@@ -52,6 +50,7 @@ const addProductCart = async (req, res) => {
         res.status(400).json({
             message: "The product is in Cart"
         })
+        
     }
 }
 
