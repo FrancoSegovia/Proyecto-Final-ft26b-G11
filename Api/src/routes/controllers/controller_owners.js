@@ -3,6 +3,7 @@ const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
 const bcrypt = require("bcrypt");
+const Product = require("../../schema/Product");
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -181,22 +182,14 @@ const updateProduct = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-const deleteProduct = async (req, res) => {
-  const { idL } = req.params;
-  const {idP} = req.body
-  const local = await localSchema.findOneAndUpdate({_id: idL}, {$pull : {products: {_id:idP}}});
-  console.log(local);
-  const deleteProduct = await productSchema.remove({ _id: idP })
-  //!VER PARECE Q FUNCIONA
-  // const deleteLocal = await localSchema.remove({})
-};
+const deleteProduct = (req, res) => {
+  const { id } = req.params;
 
-// Customer.findOneAndUpdate(query, {$pull: {address: addressId}}, (err, data) => {
-//   if (err) {
-//       return res.status(500).json({ error: 'error in deleting address' });
-//   }
-//   res.json(data);   
-// });
+  productSchema
+    .remove({ _id: id })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+};
 
 const getProduct = async (req, res) => {
   const { id } = req.params;
