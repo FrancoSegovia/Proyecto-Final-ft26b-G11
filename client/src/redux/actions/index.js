@@ -6,6 +6,7 @@ import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
 export const QUERY_SHOPS = "QUERY_SHOPS";
+export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 
 export const ALL_USERS = "ALL_USERS";
 /////////////////////////////////////////////////
@@ -49,6 +50,25 @@ export const getQueryShops = (query) => (dispatch) => {
       dispatch({
         type: QUERY_SHOPS,
         payload: shops.data,
+      });
+    })
+    .catch((error) => {
+      console.error(error.message);
+      dispatch({
+        type: QUERY_ERROR,
+        payload: true,
+      });
+    });
+};
+
+//cambiar la ruta por la que traeproductos por query
+export const getQueryProducts = (query) => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/user/local?name=${query}`)
+    .then((products) => {
+      dispatch({
+        type: QUERY_PRODUCTS,
+        payload: products.data,
       });
     })
     .catch((error) => {
