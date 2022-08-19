@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
+import inputCheckout from "../../utils/functions/inputCheckout";
 
 import {
   Avatar,
@@ -24,7 +26,8 @@ export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [user, setUser] = React.useState({
+  const [error, setError] = useState({});
+  const [user, setUser] = useState({
     type: "user",
     name: "",
     lastname: "",
@@ -67,7 +70,12 @@ export default function SignUp() {
       ...user,
       [event.target.name]: event.target.value,
     });
+    setError(inputCheckout(user));
+    console.log(error);
   };
+
+  const handleGoogleS = (e) => {};
+  const handleGoogleE = (e) => {};
 
   const onSelect = (event) => {
     setUser({
@@ -126,6 +134,7 @@ export default function SignUp() {
                   value={user.lastname}
                 />
               </Grid>
+              {error.name && error.name}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -167,6 +176,19 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Confirme su Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={handleChange}
+                  value={user.password}
+                />
+              </Grid>
 
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
@@ -198,12 +220,11 @@ export default function SignUp() {
               )}
             </Grid>
             {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 3 }}
+              sx={{ mt: 2, mb: 2 }}
               disabled={
                 !user.name.length ||
                 !user.lastname.length ||
@@ -215,6 +236,16 @@ export default function SignUp() {
             >
               Registrarme
             </Button>
+            <Box sx={{ mt: 0.5, mb: 3 }}>
+              <GoogleLogin
+                disabled
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Registrate con Google"
+                onSuccess={handleGoogleS}
+                onFailure={handleGoogleE}
+                cookiePolicy={"single_host_origin"}
+              />
+            </Box>
             {/* </Link> */}
             <Grid
               container
