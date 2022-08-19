@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { addStore } from "../../../../redux/actions";
+import { addProduct, addStore } from "../../redux/actions"
 
 import {
   Avatar,
@@ -16,24 +16,34 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {  ArrowBack, PostAddIcon } from "@mui/icons-material";
+import {  ArrowBack, Add as AddIcon } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TextareaAutosize } from "@mui/base";
 
 const theme = createTheme();
 
-export default function CreateStore() {
+export default function AddProduct (shopId) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: null,
+    idLocal:""
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-   // dispatch(addProduct(newProduct));
-    navigate("/");
+    setNewProduct({
+      name: "",
+      price: null,
+      idLocal:{shopId}
+    })
+    dispatch(addProduct(newProduct));
+    setNewProduct({
+      name: "",
+      price: null,
+      idLocal:""
+    })
   };
 
   const onInputChange = (e) => {
@@ -50,15 +60,12 @@ export default function CreateStore() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "#1976d2" }}>
-            <PostAddIcon />
-          </Avatar>
+
           <Typography component="h1" variant="h5">
             CREAR NUEVO PRODUCTO
           </Typography>
@@ -98,15 +105,7 @@ export default function CreateStore() {
             >
               CREAR NUEVO PRODUCTO
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  <Button variant="contained" startIcon={<ArrowBack />}>
-                    Regresar
-                  </Button>
-                </Link>
-              </Grid>
-            </Grid>
+
           </Box>
         </Box>
       </Container>

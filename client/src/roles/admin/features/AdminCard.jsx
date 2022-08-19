@@ -24,12 +24,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Clear, Add } from "@mui/icons-material";
-import { addShoppingCart, deleteShop } from "../../../redux/actions";
+import { addShoppingCart, deleteShop, deleteProduct } from "../../../redux/actions";
 
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit'; 
-import { deleteProduct } from "../../../redux/actions";
+
 import AddIcon from '@mui/icons-material/Add';
+import  AddProduct  from '../../owner/AddProduct'
 
 export default function AdminCard({ shop }) {
   const [open, setOpen] = useState(false);
@@ -301,20 +302,23 @@ export default function AdminCard({ shop }) {
                 );
               })}
 
-              {data.type === "owner" ? 
-                <IconButton  onClick={() => {
+              
+
+              
+
+            </Container>
+            {data.type === "owner" ? 
+              <Box style={{display:"flex", justifyContent:"center"}}>
+                <IconButton  sx={addBtnStyle} onClick={() => {
                   setNewProductOpen(true)
                   setOpen(false)
                   }}>
                       <AddIcon/>
                 </IconButton>
+                </Box>
               :
                 <></>
             }
-
-              
-
-            </Container>
           </Box>
         </Fade>
       </Modal>
@@ -389,6 +393,7 @@ export default function AdminCard({ shop }) {
                 </Button>
 
               </FormControl> */}
+              <AddProduct shopId={shop._id} />
 
             </Container>
           </Box>

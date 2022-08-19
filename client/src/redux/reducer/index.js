@@ -151,7 +151,6 @@ const reducer = (state = initialState, { type, payload }) => {
     };
 
     case OWNER_SHOPS:
-      console.log("CUACK CUACK");
       return {
         ...state,
         ownerShops: payload

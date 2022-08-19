@@ -92,6 +92,12 @@ export function addStore(payload) {
   };
 }
 
+export const addProduct = (payload) => {
+  return axios
+    .post(`http://localhost:3001/account/owner/local/add_product`, payload, setHeaders())
+    .catch(error => console.error(error.message));
+  };
+
 export const updateUser = (payload, id) => {
   return axios
       .put(`http://localhost:3001/account/user/currentUser/update/${id}`, payload , setHeaders())
@@ -126,8 +132,9 @@ export const getAllUsers = () => (dispatch) => {
 
 export const deleteUser = (id) => {
   return axios
-    .delete(`http://localhost:3001/account/admin/users/${id}`)
-    .catch((error) => console.error(error.message));
+    .delete(`http://localhost:3001/account/admin/users/${id}`, setHeaders())
+    .then(response => console.log(response.data))
+    .catch((error) => console.log("TIRÉ ERROR PORQUE SOY UN FORRO"));
 };
 
 
@@ -157,7 +164,6 @@ export const getAllOwners = () => (dispatch) => {
 };
 
 export const getOwnerShops = (id) => (dispatch) => {
-  console.log("buenas buenasss")
   return axios
     .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
     .then((shops) => {
@@ -166,7 +172,7 @@ export const getOwnerShops = (id) => (dispatch) => {
         payload: shops.data,
       });
     })
-    .catch((error) => console.error(error.message, "JAJAAAAAAAAA"));
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteOwner = (id) =>  {

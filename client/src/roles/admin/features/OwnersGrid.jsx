@@ -229,7 +229,7 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     dispatch(getAllOwners());
-  }, [owners]);
+  }, []);
 
   const onBanhammClick = (id) => {
     dispatch(deleteOwner(id))

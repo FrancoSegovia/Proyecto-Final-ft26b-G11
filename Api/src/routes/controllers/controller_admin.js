@@ -49,6 +49,7 @@ const deleteUser = (req, res) => {
   userSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
     data.save().then(() => {
+      console.log("Era Matías no Mathias")
       res.json({ data });
     });
   });
@@ -57,9 +58,12 @@ const deleteUser = (req, res) => {
 const deleteOwner = (req, res) => {
   const { id } = req.params;
 
+  
   ownerSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
+    
     data.save().then(() => {
+      
       res.json({ data });
     });
   });
