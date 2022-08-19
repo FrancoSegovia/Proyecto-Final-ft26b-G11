@@ -6,14 +6,13 @@ function getModelByName(name) {
     return mongoose.model(name);
   }
 
-const deleteProduct = (req, res) => {
-    const { idP } = req.body;
-    const { id } = req.params;
+const deleteProduct = async (req, res) => {
+    const { idP } = req.body;  // order
+    const { id } = req.params; // user
   
-     User
-      .remove({_id: idP})
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+    const deleteProduct =  await User.deleteOne({_id: id}) //de esta forma busca un usuario y lo elimina, yo necesito que me elimine el producto
+      res.json(deleteProduct)
   }
+  // User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}})
 
 module.exports = deleteProduct;

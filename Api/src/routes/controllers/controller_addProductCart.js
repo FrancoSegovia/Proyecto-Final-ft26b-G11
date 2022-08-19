@@ -10,26 +10,27 @@ function getModelByName(name) {
   
 const addProductCart = async (req, res) => {
     
-    const { id } = req.params
-    const { _id } = req.body
+    const { id } = req.params // user 
+    const { _id } = req.body // product
     
-    const productExist = await Product.findById(_id)
+    // const productExist = await Product.findById(_id)
 
-        if(!productExist){
-        res.status(400).json({
-            message: "This product is not in our database "
-        })
-    } else {
-    const product = await Product.findById({_id}) 
+    //     if(!productExist){
+    //     res.status(400).json({
+    //         message: "This product is not in our database "
+    //     })
+    // } else {
+    const product = await Product.findById({_id})  
     
-    const user = await User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}})
+    const user = await User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}}) 
+    
   
    
     const newProductInCart = await user.save(); 
      res.json(newProductInCart)
 
     }
-}
+
     
 module.exports = addProductCart 
 
