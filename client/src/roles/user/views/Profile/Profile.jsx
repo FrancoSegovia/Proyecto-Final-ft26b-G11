@@ -17,9 +17,15 @@ import {
   LockOutlined,
   SettingsInputAntennaTwoTone,
 } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
+import { updateUser } from "../../../../redux/actions";
 
 function Profile() {
-  useEffect(() => {}, []);
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
+  console.log(user)
 
   const [editFlag, setEditFlag] = useState(true);
   const [msg, setMsg] = useState(false);
@@ -44,9 +50,11 @@ function Profile() {
   const onConfirmClick = () => {
     setEditFlag(true);
     setMsg(true);
+    
     setTimeout(() => {
       setMsg(false);
     }, 3000);
+    dispatch(updateUser(input, user._id));
   };
 
   return (
@@ -85,6 +93,7 @@ function Profile() {
 
           <FormLabel>Nombre</FormLabel>
           <TextField
+            placeholder={user.name}
             style={editFlag ? { backgroundColor: "#d1d1d1" } : null}
             variant="outlined"
             value={input.name}
@@ -95,6 +104,7 @@ function Profile() {
 
           <FormLabel>Apellido</FormLabel>
           <TextField
+            placeholder={user.lastName}
             style={editFlag ? { backgroundColor: "#d1d1d1" } : null}
             variant="outlined"
             value={input.lastname}
@@ -105,6 +115,7 @@ function Profile() {
 
           <FormLabel>Contraseña</FormLabel>
           <TextField
+            placeholder="**********"
             style={editFlag ? { backgroundColor: "#d1d1d1" } : null}
             variant="outlined"
             type="password"

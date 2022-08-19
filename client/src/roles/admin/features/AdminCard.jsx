@@ -34,30 +34,26 @@ import AddIcon from '@mui/icons-material/Add';
 export default function AdminCard({ shop }) {
   const [open, setOpen] = useState(false);
   const [newProductOpen, setNewProductOpen] = useState(false);
-  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
   const data = jwtDecode(localStorage.getItem("token"));
-
-  console.log(shop._id);
 
   const onRemoveClick = () => {
     dispatch(deleteShop(shop._id));
   }
 
+
   const onCardClose = (e) => setOpen(false);
 
   const onCardClick = async () =>  {
     setOpen(true);
-    const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
-    setProducts(products.data);
   };
 
 
   const styles = {
     media: {
       justifySelf:"right",
-      position:"absolute",
+      position:"sticky",
       alignSelf: "center",
       width: "10vw",
       marginRight:"25px",
@@ -221,7 +217,7 @@ export default function AdminCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {products.length
+              {shop.products.length
                 ? `Menú de "${shop.name}"`
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
@@ -237,7 +233,7 @@ export default function AdminCard({ shop }) {
                 gap: "50px",
               }}
             >
-              {products.map((product) => {
+              {shop.products.map((product) => {
                 return (
                   <div key={product._id}>
                     <Card
@@ -300,12 +296,13 @@ export default function AdminCard({ shop }) {
                          
                       </CardContent>
                     </Card>
+                    
                   </div>
                 );
               })}
 
               {data.type === "owner" ? 
-                <IconButton sx={addBtnStyle} onClick={() => {
+                <IconButton  onClick={() => {
                   setNewProductOpen(true)
                   setOpen(false)
                   }}>
@@ -410,6 +407,7 @@ export default function AdminCard({ shop }) {
           justifyContent: "space-between",
         }}
         style={{ marginTop: "15px" }}
+        onClick={onCardClick}
       >
         <CardContent
           style={{
@@ -419,7 +417,7 @@ export default function AdminCard({ shop }) {
             maxWidth: 200,
             marginLeft: "30px",
           }}
-          onClick={onCardClick}
+          
         >
           <Typography
             wrap
@@ -439,7 +437,7 @@ export default function AdminCard({ shop }) {
             {shop.category}
           </Typography>
         </CardContent>
-        <div style={{display:"flex", justifyContent:"right"}}>
+        <div style={{display:"flex", justifyContent:"center"}}>
         <CardMedia
           component="img"
           style={styles.media}

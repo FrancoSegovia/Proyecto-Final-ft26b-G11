@@ -19,8 +19,13 @@ import {
   SIGN_OUT,
   ALL_USERS,
   GET_SHOPPINGCART,
+
+  QUERY_PRODUCTS,
+
   OWNER_DETAIL,
   OWNER_SHOPS,
+  ALL_OWNERS
+
 } from "../actions";
 
 const initialState = {
@@ -41,11 +46,16 @@ const initialState = {
     _id: "",
     phone: null,
     vehicle: "",
+    isBanned:false
   },
   _id: "",
   users: [],
+  owners:[],
+  deliverys:[],
+  modalProducts: [],
   owner:{},
   ownerShops:[]
+
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -65,6 +75,12 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    case QUERY_PRODUCTS: {
+      return {
+        ...state,
+        modalProducts: payload,
+      }
+    }  
     case ALL_USERS: {
       return {
         ...state,
@@ -140,6 +156,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         ownerShops: payload
   };
+
+    case ALL_OWNERS:
+        return {
+          ...state,
+          owners: payload
+    };
   
     /////////////////////////////////////////////////
 
@@ -171,8 +193,8 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
-      console.log(data);
-      return {
+     
+     return {
         ...state,
         user: {
           ...state.user,
@@ -180,10 +202,11 @@ const reducer = (state = initialState, { type, payload }) => {
           _id: data._id,
           type: data.type,
           name: data.name,
-          lastName: data.lastName,
+          lastName: data.lastname,
           eMail: data.email,
           phone: data.phone ? data.phone : null,
           vehicle: data.vehicle ? data.vehicle : "",
+          isBanned:data.isBanned
         },
       };
     }
@@ -206,6 +229,7 @@ const reducer = (state = initialState, { type, payload }) => {
           _id: "",
           phone: null,
           vehicle: "",
+          isBanned:false
         },
       };
 

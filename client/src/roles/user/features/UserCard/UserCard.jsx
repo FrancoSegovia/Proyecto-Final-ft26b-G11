@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import {getQueryProducts} from "../../../../redux/actions"
 import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
+
 
 import ShoppingCart from "../UserShoppingCart/ShoppingCart";
 
@@ -17,40 +20,62 @@ import {
   IconButton,
   Typography,
   CardActions,
+   InputBase,
   Box,
   Fade,
   Modal,
   Grid,
 } from "@mui/material";
-import { Clear, Add } from "@mui/icons-material";
+import { styled, alpha } from "@mui/material/styles";
+  
+
+import { Clear, Add, SearchRounded } from "@mui/icons-material";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const products = useSelector(state => state.modalProducts)
 
+  const [search, setSearch] = useState("");
+  const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([]);
+  
+
   let localS = localStorage.getItem("type");
+
 
   const onCardClick = async () => {
     setOpen(true);
-    const products = await axios.get(`http://localhost:3001/account/user/local/products/${shop._id}`);
-    setProducts(products.data);
+    dispatch(getQueryProducts())
+    //setProducts();
   };
 
   const onCardClose = () => {
     setOpen(false);
-
-    setTimeout(() => {
-      setProducts([]);
-    }, 1000);
-    
+    // setTimeout(() => {
+    //   setProducts([]);
+    // }, 1000);
   }
   const onButtonClick = (product) => {
     dispatch(addShoppingCart(product));
   };
+  
+  const onChange = (e) => {
+ 
+    setSearch(e.target.value);
+
+    //agregar cartel "caracteres inválidos"?
+    if(search.length > 1){
+    dispatch(getQueryProducts(search.trim()))
+    // setProducts()
+    }else{
+    dispatch(getQueryProducts())
+      //setProducts(dispatch(getProducts()))
+    }
+  }
 
 
+  
   const styles = {
     media: {
       alignSelf: "center",
@@ -92,6 +117,48 @@ export default function UserCard({ shop }) {
     boxShadow: 24,
     p: 4,
   };
+
+
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    width: "100%",
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    
+  }));
+
+  // const StyledInputBase = styled(InputBase)
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "grey",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      // transition: theme.transitions.create("width"),
+    },
+    width: "270px",
+    height: "40px !important",
+  }));
+
+
+
+  
+
+
 
   return (
     <div>
@@ -149,23 +216,45 @@ export default function UserCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {products?.length
+              {shop.products?.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
+
+            <Box style={{display:"flex", justifyContent:"center"}}>
+              <Box style={{display:"flex", justifyContent:"center", backgroundColor:"whitesmoke", padding:"10px", borderRadius:"5px"}}>
+                <Search align="left" style={{width:"30vw"}}>
+                  <SearchIconWrapper>
+                    <SearchRounded style={{color:"grey"}} />
+                  </SearchIconWrapper>
+                    <StyledInputBase
+                    placeholder="Buscar Productos"
+                    inputProps={{ "aria-label": "search" }}
+                    name="search"
+                    type="string"
+                    value={search}
+                    onChange={onChange}
+                    autoFocus
+                    />
+                </Search>
+              </Box>
+            </Box>
+
+            <Container style={{display:"flex"}}>
 
             <Container
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                justifyContent: "space-evenly",
+                justifyContent: "space-between",
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"20px",
+                width:"50vw",
+                gap:"20px"
               }}
             >
-              {products?.map((product) => {
+              {shop.products?.map((product) => {
                 return (
                   <div key={product._id} >
                     <Card
@@ -231,8 +320,13 @@ export default function UserCard({ shop }) {
                   </div>
                 );
               })}
-       
+                
             </Container>
+            <Box style={{marginTop:"30px", textAlign:"center", position:""}}>
+            <ShoppingCart/>
+            </Box>
+            
+              </Container>
           </Box>
         </Fade>
       </Modal>

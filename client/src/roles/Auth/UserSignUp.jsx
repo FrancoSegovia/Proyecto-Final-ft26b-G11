@@ -36,6 +36,7 @@ export default function SignUp() {
     phone: null,
     direction: "",
     vehicle: "",
+    isBanned:false
   });
 
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function SignUp() {
       phone: null,
       direction: "",
       vehicle: "",
+      isBanned:false
     });
     navigate("/SignIn", { replace: true });
   };

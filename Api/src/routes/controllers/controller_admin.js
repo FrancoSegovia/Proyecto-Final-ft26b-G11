@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const localSchema = require("../../schema/Local");
 const userSchema = require("../../schema/User");
 const deliverySchema = require("../../schema/Delivery");
+const ownerSchema = require("../../schema/Owner")
 
 const getOwner = (req, res) => {
   const { name } = req.query;

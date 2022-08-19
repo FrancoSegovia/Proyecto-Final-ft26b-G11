@@ -21,7 +21,7 @@ function OwnerSettings() {
     
     useEffect(() => {
         dispatch(getOwnerShops(data._id));
-    }, [])
+    }, [ownerShops])
     
     console.log(ownerShops);
     

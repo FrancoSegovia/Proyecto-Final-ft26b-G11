@@ -5,6 +5,7 @@ import { setHeaders } from "../../api";
 
 export const ALL_SHOPS = "ALL_SHOPS";
 export const QUERY_SHOPS = "QUERY_SHOPS";
+export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 
 export const ALL_USERS = "ALL_USERS";
 /////////////////////////////////////////////////
@@ -27,6 +28,7 @@ export const USER_LOADED = "USER_LOADED";
 ////////////////////////////////////////////////
 export const OWNER_DETAIL = "OWNER_DETAIL";
 export const OWNER_SHOPS= "OWNER_SHOPS";
+export const ALL_OWNERS = "ALL_OWNERS";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -58,6 +60,25 @@ export const getQueryShops = (query) => (dispatch) => {
     });
 };
 
+//cambiar la ruta por la que traeproductos por query
+export const getQueryProducts = (query) => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/user/local?name=${query}`, setHeaders())
+    .then((products) => {
+      dispatch({
+        type: QUERY_PRODUCTS,
+        payload: products.data,
+      });
+    })
+    .catch((error) => {
+      console.error(error.message);
+      dispatch({
+        type: QUERY_ERROR,
+        payload: true,
+      });
+    });
+};
+
 export function addStore(payload) {
 
   return async function () {
@@ -70,8 +91,12 @@ export function addStore(payload) {
   };
 }
 
+export const updateUser = (payload, id) => {
+  return axios
+      .put(`http://localhost:3001/account/user/currentUser/update/${id}`, payload , setHeaders())
+}
+
 export const deleteShop = (id) => {
-  console.log("Llegué hasta acá y no hice un chori");
   return axios
     .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
     .catch((error) => console.error(error.message));
@@ -85,9 +110,9 @@ export const deleteShop = (id) => {
 //   .catch(error => console.error(error.message))
 // }
 
-export const getAllUsers = (dispatch) => {
+export const getAllUsers = () => (dispatch) => {
   return axios
-    .get("http://localhost:3001/account/admin/users")
+    .get("http://localhost:3001/account/admin/users", setHeaders())
     .then((users) => {
       dispatch({
         type: ALL_USERS,
@@ -96,6 +121,7 @@ export const getAllUsers = (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
 
 export const deleteUser = (id) => {
   return axios
@@ -108,10 +134,22 @@ export const getOwnerDetails = (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
     .then((owner) => {
-      console.log(owner.data)
+
       dispatch({
         type: OWNER_DETAIL,
         payload: owner.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const getAllOwners = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/admin/owner`, setHeaders())
+    .then((owners) => {
+      dispatch({
+        type: ALL_OWNERS,
+        payload: owners.data,
       });
     })
     .catch((error) => console.error(error.message));
@@ -122,7 +160,6 @@ export const getOwnerShops = (id) => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
     .then((shops) => {
-      console.log("Sos un puto");
       dispatch({
         type: OWNER_SHOPS,
         payload: shops.data,
@@ -131,9 +168,15 @@ export const getOwnerShops = (id) => (dispatch) => {
     .catch((error) => console.error(error.message, "JAJAAAAAAAAA"));
 };
 
+export const deleteOwner = (id) =>  {
+  return axios
+    .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
+    .catch((error) => console.error(error.message));
+};
+
 export const deleteProduct = (id) => {
   return axios
-    .delete(`http://localhost:3001/account/owner/local/product/${id}`)
+    .delete(`http://localhost:3001/account/owner/local/product/${id}`, setHeaders())
     .catch((error) => console.error(error.message));
 };
 
