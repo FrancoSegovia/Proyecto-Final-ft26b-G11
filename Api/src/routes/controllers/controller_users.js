@@ -92,6 +92,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -125,6 +126,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -157,6 +159,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -179,7 +182,7 @@ const login = async (req, res) => {
       const userObject = {
         _id: correctModel._id,
         email: correctModel.email,
-        type:correctModel.type
+        type:correctModel.type,
       };
 
       const accessToken = jwt.sign(

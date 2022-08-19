@@ -19,7 +19,6 @@ export default function AddressForm() {
 
   useEffect(() => {
     let token = jwtDecode(localStorage.getItem("token"));
-    console.log(token);
     setForm({
       firstName: token.name,
       lastName: token.lastname,

@@ -29,7 +29,7 @@ import {
 import { styled, alpha } from "@mui/material/styles";
   
 
-import { Clear, Add } from "@mui/icons-material";
+import { Clear, Add, SearchRounded } from "@mui/icons-material";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
@@ -60,12 +60,10 @@ export default function UserCard({ shop }) {
     dispatch(addShoppingCart(product));
   };
   
-  const onChange = async (e) => {
-    e.prevent.default();
+  const onChange = (e) => {
+ 
     setSearch(e.target.value);
-    if (!regExp.test(e.target.value) && e.target.value !== "") {
-    return;
-    }
+
     //agregar cartel "caracteres inválidos"?
     if(search.length > 1){
     dispatch(getQueryProducts(search.trim()))
@@ -77,7 +75,6 @@ export default function UserCard({ shop }) {
   }
 
 
-  console.log(shop);
   
   const styles = {
     media: {
@@ -140,12 +137,13 @@ export default function UserCard({ shop }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    
   }));
 
   // const StyledInputBase = styled(InputBase)
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
+    color: "grey",
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
@@ -158,20 +156,7 @@ export default function UserCard({ shop }) {
 
 
 
-  // <Search>
-  //   <SearchIconWrapper>
-  //     <Search />
-  //   </SearchIconWrapper>
-  //     <StyledInputBase
-  //     placeholder="Buscar Productos"
-  //     inputProps={{ "aria-label": "search" }}
-  //     name="search"
-  //     type="string"
-  //     value={search}
-  //     onChange={onChange}
-  //     autoFocus
-  //     />
-  // </Search>
+  
 
 
 
@@ -231,23 +216,45 @@ export default function UserCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {products?.length
+              {shop.products?.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
+
+            <Box style={{display:"flex", justifyContent:"center"}}>
+              <Box style={{display:"flex", justifyContent:"center", backgroundColor:"whitesmoke", padding:"10px", borderRadius:"5px"}}>
+                <Search align="left" style={{width:"30vw"}}>
+                  <SearchIconWrapper>
+                    <SearchRounded style={{color:"grey"}} />
+                  </SearchIconWrapper>
+                    <StyledInputBase
+                    placeholder="Buscar Productos"
+                    inputProps={{ "aria-label": "search" }}
+                    name="search"
+                    type="string"
+                    value={search}
+                    onChange={onChange}
+                    autoFocus
+                    />
+                </Search>
+              </Box>
+            </Box>
+
+            <Container style={{display:"flex"}}>
 
             <Container
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                justifyContent: "space-evenly",
+                justifyContent: "space-between",
                 marginBottom: "20px",
                 marginTop: "20px",
                 "&hover": { cursor: "default" },
-                gap:"20px",
+                width:"50vw",
+                gap:"20px"
               }}
             >
-              {/* {products?.map((product) => {
+              {shop.products?.map((product) => {
                 return (
                   <div key={product._id} >
                     <Card
@@ -312,9 +319,14 @@ export default function UserCard({ shop }) {
                     </Card>
                   </div>
                 );
-              })} */}
-       
+              })}
+                
             </Container>
+            <Box style={{marginTop:"30px", textAlign:"center", position:""}}>
+            <ShoppingCart/>
+            </Box>
+            
+              </Container>
           </Box>
         </Fade>
       </Modal>

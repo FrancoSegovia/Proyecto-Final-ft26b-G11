@@ -64,7 +64,7 @@ export const getQueryShops = (query) => (dispatch) => {
 //cambiar la ruta por la que traeproductos por query
 export const getQueryProducts = (query) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/account/user/local?name=${query}`)
+    .get(`http://localhost:3001/account/user/local?name=${query}`, setHeaders())
     .then((products) => {
       dispatch({
         type: QUERY_PRODUCTS,
@@ -90,6 +90,11 @@ export function addStore(payload) {
       console.error(error);
     }
   };
+}
+
+export const updateUser = (payload, id) => {
+  return axios
+      .put(`http://localhost:3001/account/user/currentUser/update/${id}`, payload , setHeaders())
 }
 
 export const deleteShop = (id) => {
@@ -118,6 +123,7 @@ export const getAllUsers = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
+
 export const deleteUser = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/users/${id}`)
@@ -129,7 +135,7 @@ export const getOwnerDetails = (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
     .then((owner) => {
-      console.log(owner.data)
+
       dispatch({
         type: OWNER_DETAIL,
         payload: owner.data,
@@ -142,7 +148,6 @@ export const getAllOwners = () => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/admin/owner`, setHeaders())
     .then((owners) => {
-      console.log(owners.data)
       dispatch({
         type: ALL_OWNERS,
         payload: owners.data,
@@ -156,7 +161,6 @@ export const getOwnerShops = (id) => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
     .then((shops) => {
-      console.log("Sos un puto");
       dispatch({
         type: OWNER_SHOPS,
         payload: shops.data,
@@ -165,9 +169,15 @@ export const getOwnerShops = (id) => (dispatch) => {
     .catch((error) => console.error(error.message, "JAJAAAAAAAAA"));
 };
 
+export const deleteOwner = (id) =>  {
+  return axios
+    .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
+    .catch((error) => console.error(error.message));
+};
+
 export const deleteProduct = (id) => {
   return axios
-    .delete(`http://localhost:3001/account/owner/local/product/${id}`)
+    .delete(`http://localhost:3001/account/owner/local/product/${id}`, setHeaders())
     .catch((error) => console.error(error.message));
 };
 
