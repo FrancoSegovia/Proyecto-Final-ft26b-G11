@@ -315,7 +315,7 @@ export default function EnhancedTable() {
                     const isItemSelected = isSelected(user.name);
                     const labelId = `enhanced-table-checkbox-${index}`;
   
-                    return (
+                    return user.isBanned === false ? (
                       <TableRow
                         hover
                         role="checkbox"
@@ -344,7 +344,7 @@ export default function EnhancedTable() {
                             <IconButton
                               sx={{ color: "#f44336" }}
                               onClick={() => {
-                                dispatch(deleteUser(user.id));
+                                dispatch(deleteUser(user._id));
                               }}
                             >
                               <Banhamm />
@@ -356,7 +356,7 @@ export default function EnhancedTable() {
                           </Box>
                         </TableCell>
                       </TableRow>
-                    );
+                    ) : null
                   })}
                 {emptyRows > 0 && (
                   <TableRow

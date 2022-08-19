@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOwners} from "../../../redux/actions";
-import { deleteUser } from "../../../redux/actions";
+import { deleteOwner } from "../../../redux/actions";
 
 import PropTypes from "prop-types";
 import {
@@ -227,10 +227,13 @@ export default function EnhancedTable() {
   const owners = useSelector((state) => state.owners);
   const dispatch = useDispatch();
 
-  console.log(owners)
   useEffect(() => {
-    dispatch(getAllOwners(dispatch));
-  }, []);
+    dispatch(getAllOwners());
+  }, [owners]);
+
+  const onBanhammClick = (id) => {
+    dispatch(deleteOwner(id))
+  }
 
   //! Happy accident!
   const [order, setOrder] = React.useState("asc");
@@ -315,6 +318,7 @@ export default function EnhancedTable() {
                   .map((owner, index) => {
                     const isItemSelected = isSelected(owner.name);
                     const labelId = `enhanced-table-checkbox-${index}`;
+
   
                     return (
                       <TableRow
@@ -344,9 +348,7 @@ export default function EnhancedTable() {
                           <Box sx={{ display: "flex" }}>
                             <IconButton
                               sx={{ color: "#f44336" }}
-                              onClick={() => {
-                                dispatch(deleteUser(owner.id));
-                              }}
+                              onClick={() => onBanhammClick(owner._id)}
                             >
                               <Banhamm />
                             </IconButton>

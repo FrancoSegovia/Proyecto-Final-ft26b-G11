@@ -92,6 +92,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -125,6 +126,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -157,6 +159,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned
       };
 
       const accessToken = jwt.sign(
@@ -179,7 +182,7 @@ const login = async (req, res) => {
       const userObject = {
         _id: correctModel._id,
         email: correctModel.email,
-        type:correctModel.type
+        type:correctModel.type,
       };
 
       const accessToken = jwt.sign(
@@ -242,12 +245,12 @@ const getLocal = (req, res) => {
   const { name } = req.query;
   if (name) {
     localSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   } else {
     localSchema
-      .find()
+      .find().populate('products')
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   }
