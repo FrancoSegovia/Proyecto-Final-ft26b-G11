@@ -229,7 +229,7 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     dispatch(getAllOwners());
-  }, []);
+  }, [owners]);
 
   const onBanhammClick = (id) => {
     dispatch(deleteOwner(id))
@@ -320,7 +320,7 @@ export default function EnhancedTable() {
                     const labelId = `enhanced-table-checkbox-${index}`;
 
   
-                    return (
+                    return owner.isBanned === false ?  (
                       <TableRow
                         hover
                         role="checkbox"
@@ -359,7 +359,9 @@ export default function EnhancedTable() {
                           </Box>
                         </TableCell>
                       </TableRow>
-                    );
+                    )
+                     :
+                          null
                   })}
                 {emptyRows > 0 && (
                   <TableRow

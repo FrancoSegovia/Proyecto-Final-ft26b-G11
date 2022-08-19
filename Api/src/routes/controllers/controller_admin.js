@@ -49,7 +49,6 @@ const deleteUser = (req, res) => {
   userSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
     data.save().then(() => {
-      console.log("Era Matías no Mathias")
       res.json({ data });
     });
   });

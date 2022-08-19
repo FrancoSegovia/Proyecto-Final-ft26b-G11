@@ -178,6 +178,9 @@ export const getOwnerShops = (id) => (dispatch) => {
 export const deleteOwner = (id) =>  {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
+    .then(() => {
+      swal("Good job!", "El dueño ha sido baneado con éxito.", "success");
+    } )
     .catch((error) => console.error(error.message));
 };
 
