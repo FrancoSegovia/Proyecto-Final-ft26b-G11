@@ -65,17 +65,18 @@ export default function SignUp() {
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
+    console.log(event.target.value);
     setUser({
       ...user,
       [event.target.name]: event.target.value,
     });
     setError(inputCheckout(user));
-    console.log(error);
   };
 
   const handleGoogleS = (e) => {};
-  const handleGoogleE = (e) => {};
+  const handleGoogleE = (e) => {
+    console.log(e);
+  };
 
   const onSelect = (event) => {
     setUser({
@@ -118,7 +119,7 @@ export default function SignUp() {
                   id="name"
                   label="Nombre"
                   autoFocus
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.name}
                 />
               </Grid>
@@ -130,7 +131,7 @@ export default function SignUp() {
                   label="Apellido"
                   name="lastname"
                   autoComplete="family-name"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.lastname}
                 />
               </Grid>
@@ -143,7 +144,7 @@ export default function SignUp() {
                   label="Dirección de correo electrónico"
                   name="email"
                   autoComplete="eMail"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.email}
                 />
               </Grid>
@@ -157,7 +158,7 @@ export default function SignUp() {
                     label="Dirección"
                     id="direction"
                     autoComplete="new-direction"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={user.direction}
                   />
                 </Grid>
@@ -172,7 +173,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.password}
                 />
               </Grid>
@@ -185,7 +186,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.password}
                 />
               </Grid>
@@ -199,7 +200,7 @@ export default function SignUp() {
                     label="Teléfono"
                     id="phone"
                     autoComplete="new-phone"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={user.phone}
                   />
                 </Grid>
@@ -238,15 +239,14 @@ export default function SignUp() {
             </Button>
             <Box sx={{ mt: 0.5, mb: 3 }}>
               <GoogleLogin
-                disabled
+                // disabled
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Registrate con Google"
-                onSuccess={handleGoogleS}
-                onFailure={handleGoogleE}
+                buttonText="Registrate con Google (Proximamente) "
+                onSuccess={(e) => handleGoogleS(e)}
+                onFailure={(e) => handleGoogleE(e)}
                 cookiePolicy={"single_host_origin"}
               />
             </Box>
-            {/* </Link> */}
             <Grid
               container
               justifyContent="flex-end"
