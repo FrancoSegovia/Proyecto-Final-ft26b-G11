@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ownerSchema = require("../../schema/Owner");
 const localSchema = require("../../schema/Local");
 const productSchema = require("../../schema/Product");
+const userSchema = require("../../schema/User")
 const bcrypt = require("bcrypt");
 const Product = require("../../schema/Product");
 //!-------------------------------------
@@ -111,16 +112,27 @@ const addLocal = (req, res) => {
 
 //*---------------PUT REVIEWS---------------------------
 
-const reviews = (req, res) => {
+const reviews = async (req, res) => {
   const { id } = req.params // user
   const { score, comment } = req.body
   const Local = getModelByName("Local");
   try {
+    const user = await userSchema.findById({_id});
+
+    const local = await Local.findByIdAndUpdate({_id: id}, {$push: {reviews: {user}}}) 
+    
+    const newReviews = await local.save(); 
+     res.json(newReviews)
     
   } catch (error) {
-    
+    console.log(error)
   }
 }
+
+
+    
+
+
 
 //*---------------POST PRODUCT----------------------------
 const addProduct = async (req, res) => {
@@ -240,4 +252,5 @@ module.exports = {
   deleteProduct,
   getProduct,
   updateCurrentOwner,
+  reviews
 };
