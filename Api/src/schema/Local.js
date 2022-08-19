@@ -26,6 +26,12 @@ const schema = Schema(
       type: String,
       // required: true,
     },
+    reviews: [{
+      user: {type: Schema.Types.ObjectId, ref: "User"},
+      score: {type: Number},
+      comment: {type: String},
+      required: false
+    }],
     products: [{
       type: Schema.Types.ObjectId,
       ref: "Product",

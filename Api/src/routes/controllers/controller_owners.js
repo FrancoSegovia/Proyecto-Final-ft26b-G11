@@ -109,6 +109,19 @@ const addLocal = (req, res) => {
 };
 //*---------------POST LOCAL----------------------------
 
+//*---------------PUT REVIEWS---------------------------
+
+const reviews = (req, res) => {
+  const { id } = req.params // user
+  const { score, comment } = req.body
+  const Local = getModelByName("Local");
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 //*---------------POST PRODUCT----------------------------
 const addProduct = async (req, res) => {
   const Product = getModelByName("Product");
