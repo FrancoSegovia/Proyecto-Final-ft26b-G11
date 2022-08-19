@@ -3,7 +3,8 @@ const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const localSchema = require("../../schema/Local");
-const admindSchema = require("../../schema/Admin")
+const admindSchema = require("../../schema/Admin");
+const productSchema = require("../../schema/Product");
 
 //!-----------------------------------------------------
 function getModelByName(name) {
@@ -241,15 +242,57 @@ const getLocal = (req, res) => {
   const { name } = req.query;
   if (name) {
     localSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
+      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+      .populate("products")
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   } else {
     localSchema
-      .find().populate('products')
+      .find()
+      .populate("products")
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   }
+};
+
+// const getProduct = async (req, res) => {
+//   const { id } = req.params;
+//   const localId = await localSchema.findById(id);
+//   productSchema
+//     .find({ local: localId })
+//     .then((data) => res.json(data))
+//     .catch((error) => res.status(200).send({ message: error }));
+// };
+
+// const getLocal = (req, res) => {
+//   const { name } = req.query;
+//   if (name) {
+//     localSchema
+//       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
+//       .then((data) => res.json(data))
+//       .catch((error) => res.json({ message: error }));
+
+const getProductSearch = async (req, res) => {
+  // const { id } = req.params;
+  const { id } = req.body;
+  const search = await localSchema.aggregate([
+    {
+      $lookup: {
+        from: "products",
+        localField: "products",
+        foreignField: "_id",
+        as: "products",
+      },
+    },
+    {
+      $unwind: "$products",
+    },
+  ]);
+
+  const search1 = search.map((e) => e.products._id.includes(id))
+  // const searchFiltrado = search1.filter(e => e)
+  console.log(search1);
+  //!COMENTADO
 };
 
 module.exports = {
@@ -260,4 +303,5 @@ module.exports = {
   currentUser,
   updateCurrentUser,
   getLocal,
+  getProductSearch,
 };

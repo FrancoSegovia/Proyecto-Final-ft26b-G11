@@ -9,7 +9,7 @@ router.get("/confirm/:token", ownerController.confirmAccount); //*EMAIL Y VERIFI
 router.get("/currentOwner/:id", isAuthenticated, ownerController.currentOwner); //*DETAIL OWNER
 router.put("/currentOwner/update/:id",isAuthenticated,ownerController.updateCurrentOwner); //* UPDATE OWNER
 
-router.get("/local/:id", isAuthenticated, ownerController.getLocal);//? GET LOCALS CON SUS PRODUCTOS, SEPARADOS POR OWNER CON POPULATE
+router.get("/local/:id", isAuthenticated, ownerController.getLocal);//* GET LOCALS CON SUS PRODUCTOS, SEPARADOS POR OWNER CON POPULATE
 router.post("/local/add_local", isAuthenticated, ownerController.addLocal); //*ADD LOCALS
 router.put("/local/update/:id",isAuthenticated,ownerController.updateLocal); //*UPDATE LOCAL
 router.delete('/local/:id', isAuthenticated, ownerController.deleteLocal) //*DELETE LOCAL
