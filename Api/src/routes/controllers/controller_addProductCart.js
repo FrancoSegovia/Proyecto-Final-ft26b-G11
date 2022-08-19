@@ -21,7 +21,7 @@ const addProductCart = async (req, res) => {
     //     })
     // } else { 
     const product = await Product.findById({_id})  
-    console.log(product)
+    console.log(product) 
     const user = await User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}})  
      
   
@@ -31,8 +31,19 @@ const addProductCart = async (req, res) => {
  
     }
 
+const getCart = async (req, res) => {
+    const { id } = req.params // user
+     
+    const user = await User.findById(id)
+    const cart = user.cart
+    console.log(cart)
+      res.json(cart)
+    }
     
-module.exports = addProductCart 
+module.exports = {
+  addProductCart,
+  getCart
+} 
 
   
   
