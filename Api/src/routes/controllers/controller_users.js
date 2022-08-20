@@ -255,23 +255,6 @@ const getLocal = (req, res) => {
   }
 };
 
-// const getProduct = async (req, res) => {
-//   const { id } = req.params;
-//   const localId = await localSchema.findById(id);
-//   productSchema
-//     .find({ local: localId })
-//     .then((data) => res.json(data))
-//     .catch((error) => res.status(200).send({ message: error }));
-// };
-
-// const getLocal = (req, res) => {
-//   const { name } = req.query;
-//   if (name) {
-//     localSchema
-//       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
-//       .then((data) => res.json(data))
-//       .catch((error) => res.json({ message: error }));
-
 const getProductSearch = async (req, res) => {
 
   const search = await  productSchema.find({local: req.params.id, name: new RegExp(req.query.name.toLowerCase(), "i") })
