@@ -1,4 +1,4 @@
-const addProductCart = require("./controller_addProductCart");
+const {addProductCart, getCart} = require("./controller_addProductCart");
 const {deleteProduct, deleteCart} = require("./controller_deleteProduct");
 
 const getProduct = require("./controller_getProduct");
@@ -11,6 +11,8 @@ module.exports = {
     getProduct,
     getProductCart,
     putProduct,
-    deleteCart
+    deleteCart,
+    getCart,
+    // updateCart
 
 };

@@ -7,8 +7,8 @@ function getModelByName(name) {
   }
 
 const deleteProduct = async (req, res) => {
-    const { idP } = req.body;  // order
-    const { id } = req.params; // user
+    const { idP } = req.body;  // PRODUCT ID
+    const { id } = req.params; // USER ID
 
 
   const user = await User.update( 
@@ -18,8 +18,8 @@ const deleteProduct = async (req, res) => {
   )
   res.json(user)
 }
-const deleteCart = async (req, res) => {
-  const { id } = req.params
+const deleteCart = async (req, res) => { 
+  const { id } = req.params // USER ID
   const user = await User.update( 
     { "_id" : id} , 
     { "$set" : { "cart" : [] }  } , 
@@ -28,35 +28,26 @@ const deleteCart = async (req, res) => {
   res.json(user)
 }
 
-const updateCart = async (req, res) => {
-    const { id } = req.params
- 
-     User.update(
-    {name: 'Koka'}, 
-    {'address.street': 'new street name'},
-    )
-}
+// const updateCart = async (req, res) => {
+//     const { query } = req.query
+//     const { idP } = req.body
+//     const { id } = req.params
+//   if(query === "add"){
+
+//   const user = await User.update(
+//     {"_id": id},
+//     {"cart": {"product": idP, 'amount': + 2} }, 
+//     { "multi" : true }  
+//     ) 
+//     res.json(user)
+//   }
+// }
 
 
 
-
-
-  
-    // const user = await User.findOne({ _id: id })
-    // console.log("soy user", user.cart)
-    //   await user.cart.pull({ product: idP });
-    //   await user.save();
-  
-    // const event = await User.findOneAndUpdate({ _id: id }, { $pull: { cart: [{product: idP}] } }, { new: true });
-    // const deleteProduct =  await User.updateOne({_id: id}, {
-    //   $pullAll: {
-    //     cart: [{product: idP}]
-    //   }
-     //de esta forma busca un usuario y lo elimina, yo necesito que me elimine el producto
-      
-  
 
 module.exports = {
   deleteProduct,
-  deleteCart
+  deleteCart,
+  // updateCart
 }
