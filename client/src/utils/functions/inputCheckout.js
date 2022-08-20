@@ -25,9 +25,7 @@ export default function inputCheckout(user) {
 
   if (user.cPassword.trim() !== user.password.trim()) {
     error.cPassword = "Las contraseñas no coinciden";
-  } else if (user.password.length < 1) {
-    error.cPassword = "Campo Obligatorio";
-  }
+  } 
 
   return error;
 }

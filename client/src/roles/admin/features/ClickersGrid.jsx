@@ -1,6 +1,7 @@
-import React from "react";
-import { deleteUser } from "../../../redux/actions";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { deleteClicker, getAllClickers } from "../../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+
 
 import PropTypes from "prop-types";
 import {
@@ -25,6 +26,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import CloseIcon from "@mui/icons-material/Close";
 import Banhamm from "@mui/icons-material/Gavel";
 import { visuallyHidden } from "@mui/utils";
+import { Select, MenuItem } from "@mui/material";
+
 import { alpha } from "@mui/material/styles";
 
 function createData(name, userType, id) {
@@ -89,7 +92,7 @@ const headCells = [
     label: "Nombre",
   },
   {
-    id: "userType",
+    id: "type",
     numeric: false,
     disablePadding: true,
     label: "Tipo de usuario",
@@ -124,27 +127,29 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox"></TableCell>
+        <TableCell padding="checkbox">
+          {/* <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              "aria-label": "select all desserts",
+            }}
+          /> */}
+        </TableCell>
+
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
+            // sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.label}
+            
           </TableCell>
         ))}
+
       </TableRow>
     </TableHead>
   );
@@ -203,11 +208,12 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        // <Tooltip title="Filter list">
+        //   <IconButton>
+        //     <FilterListIcon />
+        //   </IconButton>
+        // </Tooltip>
+        null
       )}
     </Toolbar>
   );
@@ -218,13 +224,24 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
+  const clickers = useSelector((state) => state.deliverys);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllClickers());
+  }, [clickers]);
+
+  const onBanhammClick = (id) => {
+    dispatch(deleteClicker(id))
+  }
+
+  //! Happy accident!
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(7);
-  const dispatch = useDispatch();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -234,7 +251,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = clickers.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -274,101 +291,101 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - clickers.length) : 0;
 
-  return (
-    <Box sx={{ width: "100%", marginTop: "30px" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+    return (
+      <Box sx={{ width: "100%", marginTop: "30px" }}>
+        <Paper sx={{ width: "100%", mb: 2 }}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? "small" : "medium"}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={clickers.length}
+              />
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                   rows.slice().sort(getComparator(order, orderBy)) */}
+                {clickers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort(getComparator(order, orderBy))
+                  .map((clicker, index) => {
+                    const isItemSelected = isSelected(clicker.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                    >
-                      <TableCell padding="checkbox"></TableCell>
-
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+  
+                    return clicker.isBanned === false ?  (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={clicker._id}
                       >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="left" padding="none">
-                        {row.userType}
-                      </TableCell>
-                      <TableCell align="left" padding="none">
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="left">
-                        <Box sx={{ display: "flex" }}>
-                          <IconButton
-                            sx={{ color: "#f44336" }}
-                            onClick={() => {
-                              dispatch(deleteUser(row.id));
-                            }}
-                          >
-                            <Banhamm />
-                          </IconButton>
-                          {/* <IconButton sx={{color:"#f44336"}}>
-                            <CloseIcon/>
-                            color:"#29b6f6"
-                          </IconButton> */}
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          labelRowsPerPage="Filas por página:"
-          rowsPerPageOptions={[7, 14]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+                        <TableCell padding="checkbox"></TableCell>
+  
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {clicker.name}
+                        </TableCell>
+                        <TableCell align="left" padding="none">
+                          {clicker.type}
+                        </TableCell>
+                        <TableCell align="left" padding="none">
+                          {clicker._id}
+                        </TableCell>
+                        <TableCell align="left">
+                          <Box sx={{ display: "flex" }}>
+                            <IconButton
+                              sx={{ color: "#f44336" }}
+                              onClick={() => onBanhammClick(clicker._id)}
+                            >
+                              <Banhamm />
+                            </IconButton>
+                            {/* <IconButton sx={{color:"#f44336"}}>
+                              <CloseIcon/>
+                              color:"#29b6f6"
+                            </IconButton> */}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    )
+                     :
+                          null
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            labelRowsPerPage="Filas por página:"
+            rowsPerPageOptions={[7, 14]}
+            component="div"
+            count={clickers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Box>
   );
 }

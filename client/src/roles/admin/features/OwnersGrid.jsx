@@ -197,7 +197,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Usuarios
+          Dueños
         </Typography>
       )}
 
@@ -320,7 +320,7 @@ export default function EnhancedTable() {
                     const labelId = `enhanced-table-checkbox-${index}`;
 
   
-                    return (
+                    return owner.isBanned === false ?  (
                       <TableRow
                         hover
                         role="checkbox"
@@ -359,7 +359,9 @@ export default function EnhancedTable() {
                           </Box>
                         </TableCell>
                       </TableRow>
-                    );
+                    )
+                     :
+                          null
                   })}
                 {emptyRows > 0 && (
                   <TableRow

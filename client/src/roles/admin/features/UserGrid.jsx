@@ -228,8 +228,8 @@ export default function EnhancedTable() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllUsers(dispatch));
-  }, []);
+    dispatch(getAllUsers());
+  }, [users]);
 
   //! Happy accident!
   const [order, setOrder] = React.useState("asc");
@@ -343,9 +343,7 @@ export default function EnhancedTable() {
                           <Box sx={{ display: "flex" }}>
                             <IconButton
                               sx={{ color: "#f44336" }}
-                              onClick={() => {
-                                dispatch(deleteUser(user._id));
-                              }}
+                              onClick={() => dispatch(deleteUser(user._id))}
                             >
                               <Banhamm />
                             </IconButton>
