@@ -33,16 +33,21 @@ export default function SignUp() {
     lastname: "",
     email: "",
     password: "",
+    cPassword: "",
     phone: null,
     direction: "",
     vehicle: "",
-    isBanned:false
+    isBanned: false,
   });
 
   useEffect(() => {
     const localS = localStorage.getItem("type");
     setUser({ ...user, type: localS });
   }, []);
+
+  useEffect(() => {
+    setError(inputCheckout(user));
+  }, [user]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -61,24 +66,20 @@ export default function SignUp() {
       phone: null,
       direction: "",
       vehicle: "",
-      isBanned:false
+      isBanned: false,
     });
     navigate("/SignIn", { replace: true });
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setUser({
       ...user,
       [event.target.name]: event.target.value,
     });
-    setError(inputCheckout(user));
   };
 
   const handleGoogleS = (e) => {};
-  const handleGoogleE = (e) => {
-    console.log(e);
-  };
+  const handleGoogleE = (e) => {};
 
   const onSelect = (event) => {
     setUser({
@@ -125,6 +126,7 @@ export default function SignUp() {
                   value={user.name}
                 />
               </Grid>
+              {error.name && error.name}
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -137,7 +139,7 @@ export default function SignUp() {
                   value={user.lastname}
                 />
               </Grid>
-              {error.name && error.name}
+              {error.lastname && error.lastname}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -150,7 +152,7 @@ export default function SignUp() {
                   value={user.email}
                 />
               </Grid>
-
+              {error.email && error.email}
               {user.type === "user" && (
                 <Grid item xs={12}>
                   <TextField
@@ -179,20 +181,21 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
+              {error.password && error.password}
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="cPassword"
                   label="Confirme su Contraseña"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                   onChange={(e) => handleChange(e)}
-                  value={user.password}
+                  value={user.cPassword}
                 />
               </Grid>
-
+              {error.cPassword && error.cPassword}
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
                   <TextField
@@ -229,12 +232,9 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
               disabled={
-                !user.name.length ||
-                !user.lastname.length ||
-                !user.email.length ||
+                Object.keys(error).length ||
                 !user.email.includes("@") ||
-                !user.email.includes(".com") ||
-                !user.password.length
+                !user.email.includes(".com")
               }
             >
               Registrarme
