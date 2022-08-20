@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
+import inputCheckout from "../../utils/functions/inputCheckout";
 
 import {
   Avatar,
@@ -24,22 +26,27 @@ export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [user, setUser] = React.useState({
+  const [error, setError] = useState({});
+  const [user, setUser] = useState({
     type: "user",
     name: "",
     lastname: "",
     email: "",
     password: "",
-    phone: null,
+    cPassword: "",
     direction: "",
     vehicle: "",
-    isBanned:false
+    isBanned: false,
   });
 
   useEffect(() => {
     const localS = localStorage.getItem("type");
     setUser({ ...user, type: localS });
   }, []);
+
+  useEffect(() => {
+    setError(inputCheckout(user));
+  }, [user]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,20 +62,25 @@ export default function SignUp() {
       lastname: "",
       email: "",
       password: "",
-      phone: null,
       direction: "",
       vehicle: "",
-      isBanned:false
+      isBanned: false,
     });
     navigate("/SignIn", { replace: true });
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
     setUser({
       ...user,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleGoogleS = (e) => {
+    console.log(e)
+  };
+  const handleGoogleE = (e) => {
+    console.log(e)
   };
 
   const onSelect = (event) => {
@@ -80,6 +92,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -102,6 +115,7 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            <Typography component="h6" variant="subtitle2" align="center" sx={{color:"#a6a6a6"}}>"*" CAMPOS OBLIGATORIOS</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -111,11 +125,12 @@ export default function SignUp() {
                   fullWidth
                   id="name"
                   label="Nombre"
-                  autoFocus
-                  onChange={handleChange}
+                  
+                  onChange={(e) => handleChange(e)}
                   value={user.name}
                 />
               </Grid>
+              {/* {error.name && error.name} */}
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -124,10 +139,11 @@ export default function SignUp() {
                   label="Apellido"
                   name="lastname"
                   autoComplete="family-name"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.lastname}
                 />
               </Grid>
+              {/* {error.lastname && error.lastname} */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -136,12 +152,12 @@ export default function SignUp() {
                   label="Dirección de correo electrónico"
                   name="email"
                   autoComplete="eMail"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.email}
                 />
               </Grid>
-
-              {user.type === "user" && (
+              {/* {error.email && error.email} */}
+              {(user.type === "user" || user.type === "owner") && (
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -150,12 +166,25 @@ export default function SignUp() {
                     label="Dirección"
                     id="direction"
                     autoComplete="new-direction"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={user.direction}
                   />
                 </Grid>
               )}
 
+              {user.type === "owner" && (
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    name="phone"
+                    label="Teléfono"
+                    id="phone"
+                    autoComplete="new-direction"
+                    onChange={(e) => handleChange(e)}
+                    value={user.phone}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -165,11 +194,25 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.password}
                 />
               </Grid>
-
+              {/* {error.password && error.password} */}
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="cPassword"
+                  label="Confirme su Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={(e) => handleChange(e)}
+                  value={user.cPassword}
+                />
+              </Grid>
+              {error.cPassword && error.cPassword}
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
                   <TextField
@@ -179,7 +222,7 @@ export default function SignUp() {
                     label="Teléfono"
                     id="phone"
                     autoComplete="new-phone"
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e)}
                     value={user.phone}
                   />
                 </Grid>
@@ -194,30 +237,34 @@ export default function SignUp() {
                     name={"vehicle"}
                   >
                     <MenuItem value={"AUTO"}>Auto</MenuItem>
+                    <MenuItem value={"BICICLETA"}>Bicicleta</MenuItem>
                     <MenuItem value={"MOTO"}>Moto</MenuItem>
                   </Select>
                 </Grid>
               )}
             </Grid>
             {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 3 }}
+              sx={{ mt: 2, mb: 2 }}
               disabled={
-                !user.name.length ||
-                !user.lastname.length ||
-                !user.email.length ||
+                Object.keys(error).length ||
                 !user.email.includes("@") ||
-                !user.email.includes(".com") ||
-                !user.password.length
+                !user.email.includes(".com")
               }
             >
               Registrarme
             </Button>
-            {/* </Link> */}
+            {/* <Box sx={{ mt: 0.5, mb: 3 }}>
+              <GoogleLogin
+                buttonText="Registrate con Google (Proximamente) "
+                onSuccess={(e) => handleGoogleS(e)}
+                onError={(e) => handleGoogleE(e)}
+                cookiePolicy={"single_host_origin"}
+              />
+            </Box> */}
             <Grid
               container
               justifyContent="flex-end"
@@ -231,7 +278,7 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" style={{ marginBottom: "30px", marginTop:"30px" }}>
               <Grid item>
                 <Link to="/SignIn" style={{ textDecoration: "none" }}>
                   ¿Ya tienes una cuenta? ¡Inicia sesión!
@@ -241,6 +288,7 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
+    </GoogleOAuthProvider>
     </ThemeProvider>
   );
 }

@@ -23,7 +23,6 @@ function OwnerSettings() {
         dispatch(getOwnerShops(data._id));
     }, [ownerShops])
     
-    console.log(ownerShops);
     
   return (
     <>

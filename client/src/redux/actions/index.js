@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { toast } from "react-toastify";
 import swal from "sweetalert";
 import { setHeaders } from "../../api";
 
@@ -30,6 +29,8 @@ export const USER_LOADED = "USER_LOADED";
 export const OWNER_DETAIL = "OWNER_DETAIL";
 export const OWNER_SHOPS= "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
+
+export const ALL_DELIVERY = "ALL_DELIVERY";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -62,10 +63,13 @@ export const getQueryShops = (query) => (dispatch) => {
 };
 
 //cambiar la ruta por la que traeproductos por query
-export const getQueryProducts = (query) => (dispatch) => {
+export const getQueryProducts = (query, id) => (dispatch) => {
+  console.log(query)
+  console.log(id)
   return axios
-    .get(`http://localhost:3001/account/user/local?name=${query}`, setHeaders())
+    .get(`http://localhost:3001/account/user/local/products/${id}?name=${query}`, setHeaders())
     .then((products) => {
+      console.log(products.data + "PEPINO")
       dispatch({
         type: QUERY_PRODUCTS,
         payload: products.data,
@@ -91,6 +95,12 @@ export function addStore(payload) {
     }
   };
 }
+
+export const addProduct = (payload) => {
+  return axios
+    .post(`http://localhost:3001/account/owner/local/add_product`, payload, setHeaders())
+    .catch(error => console.error(error.message));
+  };
 
 export const updateUser = (payload, id) => {
   return axios
@@ -124,9 +134,12 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 
-export const deleteUser = (id) => {
+export const deleteUser = (id) =>  {
   return axios
-    .delete(`http://localhost:3001/account/admin/users/${id}`)
+    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
+    } )
     .catch((error) => console.error(error.message));
 };
 
@@ -156,8 +169,28 @@ export const getAllOwners = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
+export const getAllClickers = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/admin/delivery`, setHeaders())
+    .then((clickers) => {
+      dispatch({
+        type: ALL_DELIVERY,
+        payload: clickers.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteClicker = (id) =>  {
+  return axios
+    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
+    } )
+    .catch((error) => console.error(error.message));
+};
+
 export const getOwnerShops = (id) => (dispatch) => {
-  console.log("buenas buenasss")
   return axios
     .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
     .then((shops) => {
@@ -166,12 +199,15 @@ export const getOwnerShops = (id) => (dispatch) => {
         payload: shops.data,
       });
     })
-    .catch((error) => console.error(error.message, "JAJAAAAAAAAA"));
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteOwner = (id) =>  {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El dueño ha sido vetado con éxito.", "success");
+    } )
     .catch((error) => console.error(error.message));
 };
 
@@ -236,7 +272,7 @@ export const deleteShoppingCart = (id) => {
 // export const getShoppingCart = () => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
 //   return axios
-//     .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
+//     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
 //     .then((products) => {
 //       console.log(products.data)
 //       dispatch({
@@ -247,10 +283,11 @@ export const deleteShoppingCart = (id) => {
 //     .catch((error) => console.error(error.message));
 // };
 
-// export const addShoppingCart = (id) => (dispatch) => {
+// export const addShoppingCart = (_id) => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
+//   console.log("1", _id)
 //   return axios
-//     .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, {id:id})
+//     .put(`http://localhost:3001/account/cart/products-cart/${token._id}`, { _id})
 //     .then((product) => {
 //       console.log(product.data)
 //       dispatch({
@@ -275,14 +312,13 @@ export const deleteShoppingCart = (id) => {
 // };
 
 ////////////////////////////////////////////////
+
 export const paymentFuncion = (id, amount) => {
   return axios
     .post("http://localhost:3001/account/pay", { id, amount })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      console.log(message.data.message);
       swal("Good job!", message.data.message, "success");
-      // toast(message.data.message, {position: toast.POSITION.BOTTON_RIGHT})
     })
     .catch((error) =>
       swal("Ha ocurrido un error!", error.message.message, "error")
@@ -323,7 +359,7 @@ export function signUpDelivery(user) {
   return async function () {
     try {
       let respuesta = await axios.post(
-        "http://localhost:3001/account/signup/delivery",
+        "http://localhost:3001/account/delivery/signup",
         user
       );
       return respuesta;
@@ -339,6 +375,7 @@ export const signIn = (creds) => {
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
+        console.log(token)
         dispatch({
           type: SIGN_IN,
           payload: token.data,

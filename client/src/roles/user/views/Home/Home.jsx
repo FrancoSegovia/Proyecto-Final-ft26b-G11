@@ -36,7 +36,7 @@ export default function Home() {
           rowSpacing={1}
           style={{ marginBottom: "20px", padding: "35px 0px" }}
         >
-          <Grid item xs={2} style={{ textAlign: "center" }}>
+          <Grid item xs={2} style={{ textAlign: "center"}}>
             <UserShopOrder />
             <UserShopFilter />
           </Grid>
@@ -44,8 +44,8 @@ export default function Home() {
           <Grid
             container
             justifyContent="space-evenly"
-            xs={7}
-            style={{ textAlign: "center" }}
+            xs={localS === "owner" ? 6 : 7 }
+            style={{ textAlign: "center"}}
           >
             {error || !shops.length ? (
               <p
@@ -71,7 +71,7 @@ export default function Home() {
 
               {localS === "user" 
               ? 
-              <Grid item xs={2} style={{ textAlign: "center" }}>
+              <Grid item xs={2} style={{ textAlign: "center", backgroundColor:"red" }}>
                 <ShoppingCart />
               </Grid> 
               :

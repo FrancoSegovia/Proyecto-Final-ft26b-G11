@@ -24,7 +24,8 @@ import {
 
   OWNER_DETAIL,
   OWNER_SHOPS,
-  ALL_OWNERS
+  ALL_OWNERS,
+  ALL_DELIVERY
 
 } from "../actions";
 
@@ -76,6 +77,7 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case QUERY_PRODUCTS: {
+      console.log(payload)
       return {
         ...state,
         modalProducts: payload,
@@ -151,7 +153,6 @@ const reducer = (state = initialState, { type, payload }) => {
     };
 
     case OWNER_SHOPS:
-      console.log("CUACK CUACK");
       return {
         ...state,
         ownerShops: payload
@@ -162,23 +163,35 @@ const reducer = (state = initialState, { type, payload }) => {
           ...state,
           owners: payload
     };
+
+    case ALL_DELIVERY:
+        return {
+          ...state,
+          deliverys: payload
+    };
   
     /////////////////////////////////////////////////
 
     case GET_SHOPPINGCART:
+      console.log(payload)
       return {
         ...state,
         cart: payload,
       };
 
-    case ADD_SHOPPINGCART:
-      let newCart = [...state.cart, payload];
-      localStorage.setItem("cart", JSON.stringify(newCart));
-      return {
-        ...state,
-        cart: [...state.cart, payload],
-      };
-
+      case ADD_SHOPPINGCART:
+        let newCart = [...state.cart, payload];
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        return {
+          ...state,
+          cart: [...state.cart, payload],
+        };
+      // case ADD_SHOPPINGCART:
+      //   return {
+      //     ...state,
+      //     cart: [...payload],
+      //   };
+      
     case DELETE_SHOPPINGCART:
       let newCart2 = JSON.parse(localStorage.getItem("cart"));
       newCart2 = newCart2.filter((p) => p._id !== payload);
