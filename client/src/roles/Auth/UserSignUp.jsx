@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
 import inputCheckout from "../../utils/functions/inputCheckout";
 
@@ -78,8 +78,12 @@ export default function SignUp() {
     });
   };
 
-  const handleGoogleS = (e) => {};
-  const handleGoogleE = (e) => {};
+  const handleGoogleS = (e) => {
+    console.log(e)
+  };
+  const handleGoogleE = (e) => {
+    console.log(e)
+  };
 
   const onSelect = (event) => {
     setUser({
@@ -90,6 +94,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -167,7 +172,6 @@ export default function SignUp() {
                   />
                 </Grid>
               )}
-
               <Grid item xs={12}>
                 <TextField
                   required
@@ -241,11 +245,9 @@ export default function SignUp() {
             </Button>
             <Box sx={{ mt: 0.5, mb: 3 }}>
               <GoogleLogin
-                // disabled
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Registrate con Google (Proximamente) "
                 onSuccess={(e) => handleGoogleS(e)}
-                onFailure={(e) => handleGoogleE(e)}
+                onError={(e) => handleGoogleE(e)}
                 cookiePolicy={"single_host_origin"}
               />
             </Box>
@@ -272,6 +274,7 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
+    </GoogleOAuthProvider>
     </ThemeProvider>
   );
 }
