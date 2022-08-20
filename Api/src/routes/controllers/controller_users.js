@@ -259,44 +259,11 @@ const getLocal = (req, res) => {
   }
 };
 
-// const getProduct = async (req, res) => {
-//   const { id } = req.params;
-//   const localId = await localSchema.findById(id);
-//   productSchema
-//     .find({ local: localId })
-//     .then((data) => res.json(data))
-//     .catch((error) => res.status(200).send({ message: error }));
-// };
-
-// const getLocal = (req, res) => {
-//   const { name } = req.query;
-//   if (name) {
-//     localSchema
-//       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") }).populate('products')
-//       .then((data) => res.json(data))
-//       .catch((error) => res.json({ message: error }));
-
 const getProductSearch = async (req, res) => {
-  // const { id } = req.params;
-  const { id } = req.body;
-  const search = await localSchema.aggregate([
-    {
-      $lookup: {
-        from: "products",
-        localField: "products",
-        foreignField: "_id",
-        as: "products",
-      },
-    },
-    {
-      $unwind: "$products",
-    },
-  ]);
 
-  const search1 = search.map((e) => e.products._id.includes(id))
-  // const searchFiltrado = search1.filter(e => e)
-  console.log(search1);
-  //!COMENTADO
+  const search = await  productSchema.find({local: req.params.id, name: new RegExp(req.query.name.toLowerCase(), "i") })
+  res.status(200).json(search)
+  .catch((error) => res.json({ message: error }));
 };
 
 module.exports = {

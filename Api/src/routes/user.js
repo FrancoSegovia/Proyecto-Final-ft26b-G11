@@ -1,6 +1,5 @@
 const express = require("express");
 const userController = require("./controllers/controller_users");
-const ownerController = require("../routes/controllers/controller_owners");
 const { isAuthenticated } = require("../routes/middlewares");
 const router = express.Router();
 
@@ -13,5 +12,5 @@ router.put("/currentUser/update/:id",isAuthenticated, userController.updateCurre
 router.get("/local", userController.getLocal);//* GET ALL LOCALS Y BY NAME CON SUS PRODUCTOS POPULATE
 // router.get("/local/products/:id", ownerController.getProduct);//? GET PRODUCT SEPARADOS POR LOCAL ¿HCE FALTA AHORA?
 
-router.get("/local/products", userController.getProductSearch)
+router.get("/local/products/:id", userController.getProductSearch)
 module.exports = router;
