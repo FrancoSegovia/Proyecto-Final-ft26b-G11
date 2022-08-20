@@ -2,6 +2,7 @@
 const Product = require("../../schema/Product");
 const User = require("../../schema/User")
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 function getModelByName(name) {
     return mongoose.model(name);
@@ -13,15 +14,9 @@ const addProductCart = async (req, res) => {
     const { id } = req.params // USER ID
     const { _id } = req.body // PRODUCT ID
     
-    // const productExist = await Product.findById(_id)
-
-    //     if(!productExist){
-    //     res.status(400).json({
-    //         message: "This product is not in our data base " 
-    //     })
-    // } else { 
+    
     const product = await Product.findById({_id})  
-    // console.log(product) 
+   
     const user = await User.update( 
       { "_id" : id} , 
       { "$push" : { "cart" : { "product" :  _id } } } , 
@@ -33,11 +28,30 @@ const addProductCart = async (req, res) => {
 
 const getCart = async (req, res) => {
     const { id } = req.params // user
-     
-    const user = await User.findById(id)
-    const cart = user.cart
-    console.log(cart)
-      res.json(cart)
+    
+    const user = await User.aggregate([
+      {
+        $lookup: {
+          from: 'products', // He probado con 'Categories' y 'categories'
+          localField: 'cart.product', 
+          foreignField: '_id',
+          as: 'cart.products'
+        }
+      },
+
+      {
+        $match: {
+          _id: ObjectId(id)
+        }
+      },
+      {
+        "$replaceRoot": {
+          "newRoot": "$cart"
+        }
+      },
+    ])
+
+      res.json(user)
     }
     
 module.exports = {

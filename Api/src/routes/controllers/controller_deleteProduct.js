@@ -28,20 +28,20 @@ const deleteCart = async (req, res) => {
   res.json(user)
 }
 
-// const updateCart = async (req, res) => {
-//     const { query } = req.query
-//     const { idP } = req.body
-//     const { id } = req.params
-//   if(query === "add"){
+const updateCart = async (req, res) => {
+    // const { query } = req.query
+    const { idP } = req.body
+    const { id } = req.params
+  // if(query === "add"){
 
-//   const user = await User.update(
-//     {"_id": id},
-//     {"cart": {"product": idP, 'amount': + 2} }, 
-//     { "multi" : true }  
-//     ) 
-//     res.json(user)
-//   }
-// }
+  const user = await User.update(
+    {"_id": id},
+    {"cart": {"product": idP, 'amount': + 5} }, 
+    { "multi" : true }  
+    ) 
+    res.json(user)
+  }
+
 
 
 

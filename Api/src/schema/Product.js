@@ -18,10 +18,6 @@ const schema = Schema(
       type: Number,
       required: true,
     },
-    inCart: {
-      type: Boolean,
-      default: false
-    },
     type: [
       {
         type: String,
