@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { toast } from "react-toastify";
 import swal from "sweetalert";
 import { setHeaders } from "../../api";
 
@@ -273,7 +272,7 @@ export const deleteShoppingCart = (id) => {
 // export const getShoppingCart = () => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
 //   return axios
-//     .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
+//     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
 //     .then((products) => {
 //       console.log(products.data)
 //       dispatch({
@@ -284,10 +283,11 @@ export const deleteShoppingCart = (id) => {
 //     .catch((error) => console.error(error.message));
 // };
 
-// export const addShoppingCart = (id) => (dispatch) => {
+// export const addShoppingCart = (_id) => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
+//   console.log("1", _id)
 //   return axios
-//     .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, {id:id})
+//     .put(`http://localhost:3001/account/cart/products-cart/${token._id}`, { _id})
 //     .then((product) => {
 //       console.log(product.data)
 //       dispatch({
@@ -312,14 +312,13 @@ export const deleteShoppingCart = (id) => {
 // };
 
 ////////////////////////////////////////////////
+
 export const paymentFuncion = (id, amount) => {
   return axios
     .post("http://localhost:3001/account/pay", { id, amount })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      console.log(message.data.message);
       swal("Good job!", message.data.message, "success");
-      // toast(message.data.message, {position: toast.POSITION.BOTTON_RIGHT})
     })
     .catch((error) =>
       swal("Ha ocurrido un error!", error.message.message, "error")
@@ -376,6 +375,7 @@ export const signIn = (creds) => {
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
+        console.log(token)
         dispatch({
           type: SIGN_IN,
           payload: token.data,
