@@ -17,22 +17,33 @@ const addProductCart = async (req, res) => {
 
     //     if(!productExist){
     //     res.status(400).json({
-    //         message: "This product is not in our data base "
+    //         message: "This product is not in our data base " 
     //     })
     // } else { 
     const product = await Product.findById({_id})  
-    console.log(product)
-    const user = await User.findByIdAndUpdate({_id: id}, {$push: {cart: {product}}})  
-     
-  
-   
-    const newProductInCart = await user.save(); 
-     res.json(newProductInCart)
+    // console.log(product) 
+    const user = await User.update( 
+      { "_id" : id} , 
+      { "$push" : { "cart" : { "product" :  _id } } } , 
+      { "multi" : true }  
+  )
+  res.json(user)
  
     }
 
+const getCart = async (req, res) => {
+    const { id } = req.params // user
+     
+    const user = await User.findById(id)
+    const cart = user.cart
+    console.log(cart)
+      res.json(cart)
+    }
     
-module.exports = addProductCart 
+module.exports = {
+  addProductCart,
+  getCart
+} 
 
   
   
