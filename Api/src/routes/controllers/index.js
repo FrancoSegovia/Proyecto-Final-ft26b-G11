@@ -12,6 +12,7 @@ module.exports = {
     getProductCart,
     putProduct,
     deleteCart,
-    getCart
+    getCart,
+    // updateCart
 
 };
