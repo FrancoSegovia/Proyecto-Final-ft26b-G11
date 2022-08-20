@@ -57,7 +57,7 @@ export default function UserCard({ shop }) {
     // }, 1000);
   }
   const onButtonClick = (product) => {
-    dispatch(addShoppingCart(product));
+    dispatch(addShoppingCart(product._id));
   };
   
   const onChange = (e) => {

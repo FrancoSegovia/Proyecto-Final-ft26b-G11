@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 import AddressForm from "./AdressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-import StripeForm from "./StripeForm";
-
-import CssBaseline from "@mui/material/CssBaseline";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -15,6 +12,7 @@ import {
   Box,
   Button,
   Container,
+  CssBaseline,
   Link,
   Paper,
   Step,
@@ -25,19 +23,16 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PROMISE);
 
-const stripePromise = loadStripe(
-  "pk_test_51LUzvLBavWXziNSXlVdW8y5eI5o8aNmA0xHdKeP0KOaLQIc5FHAnSm0moURAUZS4b4302oyeqxv7by9leW2cmddg00kKPu246r"
-);
-
-const steps = ["Direccion de envio", "Revise su Orden", "Detalles del Pago"];
+const steps = ["Revise su Orden", "Direccion de envio", "Detalles del Pago"];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
-    case 1:
       return <Review />;
+    case 1:
+      return <AddressForm />;
     case 2:
       return (
         <Elements stripe={stripePromise}>
@@ -53,7 +48,7 @@ const theme = createTheme();
 
 export default function Payment() {
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -74,12 +69,12 @@ export default function Payment() {
           <Button
             variant="contained"
             onClick={() => navigate("/user/home")}
-            sx={{ mt: 0.5, ml: 0.5 }}
+            sx={{ mt: 0.2, ml: 0.2 }}
           >
             {"Volver"}
           </Button>
           <Typography component="h1" variant="h4" align="center">
-            Checkout
+            Verificación
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
