@@ -7,8 +7,8 @@ function getModelByName(name) {
   }
 
 const deleteProduct = async (req, res) => {
-    const { idP } = req.body;  // order
-    const { id } = req.params; // user
+    const { idP } = req.body;  // PRODUCT ID
+    const { id } = req.params; // USER ID
 
 
   const user = await User.update( 
@@ -19,7 +19,7 @@ const deleteProduct = async (req, res) => {
   res.json(user)
 }
 const deleteCart = async (req, res) => { 
-  const { id } = req.params
+  const { id } = req.params // USER ID
   const user = await User.update( 
     { "_id" : id} , 
     { "$set" : { "cart" : [] }  } , 

@@ -10,8 +10,8 @@ function getModelByName(name) {
   
 const addProductCart = async (req, res) => {
     
-    const { id } = req.params // user 
-    const { _id } = req.body // product
+    const { id } = req.params // USER ID
+    const { _id } = req.body // PRODUCT ID
     
     // const productExist = await Product.findById(_id)
 
