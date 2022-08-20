@@ -24,7 +24,8 @@ import {
 
   OWNER_DETAIL,
   OWNER_SHOPS,
-  ALL_OWNERS
+  ALL_OWNERS,
+  ALL_DELIVERY
 
 } from "../actions";
 
@@ -76,6 +77,7 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case QUERY_PRODUCTS: {
+      console.log(payload)
       return {
         ...state,
         modalProducts: payload,
@@ -160,6 +162,12 @@ const reducer = (state = initialState, { type, payload }) => {
         return {
           ...state,
           owners: payload
+    };
+
+    case ALL_DELIVERY:
+        return {
+          ...state,
+          deliverys: payload
     };
   
     /////////////////////////////////////////////////

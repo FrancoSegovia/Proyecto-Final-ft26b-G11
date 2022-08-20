@@ -197,7 +197,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Usuarios
+          Dueños
         </Typography>
       )}
 

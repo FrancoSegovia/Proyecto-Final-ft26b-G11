@@ -93,7 +93,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
-        isBanned: correctModel.isBanned
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -127,7 +127,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
-        isBanned: correctModel.isBanned
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -160,7 +160,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
-        isBanned: correctModel.isBanned
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -183,7 +183,7 @@ const login = async (req, res) => {
       const userObject = {
         _id: correctModel._id,
         email: correctModel.email,
-        type:correctModel.type,
+        type: correctModel.type,
       };
 
       const accessToken = jwt.sign(
@@ -260,10 +260,20 @@ const getLocal = (req, res) => {
 };
 
 const getProductSearch = async (req, res) => {
+  const { id } = req.params
+  const { name } = req.query
 
-  const search = await  productSchema.find({local: req.params.id, name: new RegExp(req.query.name.toLowerCase(), "i") })
-  res.status(200).json(search)
-  .catch((error) => res.json({ message: error }));
+  console.log(id);
+  console.log(name);
+
+  const search = await productSchema
+    .find({
+      local: id,
+      name: new RegExp(name.toLowerCase(), "i"),
+    })
+    .catch((error) => res.json({ message: error }));
+
+  res.status(200).json(search);
 };
 
 module.exports = {

@@ -31,6 +31,8 @@ export const OWNER_DETAIL = "OWNER_DETAIL";
 export const OWNER_SHOPS= "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
 
+export const ALL_DELIVERY = "ALL_DELIVERY";
+
 export const getAllShops = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/account/user/local")
@@ -62,10 +64,13 @@ export const getQueryShops = (query) => (dispatch) => {
 };
 
 //cambiar la ruta por la que traeproductos por query
-export const getQueryProducts = (query) => (dispatch) => {
+export const getQueryProducts = (query, id) => (dispatch) => {
+  console.log(query)
+  console.log(id)
   return axios
-    .get(`http://localhost:3001/account/user/local?name=${query}`, setHeaders())
+    .get(`http://localhost:3001/account/user/local/products/${id}?name=${query}`, setHeaders())
     .then((products) => {
+      console.log(products.data + "PEPINO")
       dispatch({
         type: QUERY_PRODUCTS,
         payload: products.data,
@@ -130,11 +135,13 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 
-export const deleteUser = (id) => {
+export const deleteUser = (id) =>  {
   return axios
-    .delete(`http://localhost:3001/account/admin/users/${id}`, setHeaders())
-    .then(response => console.log(response.data))
-    .catch((error) => console.log("TIRÉ ERROR PORQUE SOY UN FORRO"));
+    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
+    } )
+    .catch((error) => console.error(error.message));
 };
 
 
@@ -163,6 +170,27 @@ export const getAllOwners = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
+export const getAllClickers = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/admin/delivery`, setHeaders())
+    .then((clickers) => {
+      dispatch({
+        type: ALL_DELIVERY,
+        payload: clickers.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteClicker = (id) =>  {
+  return axios
+    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
+    } )
+    .catch((error) => console.error(error.message));
+};
+
 export const getOwnerShops = (id) => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
@@ -179,7 +207,7 @@ export const deleteOwner = (id) =>  {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
     .then(() => {
-      swal("Good job!", "El dueño ha sido baneado con éxito.", "success");
+      swal("¡Perfecto!", "El dueño ha sido vetado con éxito.", "success");
     } )
     .catch((error) => console.error(error.message));
 };

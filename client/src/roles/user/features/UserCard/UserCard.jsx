@@ -46,7 +46,7 @@ export default function UserCard({ shop }) {
 
   const onCardClick = async () => {
     setOpen(true);
-    dispatch(getQueryProducts())
+    dispatch(getQueryProducts("", shop._id))
     //setProducts();
   };
 
@@ -66,10 +66,10 @@ export default function UserCard({ shop }) {
 
     //agregar cartel "caracteres inválidos"?
     if(search.length > 1){
-    dispatch(getQueryProducts(search.trim()))
+    dispatch(getQueryProducts(search.trim(), shop._id))
     // setProducts()
     }else{
-    dispatch(getQueryProducts())
+    dispatch(getQueryProducts("", shop._id))
       //setProducts(dispatch(getProducts()))
     }
   }
@@ -110,6 +110,7 @@ export default function UserCard({ shop }) {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 1200,
+    minHeight: "calc(100vh - 100px)",
     maxHeight: "calc(100vh - 100px)",
     overflow: "hidden",
     overflowY: "auto",
@@ -216,14 +217,14 @@ export default function UserCard({ shop }) {
               component="h5"
               color="textSecondary"
             >
-              {shop.products?.length
+              {products?.length
                 ? `Menú de ${shop.name}`
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
 
             <Box style={{display:"flex", justifyContent:"center"}}>
-              <Box style={{display:"flex", justifyContent:"center", backgroundColor:"whitesmoke", padding:"10px", borderRadius:"5px"}}>
-                <Search align="left" style={{width:"30vw"}}>
+              <Box style={{display:"flex", justifyContent:"center", backgroundColor:"whitesmoke", borderRadius:"5px"}}>
+                <Search align="left" style={{width:"30vw", }}>
                   <SearchIconWrapper>
                     <SearchRounded style={{color:"grey"}} />
                   </SearchIconWrapper>
@@ -254,7 +255,7 @@ export default function UserCard({ shop }) {
                 gap:"20px"
               }}
             >
-              {shop.products?.map((product) => {
+              {products?.map((product) => {
                 return (
                   <div key={product._id} >
                     <Card

@@ -121,7 +121,7 @@ export default function UserMenu() {
           <>
           
           <MenuItem onClick={() => {navigate("/user/profile")}}>
-            <ListItemIcon>
+            <ListItemIcon style={{color: "#1976d2"}}>
               <Settings fontSize="small" />
             </ListItemIcon>
             Opciones de cuenta
