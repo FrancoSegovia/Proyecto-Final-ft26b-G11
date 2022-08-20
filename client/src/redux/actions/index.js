@@ -235,7 +235,7 @@ export const deleteShoppingCart = (id) => {
 // export const getShoppingCart = () => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
 //   return axios
-//     .get(`http://localhost:3001/account/cart/products-cart/${token._id}`)
+//     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
 //     .then((products) => {
 //       console.log(products.data)
 //       dispatch({
@@ -246,10 +246,11 @@ export const deleteShoppingCart = (id) => {
 //     .catch((error) => console.error(error.message));
 // };
 
-// export const addShoppingCart = (id) => (dispatch) => {
+// export const addShoppingCart = (_id) => (dispatch) => {
 //   const token = jwtDecode(localStorage.getItem("token"))
+//   console.log("1", _id)
 //   return axios
-//     .post(`http://localhost:3001/account/cart/products-cart/${token._id}`, {id:id})
+//     .put(`http://localhost:3001/account/cart/products-cart/${token._id}`, { _id})
 //     .then((product) => {
 //       console.log(product.data)
 //       dispatch({

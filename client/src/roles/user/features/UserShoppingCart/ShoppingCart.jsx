@@ -21,6 +21,7 @@ export default function ShoppingCart() {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
+    console.log("estoy montando")
     dispatch(getShoppingCart());
   }, []);
 
