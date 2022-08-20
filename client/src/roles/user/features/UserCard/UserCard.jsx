@@ -300,7 +300,7 @@ export default function UserCard({ shop }) {
                         </Typography>
 
 
-                        { localS !== "owner" ?
+                        { localS === "user" ?
                           <Button
  
                           variant="contained"
@@ -324,7 +324,7 @@ export default function UserCard({ shop }) {
                 
             </Container>
             <Box style={{marginTop:"30px", textAlign:"center", position:""}}>
-            <ShoppingCart/>
+            {localS === "user" ? <ShoppingCart/> : null }
             </Box>
             
               </Container>

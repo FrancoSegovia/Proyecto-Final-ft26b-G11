@@ -34,7 +34,6 @@ export default function SignUp() {
     email: "",
     password: "",
     cPassword: "",
-    phone: null,
     direction: "",
     vehicle: "",
     isBanned: false,
@@ -63,7 +62,6 @@ export default function SignUp() {
       lastname: "",
       email: "",
       password: "",
-      phone: null,
       direction: "",
       vehicle: "",
       isBanned: false,
@@ -117,6 +115,7 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            <Typography component="h6" variant="subtitle2" align="center" sx={{color:"#a6a6a6"}}>"*" CAMPOS OBLIGATORIOS</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -126,12 +125,12 @@ export default function SignUp() {
                   fullWidth
                   id="name"
                   label="Nombre"
-                  autoFocus
+                  
                   onChange={(e) => handleChange(e)}
                   value={user.name}
                 />
               </Grid>
-              {error.name && error.name}
+              {/* {error.name && error.name} */}
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -144,7 +143,7 @@ export default function SignUp() {
                   value={user.lastname}
                 />
               </Grid>
-              {error.lastname && error.lastname}
+              {/* {error.lastname && error.lastname} */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -157,8 +156,8 @@ export default function SignUp() {
                   value={user.email}
                 />
               </Grid>
-              {error.email && error.email}
-              {user.type === "user" && (
+              {/* {error.email && error.email} */}
+              {(user.type === "user" || user.type === "owner") && (
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -169,6 +168,20 @@ export default function SignUp() {
                     autoComplete="new-direction"
                     onChange={(e) => handleChange(e)}
                     value={user.direction}
+                  />
+                </Grid>
+              )}
+
+              {user.type === "owner" && (
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    name="phone"
+                    label="Teléfono"
+                    id="phone"
+                    autoComplete="new-direction"
+                    onChange={(e) => handleChange(e)}
+                    value={user.phone}
                   />
                 </Grid>
               )}
@@ -185,7 +198,7 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
-              {error.password && error.password}
+              {/* {error.password && error.password} */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -224,6 +237,7 @@ export default function SignUp() {
                     name={"vehicle"}
                   >
                     <MenuItem value={"AUTO"}>Auto</MenuItem>
+                    <MenuItem value={"BICICLETA"}>Bicicleta</MenuItem>
                     <MenuItem value={"MOTO"}>Moto</MenuItem>
                   </Select>
                 </Grid>
@@ -243,14 +257,14 @@ export default function SignUp() {
             >
               Registrarme
             </Button>
-            <Box sx={{ mt: 0.5, mb: 3 }}>
+            {/* <Box sx={{ mt: 0.5, mb: 3 }}>
               <GoogleLogin
                 buttonText="Registrate con Google (Proximamente) "
                 onSuccess={(e) => handleGoogleS(e)}
                 onError={(e) => handleGoogleE(e)}
                 cookiePolicy={"single_host_origin"}
               />
-            </Box>
+            </Box> */}
             <Grid
               container
               justifyContent="flex-end"
@@ -264,7 +278,7 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" style={{ marginBottom: "30px", marginTop:"30px" }}>
               <Grid item>
                 <Link to="/SignIn" style={{ textDecoration: "none" }}>
                   ¿Ya tienes una cuenta? ¡Inicia sesión!

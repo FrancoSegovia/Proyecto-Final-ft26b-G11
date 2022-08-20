@@ -359,7 +359,7 @@ export function signUpDelivery(user) {
   return async function () {
     try {
       let respuesta = await axios.post(
-        "http://localhost:3001/account/signup/delivery",
+        "http://localhost:3001/account/delivery/signup",
         user
       );
       return respuesta;
