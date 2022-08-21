@@ -27,7 +27,7 @@ export const SIGN_OUT = "SIGN_OUT";
 export const USER_LOADED = "USER_LOADED";
 ////////////////////////////////////////////////
 export const OWNER_DETAIL = "OWNER_DETAIL";
-export const OWNER_SHOPS= "OWNER_SHOPS";
+export const OWNER_SHOPS = "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
 
 export const ALL_DELIVERY = "ALL_DELIVERY";
@@ -64,12 +64,12 @@ export const getQueryShops = (query) => (dispatch) => {
 
 //cambiar la ruta por la que traeproductos por query
 export const getQueryProducts = (query, id) => (dispatch) => {
-  console.log(query)
-  console.log(id)
   return axios
-    .get(`http://localhost:3001/account/user/local/products/${id}?name=${query}`, setHeaders())
+    .get(
+      `http://localhost:3001/account/user/local/products/${id}?name=${query}`,
+      setHeaders()
+    )
     .then((products) => {
-      console.log(products.data + "PEPINO")
       dispatch({
         type: QUERY_PRODUCTS,
         payload: products.data,
@@ -85,10 +85,13 @@ export const getQueryProducts = (query, id) => (dispatch) => {
 };
 
 export function addStore(payload) {
-
   return async function () {
     try {
-      var respuesta = await axios.post(`http://localhost:3001/account/owner/local/add_local`, payload, setHeaders());
+      var respuesta = await axios.post(
+        `http://localhost:3001/account/owner/local/add_local`,
+        payload,
+        setHeaders()
+      );
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -98,28 +101,27 @@ export function addStore(payload) {
 
 export const addProduct = (payload) => {
   return axios
-    .post(`http://localhost:3001/account/owner/local/add_product`, payload, setHeaders())
-    .catch(error => console.error(error.message));
-  };
+    .post(
+      `http://localhost:3001/account/owner/local/add_product`,
+      payload,
+      setHeaders()
+    )
+    .catch((error) => console.error(error.message));
+};
 
 export const updateUser = (payload, id) => {
-  return axios
-      .put(`http://localhost:3001/account/user/currentUser/update/${id}`, payload , setHeaders())
-}
+  return axios.put(
+    `http://localhost:3001/account/user/currentUser/update/${id}`,
+    payload,
+    setHeaders()
+  );
+};
 
 export const deleteShop = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
     .catch((error) => console.error(error.message));
 };
-
-
-//Hay que pasar la function de arriba como promesa
-// export const addcosa = (paylaod) => {
-//   return axios.post(`http://localhost:3001/account/owner/local`, payload)
-//   .then()
-//   .catch(error => console.error(error.message))
-// }
 
 export const getAllUsers = () => (dispatch) => {
   return axios
@@ -133,22 +135,19 @@ export const getAllUsers = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-
-export const deleteUser = (id) =>  {
+export const deleteUser = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
     .then(() => {
       swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
-    } )
+    })
     .catch((error) => console.error(error.message));
 };
-
 
 export const getOwnerDetails = (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
     .then((owner) => {
-
       dispatch({
         type: OWNER_DETAIL,
         payload: owner.data,
@@ -181,12 +180,12 @@ export const getAllClickers = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const deleteClicker = (id) =>  {
+export const deleteClicker = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
     .then(() => {
       swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
-    } )
+    })
     .catch((error) => console.error(error.message));
 };
 
@@ -202,22 +201,23 @@ export const getOwnerShops = (id) => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const deleteOwner = (id) =>  {
+export const deleteOwner = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
     .then(() => {
       swal("¡Perfecto!", "El dueño ha sido vetado con éxito.", "success");
-    } )
+    })
     .catch((error) => console.error(error.message));
 };
 
 export const deleteProduct = (id) => {
   return axios
-    .delete(`http://localhost:3001/account/owner/local/product/${id}`, setHeaders())
+    .delete(
+      `http://localhost:3001/account/owner/local/product/${id}`,
+      setHeaders()
+    )
     .catch((error) => console.error(error.message));
 };
-
-
 
 export const orderShops = (value) => {
   return {
@@ -248,68 +248,72 @@ export const filterProducts = (value) => {
 };
 
 /////////////////////////////////////////////////
-export const getShoppingCart = () => {
-  let cart = JSON.parse(localStorage.getItem("cart"));
-  return {
-    type: GET_SHOPPINGCART,
-    payload: cart,
-  };
-};
-
-export const addShoppingCart = (product) => {
-  return {
-    type: ADD_SHOPPINGCART,
-    payload: product,
-  };
-};
-export const deleteShoppingCart = (id) => {
-  return {
-    type: DELETE_SHOPPINGCART,
-    payload: id,
-  };
-};
-
-// export const getShoppingCart = () => (dispatch) => {
-//   const token = jwtDecode(localStorage.getItem("token"))
-//   return axios
-//     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
-//     .then((products) => {
-//       console.log(products.data)
-//       dispatch({
-//         type: GET_SHOPPINGCART,
-//         payload: products.data,
-//       });
-//     })
-//     .catch((error) => console.error(error.message));
+// export const getShoppingCart = () => {
+//   let cart = JSON.parse(localStorage.getItem("cart"));
+//   return {
+//     type: GET_SHOPPINGCART,
+//     payload: cart,
+//   };
 // };
 
-// export const addShoppingCart = (_id) => (dispatch) => {
-//   const token = jwtDecode(localStorage.getItem("token"))
-//   console.log("1", _id)
-//   return axios
-//     .put(`http://localhost:3001/account/cart/products-cart/${token._id}`, { _id})
-//     .then((product) => {
-//       console.log(product.data)
-//       dispatch({
-//         type: ADD_SHOPPINGCART,
-//         payload: product.data,
-//       });
-//     })
-//     .catch((error) => console.error(error));
+// export const addShoppingCart = (product) => {
+//   return {
+//     type: ADD_SHOPPINGCART,
+//     payload: product,
+//   };
+// };
+// export const deleteShoppingCart = (id) => {
+//   return {
+//     type: DELETE_SHOPPINGCART,
+//     payload: id,
+//   };
 // };
 
-// export const deleteShoppingCart = (id) => (dispatch) => {
-//   const token = jwtDecode(localStorage.getItem("token"))
-//   return axios
-//     .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, id)
-//     .then((product) => {
-//       dispatch({
-//         type: DELETE_SHOPPINGCART,
-//         payload: id,
-//       });
-//     })
-//     .catch((error) => console.error(error));
-// };
+export const getShoppingCart = () => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"));
+  return axios
+    .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
+    .then((products) => {
+      dispatch({
+        type: GET_SHOPPINGCART,
+        payload: products.data[0].products,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const addShoppingCart = (_id) => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"));
+  return axios
+    .put(`http://localhost:3001/account/cart/products-cart/${token._id}`, {
+      _id,
+    })
+    .then((products) => {
+      dispatch({
+        type: ADD_SHOPPINGCART,
+        payload: products.data[0].products,
+      });
+    })
+    .catch((error) => console.error(error));
+};
+
+export const deleteShoppingCart = (idP) => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"));
+  console.log("ke")
+  console.log(idP)
+  return axios
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, {
+      idP,
+    })
+    .then((products) => {
+      console.log(products.data[0].products)
+      dispatch({
+        type: DELETE_SHOPPINGCART,
+        payload: products.data[0].products,
+      });
+    })
+    .catch((error) => console.error(error));
+};
 
 ////////////////////////////////////////////////
 
@@ -375,7 +379,7 @@ export const signIn = (creds) => {
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
         localStorage.setItem("token", token.data);
-        console.log(token)
+        console.log(token);
         dispatch({
           type: SIGN_IN,
           payload: token.data,

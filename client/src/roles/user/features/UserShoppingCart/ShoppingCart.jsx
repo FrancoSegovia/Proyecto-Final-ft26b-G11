@@ -21,7 +21,6 @@ export default function ShoppingCart() {
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    console.log("estoy montando")
     dispatch(getShoppingCart());
   }, []);
 
@@ -68,6 +67,7 @@ export default function ShoppingCart() {
         {!cart.length
           ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
+
               return (
                 <div>
                   <i>{p.name}</i>
@@ -95,7 +95,7 @@ export default function ShoppingCart() {
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onDelete}
+                      onClick={(e)=>onDelete(e)}
                     >
                       x
                     </Button>
