@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  deleteShoppingCart,
+  getShoppingCart,
+  addProductShoppingCart,
+  substractProductShoppingCart,
+  clearShoppingCart,
+} from "../../../../redux/actions";
 
 import {
   Box,
@@ -12,7 +19,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { deleteShoppingCart, getShoppingCart } from "../../../../redux/actions";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
@@ -24,6 +30,16 @@ export default function ShoppingCart() {
     dispatch(getShoppingCart());
   }, []);
 
+  const onSubstract = (product) => {
+    console.log(product)
+    // dispatch(substractProductShoppingCart())
+  };
+  
+  const onAdd = (product) => {
+    console.log(product)
+    // dispatch(addProductShoppingCart())
+  };
+
   const onDelete = (e) => {
     e.preventDefault();
     dispatch(deleteShoppingCart(e.target.value));
@@ -34,9 +50,11 @@ export default function ShoppingCart() {
     navigate("/user/pay");
   };
 
-  // const onSubstract = () => {};
+  const onClear = (e) => {
+    e.preventDefault();
+    dispatch(clearShoppingCart());
+  }
 
-  // const onAdd = () => {};
 
   const total = () => {
     let total = 0;
@@ -67,35 +85,32 @@ export default function ShoppingCart() {
         {!cart.length
           ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
-
               return (
                 <div>
                   <i>{p.name}</i>
                   <Box>
-                    {/* <Button
-                      value={p._id}
+                    <Button
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onSubstract}
+                      onClick={() => onSubstract(p)}
                     >
                       -
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onAdd(p)}
+                    >
+                      +
                     </Button>
                     <Button
                       value={p._id}
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onAdd}
-                    >
-                      +
-                    </Button> */}
-                    <Button
-                      value={p._id}
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={(e)=>onDelete(e)}
+                      onClick={(e) => onDelete(e)}
                     >
                       x
                     </Button>
@@ -121,52 +136,16 @@ export default function ShoppingCart() {
         >
           Comprar
         </Button>
+        <Button
+          variant="contained"
+          size="medium"
+          disableElevation
+          disabled={!cart.length}
+          onClick={onClear}
+        >
+        Limpiar Carrito
+        </Button>
       </Stack>
     </>
   );
-}
-
-{
-  /* return (
-  <Card
-    style={{
-      margin: "15px 0px",
-      backgroundColor: "whitesmoke",
-      padding: "20px",
-      maxWidth: "200px",
-    }}
-  >
-    <CardContent
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        textAlign: "center",
-        alignItems: "center",
-        padding: "10px",
-      }}
-    >
-      <CardMedia
-        component="img"
-        style={styles.media}
-        image={p.image}
-      />
-
-      <Typography
-        style={{ marginTop: "18px" }}
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {p.name}
-      </Typography>
-      <Typography
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {"$" + p.price}
-      </Typography>
-    </CardContent>
-  </Card>
-); */
 }

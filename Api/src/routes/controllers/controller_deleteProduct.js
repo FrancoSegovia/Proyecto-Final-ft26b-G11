@@ -9,68 +9,91 @@ function getModelByName(name) {
 
 const deleteProduct = async (req, res) => {
 
-  const { idP } = req.body; // PRODUCT ID
-  const { id } = req.params; // USER ID
+  try {
+    const { idP } = req.body;
+    const { id } = req.params;
 
-  
-console.log("estoy en el delete")
+    await User.update(
+      { _id: id },
+      { $pull: { cart: { product: idP } } },
+      { multi: true }
+    );
 
-console.log(idP + "----------")
-  console.log(id + "¡¡¡¡¡¡¡¡¡¡¡¡")
-
-  const user = await User.update(
-    { "_id": id },
-    { "$pull": { "cart": { "product": idP } } },
-    { "multi": true }
-  );
-
-  const userResponse = await User.aggregate([
-    {
-      $lookup: {
-        from: "products",
-        localField: "cart.product",
-        foreignField: "_id",
-        as: "cart.products",
+    const userResponse = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
       },
-    },
-    {
-      $match: {
-        _id: ObjectId(id),
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
       },
-    },
-    {
-      "$replaceRoot": {
-        "newRoot": "$cart",
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
       },
-    },
-  ]);
-  console.log(userResponse);
-  res.json(userResponse);
+    ]);
+
+    res.status(200).json(userResponse);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const deleteCart = async (req, res) => {
-  const { id } = req.params; // USER ID
-  const user = await User.update(
-    { _id: id },
-    { $set: { cart: [] } },
-    { multi: true }
-  );
-  res.json(user);
+  try {
+    const { id } = req.params;
+
+    const user = await User.update(
+      { _id: id },
+      { $set: { cart: [] } },
+      { multi: true }
+    );
+
+    const userResponse = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
+      },
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
+      },
+    ]);
+
+    res.status(200).json(userResponse);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const updateCart = async (req, res) => {
-  // const { query } = req.query
-  const { idP } = req.body;
-  const { id } = req.params;
-  // if(query === "add"){
+// const updateCart = async (req, res) => {
+//   const { idP } = req.body;
+//   const { id } = req.params;
 
-  const user = await User.update(
-    { _id: id },
-    { cart: { product: idP, amount: +5 } },
-    { multi: true }
-  );
-  res.json(user);
-};
+//   const user = await User.update(
+//     { _id: id },
+//     { cart: { product: idP, amount: +5 } },
+//     { multi: true }
+//   );
+//   res.json(user);
+// };
 
 module.exports = {
   deleteProduct,

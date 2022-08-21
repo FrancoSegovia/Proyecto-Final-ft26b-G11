@@ -11,5 +11,6 @@ const useAuth = () => {
 
 export default function ProtectedPayment() {
   const auth = useAuth();
+
   return auth ? <Outlet /> : <Navigate to={"/user/home"} />;
 }

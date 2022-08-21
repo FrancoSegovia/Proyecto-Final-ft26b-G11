@@ -25,13 +25,13 @@ export default function PaymentForm() {
   let [waiting, setWaiting] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.error);
+    console.error(e.error);
     setComplete(e.complete);
     if (e.error === undefined) {
       setError("");
     } else {
       setError(e.error.message);
-      console.log(error);
+      console.error(error);
     }
   };
 

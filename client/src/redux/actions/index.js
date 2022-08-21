@@ -17,6 +17,9 @@ export const FILTER_PRODUCTS = "FILTER_PRODUCTS";
 export const GET_SHOPPINGCART = "GET_SHOPPINGCART";
 export const ADD_SHOPPINGCART = "ADD_SHOPPINGCART";
 export const DELETE_SHOPPINGCART = "DELETE_SHOPPINGCART";
+export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
+export const ADD_PRODUCT_SHOPPINGCART = "ADD_PRODUCT_SHOPPINGCART";
+export const SUBSTRACT_PRODUCT_SHOPPINGCART = "SUBSTRACT_PRODUCT_SHOPPINGCART" 
 /////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
@@ -62,7 +65,6 @@ export const getQueryShops = (query) => (dispatch) => {
     });
 };
 
-//cambiar la ruta por la que traeproductos por query
 export const getQueryProducts = (query, id) => (dispatch) => {
   return axios
     .get(
@@ -197,8 +199,8 @@ export const deleteClicker = (id) => {
 
 export const getOwnerShops = (id) => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
-    .then((shops) => {
+  .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
+  .then((shops) => {
       dispatch({
         type: OWNER_SHOPS,
         payload: shops.data,
@@ -206,6 +208,9 @@ export const getOwnerShops = (id) => (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
+/////////////////////////////////////////////////
+
 
 export const deleteOwner = (id) => {
   return axios
@@ -224,6 +229,8 @@ export const deleteProduct = (id) => {
     )
     .catch((error) => console.error(error.message));
 };
+
+/////////////////////////////////////////////////
 
 export const orderShops = (value) => {
   return {
@@ -254,26 +261,6 @@ export const filterProducts = (value) => {
 };
 
 /////////////////////////////////////////////////
-// export const getShoppingCart = () => {
-//   let cart = JSON.parse(localStorage.getItem("cart"));
-//   return {
-//     type: GET_SHOPPINGCART,
-//     payload: cart,
-//   };
-// };
-
-// export const addShoppingCart = (product) => {
-//   return {
-//     type: ADD_SHOPPINGCART,
-//     payload: product,
-//   };
-// };
-// export const deleteShoppingCart = (id) => {
-//   return {
-//     type: DELETE_SHOPPINGCART,
-//     payload: id,
-//   };
-// };
 
 export const getShoppingCart = () => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
@@ -305,11 +292,9 @@ export const addShoppingCart = (_id) => (dispatch) => {
 
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
-  console.log("ke")
   return axios
-    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, { data: { idP: idP }})
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`,{ data: { idP: idP }})
     .then((products) => {
-      console.log(products.data[0].products)
       dispatch({
         type: DELETE_SHOPPINGCART,
         payload: products.data[0].products,
@@ -318,6 +303,27 @@ export const deleteShoppingCart = (idP) => (dispatch) => {
     .catch((error) => console.error(error));
 };
 
+export const clearShoppingCart = () => (dispatch) => {
+  const token = jwtDecode(localStorage.getItem("token"));
+  return axios
+    .delete(`http://localhost:3001/account/cart/clear-cart/${token._id}`)
+    .then((products) => {
+      dispatch({
+        type: CLEAR_SHOPPINGCART,
+        payload: products.data[0].products,
+      });
+    })
+    .catch((error) => console.error(error));
+}
+
+export const addProductShoppingCart = (p) => (dispatch) =>{
+  
+}
+
+export const substractProductShoppingCart = (p) => (dispatch) =>{
+
+}
+
 ////////////////////////////////////////////////
 
 export const paymentFuncion = (id, amount) => {
@@ -325,7 +331,7 @@ export const paymentFuncion = (id, amount) => {
     .post("http://localhost:3001/account/pay", { id, amount })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      swal("¡Éxito!", message.data.message, "success");
+      swal("¡Éxito!", "¡El pago se ha realizado correctamente!", "success");
     })
     .catch((error) =>
       swal("¡Ha ocurrido un error!", error.message.message, "error")
