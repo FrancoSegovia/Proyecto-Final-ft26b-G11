@@ -64,7 +64,7 @@ const currentOwner = (req, res) => {
       res.status(200).send(owner);
     })
     .catch((error) =>
-      res.status(200).send({ success: false, error: error.message })
+      res.status(404).send({ success: false, error: error.message })
     );
 };
 //*---------------GET DETAIL OWNER----------------------------
@@ -79,7 +79,7 @@ const getLocal = async (req, res) => {
       inCart: 0,
     })
     .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .catch((error) => res.status(404).send({ message: error }));
 };
 //*---------------GET GENERAL LOCAL----------------------------
 
@@ -90,7 +90,7 @@ const getLocalById = (req, res) => {
   Local.findById(id)
     .populate("products")
     .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .catch((error) => res.status(404).send({ message: error }));
 };
 //*---------------GET DETAIL LOCAL----------------------------
 
@@ -104,7 +104,7 @@ const addLocal = (req, res) => {
       })
       .catch((error) => res.status(200).send({ message: error }));
   } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
+    res.status(404).send({ success: false, error: error.message });
   }
 };
 //*---------------POST LOCAL----------------------------
@@ -143,9 +143,9 @@ const addProduct = async (req, res) => {
     localId.products = localId.products.concat(savedProduct._id);
     await localId.save();
 
-    res.json(savedProduct);
+    res.status(200).json(savedProduct);
   } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
+    res.status(404).send({ success: false, error: error.message });
   }
 };
 //*---------------POST PRODUCT----------------------------
@@ -197,7 +197,7 @@ const getProduct = async (req, res) => {
   productSchema
     .find({ local: localId })
     .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .catch((error) => res.status(404).send({ message: error }));
 };
 
 const updateCurrentOwner = (req, res) => {
@@ -211,6 +211,17 @@ const updateCurrentOwner = (req, res) => {
     )
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
+};
+
+const disabledLocal = async (req, res) => {
+  const { _id } = req.params;
+  try {
+    const disabled = await localSchema.findOne(_id);
+    disabled.isDisabled = true;
+    res.status(200).json(disabled);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
 };
 
 module.exports = {
@@ -227,4 +238,5 @@ module.exports = {
   deleteProduct,
   getProduct,
   updateCurrentOwner,
+  disabledLocal,
 };

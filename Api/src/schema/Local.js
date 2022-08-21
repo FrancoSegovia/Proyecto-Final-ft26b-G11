@@ -26,6 +26,10 @@ const schema = Schema(
       type: String,
       // required: true,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
     products: [{
       type: Schema.Types.ObjectId,
       ref: "Product",

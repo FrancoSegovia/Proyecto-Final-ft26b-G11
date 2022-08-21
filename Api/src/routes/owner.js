@@ -14,6 +14,7 @@ router.post("/local/add_local", isAuthenticated, ownerController.addLocal); //*A
 router.put("/local/update/:id",isAuthenticated,ownerController.updateLocal); //*UPDATE LOCAL
 router.delete('/local/:id', isAuthenticated, ownerController.deleteLocal) //*DELETE LOCAL
 router.get("/local/detail/:id", isAuthenticated, ownerController.getLocalById); //*DETAIL LOCAL
+router.delete("/local/disable/:id", isAuthenticated, ownerController.disabledLocal) //* DESABILITAR LOCAL (BORRADO LOGICO)
 
 router.get("/products/:id", isAuthenticated, ownerController.getProduct);//? GET PRODUCT SEPARADOS POR LOCAL ¿HACE FALTA?
 router.post("/local/add_product",isAuthenticated,ownerController.addProduct); //*ADD PRODUCTS

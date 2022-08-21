@@ -238,28 +238,39 @@ const updateCurrentUser = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-const getLocal = (req, res) => {
+const getLocal = async (req, res) => {
   const { name } = req.query;
   if (name) {
-    localSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .populate("products")
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+    try {
+      const find = await localSchema
+        .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+        .populate("products");
+      const findFalse = find.filter((e) => e.isDisabled === false);
+      res.status(200).json(findFalse);
+    } catch (error) {
+      res.status(404).json({ message: error });
+    }
   } else {
-    localSchema
-      .find()
-      .populate("products")
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+    try {
+      const find = await localSchema.find().populate("products");
+      const findFalse = find.filter((e) => e.isDisabled === false);
+      res.status(200).json(findFalse);
+    } catch (error) {
+      res.status(404).json({ message: error });
+    }
   }
 };
 
 const getProductSearch = async (req, res) => {
-
-  const search = await  productSchema.find({local: req.params.id, name: new RegExp(req.query.name.toLowerCase(), "i") })
-  res.status(200).json(search)
-  .catch((error) => res.json({ message: error }));
+  try {
+    const search = await productSchema.find({
+      local: req.params.id,
+      name: new RegExp(req.query.name.toLowerCase(), "i"),
+    });
+    res.status(200).json(search);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
 };
 
 module.exports = {
