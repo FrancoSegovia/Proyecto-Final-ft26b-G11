@@ -8,6 +8,7 @@ function getModelByName(name) {
 }
 
 const deleteProduct = async (req, res) => {
+
   try {
     const { idP } = req.body;
     const { id } = req.params;
