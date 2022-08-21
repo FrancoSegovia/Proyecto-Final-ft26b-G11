@@ -22,9 +22,32 @@ const addProductCart = async (req, res) => {
       { "$push" : { "cart" : { "product" :  _id } } } , 
       { "multi" : true }  
   )
-  res.json(user)
+  const userResponse = await User.aggregate([
+    {
+      $lookup: {
+        from: 'products', // He probado con 'Categories' y 'categories'
+        localField: 'cart.product', 
+        foreignField: '_id',
+        as: 'cart.products'
+      }
+    },
+
+    {
+      $match: {
+        _id: ObjectId(id)
+      }
+    },
+    {
+      "$replaceRoot": {
+        "newRoot": "$cart"
+      }
+    },
+  ])
+
+    res.json(userResponse)
+  }
  
-    }
+    
 
 const getCart = async (req, res) => {
     const { id } = req.params // user
