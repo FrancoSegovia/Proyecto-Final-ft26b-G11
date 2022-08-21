@@ -117,7 +117,10 @@ export default function SignUp() {
               <LockOutlined />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Registro
+              {user.type === "user" ? "Registro de cliente" 
+              : (user.type === "owner" ? "Registro de dueño" 
+              : "Registro de Clicker"
+              )}
             </Typography>
             <Box
               component="form"
