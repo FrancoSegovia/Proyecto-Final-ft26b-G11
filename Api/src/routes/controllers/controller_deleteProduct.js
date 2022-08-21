@@ -54,7 +54,29 @@ const deleteCart = async (req, res) => {
       { $set: { cart: [] } },
       { multi: true }
     );
-    res.status(200).json(user);
+
+    const userResponse = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
+      },
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
+      },
+    ]);
+
+    res.status(200).json(userResponse);
   } catch (error) {
     console.error(error);
   }

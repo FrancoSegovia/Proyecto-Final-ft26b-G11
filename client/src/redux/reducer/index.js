@@ -24,6 +24,7 @@ import {
   OWNER_SHOPS,
   ALL_OWNERS,
   ALL_DELIVERY,
+  CLEAR_SHOPPINGCART,
 } from "../actions";
 
 const initialState = {
@@ -188,6 +189,13 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         cart: [...payload],
       };
+
+      case CLEAR_SHOPPINGCART:
+        localStorage.setItem("cart", JSON.stringify([]));
+        return {
+          ...state,
+          cart: [...payload],
+        };
       
     /////////////////////////////////////////////////
 

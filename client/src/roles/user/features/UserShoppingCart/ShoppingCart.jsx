@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  deleteShoppingCart,
+  getShoppingCart,
+  addProductShoppingCart,
+  substractProductShoppingCart,
+  clearShoppingCart,
+} from "../../../../redux/actions";
 
 import {
   Box,
@@ -12,7 +19,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { deleteShoppingCart, getShoppingCart } from "../../../../redux/actions";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
@@ -24,6 +30,16 @@ export default function ShoppingCart() {
     dispatch(getShoppingCart());
   }, []);
 
+  const onSubstract = (product) => {
+    console.log(product)
+    // dispatch(substractProductShoppingCart())
+  };
+  
+  const onAdd = (product) => {
+    console.log(product)
+    // dispatch(addProductShoppingCart())
+  };
+
   const onDelete = (e) => {
     e.preventDefault();
     dispatch(deleteShoppingCart(e.target.value));
@@ -34,9 +50,11 @@ export default function ShoppingCart() {
     navigate("/user/pay");
   };
 
-  // const onSubstract = () => {};
+  const onClear = (e) => {
+    e.preventDefault();
+    dispatch(clearShoppingCart());
+  }
 
-  // const onAdd = () => {};
 
   const total = () => {
     let total = 0;
@@ -72,6 +90,22 @@ export default function ShoppingCart() {
                   <i>{p.name}</i>
                   <Box>
                     <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onSubstract(p)}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onAdd(p)}
+                    >
+                      +
+                    </Button>
+                    <Button
                       value={p._id}
                       variant="contained"
                       size="small"
@@ -101,6 +135,15 @@ export default function ShoppingCart() {
           onClick={onBuy}
         >
           Comprar
+        </Button>
+        <Button
+          variant="contained"
+          size="medium"
+          disableElevation
+          disabled={!cart.length}
+          onClick={onClear}
+        >
+        Limpiar Carrito
         </Button>
       </Stack>
     </>
