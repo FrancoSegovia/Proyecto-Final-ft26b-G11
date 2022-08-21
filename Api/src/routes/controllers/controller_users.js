@@ -245,15 +245,22 @@ const getLocal = async (req, res) => {
       const find = await localSchema
         .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
         .populate("products");
-      const findFalse = find.filter((e) => e.isDisabled === false);
+      const findFalse = find.filter(
+        (e) => !(e.isDisabled === true || e.owner.isBanned === true)
+      );
       res.status(200).json(findFalse);
     } catch (error) {
       res.status(404).json({ message: error });
     }
   } else {
     try {
-      const find = await localSchema.find().populate("products");
-      const findFalse = find.filter((e) => e.isDisabled === false);
+      const find = await localSchema
+        .find()
+        .populate("owner")
+        .populate("products");
+      const findFalse = find.filter(
+        (e) => !(e.isDisabled === true || e.owner.isBanned === true)
+      );
       res.status(200).json(findFalse);
     } catch (error) {
       res.status(404).json({ message: error });
