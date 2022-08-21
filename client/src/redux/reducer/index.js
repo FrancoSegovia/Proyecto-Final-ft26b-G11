@@ -19,14 +19,11 @@ import {
   SIGN_OUT,
   ALL_USERS,
   GET_SHOPPINGCART,
-
   QUERY_PRODUCTS,
-
   OWNER_DETAIL,
   OWNER_SHOPS,
   ALL_OWNERS,
-  ALL_DELIVERY
-
+  ALL_DELIVERY,
 } from "../actions";
 
 const initialState = {
@@ -47,16 +44,15 @@ const initialState = {
     _id: "",
     phone: null,
     vehicle: "",
-    isBanned:false
+    isBanned: false,
   },
   _id: "",
   users: [],
-  owners:[],
-  deliverys:[],
+  owners: [],
+  deliverys: [],
   modalProducts: [],
-  owner:{},
-  ownerShops:[]
-
+  owner: {},
+  ownerShops: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -77,12 +73,12 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case QUERY_PRODUCTS: {
-      console.log(payload)
+      console.log(payload);
       return {
         ...state,
         modalProducts: payload,
-      }
-    }  
+      };
+    }
     case ALL_USERS: {
       return {
         ...state,
@@ -145,69 +141,74 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         error: payload,
       };
-    
+
     case OWNER_DETAIL:
       return {
         ...state,
         owner: payload,
-    };
+      };
 
     case OWNER_SHOPS:
       return {
         ...state,
-        ownerShops: payload
-  };
+        ownerShops: payload,
+      };
 
     case ALL_OWNERS:
-        return {
-          ...state,
-          owners: payload
-    };
+      return {
+        ...state,
+        owners: payload,
+      };
 
     case ALL_DELIVERY:
-        return {
-          ...state,
-          deliverys: payload
-    };
-  
+      return {
+        ...state,
+        deliverys: payload,
+      };
+
     /////////////////////////////////////////////////
 
     case GET_SHOPPINGCART:
-      console.log(payload)
       return {
         ...state,
-        cart: payload,
+        cart: [...payload],
       };
 
-      case ADD_SHOPPINGCART:
-        let newCart = [...state.cart, payload];
-        localStorage.setItem("cart", JSON.stringify(newCart));
-        return {
-          ...state,
-          cart: [...state.cart, payload],
-        };
-      // case ADD_SHOPPINGCART:
-      //   return {
-      //     ...state,
-      //     cart: [...payload],
-      //   };
-      
-    case DELETE_SHOPPINGCART:
-      let newCart2 = JSON.parse(localStorage.getItem("cart"));
-      newCart2 = newCart2.filter((p) => p._id !== payload);
-      localStorage.setItem("cart", JSON.stringify(newCart2));
-      const updatedCart = state.cart.filter((p) => p._id !== payload);
+    case ADD_SHOPPINGCART:
       return {
         ...state,
-        cart: [...updatedCart],
+        cart: [...payload],
       };
+      
+    case DELETE_SHOPPINGCART:
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    // case ADD_SHOPPINGCART:
+    //   let newCart = [...state.cart, payload];
+    //   localStorage.setItem("cart", JSON.stringify(newCart));
+    //   return {
+    //     ...state,
+    //     cart: [...state.cart, payload],
+    //   };
+    // case DELETE_SHOPPINGCART:
+    //   let newCart2 = JSON.parse(localStorage.getItem("cart"));
+    //   newCart2 = newCart2.filter((p) => p._id !== payload);
+    //   localStorage.setItem("cart", JSON.stringify(newCart2));
+    //   const updatedCart = state.cart.filter((p) => p._id !== payload);
+    //   return {
+    //     ...state,
+    //     cart: [...updatedCart],
+    //   };
 
     /////////////////////////////////////////////////
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
-     
-     return {
+
+      return {
         ...state,
         user: {
           ...state.user,
@@ -219,7 +220,7 @@ const reducer = (state = initialState, { type, payload }) => {
           eMail: data.email,
           phone: data.phone ? data.phone : null,
           vehicle: data.vehicle ? data.vehicle : "",
-          isBanned:data.isBanned
+          isBanned: data.isBanned,
         },
       };
     }
@@ -242,7 +243,7 @@ const reducer = (state = initialState, { type, payload }) => {
           _id: "",
           phone: null,
           vehicle: "",
-          isBanned:false
+          isBanned: false,
         },
       };
 

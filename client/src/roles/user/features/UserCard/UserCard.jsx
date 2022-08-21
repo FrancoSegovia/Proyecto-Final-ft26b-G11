@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {getQueryProducts} from "../../../../redux/actions"
+import { getQueryProducts } from "../../../../redux/actions";
 import defaultShop from "../../../../media/defaultShop.jpg";
 import axios from "axios";
-
 
 import ShoppingCart from "../UserShoppingCart/ShoppingCart";
 
 import { addShoppingCart } from "../../../../redux/actions";
-
+import jwtDecode from "jwt-decode";
 
 import {
   Button,
@@ -20,33 +19,30 @@ import {
   IconButton,
   Typography,
   CardActions,
-   InputBase,
+  InputBase,
   Box,
   Fade,
   Modal,
   Grid,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-  
 
 import { Clear, Add, SearchRounded } from "@mui/icons-material";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const products = useSelector(state => state.modalProducts)
+  const products = useSelector((state) => state.modalProducts);
 
   const [search, setSearch] = useState("");
   const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
   const [open, setOpen] = useState(false);
-  
 
-  let localS = localStorage.getItem("type");
-
+  let localS = jwtDecode(localStorage.getItem("token")).type.toLowerCase();
 
   const onCardClick = async () => {
     setOpen(true);
-    dispatch(getQueryProducts("", shop._id))
+    dispatch(getQueryProducts("", shop._id));
     //setProducts();
   };
 
@@ -55,45 +51,41 @@ export default function UserCard({ shop }) {
     // setTimeout(() => {
     //   setProducts([]);
     // }, 1000);
-  }
+  };
+
   const onButtonClick = (product) => {
     dispatch(addShoppingCart(product._id));
   };
-  
-  const onChange = (e) => {
- 
-    setSearch(e.target.value);
 
+  const onChange = (e) => {
+    setSearch(e.target.value);
     //agregar cartel "caracteres inválidos"?
-    if(search.length > 1){
-    dispatch(getQueryProducts(search.trim(), shop._id))
-    // setProducts()
-    }else{
-    dispatch(getQueryProducts("", shop._id))
+    if (search.length > 1) {
+      dispatch(getQueryProducts(search.trim(), shop._id));
+      // setProducts()
+    } else {
+      dispatch(getQueryProducts("", shop._id));
       //setProducts(dispatch(getProducts()))
     }
-  }
+  };
 
-
-  
   const styles = {
     media: {
       alignSelf: "center",
       width: "150px",
-      maxHeight:"110px",
+      maxHeight: "110px",
       borderRadius: "15%",
-      marginRight:"25px",
-      objectFit:"cover"
-
+      marginRight: "25px",
+      objectFit: "cover",
     },
     modalMedia: {
       alignSelf: "center",
       width: "150px",
-      minHeight:"110px",
-      maxHeight:"110px",
+      minHeight: "110px",
+      maxHeight: "110px",
       borderRadius: "15%",
-      objectFit:"cover"
-    }
+      objectFit: "cover",
+    },
   };
 
   const closeButtonStyle = {
@@ -119,7 +111,6 @@ export default function UserCard({ shop }) {
     p: 4,
   };
 
-
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -138,10 +129,7 @@ export default function UserCard({ shop }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    
   }));
-
-  // const StyledInputBase = styled(InputBase)
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "grey",
@@ -155,12 +143,6 @@ export default function UserCard({ shop }) {
     height: "40px !important",
   }));
 
-
-
-  
-
-
-
   return (
     <div>
       <Modal
@@ -169,8 +151,7 @@ export default function UserCard({ shop }) {
         open={open}
         onClose={onCardClose}
         closeAfterTransition
-        style={{backdropFilter:"blur(3px)", transition:"0"}}
-
+        style={{ backdropFilter: "blur(3px)", transition: "0" }}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>
@@ -222,13 +203,20 @@ export default function UserCard({ shop }) {
                 : "Este negocio aún no cuenta con productos."}
             </Typography>
 
-            <Box style={{display:"flex", justifyContent:"center"}}>
-              <Box style={{display:"flex", justifyContent:"center", backgroundColor:"whitesmoke", borderRadius:"5px"}}>
-                <Search align="left" style={{width:"30vw", }}>
+            <Box style={{ display: "flex", justifyContent: "center" }}>
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  backgroundColor: "whitesmoke",
+                  borderRadius: "5px",
+                }}
+              >
+                <Search align="left" style={{ width: "30vw" }}>
                   <SearchIconWrapper>
-                    <SearchRounded style={{color:"grey"}} />
+                    <SearchRounded style={{ color: "grey" }} />
                   </SearchIconWrapper>
-                    <StyledInputBase
+                  <StyledInputBase
                     placeholder="Buscar Productos"
                     inputProps={{ "aria-label": "search" }}
                     name="search"
@@ -236,98 +224,93 @@ export default function UserCard({ shop }) {
                     value={search}
                     onChange={onChange}
                     autoFocus
-                    />
+                  />
                 </Search>
               </Box>
             </Box>
 
-            <Container style={{display:"flex"}}>
-
-            <Container
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-                marginBottom: "20px",
-                marginTop: "20px",
-                "&hover": { cursor: "default" },
-                width:"50vw",
-                gap:"20px"
-              }}
-            >
-              {products?.map((product) => {
-                return (
-                  <div key={product._id} >
-                    <Card
-                      style={{
-                        backgroundColor: "whitesmoke",
-                        padding: "50px",
-                        minWidth:"250px",
-                        maxWidth: "250px",
-                        minHeight:(localS !== "owner" ? "40vh" : "20vh"),
-                        maxHeight:"40vh"
-                      }}
-                    >
-                      <CardContent
+            <Container style={{ display: "flex" }}>
+              <Container
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  "&hover": { cursor: "default" },
+                  width: "50vw",
+                  gap: "20px",
+                }}
+              >
+                {products?.map((product) => {
+                  return (
+                    <div key={product._id}>
+                      <Card
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          textAlign: "center",
-                          alignItems: "center",
-                          justifyContent:"center",
-                          padding: "10px",
+                          backgroundColor: "whitesmoke",
+                          padding: "50px",
+                          minWidth: "250px",
+                          maxWidth: "250px",
+                          minHeight: localS !== "owner" ? "40vh" : "20vh",
+                          maxHeight: "40vh",
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          style={styles.modalMedia}
-                          image={product.image}
-                        />
-                        <Typography
-                          style={{ marginTop: "18px" }}
-                          variant="h5"
-                          color="textPrimary"
-                          component="div"
+                        <CardContent
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            textAlign: "center",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "10px",
+                          }}
                         >
-                          {product.name}
-                        </Typography>
-                        <Typography
-                          variant="h4"
-                          color="textPrimary"
-                          component="div"
-                        >
-                          {"$" + product.price}
-                        </Typography>
+                          <CardMedia
+                            component="img"
+                            style={styles.modalMedia}
+                            image={product.image}
+                          />
+                          <Typography
+                            style={{ marginTop: "18px" }}
+                            variant="h5"
+                            color="textPrimary"
+                            component="div"
+                          >
+                            {product.name}
+                          </Typography>
+                          <Typography
+                            variant="h4"
+                            color="textPrimary"
+                            component="div"
+                          >
+                            {"$" + product.price}
+                          </Typography>
 
-
-                        { localS === "user" ?
-                          <Button
- 
-                          variant="contained"
-                          size="small"
-                          disableElevation
-                          disabled={cart.find((c) => c.name === product.name)}
-                          onClick={() => onButtonClick(product)}
-                        >
-                          Añadir al Carrito
-                        </Button>
-                        :
-                          null
-                      }
-
-                       
-                      </CardContent>
-                    </Card>
-                  </div>
-                );
-              })}
-                
-            </Container>
-            <Box style={{marginTop:"30px", textAlign:"center", position:""}}>
-            {localS === "user" ? <ShoppingCart/> : null }
-            </Box>
-            
+                          {localS === "user" ? (
+                            <Button
+                              variant="contained"
+                              size="small"
+                              disableElevation
+                              disabled={cart.find(
+                                (c) => c.name === product.name
+                              )}
+                              onClick={() => onButtonClick(product)}
+                            >
+                              Añadir al Carrito
+                            </Button>
+                          ) : null}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  );
+                })}
               </Container>
+              <Box
+                style={{ marginTop: "30px", textAlign: "center", position: "" }}
+              >
+                {localS === "user" ? <ShoppingCart /> : null}
+              </Box>
+            </Container>
           </Box>
         </Fade>
       </Modal>
@@ -353,7 +336,6 @@ export default function UserCard({ shop }) {
             maxWidth: 200,
             marginLeft: "30px",
           }}
-          
         >
           <Typography
             variant="h4"
