@@ -8,9 +8,16 @@ function getModelByName(name) {
 }
 
 const deleteProduct = async (req, res) => {
+
   const { idP } = req.body; // PRODUCT ID
   const { id } = req.params; // USER ID
+
+  
 console.log("estoy en el delete")
+
+console.log(idP + "----------")
+  console.log(id + "¡¡¡¡¡¡¡¡¡¡¡¡")
+
   const user = await User.update(
     { "_id": id },
     { "$pull": { "cart": { "product": idP } } },
