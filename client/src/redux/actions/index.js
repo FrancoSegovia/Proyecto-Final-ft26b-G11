@@ -299,14 +299,9 @@ export const addShoppingCart = (_id) => (dispatch) => {
 
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
-  console.log("ke")
-  console.log(idP)
   return axios
-    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, {
-      idP,
-    })
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`,{ data: { idP: idP }})
     .then((products) => {
-      console.log(products.data[0].products)
       dispatch({
         type: DELETE_SHOPPINGCART,
         payload: products.data[0].products,

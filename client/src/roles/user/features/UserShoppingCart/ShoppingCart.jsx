@@ -67,35 +67,16 @@ export default function ShoppingCart() {
         {!cart.length
           ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
-
               return (
                 <div>
                   <i>{p.name}</i>
                   <Box>
-                    {/* <Button
-                      value={p._id}
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={onSubstract}
-                    >
-                      -
-                    </Button>
                     <Button
                       value={p._id}
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onAdd}
-                    >
-                      +
-                    </Button> */}
-                    <Button
-                      value={p._id}
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={(e)=>onDelete(e)}
+                      onClick={(e) => onDelete(e)}
                     >
                       x
                     </Button>
@@ -124,49 +105,4 @@ export default function ShoppingCart() {
       </Stack>
     </>
   );
-}
-
-{
-  /* return (
-  <Card
-    style={{
-      margin: "15px 0px",
-      backgroundColor: "whitesmoke",
-      padding: "20px",
-      maxWidth: "200px",
-    }}
-  >
-    <CardContent
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        textAlign: "center",
-        alignItems: "center",
-        padding: "10px",
-      }}
-    >
-      <CardMedia
-        component="img"
-        style={styles.media}
-        image={p.image}
-      />
-
-      <Typography
-        style={{ marginTop: "18px" }}
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {p.name}
-      </Typography>
-      <Typography
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {"$" + p.price}
-      </Typography>
-    </CardContent>
-  </Card>
-); */
 }
