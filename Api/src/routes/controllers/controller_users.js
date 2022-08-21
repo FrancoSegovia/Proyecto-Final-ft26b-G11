@@ -254,13 +254,8 @@ const getLocal = async (req, res) => {
     }
   } else {
     try {
-      const find = await localSchema
-        .find()
-        .populate("owner")
-        .populate("products");
-      const findFalse = find.filter(
-        (e) => !(e.isDisabled === true || e.owner.isBanned === true)
-      );
+      const find = await localSchema.find().populate("owner").populate("products");
+      const findFalse = find.filter((e) => !(e.isDisabled === true || e.owner.isBanned === true));
       res.status(200).json(findFalse);
     } catch (error) {
       res.status(404).json({ message: error });

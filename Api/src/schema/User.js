@@ -47,51 +47,11 @@ const schema = Schema(
       type: Boolean,
       default: false,
     },
-    phone: {
-      type: Number,
-      required: false,
-    },
     cart: {
       type: Schema.Types.ObjectId,
       ref: "Cart",
       required: false,
     }, 
-    // favorites: {
-    //   type: Array,
-    //   default: undefined,
-    // },
-    // comments: {
-    //   type: Array,
-    //   default: undefined,
-    // },
-    // paymentRecord: {
-    //   type: String,
-    //   required: false,
-    // },
-    // balance: {
-    //   type: Number,
-    //   required: false,
-    // },
-    // credentials: [
-    //   {
-    //     name: {
-    //       type: String,
-    //       required: false,
-    //     },
-    //     number: {
-    //       type: Number,
-    //       required: false,
-    //     },
-    //     code: {
-    //       type: Number,
-    //       required: false,
-    //     },
-    //     dateOfExpire: {
-    //       type: Date,
-    //       required: false,
-    //     },
-    //   },
-    // ],
   },
   { collection: "users" }
 );
