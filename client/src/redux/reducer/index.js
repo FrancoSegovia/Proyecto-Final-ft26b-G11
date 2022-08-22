@@ -26,6 +26,7 @@ import {
   ALL_DELIVERY,
   CLEAR_SHOPPINGCART,
 } from "../actions";
+import swal from "sweetalert";
 
 const initialState = {
   mainProducts: [],
@@ -201,7 +202,7 @@ const reducer = (state = initialState, { type, payload }) => {
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
-
+      if (data) swal("¡Bienvenido!", "Sesión iniciada correctamente.", "success", {timer:"2000", buttons:false});
       return {
         ...state,
         user: {
@@ -224,6 +225,10 @@ const reducer = (state = initialState, { type, payload }) => {
       localStorage.removeItem("type");
       localStorage.removeItem("cart");
       localStorage.removeItem("total");
+
+      swal("Hasta pronto!", "Usted ha cerrado sesión.", "success", {timer:"2000", buttons:false})
+
+        // , "Usted ha cerrado sesión.", "success");
 
       return {
         ...state,

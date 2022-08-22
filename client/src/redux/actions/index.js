@@ -94,6 +94,7 @@ export function addStore(payload) {
         payload,
         setHeaders()
       );
+      swal("¡Éxito!", "La tienda ha sido creada correctamente.", "success", {timer:"2000", buttons:false})
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -108,20 +109,25 @@ export const addProduct = (payload) => {
       payload,
       setHeaders()
     )
+    .then(exit => swal("¡Éxito!", "El producto se ha añadido correctamente.", "success", {timer:"2000", buttons:false}))
     .catch((error) => console.error(error.message));
 };
 
 export const updateUser = (payload, id) => {
-  return axios.put(
+  return axios.put
+  (
     `http://localhost:3001/account/user/currentUser/update/${id}`,
     payload,
     setHeaders()
-  );
+  )
+  .then(exit => swal("¡Éxito!", "El usuario ha sido actualizado correctamente.", "success", {timer:"2000", buttons:false}))
+  .catch((error) => console.error(error.message));
 };
 
 export const deleteShop = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
+    .then(exit => swal("¡Éxito!", "El negocio ha sido eliminado correctamente.", "success", {timer:"2000", buttons:false}))
     .catch((error) => console.error(error.message));
 };
 
@@ -132,6 +138,27 @@ export const getAllUsers = () => (dispatch) => {
       dispatch({
         type: ALL_USERS,
         payload: users.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteUser = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Éxito!", "El usuario ha sido vetado.", "info", {timer:"2000", buttons:false});
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const getOwnerDetails = (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
+    .then((owner) => {
+      dispatch({
+        type: OWNER_DETAIL,
+        payload: owner.data,
       });
     })
     .catch((error) => console.error(error.message));
@@ -161,14 +188,11 @@ export const getAllClickers = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const getOwnerDetails = (dispatch) => {
+export const deleteClicker = (id) => {
   return axios
-    .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
-    .then((owner) => {
-      dispatch({
-        type: OWNER_DETAIL,
-        payload: owner.data,
-      });
+    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Éxito!", "El Clicker ha sido vetado.", "info", {timer:"2000", buttons:false});
     })
     .catch((error) => console.error(error.message));
 };
@@ -187,29 +211,12 @@ export const getOwnerShops = (id) => (dispatch) => {
 
 /////////////////////////////////////////////////
 
-export const deleteUser = (id) => {
-    return axios
-      .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
-      .then(() => {
-        swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
-      })
-      .catch((error) => console.error(error.message));
-};
-
-export const deleteClicker = (id) => {
-    return axios
-      .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
-      .then(() => {
-        swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
-      })
-      .catch((error) => console.error(error.message));
-};
 
 export const deleteOwner = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
     .then(() => {
-      swal("¡Perfecto!", "El dueño ha sido vetado con éxito.", "success");
+      swal("¡Éxito!", "El dueño ha sido vetado.", "info", {timer:"2000", buttons:false});
     })
     .catch((error) => console.error(error.message));
 };
@@ -324,10 +331,10 @@ export const paymentFuncion = (id, amount) => {
     .post("http://localhost:3001/account/pay", { id, amount })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      swal("El Pago se ha realizado con exito!", message.data.message, "success");
+      swal("¡Éxito!", "¡El pago se ha realizado correctamente!", "success");
     })
     .catch((error) =>
-      swal("Ha ocurrido un error!", error.message.message, "error")
+      swal("¡Ha ocurrido un error!", error.message.message, "error")
     );
 };
 
@@ -340,6 +347,7 @@ export function signUpOwner({ name, lastname, email, password }) {
         "http://localhost:3001/account/owner/signup",
         { name, lastname, email, password }
       );
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -354,6 +362,7 @@ export function signUpUser(user) {
         "http://localhost:3001/account/user/signup",
         user
       );
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -368,6 +377,7 @@ export function signUpDelivery(user) {
         "http://localhost:3001/account/delivery/signup",
         user
       );
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
       return respuesta;
     } catch (error) {
       console.error(error);
