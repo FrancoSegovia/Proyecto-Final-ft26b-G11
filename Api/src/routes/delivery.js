@@ -10,6 +10,7 @@ router.get("/currentDelivery/:id", isAuthenticated, deliveryController.currentDe
 router.put("/currentDelivery/update/:id",isAuthenticated, deliveryController.updatecurrentDelivery); //* UPDATE DELIVERY
 router.get("/destination", isAuthenticated, deliveryController.getDirection);
 router.put("/destination/state/:id", isAuthenticated, deliveryController.updateState)
+router.delete("/destination/received/:id", isAuthenticated, deliveryController.deleteOrder)
 
 
 module.exports = router;

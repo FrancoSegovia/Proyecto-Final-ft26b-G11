@@ -97,7 +97,7 @@ const login = async (req, res) => {
         isBanned: correctModel.isBanned,
         order: correctModel.order
       };
-      console.log(userObject)
+      
 
       const accessToken = jwt.sign(
         Object.assign({}, userObject),

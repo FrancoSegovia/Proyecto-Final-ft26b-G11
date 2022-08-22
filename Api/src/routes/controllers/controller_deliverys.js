@@ -52,21 +52,21 @@ const confirmAccount = (req, res) => {
 
 
 const currentDelivery = (req, res) => {
-    const {id} = req.params;
-    if (!id)
-      return res.status(200).send({ success: false, data: { delivery: null } });
+  const { id } = req.params;
+  if (!id)
+    return res.status(200).send({ success: false, data: { delivery: null } });
   deliverySchema.findById(id)
-      .then((delivery) => {
-        res.status(200).send( delivery );
-      })
-      .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
-      );
-  };
+    .then((delivery) => {
+      res.status(200).send(delivery);
+    })
+    .catch((error) =>
+      res.status(200).send({ success: false, error: error.message })
+    );
+};
 
 const updatecurrentDelivery = (req, res) => {
   const { id } = req.params;
-  const { name, lastname, password} = req.body;
+  const { name, lastname, password } = req.body;
 
   deliverySchema
     .updateOne({ _id: id }, { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } })
@@ -77,14 +77,14 @@ const updatecurrentDelivery = (req, res) => {
 const getDirection = async (req, res) => {
 
   try {
-    
-    const destination = await Order.find({selection: "false" }).populate("order")
-   
+
+    const destination = await Order.find({ selection: "false" }).populate("order")
+
     res.status(200).json(destination)
 
 
   } catch (error) {
-    res.status(400).json({ message: error})
+    res.status(400).json({ message: error })
   }
 
 }
@@ -92,14 +92,28 @@ const getDirection = async (req, res) => {
 const updateState = async (req, res) => {
 
   try {
-    
+
     const state = await Order.updateOne({ _id: req.params.id }, { $set: { state: "Su pedido esta en camino", selection: "true" } })
 
     res.status(200).json(state)
 
   } catch (error) {
-    res.status(400).json({ message: error})
+    res.status(400).json({ message: error })
   }
-} 
+}
 
-module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery, getDirection, updateState };
+const deleteOrder = async (req, res) => {
+
+  try {
+
+    const removeOrder = await Order.remove({ _id: req.params.id })
+    res.status(200).json({ message: "Pedido entregado" })
+  } catch (error) {
+    res.status(400).json({ message: error })
+  }
+
+
+
+}
+
+module.exports = { signup, confirmAccount, currentDelivery, updatecurrentDelivery, getDirection, updateState, deleteOrder };
