@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../schema/Order");
 const User = require("../schema/User");
-
+require("dotenv").config()
 const stripe = require("stripe")(
   process.env.SECRET_KEY_STRIPE
 );

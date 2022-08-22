@@ -75,7 +75,6 @@ const login = async (req, res) => {
 
   if (await User.find({ email: req.body.email })) {
     correctModel = await userSchema.findOne({ email }).populate("order");
-    console.log(correctModel);
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
