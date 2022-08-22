@@ -17,7 +17,7 @@ router.put("/products-cart/:id", controllers.addProductCart)
  
 // RUTA PUT PARA DISMINUIR O MODIFICAR LA CANTIDAD DE PRODUCTOS DEL CARRITO 
  
-// router.put("/products-cart-add/:id", controllers.updateCart)
+// router.put("/products-cart-update/:id", controllers.putProduct)
 
 // RUTA DELETE PARA ELIMINAR UN PRODUCTO DEL CARRITO (ELIMINA TODOS LOS PRODUCTOS CON EL MISMO ID)
 
