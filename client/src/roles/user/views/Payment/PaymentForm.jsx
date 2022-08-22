@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { paymentFuncion, clearShoppingCart } from "../../../../redux/actions";
-
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import jwtDecode from "jwt-decode";
 import {
   Box,
   Button,
@@ -49,9 +49,11 @@ export default function PaymentForm() {
         dispatch(
           paymentFuncion(
             id,
-            JSON.parse(localStorage.getItem("total")) * 100
+            JSON.parse(localStorage.getItem("total")) * 100,
+            jwtDecode(localStorage.getItem("token"))._id,
+            JSON.parse(localStorage.getItem("cart"))
           ).then(() => {
-            dispatch(clearShoppingCart())
+            dispatch(clearShoppingCart());
             navigate("/user/home");
             setWaiting(false);
           })

@@ -328,9 +328,9 @@ export const substractProductShoppingCart = (p) => (dispatch) =>{
 
 ////////////////////////////////////////////////
 
-export const paymentFuncion = (id, amount) => {
+export const paymentFuncion = (id, amount, user, cart) => {
   return axios
-    .post("http://localhost:3001/account/pay", { id, amount })
+    .post("http://localhost:3001/account/pay", { id, amount, user, cart })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
       swal("¡Éxito!", "¡El pago se ha realizado correctamente!", "success");
