@@ -9,7 +9,6 @@ router.get("/user-cart/:id", controllers.getCart)
 
 // RUTA GET PARA TRAER PRODUCTOS DE LA DB
 
-router.get("/products", controllers.getProduct )
 
 // RUTA POST PARA AGREGAR PRODUCTOS AL CARRITO
 
