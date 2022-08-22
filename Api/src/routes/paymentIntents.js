@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const Order = require("../schema/Order")
 
 const stripe = require("stripe")("sk_test_51LUzvLBavWXziNSX8gZes2m9QGJNjDfDlhsFDxRWZ4eEzVdnuf5J7p7V2dRQRdl3cMbvwHjVZVZQwr88cJ5MloZh00pyWaEjvq");
 
 router.post("/", async (req, res) => {
   try {
      const { id, amount, user, cart } = req.body
+
+
      
      const payment = await stripe.paymentIntents.create({
       amount,
@@ -13,6 +16,12 @@ router.post("/", async (req, res) => {
       payment_method: id, 
       confirm: true
      })
+
+     const destination = new Order({
+      order: user
+     })
+
+     destination.save()
 
      res.send({message: "paymente succesfull"})
    } catch (error) {

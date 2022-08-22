@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const deliverySchema = require("../../schema/Delivery");
 const bcrypt = require("bcrypt");
+const Order = require("../../schema/Order")
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -73,4 +74,19 @@ const updatecurrentDelivery = (req, res) => {
     .catch((error) => res.json({ message: error }));
 };
 
-module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery };
+const getDirection = async (req, res) => {
+
+  try {
+    
+    const destination = await Order.find().populate("order")
+   
+    res.status(200).json(destination)
+
+
+  } catch (error) {
+    res.status(400).json({ message: error})
+  }
+
+}
+
+module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery, getDirection };
