@@ -19,7 +19,7 @@ export const ADD_SHOPPINGCART = "ADD_SHOPPINGCART";
 export const DELETE_SHOPPINGCART = "DELETE_SHOPPINGCART";
 export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const ADD_PRODUCT_SHOPPINGCART = "ADD_PRODUCT_SHOPPINGCART";
-export const SUBSTRACT_PRODUCT_SHOPPINGCART = "SUBSTRACT_PRODUCT_SHOPPINGCART" 
+export const SUBSTRACT_PRODUCT_SHOPPINGCART = "SUBSTRACT_PRODUCT_SHOPPINGCART";
 /////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
@@ -175,8 +175,8 @@ export const getOwnerDetails = (dispatch) => {
 
 export const getOwnerShops = (id) => (dispatch) => {
   return axios
-  .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
-  .then((shops) => {
+    .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
+    .then((shops) => {
       dispatch({
         type: OWNER_SHOPS,
         payload: shops.data,
@@ -188,21 +188,21 @@ export const getOwnerShops = (id) => (dispatch) => {
 /////////////////////////////////////////////////
 
 export const deleteUser = (id) => {
-    return axios
-      .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
-      .then(() => {
-        swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
-      })
-      .catch((error) => console.error(error.message));
+  return axios
+    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El usuario ha sido vetado con éxito.", "success");
+    })
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteClicker = (id) => {
-    return axios
-      .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
-      .then(() => {
-        swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
-      })
-      .catch((error) => console.error(error.message));
+  return axios
+    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Perfecto!", "El Clicker ha sido vetado con éxito.", "success");
+    })
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteOwner = (id) => {
@@ -286,7 +286,9 @@ export const addShoppingCart = (_id) => (dispatch) => {
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
   return axios
-    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`,{ data: { idP: idP }})
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, {
+      data: { idP: idP },
+    })
     .then((products) => {
       dispatch({
         type: DELETE_SHOPPINGCART,
@@ -307,28 +309,25 @@ export const clearShoppingCart = () => (dispatch) => {
       });
     })
     .catch((error) => console.error(error));
-}
+};
 
-export const addProductShoppingCart = (p) => (dispatch) =>{
-  
-}
+export const addProductShoppingCart = (p) => (dispatch) => {};
 
-export const substractProductShoppingCart = (p) => (dispatch) =>{
-
-}
+export const substractProductShoppingCart = (p) => (dispatch) => {};
 
 ////////////////////////////////////////////////
 
-export const paymentFuncion = (id, amount) => {
+export const paymentFuncion = (id, amount, user) => {
   return axios
     .post("http://localhost:3001/account/pay", { id, amount })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      swal("El Pago se ha realizado con exito!", message.data.message, "success");
+      swal("Perfecto!", message.data.message, "success");
     })
-    .catch((error) =>
-      swal("Ha ocurrido un error!", error.message.message, "error")
-    );
+    .catch((error) => {
+      swal("Ha ocurrido un error!", error.message.message, "error");
+      console.error(error.message)
+    });
 };
 
 ////////////////////////////////////////////////
