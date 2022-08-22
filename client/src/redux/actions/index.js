@@ -35,6 +35,8 @@ export const ALL_OWNERS = "ALL_OWNERS";
 
 export const ALL_DELIVERY = "ALL_DELIVERY";
 
+export const ALL_ORDERS = "ALL_ORDERS";
+
 export const getAllShops = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/account/user/local")
@@ -416,4 +418,16 @@ export const errorCleaner = () => {
     type: ERROR_CLEANER,
     payload: false,
   };
+};
+
+export const getAllOrders = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/delivery/destination`, setHeaders())
+    .then((orders) => {
+      dispatch({
+        type: ALL_ORDERS,
+        payload: orders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };

@@ -55,6 +55,8 @@ const initialState = {
   modalProducts: [],
   owner: {},
   ownerShops: [],
+
+  orders:[]
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -85,6 +87,13 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         users: payload,
+      };
+    }
+
+    case ALL_OWNERS: {
+      return {
+        ...state,
+        orders: payload,
       };
     }
 
