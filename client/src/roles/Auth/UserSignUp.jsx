@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
 import inputCheckout from "../../utils/functions/inputCheckout";
-
+import jwtDecode from "jwt-decode";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/material.css';
 
@@ -22,7 +21,7 @@ import {
 } from "@mui/material";
 import { ArrowBack, LockOutlined } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import jwtDecode from "jwt-decode";
+
 
 const theme = createTheme();
 
@@ -45,7 +44,7 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    const localS = jwtDecode(localStorage.getItem("token")).type
+    let localS = localStorage.getItem("type")
     setUser({ ...user, type: localS });
   }, []);
 
@@ -81,18 +80,10 @@ export default function SignUp() {
     });
   };
 
-  const handlePhone = (e) => {
-    if (phone.length > 10) return;
-    setPhone(e.target.value);
-  };
-
-  const handleGoogleS = (e) => {
-    console.log(e);
-  };
-
-  const handleGoogleE = (e) => {
-    console.log(e);
-  };
+  // const handlePhone = (e) => {
+  //   if (phone.length > 10) return;
+  //   setPhone(e.target.value);
+  // };
 
   const onSelect = (event) => {
     setUser({
