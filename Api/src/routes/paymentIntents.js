@@ -5,16 +5,15 @@ const stripe = require("stripe")("sk_test_51LUzvLBavWXziNSX8gZes2m9QGJNjDfDlhsFD
 
 router.post("/", async (req, res) => {
   try {
-   
-     const { id, amount } = req.body;
-  
+     const { id, amount, user, cart } = req.body
+     
      const payment = await stripe.paymentIntents.create({
       amount,
       currency: "ARS",
       payment_method: id, 
       confirm: true
      })
-     console.log("soy payment", payment)
+
      res.send({message: "paymente succesfull"})
    } catch (error) {
       console.log("soy error", error)
