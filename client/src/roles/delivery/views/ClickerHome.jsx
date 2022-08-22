@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllShops } from "../../../redux/actions/index.js";
+import { getAllOrders, getAllShops } from "../../../redux/actions/index.js";
 import {
   Button,
   Card,
@@ -21,10 +21,15 @@ export default function Home() {
   const dispatch = useDispatch();
   const shops = useSelector((state) => state.shops);
   const error = useSelector((state) => state.error);
+  const orders = useSelector(state => state.orders);
 
   useEffect(() => {
     dispatch(getAllShops());
   }, []);
+
+  useEffect(() => {
+    dispatch(getAllOrders());
+  }, [orders]);
 
   return (
     <>
@@ -45,43 +50,16 @@ export default function Home() {
           rowSpacing={1}
           style={{ marginBottom: "20px", padding: "35px 0px" }}
         >
-          <Grid item xs={4} style={{ textAlign: "center" }}>
-            <Typography
-              variant="h3"
-              align="left"
-              component="h3"
-              color="textPrimary"
-            >
-              Monedero
-            </Typography>
-            <Typography
-              variant="h4"
-              align="left"
-              component="h4"
-              color="textSecondary"
-            >
-              $100
-            </Typography>
-          </Grid>
 
           <Grid
             item
-            xs={3.5}
+            xs={5}
             style={{ textAlign: "center" }}
           >
-            <OrdersSlider/>
+            <OrdersSlider orders={orders}/>
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          justifyContent="center"
-          direction="row"
-          rowSpacing={1}
-          style={{ padding: "35px 0px", backgroundColor: "red" }}
-        >
-          Juasjuas
-        </Grid>
       </div>
     </>
   );

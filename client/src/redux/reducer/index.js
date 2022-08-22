@@ -25,6 +25,7 @@ import {
   ALL_OWNERS,
   ALL_DELIVERY,
   CLEAR_SHOPPINGCART,
+  ALL_ORDERS,
 } from "../actions";
 import swal from "sweetalert";
 
@@ -90,7 +91,7 @@ const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    case ALL_OWNERS: {
+    case ALL_ORDERS: {
       return {
         ...state,
         orders: payload,
