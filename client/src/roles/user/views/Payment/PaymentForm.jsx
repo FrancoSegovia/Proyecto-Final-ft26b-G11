@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { paymentFuncion } from "../../../../redux/actions";
+import { paymentFuncion, clearShoppingCart } from "../../../../redux/actions";
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
@@ -51,6 +51,7 @@ export default function PaymentForm() {
             id,
             JSON.parse(localStorage.getItem("total")) * 100
           ).then(() => {
+            dispatch(clearShoppingCart())
             navigate("/user/home");
             setWaiting(false);
           })
