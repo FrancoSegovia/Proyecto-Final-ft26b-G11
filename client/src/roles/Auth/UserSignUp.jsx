@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { ArrowBack, LockOutlined } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import jwtDecode from "jwt-decode";
 
 const theme = createTheme();
 
@@ -44,7 +45,7 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    const localS = localStorage.getItem("type");
+    const localS = jwtDecode(localStorage.getItem("token")).type
     setUser({ ...user, type: localS });
   }, []);
 
@@ -117,7 +118,10 @@ export default function SignUp() {
               <LockOutlined />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Registro
+              {user.type === "user" ? "Registro de cliente" 
+              : (user.type === "owner" ? "Registro de dueño" 
+              : "Registro de Clicker"
+              )}
             </Typography>
             <Box
               component="form"
@@ -302,7 +306,7 @@ export default function SignUp() {
                 style={{ marginBottom: "30px", marginTop: "30px" }}
               >
                 <Grid item>
-                  <Link to="/SignIn" style={{ textDecoration: "none" }}>
+                  <Link to="/SignIn" style={{ textDecoration: "none", color:"#1976d2" }}>
                     ¿Ya tienes una cuenta? ¡Inicia sesión!
                   </Link>
                 </Grid>

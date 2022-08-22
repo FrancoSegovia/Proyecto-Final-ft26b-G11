@@ -35,7 +35,7 @@ export default function LandingHowItWorks() {
     <>
       <Box
         component="section"
-        sx={{ display: "flex", bgcolor: "white", overflow: "hidden" }}
+        sx={{ display: "flex", bgcolor: "#f6f6f6", overflow: "hidden" }}
       >
         <Container
           sx={{

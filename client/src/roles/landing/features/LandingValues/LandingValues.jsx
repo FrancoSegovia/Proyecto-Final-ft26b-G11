@@ -21,7 +21,7 @@ const item = {
 export default function LandingValues() {
   return (
     <>
-      <TopSvg />
+      <TopSvg/>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography
           variant="h5"
@@ -112,7 +112,7 @@ export default function LandingValues() {
           </Grid>
         </Container>
       </Box>
-      <BotSvg />
+      <BotSvg/>
     </>
   );
 }

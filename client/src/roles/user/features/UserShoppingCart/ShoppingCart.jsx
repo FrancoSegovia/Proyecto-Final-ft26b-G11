@@ -87,30 +87,34 @@ export default function ShoppingCart() {
           : cart.map((p) => {
               return (
                 <div>
-                  <i>{p.name}</i>
-                  <Box>
+                  <Typography variant="subtitle1">{p.name}</Typography>
+                  <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
+                  <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onAdd(p)}
+                      style={{borderRadius:"25px"}}
+                    >
+                      +
+                    </Button>
                     <Button
                       variant="contained"
                       size="small"
                       disableElevation
                       onClick={() => onSubstract(p)}
+                      style={{borderRadius:"25px"}}
                     >
                       -
                     </Button>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={() => onAdd(p)}
-                    >
-                      +
-                    </Button>
+                    
                     <Button
                       value={p._id}
                       variant="contained"
                       size="small"
                       disableElevation
                       onClick={(e) => onDelete(e)}
+                      style={{borderRadius:"25px"}}
                     >
                       x
                     </Button>
@@ -125,26 +129,30 @@ export default function ShoppingCart() {
           color="textPrimary"
           component="div"
         >
-          {!cart.length ? "Total = 0$" : `Total = ${total()}$`}
+          {!cart.length ? "Total = 0$" : `Total = $${total()}`}
         </Typography>
-        <Button
-          variant="contained"
-          size="medium"
-          disableElevation
-          disabled={!cart.length}
-          onClick={onBuy}
-        >
-          Comprar
-        </Button>
-        <Button
-          variant="contained"
-          size="medium"
-          disableElevation
-          disabled={!cart.length}
-          onClick={onClear}
-        >
-        Limpiar Carrito
-        </Button>
+        <Box style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+          <Button
+            variant="contained"
+            size="medium"
+            disableElevation
+            disabled={!cart.length}
+            onClick={onBuy}
+            style={{borderRadius:"10px"}}
+          >
+            Comprar
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            disableElevation
+            disabled={!cart.length}
+            onClick={onClear}
+            style={{borderRadius:"10px"}}
+          >
+          Limpiar Carrito
+          </Button>
+        </Box>
       </Stack>
     </>
   );
