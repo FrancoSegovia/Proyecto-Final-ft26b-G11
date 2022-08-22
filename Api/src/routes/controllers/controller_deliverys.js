@@ -92,10 +92,9 @@ const getDirection = async (req, res) => {
 const updateState = async (req, res) => {
   try {
     const state = await Order.updateOne(
-      { _id: req.params.id },
+      { _id: req.body.id },
       { $set: { state: "Su pedido esta en camino", selection: "true" } }
     );
-
     res.status(200).json(state);
   } catch (error) {
     res.status(404).json({ message: error });
