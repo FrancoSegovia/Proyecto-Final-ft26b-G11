@@ -12,7 +12,7 @@ function getModelByName(name) {
 const signup = (req, res) => {
   if (!req.body)
     return res
-      .status(200)
+      .status(204)
       .send({ success: false, error: "owner info not found" });
   const Owner = getModelByName("Owner");
   try {
@@ -23,7 +23,7 @@ const signup = (req, res) => {
           .send({ success: true, message: "owner created succesfully" });
       })
       .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
+        res.status(404).send({ success: false, error: error.message })
       );
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
@@ -43,10 +43,10 @@ const confirmAccount = (req, res) => {
           .send({ success: true, message: "owner confirmed succesfully" });
       })
       .catch((err) =>
-        res.status(200).send({ success: false, error: err.message })
+        res.status(404).send({ success: false, error: err.message })
       );
   } catch (err) {
-    res.status(200).send({ success: false, error: err.message });
+    res.status(500).send({ success: false, error: err.message });
   }
 };
 
@@ -57,14 +57,15 @@ const confirmAccount = (req, res) => {
 //*---------------GET DETAIL OWNER----------------------------
 const currentOwner = (req, res) => {
   if (!req.owner)
-    return res.status(200).send({ success: false, data: { owner: null } });
+    return res.status(204).send({ success: false, data: { owner: null } });
+
   const Owner = getModelByName("Owner");
   Owner.findOwnerById(req.owner._id)
     .then((owner) => {
       res.status(200).send(owner);
     })
     .catch((error) =>
-      res.status(200).send({ success: false, error: error.message })
+      res.status(404).send({ success: false, error: error.message })
     );
 };
 //*---------------GET DETAIL OWNER----------------------------
@@ -75,11 +76,9 @@ const getLocal = async (req, res) => {
   const ownerId = await ownerSchema.findById(id);
   localSchema
     .find({ owner: ownerId })
-    .populate("products", {
-      inCart: 0,
-    })
-    .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .populate("products", { inCart: 0 })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).send({ message: error }));
 };
 //*---------------GET GENERAL LOCAL----------------------------
 
@@ -89,23 +88,19 @@ const getLocalById = (req, res) => {
   const Local = getModelByName("Local");
   Local.findById(id)
     .populate("products")
-    .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).send({ message: error }));
 };
 //*---------------GET DETAIL LOCAL----------------------------
 
 //*---------------POST LOCAL----------------------------
 const addLocal = (req, res) => {
   const Local = getModelByName("Local");
-  try {
-    Local.addLocal(req.body, req.owner._id)
-      .then((data) => {
-        res.status(200).send(data);
-      })
-      .catch((error) => res.status(200).send({ message: error }));
-  } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
-  }
+  Local.addLocal(req.body, req.owner._id)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((error) => res.status(404).send({ message: error }));
 };
 //*---------------POST LOCAL----------------------------
 
@@ -117,17 +112,9 @@ const addProduct = async (req, res) => {
 
   const localId = await localSchema.findById(local);
   if (!name)
-    return res.status(400).json({ error: 'Required "name" field is missing' });
-  // if (!description)
-  //   return res
-  //     .status(400)
-  //     .json({ error: 'Required "description" field is missing' });
-  // if (!image)
-  //   return res.status(400).json({ error: 'Required "image" field is missing' });
+    return res.status(204).json({ error: 'Required "name" field is missing' });
   if (!price)
-    return res.status(400).json({ error: 'Required "price" field is missing' });
-  // if (!type)
-  //   return res.status(400).json({ error: 'Required "type" field is missing' });
+    return res.status(204).json({ error: 'Required "price" field is missing' });
 
   const newProduct = new Product({
     name,
@@ -143,9 +130,9 @@ const addProduct = async (req, res) => {
     localId.products = localId.products.concat(savedProduct._id);
     await localId.save();
 
-    res.json(savedProduct);
+    res.status(200).json(savedProduct);
   } catch (error) {
-    res.status(200).send({ success: false, error: error.message });
+    res.status(404).send({ success: false, error: error.message });
   }
 };
 //*---------------POST PRODUCT----------------------------
@@ -159,8 +146,8 @@ const updateLocal = (req, res) => {
       { _id: id },
       { $set: { name, direction, category, schedule, description, image } }
     )
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 const deleteLocal = (req, res) => {
@@ -168,8 +155,8 @@ const deleteLocal = (req, res) => {
 
   localSchema
     .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 const updateProduct = (req, res) => {
@@ -178,8 +165,8 @@ const updateProduct = (req, res) => {
 
   productSchema
     .updateOne({ _id: id }, { $set: { name, description, image, price, type } })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 const deleteProduct = (req, res) => {
@@ -196,8 +183,8 @@ const getProduct = async (req, res) => {
   const localId = await localSchema.findById(id);
   productSchema
     .find({ local: localId })
-    .then((data) => res.json(data))
-    .catch((error) => res.status(200).send({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).send({ message: error }));
 };
 
 const updateCurrentOwner = (req, res) => {
@@ -209,8 +196,8 @@ const updateCurrentOwner = (req, res) => {
       { _id: id },
       { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
     )
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 module.exports = {
