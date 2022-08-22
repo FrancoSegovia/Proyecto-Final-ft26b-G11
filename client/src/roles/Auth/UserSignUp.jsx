@@ -103,7 +103,6 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -314,7 +313,6 @@ export default function SignUp() {
             </Box>
           </Box>
         </Container>
-      </GoogleOAuthProvider>
     </ThemeProvider>
   );
 }
