@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 
 import UserCard from "../../user/features/UserCard/UserCard.jsx";
+
+import OrdersSlider from "../../delivery/features/OrdersSlider/OrdersSlider.jsx"
 import Navbar from "../../delivery/features/ClickerNavbar/ClickerNavbar";
 
 import { Grid } from "@mui/material";
@@ -64,11 +66,10 @@ export default function Home() {
 
           <Grid
             item
-            justifyContent="space-evenly"
-            xs={7}
-            style={{ textAlign: "center", backgroundColor: "green" }}
+            xs={3.5}
+            style={{ textAlign: "center" }}
           >
-            <Container></Container>
+            <OrdersSlider/>
           </Grid>
         </Grid>
 
