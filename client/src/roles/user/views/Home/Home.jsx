@@ -71,7 +71,7 @@ export default function Home() {
 
               {localS === "user" 
               ? 
-              <Grid item xs={2} style={{ textAlign: "center", backgroundColor:"red" }}>
+              <Grid item xs={2} style={{ textAlign: "center" }}>
                 <ShoppingCart />
               </Grid> 
               :

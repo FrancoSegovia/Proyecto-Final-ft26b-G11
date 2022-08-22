@@ -127,7 +127,7 @@ export default function SignIn() {
             </Grid>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/SignUp" style={{ textDecoration: "none" }}>
+                <Link to="/SignUp" style={{ textDecoration: "none", color:"#1976d2" }}>
                   ¿Aún no estas registrado? ¡Registrarse!
                 </Link>
               </Grid>

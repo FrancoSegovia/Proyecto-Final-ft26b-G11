@@ -16,6 +16,7 @@ const TopSvg = (props) => (
       }}
       {...props}
     >
+      <rect width="100%" height="100%" fill="#f6f6f6" />
       <path
         d="M0 49.98c150 100.02 349.2-99.96 500 0V160H0Z"
         style={{

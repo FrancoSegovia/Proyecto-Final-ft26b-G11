@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const { isValidEmail } = require("../routes/controllers/helpers");
 const ownerSchema = require("../schema/Owner");
 const userSchema = require("../schema/User");
-const deliverySchema = require("../schema/Delivery")
+const deliverySchema = require("../schema/Delivery");
 const productSchema = require("../schema/Product");
 
 const schema = Schema(
@@ -13,7 +13,7 @@ const schema = Schema(
     type: {
       type: String,
       required: false,
-      default: "user"
+      default: "user",
     },
     direction: {
       type: String,
@@ -51,22 +51,23 @@ const schema = Schema(
       type: Number,
       required: false,
     },
-    cart: [ {
-      
-        
-            product: {
-                type: Schema.Types.ObjectId,
-                ref: "Product",
-                required: false
-            },
-
-            amount: {
-                type: Number,
-                default: 1
-            },
-        
-  }]
-    
+    cart: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          required: false,
+        },
+        amount: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+    order: [{
+      type: Schema.Types.ObjectId,
+      ref: "Order"
+    }]
   },
   { collection: "users" }
 );
@@ -113,7 +114,7 @@ function signup(userInfo) {
         password: bcrypt.hashSync(userInfo.password, 9),
         name: userInfo.name,
         lastname: userInfo.lastname,
-        isBanned:userInfo.isBanned
+        isBanned: userInfo.isBanned,
       };
       return this.create(newUser);
     })
@@ -138,7 +139,6 @@ function confirmAccount(token) {
     return user.save();
   });
 }
-
 
 schema.statics.signup = signup;
 schema.statics.sendConfirmationEmail = sendConfirmationEmail;
