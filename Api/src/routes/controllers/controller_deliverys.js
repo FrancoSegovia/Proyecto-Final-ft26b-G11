@@ -78,7 +78,7 @@ const getDirection = async (req, res) => {
 
   try {
     
-    const destination = await Order.find().populate("order")
+    const destination = await Order.find({selection: "false" }).populate("order")
    
     res.status(200).json(destination)
 
@@ -89,4 +89,17 @@ const getDirection = async (req, res) => {
 
 }
 
-module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery, getDirection };
+const updateState = async (req, res) => {
+
+  try {
+    
+    const state = await Order.updateOne({ _id: req.params.id }, { $set: { state: "Su pedido esta en camino", selection: "true" } })
+
+    res.status(200).json(state)
+
+  } catch (error) {
+    res.status(400).json({ message: error})
+  }
+} 
+
+module.exports = { signup,confirmAccount, currentDelivery, updatecurrentDelivery, getDirection, updateState };
