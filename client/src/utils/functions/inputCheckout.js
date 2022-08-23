@@ -12,11 +12,10 @@ export default function inputCheckout(user) {
     error.lastname = "Campo Obligatorio";
   }
 
-  // if (/\S+@\S+\.\S+/.test(user.email.trim())) {
-  //   error.email = "El email no es valido";
-  // } else
-  if (user.email.length < 1) {
-    error.email = "Campo Obligatorio";
+  if (!user.email.includes("@")) {
+    error.email = "Email no valido";
+  } else if (!user.email.includes(".com")) {
+    error.email = "Email no valido";
   }
 
   if (user.password.length < 1) {
@@ -25,7 +24,7 @@ export default function inputCheckout(user) {
 
   if (user.cPassword.trim() !== user.password.trim()) {
     error.cPassword = "Las contraseñas no coinciden";
-  } 
+  }
 
   return error;
 }
