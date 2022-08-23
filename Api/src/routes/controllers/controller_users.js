@@ -74,7 +74,7 @@ const login = async (req, res) => {
   let correctModel;
 
   if (await User.find({ email: req.body.email })) {
-    correctModel = await userSchema.findOne({ email }).populate("order");
+    correctModel = await userSchema.findOne({ email });
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
@@ -94,7 +94,6 @@ const login = async (req, res) => {
         name: correctModel.name,
         lastname: correctModel.lastname,
         isBanned: correctModel.isBanned,
-        order: correctModel.order,
       };
 
       const accessToken = jwt.sign(

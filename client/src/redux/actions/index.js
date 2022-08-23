@@ -6,8 +6,9 @@ import { setHeaders } from "../../api";
 export const ALL_SHOPS = "ALL_SHOPS";
 export const QUERY_SHOPS = "QUERY_SHOPS";
 export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
-
+/////////////////////////////////////////////////
 export const ALL_USERS = "ALL_USERS";
+export const GET_USER_ODERS = "GET_USER_ODERS";
 /////////////////////////////////////////////////
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
@@ -19,7 +20,7 @@ export const ADD_SHOPPINGCART = "ADD_SHOPPINGCART";
 export const DELETE_SHOPPINGCART = "DELETE_SHOPPINGCART";
 export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const ADD_PRODUCT_SHOPPINGCART = "ADD_PRODUCT_SHOPPINGCART";
-export const SUBSTRACT_PRODUCT_SHOPPINGCART = "SUBSTRACT_PRODUCT_SHOPPINGCART" 
+export const SUBSTRACT_PRODUCT_SHOPPINGCART = "SUBSTRACT_PRODUCT_SHOPPINGCART";
 /////////////////////////////////////////////////
 export const QUERY_ERROR = "QUERY_ERROR";
 export const ERROR_CLEANER = "ERROR_CLEANER";
@@ -32,7 +33,7 @@ export const USER_LOADED = "USER_LOADED";
 export const OWNER_DETAIL = "OWNER_DETAIL";
 export const OWNER_SHOPS = "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
-
+////////////////////////////////////////////////
 export const ALL_DELIVERY = "ALL_DELIVERY";
 
 export const ALL_ORDERS = "ALL_ORDERS";
@@ -91,12 +92,15 @@ export const getQueryProducts = (query, id) => (dispatch) => {
 export function addStore(payload) {
   return async function () {
     try {
-      var respuesta = await axios.post(
+      let respuesta = await axios.post(
         `http://localhost:3001/account/owner/local/add_local`,
         payload,
         setHeaders()
       );
-      swal("¡Éxito!", "La tienda ha sido creada correctamente.", "success", {timer:"2000", buttons:false})
+      swal("¡Éxito!", "La tienda ha sido creada correctamente.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -111,25 +115,30 @@ export const addProduct = (payload) => {
       payload,
       setHeaders()
     )
-    .then(exit => swal("¡Éxito!", "El producto se ha añadido correctamente.", "success", {timer:"2000", buttons:false}))
+    .then((exit) =>
+      swal("¡Éxito!", "El producto se ha añadido correctamente.", "success", {
+        timer: "2000",
+        buttons: false,
+      })
+    )
     .catch((error) => console.error(error.message));
 };
 
 export const updateUser = (payload, id) => {
-  return axios.put
-  (
-    `http://localhost:3001/account/user/currentUser/update/${id}`,
-    payload,
-    setHeaders()
-  )
-  .then(exit => swal("¡Éxito!", "El usuario ha sido actualizado correctamente.", "success", {timer:"2000", buttons:false}))
-  .catch((error) => console.error(error.message));
-};
-
-export const deleteShop = (id) => {
   return axios
-    .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
-    .then(exit => swal("¡Éxito!", "El negocio ha sido eliminado correctamente.", "success", {timer:"2000", buttons:false}))
+    .put(
+      `http://localhost:3001/account/user/currentUser/update/${id}`,
+      payload,
+      setHeaders()
+    )
+    .then((exit) =>
+      swal(
+        "¡Éxito!",
+        "El usuario ha sido actualizado correctamente.",
+        "success",
+        { timer: "2000", buttons: false }
+      )
+    )
     .catch((error) => console.error(error.message));
 };
 
@@ -145,22 +154,23 @@ export const getAllUsers = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const deleteUser = (id) => {
-  return axios
-    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
-    .then(() => {
-      swal("¡Éxito!", "El usuario ha sido vetado.", "info", {timer:"2000", buttons:false});
-    })
-    .catch((error) => console.error(error.message));
-};
+export const getUserOrders = (id) => (dispatch) => {
+  return axios.get(`http://localhost:3001/account/delivery/destination/orders/${id}`, setHeaders())
+  .then((orders) => {
+    dispatch(({
+      type:GET_USER_ODERS,
+      payload: orders.data
+    }))
+  }).catch((error) => console.error(error.message));
+}
 
-export const getOwnerDetails = (dispatch) => {
+export const getAllClickers = () => (dispatch) => {
   return axios
-    .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
-    .then((owner) => {
+    .get(`http://localhost:3001/account/admin/delivery`, setHeaders())
+    .then((clickers) => {
       dispatch({
-        type: OWNER_DETAIL,
-        payload: owner.data,
+        type: ALL_DELIVERY,
+        payload: clickers.data,
       });
     })
     .catch((error) => console.error(error.message));
@@ -178,31 +188,22 @@ export const getAllOwners = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const getAllClickers = () => (dispatch) => {
+export const getOwnerDetails = (dispatch) => {
   return axios
-    .get(`http://localhost:3001/account/admin/delivery`, setHeaders())
-    .then((clickers) => {
+    .get(`http://localhost:3001/account/owner/currentOwner`, setHeaders())
+    .then((owner) => {
       dispatch({
-        type: ALL_DELIVERY,
-        payload: clickers.data,
+        type: OWNER_DETAIL,
+        payload: owner.data,
       });
-    })
-    .catch((error) => console.error(error.message));
-};
-
-export const deleteClicker = (id) => {
-  return axios
-    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
-    .then(() => {
-      swal("¡Éxito!", "El Clicker ha sido vetado.", "info", {timer:"2000", buttons:false});
     })
     .catch((error) => console.error(error.message));
 };
 
 export const getOwnerShops = (id) => (dispatch) => {
   return axios
-  .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
-  .then((shops) => {
+    .get(`http://localhost:3001/account/owner/local/${id}`, setHeaders())
+    .then((shops) => {
       dispatch({
         type: OWNER_SHOPS,
         payload: shops.data,
@@ -213,13 +214,53 @@ export const getOwnerShops = (id) => (dispatch) => {
 
 /////////////////////////////////////////////////
 
+export const deleteUser = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Éxito!", "El usuario ha sido vetado.", "info", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
 
 export const deleteOwner = (id) => {
   return axios
     .delete(`http://localhost:3001/account/admin/owner/${id}`, setHeaders())
     .then(() => {
-      swal("¡Éxito!", "El dueño ha sido vetado.", "info", {timer:"2000", buttons:false});
+      swal("¡Éxito!", "El dueño ha sido vetado.", "info", {
+        timer: "2000",
+        buttons: false,
+      });
     })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteClicker = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/delivery/${id}`, setHeaders())
+    .then(() => {
+      swal("¡Éxito!", "El Clicker ha sido vetado.", "info", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteShop = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
+    .then((exit) =>
+      swal(
+        "¡Éxito!",
+        "El negocio ha sido eliminado correctamente.",
+        "success",
+        { timer: "2000", buttons: false }
+      )
+    )
     .catch((error) => console.error(error.message));
 };
 
@@ -295,7 +336,9 @@ export const addShoppingCart = (_id) => (dispatch) => {
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
   return axios
-    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`,{ data: { idP: idP }})
+    .delete(`http://localhost:3001/account/cart/products-cart/${token._id}`, {
+      data: { idP: idP },
+    })
     .then((products) => {
       dispatch({
         type: DELETE_SHOPPINGCART,
@@ -316,28 +359,21 @@ export const clearShoppingCart = () => (dispatch) => {
       });
     })
     .catch((error) => console.error(error));
-}
-
-export const addProductShoppingCart = (p) => (dispatch) =>{
-  
-}
-
-export const substractProductShoppingCart = (p) => (dispatch) =>{
-
-}
+};
 
 ////////////////////////////////////////////////
 
-export const paymentFuncion = (id, amount, user, cart) => {
+export const paymentFuncion = (id, amount, user) => {
   return axios
-    .post("http://localhost:3001/account/pay", { id, amount, user, cart })
+    .post("http://localhost:3001/account/pay", { id, amount, user })
     .then((message) => {
       localStorage.setItem("cart", JSON.stringify([]));
-      swal("¡Éxito!", "¡El pago se ha realizado correctamente!", "success");
+      swal("Perfecto!", message.data.message, "success");
     })
-    .catch((error) =>
-      swal("¡Ha ocurrido un error!", error.message.message, "error")
-    );
+    .catch((error) => {
+      swal("Ha ocurrido un error!", error.message, "error");
+      console.error(error.message);
+    });
 };
 
 ////////////////////////////////////////////////
@@ -349,7 +385,10 @@ export function signUpOwner({ name, lastname, email, password }) {
         "http://localhost:3001/account/owner/signup",
         { name, lastname, email, password }
       );
-      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -364,7 +403,10 @@ export function signUpUser(user) {
         "http://localhost:3001/account/user/signup",
         user
       );
-      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -379,7 +421,10 @@ export function signUpDelivery(user) {
         "http://localhost:3001/account/delivery/signup",
         user
       );
-      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {timer:"2000", buttons:false});
+      swal("¡Éxito!", "Usted se ha registrado correctamente.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
       return respuesta;
     } catch (error) {
       console.error(error);
@@ -392,14 +437,20 @@ export const signIn = (creds) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
+        if(!token.data || token.data === "") throw "Usuario invalido o no Registrado";
         localStorage.setItem("token", token.data);
-        console.log(token);
         dispatch({
           type: SIGN_IN,
           payload: token.data,
         });
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => {
+        swal("¡Error!", error, "error", {
+          timer: "2000",
+          buttons: false,
+        });
+        console.error(error)
+      });
   };
 };
 

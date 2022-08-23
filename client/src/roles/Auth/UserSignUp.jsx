@@ -27,7 +27,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function SignUp() {
-
   const center = { lat: -38.71743771634209, lng: -62.26550655942335 };
 
   const { isLoaded } = useLoadScript({
@@ -79,7 +78,9 @@ export default function SignUp() {
         "Bahía Blanca, Provincia de Buenos Aires, Argentina"
       )
     ) {
-      setDirectionError("no se encontró su dirección en Bahia Blanca, intente nuevamente");
+      setDirectionError(
+        "no se encontró su dirección en Bahia Blanca, intente nuevamente"
+      );
       return;
     }
     try {
@@ -100,18 +101,17 @@ export default function SignUp() {
         setDirectionError(
           "Tu dirección se encuentra fuera de nuestro area de cobertura"
         );
-        return
+        return;
       }
       setUser({
         ...user,
-        direction: destinationRef.current.value
-      })
+        direction: destinationRef.current.value,
+      });
     } catch (error) {
       console.error(error);
       setDirectionError("no se encontró su dirección, intente nuevamente");
     }
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -140,11 +140,6 @@ export default function SignUp() {
       [e.target.name]: e.target.value,
     });
   };
-
-  // const handlePhone = (e) => {
-  //   if (phone.length > 10) return;
-  //   setPhone(e.target.value);
-  // };
 
   const onSelect = (event) => {
     setUser({
@@ -225,8 +220,17 @@ export default function SignUp() {
                   onChange={(e) => handleChange(e)}
                   value={user.email}
                 />
+                {error.email && (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error.email}
+                  </Typography>
+                )}
               </Grid>
-              {/* {error.email && error.email} */}
               {(user.type === "user" || user.type === "owner") && (
                 <Grid item xs={12}>
                   <Autocomplete>
@@ -272,7 +276,6 @@ export default function SignUp() {
                   value={user.password}
                 />
               </Grid>
-              {/* {error.password && error.password} */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -285,8 +288,17 @@ export default function SignUp() {
                   onChange={(e) => handleChange(e)}
                   value={user.cPassword}
                 />
+                {error.cPassword && (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error.cPassword}
+                  </Typography>
+                )}
               </Grid>
-              {error.cPassword && error.cPassword}
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
                   <TextField
@@ -317,7 +329,6 @@ export default function SignUp() {
                 </Grid>
               )}
             </Grid>
-            {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
             <Button
               type="submit"
               fullWidth
@@ -325,21 +336,11 @@ export default function SignUp() {
               sx={{ mt: 2, mb: 2 }}
               disabled={
                 Object.keys(error).length ||
-                !user.email.includes("@") ||
-                !user.email.includes(".com") ||
                 directionError
               }
             >
               Registrarme
             </Button>
-            {/* <Box sx={{ mt: 0.5, mb: 3 }}>
-              <GoogleLogin
-                buttonText="Registrate con Google (Proximamente) "
-                onSuccess={(e) => handleGoogleS(e)}
-                onError={(e) => handleGoogleE(e)}
-                cookiePolicy={"single_host_origin"}
-              />
-            </Box> */}
             <Grid
               container
               justifyContent="flex-end"

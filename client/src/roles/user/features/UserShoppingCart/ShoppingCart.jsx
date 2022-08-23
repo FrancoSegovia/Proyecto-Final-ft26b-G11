@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import {
   deleteShoppingCart,
   getShoppingCart,
-  addProductShoppingCart,
-  substractProductShoppingCart,
   clearShoppingCart,
 } from "../../../../redux/actions";
 
@@ -30,16 +28,6 @@ export default function ShoppingCart() {
     dispatch(getShoppingCart());
   }, []);
 
-  const onSubstract = (product) => {
-    console.log(product)
-    // dispatch(substractProductShoppingCart())
-  };
-  
-  const onAdd = (product) => {
-    console.log(product)
-    // dispatch(addProductShoppingCart())
-  };
-
   const onDelete = (e) => {
     e.preventDefault();
     dispatch(deleteShoppingCart(e.target.value));
@@ -54,7 +42,6 @@ export default function ShoppingCart() {
     e.preventDefault();
     dispatch(clearShoppingCart());
   }
-
 
   const total = () => {
     let total = 0;
@@ -89,25 +76,6 @@ export default function ShoppingCart() {
                 <div>
                   <Typography variant="subtitle1">{p.name}</Typography>
                   <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
-                  <Button
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={() => onAdd(p)}
-                      style={{borderRadius:"25px"}}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      disableElevation
-                      onClick={() => onSubstract(p)}
-                      style={{borderRadius:"25px"}}
-                    >
-                      -
-                    </Button>
-                    
                     <Button
                       value={p._id}
                       variant="contained"

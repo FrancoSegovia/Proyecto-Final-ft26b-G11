@@ -15,6 +15,7 @@ const addProductCart = async (req, res) => {
       { $push: { cart: { product: _id } } },
       { multi: true }
     );
+    
     const userResponse = await User.aggregate([
       {
         $lookup: {

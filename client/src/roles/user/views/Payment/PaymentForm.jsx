@@ -20,23 +20,23 @@ export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
 
+  let [buttonText, setButtonText] = useState("Realizar Pago")
   let [complete, setComplete] = useState(false);
   let [error, setError] = useState("");
   let [waiting, setWaiting] = useState(false);
 
   const handleChange = (e) => {
-    console.error(e.error);
     setComplete(e.complete);
     if (e.error === undefined) {
       setError("");
     } else {
       setError(e.error.message);
-      console.error(error);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setButtonText("Procesando el Pago")
     setWaiting(true);
 
     stripe
@@ -51,8 +51,8 @@ export default function PaymentForm() {
             id,
             JSON.parse(localStorage.getItem("total")) * 100,
             jwtDecode(localStorage.getItem("token"))._id,
-            JSON.parse(localStorage.getItem("cart"))
           ).then(() => {
+            setButtonText("Realizar Pago")
             dispatch(clearShoppingCart());
             navigate("/user/home");
             setWaiting(false);
@@ -79,7 +79,7 @@ export default function PaymentForm() {
               sx={{ mt: 3, mb: 2 }}
               disabled={!complete || error.length || waiting}
             >
-              Realizar Pago
+              {buttonText}
             </Button>
           </Box>
         </Grid>

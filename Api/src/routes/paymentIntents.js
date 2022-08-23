@@ -10,8 +10,8 @@ const stripe = require("stripe")(
 router.post("/", async (req, res) => {
   try {
     const { id, amount, user } = req.body;
-
-    const payment = await stripe.paymentIntents.create({
+    
+    await stripe.paymentIntents.create({
       amount,
       currency: "ARS",
       payment_method: id,
@@ -31,9 +31,9 @@ router.post("/", async (req, res) => {
 
     await findUser.save();
 
-    res.status(200).send({ message: "payment succesfull" });
+    res.status(200).send({ message: "El pago se ha realizado con Exito!" });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: "Ha ocurrido un Error en el pago" });
   }
 });
 
