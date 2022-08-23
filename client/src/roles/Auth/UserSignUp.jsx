@@ -66,7 +66,7 @@ export default function SignUp() {
     setError(inputCheckout(user));
   }, [user]);
 
-  if (!isLoaded) return <Typography>Loading...</Typography>;
+  if (!isLoaded) return <Typography>Cargando...</Typography>;
 
   const deliveryTravelMode = google.maps.TravelMode.DRIVING;
 

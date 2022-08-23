@@ -38,28 +38,31 @@ export default function OrdersSlider({ orders }) {
       //   lastname:"",
       //   direction:""
       // })
+  }
 
+  const onCheckClick = () => {
+    
   }
 
 
   
 
   return (
-    <Container style={{display:"flex"}}>
+    <Container style={{display:"flex", overflow:"hidden"}}>
 
       {cardInfo?.direction.length 
       ? 
-        <Card style={{color:"#1976d2",backgroundColor:"whitesmoke", minWidth:"30vw", minHeight:"20vh", display:"flex", flexDirection:"column", justifyContent:"center"}}>
+        <Card style={{ color:"#1976d2",backgroundColor:"whitesmoke", minWidth:"30vw", minHeight:"30vh", display:"flex", flexDirection:"column", justifyContent:"center"}}>
           <CardContent style={{padding:"0px 45px"}}>
           <Typography variant="h3">{cardInfo.direction}</Typography>
             <Box style={{display:"flex", gap:"10px"}}>
               <Typography variant="h4">{cardInfo.name}</Typography>
               <Typography variant="h4">{cardInfo.lastname}</Typography>
             </Box>
-            <Button variant="contained" style={{marginTop:"50px"}}>PEDIDO ENTREGADO</Button>
+            <Button variant="contained" style={{marginTop:"50px"}} onClick={{}}>PEDIDO ENTREGADO</Button>
           </CardContent> 
         </Card>
-      : <Typography variant="h3"> Aún no tienes ningún encargo asignado.</Typography>
+      : <Box style={{display:"flex", alignItems:"center", color:"#1976d2"}}><Typography variant="h5" align="center"> Aún no tienes ningún <br/> encargo asignado.</Typography></Box>
     }
 
       
