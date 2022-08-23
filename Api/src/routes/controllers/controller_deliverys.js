@@ -95,6 +95,12 @@ const updateState = async (req, res) => {
       { _id: req.body.id },
       { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.params.id } }
     );
+    const ocupation = await deliverySchema.updateOne(
+      {_id: req.params.id},
+      { $set: {ocupation: "true"}}
+    )
+    await ocupation.save()
+    
     res.status(200).json(state);
   } catch (error) {
     res.status(404).json({ message: error });

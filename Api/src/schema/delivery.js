@@ -47,6 +47,10 @@ const schema = Schema(
       type: Number,
       required: true,
     },
+    ocupation: {
+      type: Boolean,
+      default: false,
+    }
   },
   { collection: "deliverys" }
 );
