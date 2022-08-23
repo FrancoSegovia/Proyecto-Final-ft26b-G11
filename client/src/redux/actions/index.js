@@ -439,3 +439,11 @@ export const updateState = (id) => (dispatch) => {
   })
   .catch((error) => console.error(error.message));
 };
+
+export const deleteOrder = (id) => (dispatch) => {
+  return axios.delete(`http://localhost:3001/account/delivery/received/${id}` ,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
+};

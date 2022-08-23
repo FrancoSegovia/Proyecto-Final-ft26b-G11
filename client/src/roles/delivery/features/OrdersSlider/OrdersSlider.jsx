@@ -15,15 +15,18 @@ import { Avatar, Box, Button, Card, CardContent, Container, Icon, Typography } f
 import { ShoppingBag } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllOrders, updateState } from "../../../../redux/actions";
+import { deleteOrder, getAllOrders, updateState } from "../../../../redux/actions";
+import jwtDecode from "jwt-decode";
 
 export default function OrdersSlider({ orders }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  // const status = jwtDecode(localStorage.getItem("token")).status
 
   const [cardInfo, setCardInfo] = useState({
     name:"",
     lastname:"",
-    direction:""
+    direction:"",
+    id:""
   })
 
   const onAcceptedClick = ({ direction, name, lastname, id }) => {
@@ -31,7 +34,8 @@ export default function OrdersSlider({ orders }) {
     setCardInfo({
       name,
       lastname,
-      direction
+      direction,
+      id
     })
       // setCardInfo({
       //   name:"",
@@ -40,15 +44,16 @@ export default function OrdersSlider({ orders }) {
       // })
   }
 
-  const onCheckClick = () => {
-    
+
+  const onCheckClick = (id) => {
+    dispatch(deleteOrder(id));
   }
 
 
   
 
   return (
-    <Container style={{display:"flex", overflow:"hidden"}}>
+    <Container style={{display:"flex", overflow:"hidden", minHeight:"30vh"}}>
 
       {cardInfo?.direction.length 
       ? 
@@ -59,7 +64,7 @@ export default function OrdersSlider({ orders }) {
               <Typography variant="h4">{cardInfo.name}</Typography>
               <Typography variant="h4">{cardInfo.lastname}</Typography>
             </Box>
-            <Button variant="contained" style={{marginTop:"50px"}} onClick={{}}>PEDIDO ENTREGADO</Button>
+            <Button variant="contained" style={{marginTop:"50px"}} onClick={onCheckClick(cardInfo.id)}>PEDIDO ENTREGADO</Button>
           </CardContent> 
         </Card>
       : <Box style={{display:"flex", alignItems:"center", color:"#1976d2"}}><Typography variant="h5" align="center"> Aún no tienes ningún <br/> encargo asignado.</Typography></Box>
