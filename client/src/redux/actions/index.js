@@ -158,7 +158,7 @@ export const getUserOrders = (id) => (dispatch) => {
   return axios.get(`http://localhost:3001/account/delivery/destination/orders/${id}`, setHeaders())
   .then((orders) => {
     dispatch(({
-      type:GET_USER_ODERS,
+      type:GET_USER_ORDERS,
       payload: orders.data
     }))
   }).catch((error) => console.error(error.message));
