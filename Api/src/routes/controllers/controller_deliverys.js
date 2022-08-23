@@ -79,9 +79,7 @@ const updatecurrentDelivery = (req, res) => {
 
 const getDirection = async (req, res) => {
   try {
-    const destination = await Order.find({ selection: "false" }).populate(
-      "order"
-    );
+    const destination = await Order.find({ selection: "false", "delivery.ocupation": false }).populate("order").populate("delivery")
 
     res.status(200).json(destination);
   } catch (error) {
