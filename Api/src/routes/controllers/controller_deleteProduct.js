@@ -3,12 +3,7 @@ const Product = require("../../schema/Product");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-function getModelByName(name) {
-  return mongoose.model(name);
-}
-
 const deleteProduct = async (req, res) => {
-
   try {
     const { idP } = req.body;
     const { id } = req.params;
@@ -42,7 +37,7 @@ const deleteProduct = async (req, res) => {
 
     res.status(200).json(userResponse);
   } catch (error) {
-    console.error(error);
+    res.status(404).json(error);
   }
 };
 
@@ -79,24 +74,11 @@ const deleteCart = async (req, res) => {
 
     res.status(200).json(userResponse);
   } catch (error) {
-    console.error(error);
+    res.status(404).json(error);
   }
 };
-
-// const updateCart = async (req, res) => {
-//   const { idP } = req.body;
-//   const { id } = req.params;
-
-//   const user = await User.update(
-//     { _id: id },
-//     { cart: { product: idP, amount: +5 } },
-//     { multi: true }
-//   );
-//   res.json(user);
-// };
 
 module.exports = {
   deleteProduct,
   deleteCart,
-  // updateCart
 };
