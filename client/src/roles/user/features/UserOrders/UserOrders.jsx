@@ -24,7 +24,7 @@ export default function UserOrders() {
 
   return (
     <>
-      <Stack>
+      <Stack style={{marginTop:"3vw"}}>
         <Typography
           id="transition-modal-title"
           style={{ textAlign: "center" }}
@@ -32,19 +32,17 @@ export default function UserOrders() {
         >
           Pedidos
         </Typography>
-        <br></br>
+
         {!orders.length
           ? "No Tiene Pedidos Pendientes"
           : 
           <div>
-           <Typography variant="body2" gutterBottom>
-                    Usted tiene {orders.length} Pedidos pendientes
+           <Typography variant="subtitle1" gutterBottom style={{padding:"20px 0px"}}>
+                    Usted tiene <span style={{fontWeight:"bold"}}>{orders.length}</span> Pedidos pendientes
             </Typography>
             {orders.map((p) => {
               return (
-                <div>
-                   <Typography variant="subtitle1">{p.state}</Typography>
-                </div>
+                   <Typography variant="subtitle1">{p.state} <hr/></Typography>
               );
             })}
           </div>

@@ -90,17 +90,18 @@ const getDirection = async (req, res) => {
 };
 
 const updateState = async (req, res) => {
+  
   try {
     const state = await Order.updateOne(
       { _id: req.body.id },
-      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.params.id } }
+      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.body.id } }
     );
     const ocupation = await deliverySchema.updateOne(
-      {_id: req.params.id},
+      {_id: req.body.id},
       { $set: {ocupation: "true"}}
     )
 
-    const findDelivery = await deliverySchema.findOne({ _id: req.params.id });
+    const findDelivery = await deliverySchema.findOne({ _id: req.body.id });
 
     findDelivery.order = findDelivery.order.concat(req.body.id);
     
@@ -114,7 +115,7 @@ const updateState = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const removeOrder = await Order.remove({ _id: req.params.id });
+    const removeOrder = await Order.remove({ _id: req.body.id });
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
     res.status(404).json({ message: error });
