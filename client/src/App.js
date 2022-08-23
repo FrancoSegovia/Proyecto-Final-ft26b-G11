@@ -1,13 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 //////////////////////////////////////////////////////////////////////////
-import ProtectedRoutes from "./routing/ProtectedRoutes";
-import ProtectedLanding from "./routing/ProtectedLanding";
-import ProtectedUser from "./routing/ProtectedUser";
-import ProtectedPayment from "./routing/ProtectedPayment";
-import ProtectedAdmin from "./routing/ProtectedAdmin";
-import ProtectedOwner from "./routing/ProtectedOwner";
-import ProtectedDelivery from "./routing/ProtectedDelivery";
+import ProtectedRoutes from "./Routing/ProtectedRoutes";
+import ProtectedLanding from "./Routing/ProtectedLanding";
+import ProtectedUser from "./Routing/ProtectedUser";
+import ProtectedPayment from "./Routing/ProtectedPayment";
+import ProtectedAdmin from "./Routing/ProtectedAdmin";
+import ProtectedOwner from "./Routing/ProtectedOwner";
+import ProtectedDelivery from "./Routing/ProtectedDelivery";
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 import LandingPage from "./roles/landing/views/LandingPage/LandingPage";
