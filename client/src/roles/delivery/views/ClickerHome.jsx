@@ -40,7 +40,6 @@ export default function Home() {
   });
   const dispatch = useDispatch();
   const deliveryInfo = jwtDecode(localStorage.getItem("token"))
-  const orders = useSelector(state => state.orders);
   
   const [map, setMap] = useState(/**@type google.maps.Map */ (null));
   const [directionsResponse, setDirectionsResponse] = useState(null);
@@ -56,9 +55,7 @@ export default function Home() {
   }, []);
 
 
-  useEffect(() => {
-    dispatch(getAllOrders());
-  }, [orders]);
+  
 
   // eslint-disable-next-line no-undef
   if (!isLoaded) return <Typography>Cargando...</Typography>;
@@ -115,7 +112,7 @@ export default function Home() {
         
 
 
-            <OrdersSlider orders={orders}/>
+            <OrdersSlider />
 
 
           <Box style={{display:"flex", justifyContent:"center"}}>

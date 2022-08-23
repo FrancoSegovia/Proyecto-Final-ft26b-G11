@@ -114,7 +114,7 @@ const updateState = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const removeOrder = await Order.remove({ _id: req.params.id });
+    const removeOrder = await Order.remove({ _id: req.body.id });
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
     res.status(404).json({ message: error });

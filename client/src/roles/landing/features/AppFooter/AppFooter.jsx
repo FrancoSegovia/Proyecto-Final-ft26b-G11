@@ -1,7 +1,10 @@
 import React from "react";
 
 import Typography from "../Typography/Typography.jsx";
-import { Box, Container, Grid, Link } from "@mui/material";
+import { Box, Container, Grid, Link, ListItem, ListItemText } from "@mui/material";
+
+import LinkList from "./LinkList.jsx";
+import { useState } from "react";
 
 const linksStyle = {
   color: "#b3e5fc",
@@ -11,7 +14,14 @@ const linksStyle = {
 };
 
 export default function AppFooter() {
+
+  // const [isClicked, setIsClicked] = useState();
+
+  // const onLinkClick = () => isClicked === true ? setIsClicked(false) : setIsClicked(true)
+
   return (
+
+
     <Typography component="footer" sx={{ display: "flex", bgcolor: "#1976d2" }}>
       <Container sx={{ my: 8, display: "flex" }}>
         <Grid container spacing={2} justifyContent="center">
@@ -40,8 +50,11 @@ export default function AppFooter() {
             >
               Información adicional
             </Typography>
+            {/* {isClicked === true ? <LinkList/> : null} */}
             <Typography variant="h6" gutterBottom noWrap>
+              
               <Link
+                // onClick={onLinkClick}
                 to="#"
                 style={linksStyle}
                 sx={{ "&:hover": { color: "black" } }}
