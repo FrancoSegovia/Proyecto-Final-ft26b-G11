@@ -8,6 +8,7 @@ export const QUERY_SHOPS = "QUERY_SHOPS";
 export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 /////////////////////////////////////////////////
 export const ALL_USERS = "ALL_USERS";
+export const GET_USER_ODERS = "GET_USER_ODERS";
 /////////////////////////////////////////////////
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
@@ -139,20 +140,6 @@ export const updateUser = (payload, id) => {
     .catch((error) => console.error(error.message));
 };
 
-export const deleteShop = (id) => {
-  return axios
-    .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
-    .then((exit) =>
-      swal(
-        "¡Éxito!",
-        "El negocio ha sido eliminado correctamente.",
-        "success",
-        { timer: "2000", buttons: false }
-      )
-    )
-    .catch((error) => console.error(error.message));
-};
-
 export const getAllUsers = () => (dispatch) => {
   return axios
     .get("http://localhost:3001/account/admin/users", setHeaders())
@@ -164,6 +151,16 @@ export const getAllUsers = () => (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
+export const getUserOrders = (id) => (dispatch) => {
+  return axios.get(`http://localhost:3001/account/delivery/destination/orders/${id}`, setHeaders())
+  .then((orders) => {
+    dispatch(({
+      type:GET_USER_ODERS,
+      payload: orders.data
+    }))
+  }).catch((error) => console.error(error.message));
+}
 
 export const getAllClickers = () => (dispatch) => {
   return axios
@@ -248,6 +245,20 @@ export const deleteClicker = (id) => {
         buttons: false,
       });
     })
+    .catch((error) => console.error(error.message));
+};
+
+export const deleteShop = (id) => {
+  return axios
+    .delete(`http://localhost:3001/account/admin/local/${id}`, setHeaders())
+    .then((exit) =>
+      swal(
+        "¡Éxito!",
+        "El negocio ha sido eliminado correctamente.",
+        "success",
+        { timer: "2000", buttons: false }
+      )
+    )
     .catch((error) => console.error(error.message));
 };
 

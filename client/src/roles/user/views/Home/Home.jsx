@@ -8,6 +8,7 @@ import Navbar from "../../features/UserNavbar/UserNavbar.jsx";
 import UserShopOrder from "../../features/UserShopOrder/UserShopOrder.jsx";
 import UserShopFilter from "../../features/UserShopFilter/UserShopFilter.jsx";
 import ShoppingCart from "../../features/UserShoppingCart/ShoppingCart";
+import UserOrders from "../../features/UserOrders/UserOrders"
 
 import { Grid } from "@mui/material";
 
@@ -68,16 +69,15 @@ export default function Home() {
               })
             )}
           </Grid>
-
               {localS === "user" 
               ? 
               <Grid item xs={2} style={{ textAlign: "center" }}>
                 <ShoppingCart />
+                <UserOrders/>
               </Grid> 
               :
               null
             }
-          
         </Grid>
       </div>
     </>
