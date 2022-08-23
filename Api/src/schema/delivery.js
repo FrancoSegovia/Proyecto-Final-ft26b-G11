@@ -48,8 +48,8 @@ const schema = Schema(
       required: true,
     },
     ocupation: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: false
     }
   },
   { collection: "deliverys" }
