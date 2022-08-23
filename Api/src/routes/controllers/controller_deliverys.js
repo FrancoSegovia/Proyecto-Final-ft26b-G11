@@ -93,7 +93,7 @@ const updateState = async (req, res) => {
   try {
     const state = await Order.updateOne(
       { _id: req.body.id },
-      { $set: { state: "Su pedido esta en camino", selection: "true" } }
+      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.params.id } }
     );
     res.status(200).json(state);
   } catch (error) {

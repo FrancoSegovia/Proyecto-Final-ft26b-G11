@@ -13,6 +13,10 @@ const schema = Schema(
     selection: {
       type: String,
       default: false
+    },
+    delivery: {
+      type: Schema.Types.ObjectId,
+      ref: "Delivery",
     }
   }],
   { collection: "orders" }
