@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/*global google*/
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
@@ -25,6 +27,19 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function SignUp() {
+
+  const center = { lat: -38.71743771634209, lng: -62.26550655942335 };
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
+
+  const destinationRef = useRef(null);
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [distance, setDistance] = useState("");
+  const [directionError, setDirectionError] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -50,6 +65,53 @@ export default function SignUp() {
   useEffect(() => {
     setError(inputCheckout(user));
   }, [user]);
+
+  if (!isLoaded) return <Typography>Loading...</Typography>;
+
+  const deliveryTravelMode = google.maps.TravelMode.DRIVING;
+
+  const calculateRoute = async () => {
+    if (destinationRef.current.value === "") {
+      return;
+    }
+    if (
+      !destinationRef.current.value.includes(
+        "Bahía Blanca, Provincia de Buenos Aires, Argentina"
+      )
+    ) {
+      setDirectionError("no se encontró su dirección en Bahia Blanca, intente nuevamente");
+      return;
+    }
+    try {
+      setDirectionError("");
+      // eslint-disable-next-line no-undef
+      const directionsService = new google.maps.DirectionsService();
+      const results = await directionsService.route({
+        origin: center,
+        destination: destinationRef.current.value,
+        // eslint-disable-next-line no-undef
+        travelMode: deliveryTravelMode,
+      });
+      setDirectionsResponse(results);
+      setDistance(results.routes[0].legs[0].distance.text); //text o value segun corresponda
+      console.log(distance);
+      let km = distance.split(" ");
+      if (parseInt(km[0]) > 11) {
+        setDirectionError(
+          "Tu dirección se encuentra fuera de nuestro area de cobertura"
+        );
+        return
+      }
+      setUser({
+        ...user,
+        direction: destinationRef.current.value
+      })
+    } catch (error) {
+      console.error(error);
+      setDirectionError("no se encontró su dirección, intente nuevamente");
+    }
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,6 +140,11 @@ export default function SignUp() {
       [e.target.name]: e.target.value,
     });
   };
+
+  // const handlePhone = (e) => {
+  //   if (phone.length > 10) return;
+  //   setPhone(e.target.value);
+  // };
 
   const onSelect = (event) => {
     setUser({
@@ -158,32 +225,26 @@ export default function SignUp() {
                   onChange={(e) => handleChange(e)}
                   value={user.email}
                 />
-                {error.email && (
-                  <Typography
-                    variant="overline"
-                    display="block"
-                    gutterBottom
-                    sx={{ color: "#FF0000" }}
-                  >
-                    {error.email}
-                  </Typography>
-                )}
               </Grid>
-
+              {/* {error.email && error.email} */}
               {(user.type === "user" || user.type === "owner") && (
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="direction"
-                    label="Dirección"
-                    id="direction"
-                    autoComplete="new-direction"
-                    onChange={(e) => handleChange(e)}
-                    value={user.direction}
-                  />
+                  <Autocomplete>
+                    <TextField
+                      required
+                      fullWidth
+                      name="direction"
+                      label="Dirección"
+                      id="direction"
+                      autoComplete="new-direction"
+                      inputRef={destinationRef}
+                      onBlur={calculateRoute}
+                    />
+                  </Autocomplete>
+                  {directionError && <p>{directionError}</p>}
                 </Grid>
               )}
+
               {user.type === "owner" && (
                 <Grid item xs={12}>
                   <PhoneInput
@@ -224,17 +285,8 @@ export default function SignUp() {
                   onChange={(e) => handleChange(e)}
                   value={user.cPassword}
                 />
-                {error.cPassword && (
-                  <Typography
-                    variant="overline"
-                    display="block"
-                    gutterBottom
-                    sx={{ color: "#FF0000" }}
-                  >
-                    {error.cPassword}
-                  </Typography>
-                )}
               </Grid>
+              {error.cPassword && error.cPassword}
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
                   <TextField
@@ -272,11 +324,22 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
               disabled={
-                Object.keys(error).length
+                Object.keys(error).length ||
+                !user.email.includes("@") ||
+                !user.email.includes(".com") ||
+                directionError
               }
             >
               Registrarme
             </Button>
+            {/* <Box sx={{ mt: 0.5, mb: 3 }}>
+              <GoogleLogin
+                buttonText="Registrate con Google (Proximamente) "
+                onSuccess={(e) => handleGoogleS(e)}
+                onError={(e) => handleGoogleE(e)}
+                cookiePolicy={"single_host_origin"}
+              />
+            </Box> */}
             <Grid
               container
               justifyContent="flex-end"
