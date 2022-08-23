@@ -47,6 +47,14 @@ const schema = Schema(
       type: Number,
       required: true,
     },
+    ocupation: {
+      type: String,
+      default: "false"
+    },
+    order: [{
+      type: Schema.Types.ObjectId,
+      ref: "Order"
+    }]
   },
   { collection: "deliverys" }
 );

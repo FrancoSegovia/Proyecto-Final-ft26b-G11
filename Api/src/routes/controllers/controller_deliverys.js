@@ -79,9 +79,9 @@ const updatecurrentDelivery = (req, res) => {
 
 const getDirection = async (req, res) => {
   try {
-    const destination = await Order.find({ selection: "false" }).populate(
-      "order"
-    );
+    const destination = await Order.find({ selection: "false"}).populate("order").populate("delivery")
+
+  
 
     res.status(200).json(destination);
   } catch (error) {
@@ -93,8 +93,19 @@ const updateState = async (req, res) => {
   try {
     const state = await Order.updateOne(
       { _id: req.body.id },
-      { $set: { state: "Su pedido esta en camino", selection: "true" } }
+      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.params.id } }
     );
+    const ocupation = await deliverySchema.updateOne(
+      {_id: req.params.id},
+      { $set: {ocupation: "true"}}
+    )
+
+    const findDelivery = await deliverySchema.findOne({ _id: req.params.id });
+
+    findDelivery.order = findDelivery.order.concat(req.body.id);
+    
+    await findDelivery.save();
+    
     res.status(200).json(state);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -110,6 +121,21 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+const getUserOrders = async (req, res) => {
+
+  try {
+
+    const userOrder = await Order.find({order: req.params.id})
+
+    res.status(200).json(userOrder)
+
+  } catch (error) {
+    res.status(400).json({ message: error})
+  }
+
+
+} 
+
 module.exports = {
   signup,
   confirmAccount,
@@ -118,4 +144,5 @@ module.exports = {
   getDirection,
   updateState,
   deleteOrder,
+  getUserOrders
 };
