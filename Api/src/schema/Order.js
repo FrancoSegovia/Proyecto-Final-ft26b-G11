@@ -14,10 +14,10 @@ const schema = Schema(
       type: String,
       default: false
     },
-    delivery: {
+    delivery: [{
       type: Schema.Types.ObjectId,
       ref: "Delivery",
-    }
+    }]
   }],
   { collection: "orders" }
 );
