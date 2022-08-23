@@ -79,7 +79,9 @@ const updatecurrentDelivery = (req, res) => {
 
 const getDirection = async (req, res) => {
   try {
-    const destination = await Order.find({ selection: "false", "delivery.ocupation": false }).populate("order").populate("delivery")
+    const destination = await Order.find({ selection: "false",  "delivery.ocupation": "false", $or: [{delivery: {$exists: false }} ]}).populate("order").populate("delivery")
+
+    console.log(destination)
 
     res.status(200).json(destination);
   } catch (error) {
