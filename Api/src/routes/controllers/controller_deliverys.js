@@ -132,6 +132,15 @@ const getUserOrders = async (req, res) => {
   }
 } 
 
+const getDeliveryOrders = async (req, res) => {
+try {
+  const deliveryOrder = await deliverySchema.findOne({_id: req.params.id})
+  res.status(200).json(deliveryOrder)
+} catch (error) {
+  res.status(400).json({ message: error})
+}
+}
+
 module.exports = {
   signup,
   confirmAccount,
@@ -140,5 +149,6 @@ module.exports = {
   getDirection,
   updateState,
   deleteOrder,
-  getUserOrders
+  getUserOrders,
+  getDeliveryOrders
 };

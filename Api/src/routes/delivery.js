@@ -13,7 +13,7 @@ router.get("/destination", isAuthenticated, deliveryController.getDirection); //
 router.put("/destination/state", isAuthenticated, deliveryController.updateState) //* MODIFICADO ESTADO Y LE PERMITE AL DELIVERY SELECCIONARLO
 router.delete("/destination/received", isAuthenticated, deliveryController.deleteOrder) //* BORRA LA ORDEN UNA VEZ ENTREGADA
 router.get("/destination/orders/:id", isAuthenticated, deliveryController.getUserOrders); //* TTRAE ORDENES POR USUARIO
-
+router.get("/destination/orders/:id", isAuthenticated, deliveryController.getDeliveryOrders); //* TTRAE ORDENES POR USUARIO
 
 
 module.exports = router;
