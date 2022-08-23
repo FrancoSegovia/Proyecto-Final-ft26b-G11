@@ -8,7 +8,7 @@ export const QUERY_SHOPS = "QUERY_SHOPS";
 export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 /////////////////////////////////////////////////
 export const ALL_USERS = "ALL_USERS";
-export const GET_USER_ODERS = "GET_USER_ODERS";
+export const GET_USER_ORDERS = "GET_USER_ORDERS";
 /////////////////////////////////////////////////
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
@@ -437,7 +437,7 @@ export const signIn = (creds) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
-        if(!token.data || token.data === "") throw "Usuario invalido o no Registrado";
+        if(!token.data || token.data === "") throw new Error("Usuario invalido o no Registrado")
         localStorage.setItem("token", token.data);
         dispatch({
           type: SIGN_IN,
