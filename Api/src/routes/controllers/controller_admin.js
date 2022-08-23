@@ -2,20 +2,20 @@ const mongoose = require("mongoose");
 const localSchema = require("../../schema/Local");
 const userSchema = require("../../schema/User");
 const deliverySchema = require("../../schema/Delivery");
-const ownerSchema = require("../../schema/Owner")
+const ownerSchema = require("../../schema/Owner");
 
 const getOwner = (req, res) => {
   const { name } = req.query;
   if (name) {
     ownerSchema
       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   } else {
     ownerSchema
       .find()
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   }
 };
 
@@ -24,13 +24,13 @@ const getDelivery = (req, res) => {
   if (name) {
     deliverySchema
       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   } else {
     deliverySchema
       .find()
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   }
 };
 
@@ -39,8 +39,8 @@ const deleteLocal = (req, res) => {
 
   localSchema
     .remove({ _id: id })
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
 const deleteUser = (req, res) => {
@@ -49,7 +49,10 @@ const deleteUser = (req, res) => {
   userSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
     data.save().then(() => {
-      res.json({ data });
+      res
+        .status(200)
+        .json({ data })
+        .catch((error) => res.status(404).json({ message: error }));
     });
   });
 };
@@ -57,13 +60,14 @@ const deleteUser = (req, res) => {
 const deleteOwner = (req, res) => {
   const { id } = req.params;
 
-  
   ownerSchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
-    
+
     data.save().then(() => {
-      
-      res.json({ data });
+      res
+        .status(200)
+        .json({ data })
+        .catch((error) => res.status(404).json({ message: error }));
     });
   });
 };
@@ -74,7 +78,10 @@ const deleteDelivery = (req, res) => {
   deliverySchema.findOne({ _id: id }).then((data) => {
     data.isBanned = true;
     data.save().then(() => {
-      res.json({ data });
+      res
+        .status(200)
+        .json({ data })
+        .catch((error) => res.status(404).json({ message: error }));
     });
   });
 };

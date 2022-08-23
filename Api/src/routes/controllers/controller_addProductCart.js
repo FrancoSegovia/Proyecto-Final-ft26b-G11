@@ -1,12 +1,7 @@
-// const Cart = require("../../schema/Cart");
 const Product = require("../../schema/Product");
 const User = require("../../schema/User");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-
-function getModelByName(name) {
-  return mongoose.model(name);
-}
 
 const addProductCart = async (req, res) => {
   try {
@@ -44,7 +39,7 @@ const addProductCart = async (req, res) => {
 
     res.status(200).json(userResponse);
   } catch (error) {
-    console.error(error);
+    res.status(404).json(error);
   }
 };
 
@@ -76,7 +71,7 @@ const getCart = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    console.error(error);
+    res.status(404).json(error);
   }
 };
 

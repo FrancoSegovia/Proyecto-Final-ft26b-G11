@@ -10,7 +10,7 @@ function getModelByName(name) {
 const signup = (req, res) => {
   if (!req.body)
     return res
-      .status(200)
+      .status(204)
       .send({ success: false, error: "delivery info not found" });
   const Delivery = getModelByName("Delivery");
   try {
@@ -21,10 +21,10 @@ const signup = (req, res) => {
           .send({ success: true, message: "delivery created succesfully" });
       })
       .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
+        res.status(404).send({ success: false, error: error.message })
       );
   } catch (error) {
-    res.status(500).send({ success: false, error: error.message });
+    res.status(404).send({ success: false, error: error.message });
   }
 };
 
@@ -41,10 +41,10 @@ const confirmAccount = (req, res) => {
           .send({ success: true, message: "delivery confirmed succesfully" });
       })
       .catch((err) =>
-        res.status(200).send({ success: false, error: err.message })
+        res.status(404).send({ success: false, error: err.message })
       );
   } catch (err) {
-    res.status(200).send({ success: false, error: err.message });
+    res.status(404).send({ success: false, error: err.message });
   }
 };
 
@@ -53,14 +53,14 @@ const confirmAccount = (req, res) => {
 const currentDelivery = (req, res) => {
   const { id } = req.params;
   if (!id)
-    return res.status(200).send({ success: false, data: { delivery: null } });
+    return res.status(204).send({ success: false, data: { delivery: null } });
   deliverySchema
     .findById(id)
     .then((delivery) => {
       res.status(200).send(delivery);
     })
     .catch((error) =>
-      res.status(200).send({ success: false, error: error.message })
+      res.status(404).send({ success: false, error: error.message })
     );
 };
 
@@ -73,8 +73,10 @@ const updatecurrentDelivery = (req, res) => {
       { _id: id },
       { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
     )
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
+
 };
 
 const getDirection = async (req, res) => {
@@ -85,16 +87,19 @@ const getDirection = async (req, res) => {
 
     res.status(200).json(destination);
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(404).json({ message: error });
   }
 };
 
 const updateState = async (req, res) => {
   try {
-    const state = await Order.updateOne({ _id: req.body.id },{ $set: { state: "Su pedido esta en camino", selection: "true" } });
+    const state = await Order.updateOne(
+      { _id: req.body.id },
+      { $set: { state: "Su pedido esta en camino", selection: "true" } }
+    );
     res.status(200).json(state);
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(404).json({ message: error });
   }
 };
 
@@ -103,7 +108,7 @@ const deleteOrder = async (req, res) => {
     const removeOrder = await Order.remove({ _id: req.params.id });
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(404).json({ message: error });
   }
 };
 

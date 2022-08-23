@@ -15,8 +15,8 @@ const schema = Schema(
     type: {
       type: String,
       required: false,
-      default: "admin"
-    }
+      default: "admin",
+    },
   },
   { collection: "admins" }
 );
