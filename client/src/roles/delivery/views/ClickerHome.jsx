@@ -9,8 +9,9 @@ import {
 } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllShops } from "../../../redux/actions/index.js";
+import { getAllOrders, getAllShops } from "../../../redux/actions/index.js";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -28,17 +29,19 @@ import Navbar from "../../delivery/features/ClickerNavbar/ClickerNavbar";
 
 import { Grid } from "@mui/material";
 import NearMeIcon from "@mui/icons-material/NearMe";
+import jwtDecode from "jwt-decode";
 
 export default function Home() {
 
   const center = { lat: -38.717621879595484, lng: -62.265517288258536 };
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyBkqwYBKKegQLjYtO3ALhbwqsUjhEK3pUI",
     libraries: ["places"],
   });
   const dispatch = useDispatch();
-  const shops = useSelector((state) => state.shops);
-  const error = useSelector((state) => state.error);
+  const deliveryInfo = jwtDecode(localStorage.getItem("token"))
+  const orders = useSelector(state => state.orders);
+  
   const [map, setMap] = useState(/**@type google.maps.Map */ (null));
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
@@ -52,8 +55,13 @@ export default function Home() {
     dispatch(getAllShops());
   }, []);
 
+
+  useEffect(() => {
+    dispatch(getAllOrders());
+  }, [orders]);
+
   // eslint-disable-next-line no-undef
-  if (!isLoaded) return <Typography>Loading...</Typography>;
+  if (!isLoaded) return <Typography>Cargando...</Typography>;
 
   //!switch modo de transporte
   // switch (delivery.vehicle.toUpperCase()) {
@@ -88,59 +96,39 @@ export default function Home() {
 
   };
 
+
   return (
-    <>
+    <div style={{overflow:"hidden"}}>
       <Navbar />
-      <div
+      <Box
         style={{
           marginTop: "75px",
           backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
-          padding: "20px",
+          padding: "3vh",
+          minHeight:"85vh",
+          paddingTop:"50px",
+          overflow:"hidden"
         }}
       >
-        <Grid
+        
+
+
+            <OrdersSlider orders={orders}/>
+
+
+          <Box style={{display:"flex", justifyContent:"center"}}>
+            <Card
           container
           justifyContent="center"
           direction="row"
           rowSpacing={1}
-          style={{ marginBottom: "20px", padding: "35px 0px" }}
-        >
-          <Grid item xs={4} style={{ textAlign: "center" }}>
-            <Typography
-              variant="h3"
-              align="left"
-              component="h3"
-              color="textPrimary"
-            >
-              Monedero
-            </Typography>
-            <Typography
-              variant="h4"
-              align="left"
-              component="h4"
-              color="textSecondary"
-            >
-              $100
-            </Typography>
-          </Grid>
-
-          <Grid item xs={3.5} style={{ textAlign: "center" }}>
-            <OrdersSlider />
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          justifyContent="center"
-          direction="row"
-          rowSpacing={1}
-          style={{ padding: "35px 0px"}}
+          style={{ padding: "0px 0px", border:"0", boxShadow:"0", position:"absolute", top:"55vh"}}
         >
           <Button onClick={() => calculateRoute()}>Calcular ruta</Button>
-          <FormLabel>distancia: {distance}</FormLabel>
-          <FormLabel>duracion: {duration}</FormLabel>
+          {distance ? <FormLabel>distancia: {distance}</FormLabel> : null}
+          {duration ? <FormLabel>duracion: {duration}</FormLabel> : null}
           <IconButton
             children={<NearMeIcon />}
             onClick={() => map.panTo(center)}
@@ -148,7 +136,7 @@ export default function Home() {
           <GoogleMap
             zoom={15}
             center={center}
-            mapContainerStyle={{ width: "50vw", height: "60vh" }}
+            mapContainerStyle={{ width: "80vw", height: "40vh" }}
             options={{
               zoomControl: false,
               streetViewControl: false,
@@ -162,8 +150,12 @@ export default function Home() {
             )}
             <MarkerF position={center} />
           </GoogleMap>
-        </Grid>
-      </div>
-    </>
+        </Card>
+        </Box>
+            
+
+      </Box>
+    </div>
+
   );
 }

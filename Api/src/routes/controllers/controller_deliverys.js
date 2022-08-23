@@ -73,8 +73,10 @@ const updatecurrentDelivery = (req, res) => {
       { _id: id },
       { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
     )
+
     .then((data) => res.status(200).json(data))
     .catch((error) => res.status(404).json({ message: error }));
+
 };
 
 const getDirection = async (req, res) => {

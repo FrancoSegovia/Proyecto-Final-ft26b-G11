@@ -8,7 +8,7 @@ export const QUERY_SHOPS = "QUERY_SHOPS";
 export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
 /////////////////////////////////////////////////
 export const ALL_USERS = "ALL_USERS";
-export const GET_USER_ODERS = "GET_USER_ODERS";
+export const GET_USER_ORDERS = "GET_USER_ORDERS";
 /////////////////////////////////////////////////
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
@@ -35,6 +35,8 @@ export const OWNER_SHOPS = "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
 ////////////////////////////////////////////////
 export const ALL_DELIVERY = "ALL_DELIVERY";
+
+export const ALL_ORDERS = "ALL_ORDERS";
 
 export const getAllShops = () => (dispatch) => {
   return axios
@@ -435,7 +437,7 @@ export const signIn = (creds) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
-        if(!token.data || token.data === "") throw "Usuario invalido o no Registrado";
+        if(!token.data || token.data === "") throw new Error("Usuario invalido o no Registrado")
         localStorage.setItem("token", token.data);
         dispatch({
           type: SIGN_IN,
@@ -467,4 +469,32 @@ export const errorCleaner = () => {
     type: ERROR_CLEANER,
     payload: false,
   };
+};
+
+export const getAllOrders = () => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/delivery/destination`, setHeaders())
+    .then((orders) => {
+      dispatch({
+        type: ALL_ORDERS,
+        payload: orders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const updateState = (id) => (dispatch) => {
+  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {id} ,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
+};
+
+export const deleteOrder = (id) => (dispatch) => {
+  return axios.delete(`http://localhost:3001/account/delivery/received/${id}` ,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
 };

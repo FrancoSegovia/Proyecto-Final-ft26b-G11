@@ -25,7 +25,10 @@ import {
   ALL_OWNERS,
   ALL_DELIVERY,
   CLEAR_SHOPPINGCART,
-  GET_USER_ODERS,
+  ALL_ORDERS,
+
+  GET_USER_ORDERS,
+
 } from "../actions";
 import swal from "sweetalert";
 
@@ -57,6 +60,8 @@ const initialState = {
   modalProducts: [],
   owner: {},
   ownerShops: [],
+
+  orders:[]
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -87,6 +92,13 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         users: payload,
+      };
+    }
+
+    case ALL_ORDERS: {
+      return {
+        ...state,
+        orders: payload,
       };
     }
 
@@ -170,7 +182,7 @@ const reducer = (state = initialState, { type, payload }) => {
         deliverys: payload,
       };
 
-      case GET_USER_ODERS:
+      case GET_USER_ORDERS:
         return {
           ...state,
           orders: [...payload]
