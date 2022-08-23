@@ -81,8 +81,6 @@ const getDirection = async (req, res) => {
   try {
     const destination = await Order.find({ selection: "false"}).populate("order").populate("delivery")
 
-  
-
     res.status(200).json(destination);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -122,18 +120,13 @@ const deleteOrder = async (req, res) => {
 };
 
 const getUserOrders = async (req, res) => {
-
   try {
-
     const userOrder = await Order.find({order: req.params.id})
 
     res.status(200).json(userOrder)
-
   } catch (error) {
     res.status(400).json({ message: error})
   }
-
-
 } 
 
 module.exports = {
