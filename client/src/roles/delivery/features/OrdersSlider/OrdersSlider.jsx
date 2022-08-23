@@ -45,7 +45,7 @@ export default function OrdersSlider() {
       direction,
       id
     })
-    if (cardInfo.name.length) setHaveOrder(true);
+    setHaveOrder(true);
       // setCardInfo({
       //   name:"",
       //   lastname:"",
@@ -57,6 +57,12 @@ export default function OrdersSlider() {
   const onCheckClick = (id) => {
     dispatch(deleteOrder(id));
     setHaveOrder(false)
+    setCardInfo({
+      name:"",
+      lastname:"",
+      direction:"",
+      id:""
+    })
   }
 
 
@@ -67,14 +73,14 @@ export default function OrdersSlider() {
 
       {cardInfo?.direction.length 
       ? 
-        <Card style={{ color:"#1976d2",backgroundColor:"whitesmoke", minWidth:"30vw", minHeight:"30vh", display:"flex", flexDirection:"column", justifyContent:"center"}}>
+        <Card style={{ color:"#1976d2",backgroundColor:"whitesmoke", minWidth:"30vw", maxWidth:"30vw", minHeight:"30vh", display:"flex", flexDirection:"column", justifyContent:"center"}}>
           <CardContent style={{padding:"0px 45px"}}>
-          <Typography variant="h3">{cardInfo.direction}</Typography>
-            <Box style={{display:"flex", gap:"10px"}}>
+          <Typography variant="h4" align="center">{cardInfo.direction}</Typography>
+            <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
               <Typography variant="h4">{cardInfo.name}</Typography>
               <Typography variant="h4">{cardInfo.lastname}</Typography>
             </Box>
-            <Button variant="contained" style={{marginTop:"50px"}} onClick={onCheckClick(cardInfo.id)}>PEDIDO ENTREGADO</Button>
+            <Button variant="contained" style={{marginTop:"50px"}} onClick={() => onCheckClick(cardInfo.id)}>PEDIDO ENTREGADO</Button>
           </CardContent> 
         </Card>
       : <Box style={{display:"flex", alignItems:"center", color:"#1976d2"}}><Typography variant="h5" align="center"> Aún no tienes ningún <br/> encargo asignado.</Typography></Box>
@@ -105,7 +111,7 @@ export default function OrdersSlider() {
               {orders?.map(order => {
                 return ( order?.selection !== true ?
                       <SwiperSlide>
-                          <Card sx={{display:"flex", flexDirection:"column", backgroundColor:"whitesmoke", minHeight:"250px", justifyContent:"center", color:"#1976d2", padding:"20px", borderRadius:"10px"}}>
+                          <Card sx={{display:"flex", flexDirection:"column", backgroundColor:"whitesmoke", minHeight:"250px", maxWidth:"300px", justifyContent:"center", color:"#1976d2", padding:"20px", borderRadius:"10px"}}>
                               <Typography variant="h5">¡Nuevo pedido disponible!</Typography>
                               <Box style={{display:"flex", justifyContent:"center", padding:"15px"}}><Avatar style={{backgroundColor:"#1976d2"}}><ShoppingBag/></Avatar></Box>
                               <Typography variant="h6" sx={{marginBottom:"10px"}}>{order?.order?.direction}</Typography>

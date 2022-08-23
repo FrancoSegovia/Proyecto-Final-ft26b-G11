@@ -492,7 +492,7 @@ export const updateState = (id) => (dispatch) => {
 };
 
 export const deleteOrder = (id) => (dispatch) => {
-  return axios.delete(`http://localhost:3001/account/delivery/received`, {id} ,setHeaders())
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {id} ,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
   })

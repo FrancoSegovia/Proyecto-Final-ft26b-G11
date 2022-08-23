@@ -40,6 +40,7 @@ export default function Home() {
           <Grid item xs={2} style={{ textAlign: "center"}}>
             <UserShopOrder />
             <UserShopFilter />
+            <UserOrders/>
           </Grid>
 
           <Grid
@@ -73,7 +74,7 @@ export default function Home() {
               ? 
               <Grid item xs={2} style={{ textAlign: "center" }}>
                 <ShoppingCart />
-                <UserOrders/>
+                
               </Grid> 
               :
               null
