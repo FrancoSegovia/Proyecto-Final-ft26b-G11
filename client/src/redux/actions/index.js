@@ -431,3 +431,11 @@ export const getAllOrders = () => (dispatch) => {
     })
     .catch((error) => console.error(error.message));
 };
+
+export const updateState = (id) => (dispatch) => {
+  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {id} ,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
+};

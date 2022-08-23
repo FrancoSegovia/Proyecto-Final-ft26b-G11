@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrders, getAllShops } from "../../../redux/actions/index.js";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -23,6 +24,7 @@ export default function Home() {
   const error = useSelector((state) => state.error);
   const orders = useSelector(state => state.orders);
 
+
   useEffect(() => {
     dispatch(getAllShops());
   }, []);
@@ -32,35 +34,23 @@ export default function Home() {
   }, [orders]);
 
   return (
-    <>
+    <div style={{overflow:"hidden"}}>
       <Navbar />
-      <div
+      <Box
         style={{
           marginTop: "75px",
           backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
           padding: "20px",
+          minHeight:"85vh",
+          paddingTop:"50px"
         }}
       >
-        <Grid
-          container
-          justifyContent="center"
-          direction="row"
-          rowSpacing={1}
-          style={{ marginBottom: "20px", padding: "35px 0px" }}
-        >
 
-          <Grid
-            item
-            xs={5}
-            style={{ textAlign: "center" }}
-          >
             <OrdersSlider orders={orders}/>
-          </Grid>
-        </Grid>
 
-      </div>
-    </>
+      </Box>
+    </div>
   );
 }
