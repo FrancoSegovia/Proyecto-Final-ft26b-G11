@@ -14,6 +14,10 @@ router.get("/user-cart/:id", controllers.getCart)
 
 router.put("/products-cart/:id", controllers.addProductCart)
 
+// RUTA PUT PARA AUMENTAR O DISMINUIR LA CANTIDAD DEL MISMO PRODUCTO 
+
+router.put("/products-amount/:id", controllers.cartAmount)
+
 // RUTA DELETE PARA ELIMINAR UN PRODUCTO DEL CARRITO (ELIMINA TODOS LOS PRODUCTOS CON EL MISMO ID)
 
 router.delete("/products-cart/:id", controllers.deleteProduct) 
