@@ -99,7 +99,6 @@ const updateState = async (req, res) => {
       {_id: req.params.id},
       { $set: {ocupation: "true"}}
     )
-    await ocupation.save()
     
     res.status(200).json(state);
   } catch (error) {
