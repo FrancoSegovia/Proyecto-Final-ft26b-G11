@@ -235,7 +235,7 @@ export default function SignUp() {
                   </Typography>
                 )}
               </Grid>
-              {(user.type === "user" || user.type === "owner") && (
+              {(user.type === "user") && (
                 <Grid item xs={12}>
                   <Autocomplete>
                     <TextField
