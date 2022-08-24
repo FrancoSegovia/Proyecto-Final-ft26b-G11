@@ -9,9 +9,12 @@ const cors = require("cors")
 const app = express();
 const port = process.env.PORT || 3001;
 
+
+
 //middleware
 app.use(cors())
 app.use(express.json());
+app.get("/", (req, res) => res.send("Hola mundo"))
 // app.use(isAuthenticated); //! ACA PODRIA APLICAR EL MIDDLEWARE PARA VALIDAR POR TOKEN TODAS LAS RUTAS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
