@@ -8,11 +8,11 @@ const schema = Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     price: {
       type: Number,
@@ -21,7 +21,7 @@ const schema = Schema(
     type: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     local: {

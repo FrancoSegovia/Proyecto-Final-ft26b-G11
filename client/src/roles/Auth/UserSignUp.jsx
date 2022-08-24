@@ -301,15 +301,15 @@ export default function SignUp() {
               </Grid>
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="phone"
-                    label="Teléfono"
-                    id="phone"
-                    autoComplete="new-phone"
-                    onChange={(e) => handleChange(e)}
-                    value={user.phone}
+                <PhoneInput
+                    align="center"
+                    specialLabel=""
+                    country="ar"
+                    onlyCountries={["ar"]}
+                    disableCountryCode={true}
+                    value={phone}
+                    placeholder="Teléfono"
+                    disableDropdown={true}
                   />
                 </Grid>
               )}

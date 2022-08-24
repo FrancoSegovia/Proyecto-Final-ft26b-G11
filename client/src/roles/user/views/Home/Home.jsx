@@ -40,7 +40,7 @@ export default function Home() {
           <Grid item xs={2} style={{ textAlign: "center"}}>
             <UserShopOrder />
             <UserShopFilter />
-            <UserOrders/>
+            {localS === "user" ? <UserOrders/> : null}
           </Grid>
 
           <Grid

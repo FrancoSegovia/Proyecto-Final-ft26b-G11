@@ -111,6 +111,7 @@ export function addStore(payload) {
 }
 
 export const addProduct = (payload) => {
+  console.log(payload)
   return axios
     .post(
       `http://localhost:3001/account/owner/local/add_product`,
@@ -222,8 +223,9 @@ export const getOwnerShops = (id) => (dispatch) => {
 /////////////////////////////////////////////////
 
 export const deleteUser = (id) => {
+
   return axios
-    .delete(`http://localhost:3001/account/admin/user/${id}`, setHeaders())
+    .delete(`http://localhost:3001/account/admin/users/${id}`, setHeaders())
     .then(() => {
       swal("¡Éxito!", "El usuario ha sido vetado.", "info", {
         timer: "2000",
