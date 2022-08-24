@@ -37,6 +37,7 @@ export const ALL_OWNERS = "ALL_OWNERS";
 ////////////////////////////////////////////////
 export const ALL_DELIVERY = "ALL_DELIVERY";
 export const ALL_DELIVERY_ORDERS = "ALL_DELIVERY_ORDERS"
+export const GET_PROFILE = "GET_PROFILE"
 
 export const ALL_ORDERS = "ALL_ORDERS";
 
@@ -538,6 +539,18 @@ export const getDeliveryOrders = (id) => (dispatch) => {
       dispatch({
         type: ALL_DELIVERY_ORDERS,
         payload: deliveryOrders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
+
+export const getProfiles = (username) => (dispatch) => {
+  return axios
+    .get(`https://api.github.com/users/${username}`)
+    .then((profiles) => {
+      dispatch({
+        type: GET_PROFILE,
+        payload: profiles.data
       });
     })
     .catch((error) => console.error(error.message));

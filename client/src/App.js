@@ -34,12 +34,15 @@ import Profile from "./roles/user/views/Profile/Profile";
 import OwnerHome from "./roles/owner/views/OwnerHome";
 import OwnerSettings from "./roles/owner/views/OwnerSettings";
 
+import GitProfile from "./roles/landing/views/GitProfile/GitProfile"
+
 export default function App() {
   return (
     <div>
       <Routes>
         <Route element={<ProtectedLanding />}>
           <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/profiles" element={<GitProfile />} />
           <Route exact path="/SignUp" element={<UserSignUp />} />
           <Route exact path="/SignIn" element={<UserSignIn />} />
         </Route>

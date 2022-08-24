@@ -27,11 +27,13 @@ import {
 } from "../../../../redux/actions";
 import jwtDecode from "jwt-decode";
 
-export default function OrdersSlider() {
+
+export default function OrdersSlider({clearRoute}) {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders);
   const deliveryOrders = useSelector((state) => state.deliveryOrders);
   const [click, setClick] = useState("")
+
 
   const onAcceptedClick = (idO) => {
     setClick("accept")
@@ -41,12 +43,14 @@ export default function OrdersSlider() {
   const onCheckClick = (idO, idU) => {
     setClick("check")
     dispatch(deleteOrder(idO, idU));
+    clearRoute();
   };
 
   useEffect(() => {
     dispatch(getAllOrders());
-    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id));
+    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id))
   }, [click]);
+
 
   return (
     <Container
