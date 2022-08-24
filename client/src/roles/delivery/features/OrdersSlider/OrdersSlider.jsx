@@ -1,16 +1,13 @@
-import React, { useRef, useState } from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-// Import Swiper styles
+import { Autoplay, Pagination, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 import "./styles.css";
 
-// import required modules
-import { Autoplay, Pagination, Navigation } from "swiper";
 import {
   Avatar,
   Box,
@@ -22,8 +19,6 @@ import {
   Typography,
 } from "@mui/material";
 import { ShoppingBag } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   deleteOrder,
   getAllOrders,
@@ -36,21 +31,23 @@ export default function OrdersSlider() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders);
   const deliveryOrders = useSelector((state) => state.deliveryOrders);
+  const [click, setClick] = useState("")
 
   const onAcceptedClick = (idO) => {
+    setClick("accept")
     dispatch(updateState(idO));
   };
 
-  const onCheckClick = (idO) => {
-    dispatch(deleteOrder(idO));
+  const onCheckClick = (idO, idU) => {
+    setClick("check")
+    dispatch(deleteOrder(idO, idU));
   };
 
   useEffect(() => {
     dispatch(getAllOrders());
-    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id));
-  });
+    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id))
+  }, [click]);
 
-  // const status = jwtDecode(localStorage.getItem("token")).status
 
   return (
     <Container
@@ -86,7 +83,7 @@ export default function OrdersSlider() {
             <Button
               variant="contained"
               style={{ marginTop: "50px" }}
-              onClick={() => onCheckClick(deliveryOrders.order[0]?.order._id)}
+              onClick={() => onCheckClick(deliveryOrders.order[0]._id, deliveryOrders.order[0].order._id)}
             >
               PEDIDO ENTREGADO
             </Button>

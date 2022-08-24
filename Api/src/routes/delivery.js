@@ -15,6 +15,4 @@ router.delete("/destination/received/:idD", isAuthenticated, deliveryController.
 router.get("/destination/orders/:id", isAuthenticated, deliveryController.getUserOrders); //* TTRAE ORDENES POR USUARIO
 router.get("/destination/:id", isAuthenticated, deliveryController.getDeliveryOrders); //* TRAE DATOS DEL DELIVERY
 
-
-
 module.exports = router;

@@ -46,44 +46,56 @@ const deleteLocal = (req, res) => {
 const deleteUser = (req, res) => {
   const { id } = req.params;
 
-  userSchema.findOne({ _id: id }).then((data) => {
-    data.isBanned = true;
-    data.save().then(() => {
-      res
-        .status(200)
-        .json({ data })
+  try {
+    userSchema.findOne({ _id: id }).then((data) => {
+      data.isBanned = true;
+      data
+        .save()
+        .then(() => {
+          res.status(200).json({ data });
+        })
         .catch((error) => res.status(404).json({ message: error }));
     });
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const deleteOwner = (req, res) => {
   const { id } = req.params;
 
-  ownerSchema.findOne({ _id: id }).then((data) => {
-    data.isBanned = true;
+  try {
+    ownerSchema.findOne({ _id: id }).then((data) => {
+      data.isBanned = true;
 
-    data.save().then(() => {
-      res
-        .status(200)
-        .json({ data })
+      data
+        .save()
+        .then(() => {
+          res.status(200).json({ data });
+        })
         .catch((error) => res.status(404).json({ message: error }));
     });
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const deleteDelivery = (req, res) => {
   const { id } = req.params;
 
-  deliverySchema.findOne({ _id: id }).then((data) => {
-    data.isBanned = true;
-    data.save().then(() => {
-      res
-        .status(200)
-        .json({ data })
+  try {
+    deliverySchema.findOne({ _id: id }).then((data) => {
+      data.isBanned = true;
+      data
+        .save()
+        .then(() => {
+          res.status(200).json({ data });
+        })
         .catch((error) => res.status(404).json({ message: error }));
     });
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 module.exports = {

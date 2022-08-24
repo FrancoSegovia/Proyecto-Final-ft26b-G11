@@ -3,11 +3,14 @@ const deliverySchema = require("../../schema/Delivery");
 const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const Order = require("../../schema/Order");
+const ObjectId = mongoose.Types.ObjectId;
+const User = require("../../schema/User");
 //!-------------------------------------
 
 function getModelByName(name) {
   return mongoose.model(name);
 }
+
 const signup = (req, res) => {
   if (!req.body)
     return res
@@ -77,12 +80,13 @@ const updatecurrentDelivery = (req, res) => {
 
     .then((data) => res.status(200).json(data))
     .catch((error) => res.status(404).json({ message: error }));
-
 };
 
 const getDirection = async (req, res) => {
   try {
-    const destination = await Order.find({ selection: "false"}).populate("order").populate("delivery")
+    const destination = await Order.find({ selection: "false" })
+      .populate("order")
+      .populate("delivery");
 
     res.status(200).json(destination);
   } catch (error) {
@@ -91,25 +95,29 @@ const getDirection = async (req, res) => {
 };
 
 const updateState = async (req, res) => {
-  console.log(req.body.idD)
-  console.log(req.body.idO)
   try {
     const state = await Order.updateOne(
       { _id: req.body.idO },
-      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.body.idD } }
+      {
+        $set: {
+          state: "Su pedido esta en camino",
+          selection: "true",
+          delivery: req.body.idD,
+        },
+      }
     );
+
     const ocupation = await deliverySchema.updateOne(
-      {_id: req.body.idD},
-      { $set: {ocupation: "true"}}
-    )
+      { _id: req.body.idD },
+      { $set: { ocupation: "true" } }
+    );
 
     const findDelivery = await deliverySchema.findOne({ _id: req.body.idD });
 
     findDelivery.order = findDelivery.order.concat(req.body.idO);
-    
+
     await findDelivery.save();
-    
-    console.log(findDelivery)
+
     res.status(200).json(state);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -117,19 +125,14 @@ const updateState = async (req, res) => {
 };
 
 const deleteOrder = async (req, res) => {
-    console.log("EN EL DELETE")
-
   try {
-
-    const removeOrder = await Order.remove({ _id: req.query.idO });
+    await Order.remove({ _id: req.query.idO });
 
     const findDelivery = await deliverySchema.findOne({ _id: req.params.idD });
-    findDelivery.order = []
-   
-    await findDelivery.save();
-    console.log(findDelivery.order);
+    findDelivery.order = [];
 
-    console.log("EN EL FINAL DEL DELETE")
+    await findDelivery.save();
+
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
     res.status(404).json({ message: error });
@@ -138,22 +141,25 @@ const deleteOrder = async (req, res) => {
 
 const getUserOrders = async (req, res) => {
   try {
-    const userOrder = await Order.find({order: req.params.id})
+    const userOrder = await Order.find({ order: req.params.id });
 
-    res.status(200).json(userOrder)
+    res.status(200).json(userOrder);
   } catch (error) {
-    res.status(400).json({ message: error})
+    res.status(400).json({ message: error });
   }
-}
+};
 
 const getDeliveryOrders = async (req, res) => {
   try {
-    const deliveryOrder = await deliverySchema.findOne({_id: req.params.id}).populate("order").populate({ path: 'order', populate: 'order'})
-    res.status(200).json(deliveryOrder)
+    const deliveryOrder = await deliverySchema
+      .findOne({ _id: req.params.id })
+      .populate("order")
+      .populate({ path: "order", populate: "order" });
+    res.status(200).json(deliveryOrder);
   } catch (error) {
-    res.status(400).json({ message: error})
+    res.status(400).json({ message: error });
   }
-}
+};
 
 module.exports = {
   signup,
@@ -164,5 +170,5 @@ module.exports = {
   updateState,
   deleteOrder,
   getUserOrders,
-  getDeliveryOrders
+  getDeliveryOrders,
 };
