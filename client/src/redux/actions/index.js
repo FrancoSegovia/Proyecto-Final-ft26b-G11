@@ -156,14 +156,19 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const getUserOrders = (id) => (dispatch) => {
-  return axios.get(`http://localhost:3001/account/delivery/destination/orders/${id}`, setHeaders())
-  .then((orders) => {
-    dispatch(({
-      type:GET_USER_ORDERS,
-      payload: orders.data
-    }))
-  }).catch((error) => console.error(error.message));
-}
+  return axios
+    .get(
+      `http://localhost:3001/account/delivery/destination/orders/${id}`,
+      setHeaders()
+    )
+    .then((orders) => {
+      dispatch({
+        type: GET_USER_ORDERS,
+        payload: orders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
 
 export const getAllClickers = () => (dispatch) => {
   return axios
@@ -311,7 +316,7 @@ export const getShoppingCart = () => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
     .then((products) => {
-      console.log(products.data)
+      console.log(products.data);
       dispatch({
         type: GET_SHOPPINGCART,
         payload: products.data,
@@ -327,7 +332,7 @@ export const addShoppingCart = (_id) => (dispatch) => {
       _id,
     })
     .then((products) => {
-      console.log(products.data)
+      console.log(products.data);
       dispatch({
         type: ADD_SHOPPINGCART,
         payload: products.data,
@@ -340,7 +345,8 @@ export const amountShoppingCart = (_id, amount) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
   return axios
     .put(`http://localhost:3001/account/cart/products-amount/${token._id}`, {
-      _id, amount
+      _id,
+      amount,
     })
     .then((products) => {
       dispatch({
@@ -349,7 +355,7 @@ export const amountShoppingCart = (_id, amount) => (dispatch) => {
       });
     })
     .catch((error) => console.error(error));
-}
+};
 
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
@@ -455,7 +461,8 @@ export const signIn = (creds) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
-        if(!token.data || token.data === "") throw "Usuario invalido o no Registrado"
+        if (!token.data || token.data === "")
+          throw "Usuario invalido o no Registrado";
         localStorage.setItem("token", token.data);
         dispatch({
           type: SIGN_IN,
@@ -463,12 +470,11 @@ export const signIn = (creds) => {
         });
       })
       .catch((error) => {
-        console.log(error)
         swal("¡Error!", error, "error", {
           timer: "2000",
           buttons: false,
         });
-        console.error(error)
+        console.error(error);
       });
   };
 };
@@ -503,17 +509,33 @@ export const getAllOrders = () => (dispatch) => {
 };
 
 export const updateState = (id) => (dispatch) => {
-  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {id} ,setHeaders())
-  .then(exit => {
-    swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
-  })
-  .catch((error) => console.error(error.message));
+  return axios
+    .put(
+      `http://localhost:3001/account/delivery/destination/state`,
+      { id },
+      setHeaders()
+    )
+    .then((exit) => {
+      swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteOrder = (id) => (dispatch) => {
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {id} ,setHeaders())
-  .then(exit => {
-    swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
-  })
-  .catch((error) => console.error(error.message));
+  return axios
+    .delete(
+      `http://localhost:3001/account/delivery/destination/received`,
+      { id },
+      setHeaders()
+    )
+    .then((exit) => {
+      swal("¡Éxito!", "El encargo ha sido completado.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };

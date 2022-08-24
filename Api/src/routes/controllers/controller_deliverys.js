@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const deliverySchema = require("../../schema/Delivery");
 const bcrypt = require("bcrypt");
 const Order = require("../../schema/Order");
+const User = require("../../schema/User");
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -115,7 +116,12 @@ const updateState = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const removeOrder = await Order.remove({ _id: req.body.id });
+    // await User.updateOne(
+    //   { _id: req.body.idU },
+    //   { $set: { order: "Su ya fue entregado", delivery: req.body.id } }
+    // );
+
+    await Order.remove({ _id: req.body.id });
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
     res.status(404).json({ message: error });
