@@ -123,10 +123,11 @@ const deleteOrder = async (req, res) => {
 
     const removeOrder = await Order.remove({ _id: req.body.idO });
 
-    const findUser = await userSchema.findOne({ _id: req.body.idU });
-    findUser.order = findUser.order.filter(o => o._id !== req.body.idO);
-    console.log(findUser.order);
-    await findUser.save();
+    const findDelivery = await deliverySchema.findOne({ _id: req.body.idD });
+    findDelivery.order = []
+   
+    await findDelivery.save();
+    console.log(findDelivery.order);
 
     console.log("EN EL FINAL DEL DELETE")
     res.status(200).json({ message: "Pedido entregado" });

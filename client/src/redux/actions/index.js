@@ -495,8 +495,9 @@ export const updateState = (idO) => () => {
 
 export const deleteOrder = (idO, idU) => () => {
   console.log(idO)
+  const idD = jwtDecode(localStorage.getItem("token"))._id
   console.log(idU)
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {idO, idU} ,setHeaders())
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {idO, idD} ,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
   })
