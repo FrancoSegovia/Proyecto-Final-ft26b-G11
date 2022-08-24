@@ -41,17 +41,15 @@ export default function OrdersSlider() {
     dispatch(updateState(idO));
   };
 
-  const onCheckClick = (idO) => {
-    dispatch(deleteOrder(idO));
+  const onCheckClick = (idO, idU) => {
+    dispatch(deleteOrder(idO, idU));
   };
 
   useEffect(() => {
     dispatch(getAllOrders());
     dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id));
   }, []);
-
-  console.log(deliveryOrders + "++++++++++");
-
+  // console.log(deliveryOrders.order[0]._id)
   // const status = jwtDecode(localStorage.getItem("token")).status
 
   return (
@@ -88,7 +86,7 @@ export default function OrdersSlider() {
             <Button
               variant="contained"
               style={{ marginTop: "50px" }}
-              onClick={() => onCheckClick(deliveryOrders.order[0]?.order._id)}
+              onClick={() => onCheckClick(deliveryOrders.order[0]._id, deliveryOrders.order[0].order._id)}
             >
               PEDIDO ENTREGADO
             </Button>

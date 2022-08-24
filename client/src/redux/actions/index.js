@@ -519,9 +519,10 @@ export const updateState = (idO) => () => {
   .catch((error) => console.error(error.message));
 };
 
-export const deleteOrder = (idO) => () => {
+export const deleteOrder = (idO, idU) => () => {
+  console.log(idU)
   const idD = jwtDecode(localStorage.getItem("token"))._id
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}`,setHeaders())
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}&idU=${idU}`,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
   })
@@ -529,11 +530,9 @@ export const deleteOrder = (idO) => () => {
 };
 
 export const getDeliveryOrders = (id) => (dispatch) => {
-  console.log(id)
   return axios
     .get(`http://localhost:3001/account/delivery/destination/${id}`, setHeaders())
     .then((deliveryOrders) => {
-      console.log(deliveryOrders.data)
       dispatch({
         type: ALL_DELIVERY_ORDERS,
         payload: deliveryOrders.data,
