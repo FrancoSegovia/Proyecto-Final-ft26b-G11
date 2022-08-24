@@ -1,6 +1,7 @@
 const Product = require("../../schema/Product");
 const User = require("../../schema/User");
 const mongoose = require("mongoose");
+const { use } = require("../cart");
 const ObjectId = mongoose.Types.ObjectId;
 
 const addProductCart = async (req, res) => {
@@ -48,7 +49,10 @@ const getCart = async (req, res) => {
   try {
     const { id } = req.params; // user
 
-    const user = await User.aggregate([
+
+    const {cart} = await User.findById(id).lean()
+    
+    const userProduct = await User.aggregate([
       {
         $lookup: {
           from: "products",
@@ -70,13 +74,51 @@ const getCart = async (req, res) => {
       },
     ]);
 
-    res.status(200).json(user);
+    const formattedProducts = userProduct[0].products.map((p) => {
+
+    const cartItem = cart.find(({product}) => product.toString() === p._id.toString())
+
+
+ 
+    return {...p, amount: cartItem?.amount}
+    
+
+    })
+
+    res.status(200).json(formattedProducts);
   } catch (error) {
     res.status(404).json(error);
+ 
   }
 };
+
+const cartAmount = async (req, res) => {
+
+  const { _id, amount } = req.body
+  try {
+
+   const user = await User.findOneAndUpdate(
+      {_id: req.params.id},
+      {$set: {"cart.$[el].amount": amount } },
+      { 
+        arrayFilters: [{ "el.product": _id }],
+        new: true
+      }
+    )
+   console.log(user) 
+    res.json(user)
+   
+
+  } catch (error) {
+    
+    console.log(error)
+  }
+
+
+}
 
 module.exports = {
   addProductCart,
   getCart,
+  cartAmount
 };
