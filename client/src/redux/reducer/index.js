@@ -28,6 +28,7 @@ import {
   ALL_ORDERS,
 
   GET_USER_ORDERS,
+  AMOUNT_SHOPPINGCART,
 
 } from "../actions";
 import swal from "sweetalert";
@@ -203,6 +204,13 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         cart: [...payload],
       };
+
+      case AMOUNT_SHOPPINGCART:
+        localStorage.setItem("cart", JSON.stringify([...payload]));
+        return{
+          ...state,
+          cart: [...payload]
+        }
 
     case DELETE_SHOPPINGCART:
       localStorage.setItem("cart", JSON.stringify([...payload]));

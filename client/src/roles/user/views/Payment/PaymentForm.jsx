@@ -71,7 +71,16 @@ export default function PaymentForm() {
         <Grid item xs={12} md={6}>
           <Box component="form" onSubmit={handleSubmit}>
             <CardElement onChange={handleChange} />
-            <Typography variant="body2">{error}</Typography>
+            {error ? (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error}
+                  </Typography>
+                ): <br></br>}
             <Button
               type="submit"
               fullWidth
