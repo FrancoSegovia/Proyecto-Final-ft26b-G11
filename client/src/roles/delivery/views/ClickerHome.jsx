@@ -56,7 +56,7 @@ export default function Home() {
   }, []);
 
   // eslint-disable-next-line no-undef
-  if (!isLoaded) return <Typography>Cargando...</Typography>;
+  if (!isLoaded) return 
 
   //!switch modo de transporte
   // switch (delivery.vehicle.toUpperCase()) {

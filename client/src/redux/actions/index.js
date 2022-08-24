@@ -442,6 +442,7 @@ export function signUpUser(user) {
 }
 
 export function signUpDelivery(user) {
+  console.log(user)
   return async function () {
     try {
       let respuesta = await axios.post(
