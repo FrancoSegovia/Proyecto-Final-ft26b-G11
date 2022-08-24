@@ -121,9 +121,9 @@ const deleteOrder = async (req, res) => {
 
   try {
 
-    const removeOrder = await Order.remove({ _id: req.body.idO });
+    const removeOrder = await Order.remove({ _id: req.query.idO });
 
-    const findDelivery = await deliverySchema.findOne({ _id: req.body.idD });
+    const findDelivery = await deliverySchema.findOne({ _id: req.params.idD });
     findDelivery.order = []
    
     await findDelivery.save();
@@ -148,7 +148,7 @@ const getUserOrders = async (req, res) => {
 
 const getDeliveryOrders = async (req, res) => {
   try {
-    const deliveryOrder = await deliverySchema.findOne({_id: req.params.id}).populate("order")
+    const deliveryOrder = await deliverySchema.findOne({_id: req.params.id}).populate("order").populate({ path: 'order', populate: 'order'})
     res.status(200).json(deliveryOrder)
   } catch (error) {
     res.status(400).json({ message: error})

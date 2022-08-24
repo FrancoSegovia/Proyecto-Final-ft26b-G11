@@ -485,6 +485,7 @@ export const getAllOrders = () => (dispatch) => {
 };
 
 export const updateState = (idO) => () => {
+  console.log(idO)
   const idD = jwtDecode(localStorage.getItem("token"))._id
   return axios.put(`http://localhost:3001/account/delivery/destination/state`, {idO, idD} ,setHeaders())
   .then(exit => {
@@ -493,24 +494,24 @@ export const updateState = (idO) => () => {
   .catch((error) => console.error(error.message));
 };
 
-export const deleteOrder = (idO, idU) => () => {
-  console.log(idO)
+export const deleteOrder = (idO) => () => {
   const idD = jwtDecode(localStorage.getItem("token"))._id
-  console.log(idU)
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {idO, idD} ,setHeaders())
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}`,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
   })
   .catch((error) => console.error(error.message));
 };
 
-export const getDeliveryOrders = () => (dispatch) => {
+export const getDeliveryOrders = (id) => (dispatch) => {
+  console.log(id)
   return axios
-    .get(`http://localhost:3001/account/delivery/destination`, setHeaders())
-    .then((orders) => {
+    .get(`http://localhost:3001/account/delivery/destination/${id}`, setHeaders())
+    .then((deliveryOrders) => {
+      console.log(deliveryOrders.data)
       dispatch({
         type: ALL_DELIVERY_ORDERS,
-        payload: orders.data,
+        payload: deliveryOrders.data,
       });
     })
     .catch((error) => console.error(error.message));

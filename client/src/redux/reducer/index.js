@@ -28,6 +28,7 @@ import {
   ALL_ORDERS,
 
   GET_USER_ORDERS,
+  ALL_DELIVERY_ORDERS,
 
 } from "../actions";
 import swal from "sweetalert";
@@ -60,6 +61,7 @@ const initialState = {
   modalProducts: [],
   owner: {},
   ownerShops: [],
+  deliveryOrders:{}
 
 };
 
@@ -185,6 +187,12 @@ const reducer = (state = initialState, { type, payload }) => {
           ...state,
           orders: [...payload]
         }
+
+      case ALL_DELIVERY_ORDERS:
+      return {
+        ...state,
+        deliveryOrders: payload
+      }
 
     /////////////////////////////////////////////////
 

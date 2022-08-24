@@ -11,7 +11,7 @@ router.put("/currentDelivery/update/:id",isAuthenticated, deliveryController.upd
 
 router.get("/destination", isAuthenticated, deliveryController.getDirection); //* TRAE ORDENES
 router.put("/destination/state", isAuthenticated, deliveryController.updateState) //* MODIFICADO ESTADO Y LE PERMITE AL DELIVERY SELECCIONARLO
-router.delete("/destination/received", isAuthenticated, deliveryController.deleteOrder) //* BORRA LA ORDEN UNA VEZ ENTREGADA
+router.delete("/destination/received/:idD", isAuthenticated, deliveryController.deleteOrder) //* BORRA LA ORDEN UNA VEZ ENTREGADA
 router.get("/destination/orders/:id", isAuthenticated, deliveryController.getUserOrders); //* TTRAE ORDENES POR USUARIO
 router.get("/destination/:id", isAuthenticated, deliveryController.getDeliveryOrders); //* TRAE DATOS DEL DELIVERY
 
