@@ -1,7 +1,8 @@
 import React from "react";
 
 import Typography from "../Typography/Typography.jsx";
-import { Box, Container, Grid, Link, ListItem, ListItemText } from "@mui/material";
+import { Box, Container, Grid, ListItem, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import LinkList from "./LinkList.jsx";
 import { useState } from "react";
@@ -14,7 +15,6 @@ const linksStyle = {
 };
 
 export default function AppFooter() {
-
   // const [isClicked, setIsClicked] = useState();
 
   // const onLinkClick = () => isClicked === true ? setIsClicked(false) : setIsClicked(true)
@@ -55,7 +55,7 @@ export default function AppFooter() {
               
               <Link
                 // onClick={onLinkClick}
-                to="#"
+                to="/profiles"
                 style={linksStyle}
                 sx={{ "&:hover": { color: "black" } }}
               >

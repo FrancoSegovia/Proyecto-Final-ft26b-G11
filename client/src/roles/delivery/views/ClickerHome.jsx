@@ -90,6 +90,12 @@ export default function Home() {
     setDuration(results.routes[0].legs[0].duration.text);
   };
 
+  function clearRoute() {
+    setDirectionsResponse(null);
+    setDistance("");
+    setDuration("");
+  }
+
   return (
     <div style={{ overflow: "hidden" }}>
       <Navbar />
@@ -105,7 +111,7 @@ export default function Home() {
           overflow: "hidden",
         }}
       >
-        <OrdersSlider />
+        <OrdersSlider clearRoute={clearRoute}/>
 
         <Box style={{ display: "flex", justifyContent: "center" }}>
           <Card
