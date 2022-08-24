@@ -36,6 +36,7 @@ export const OWNER_SHOPS = "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
 ////////////////////////////////////////////////
 export const ALL_DELIVERY = "ALL_DELIVERY";
+export const ALL_DELIVERY_ORDERS = "ALL_DELIVERY_ORDERS"
 
 export const ALL_ORDERS = "ALL_ORDERS";
 
@@ -508,33 +509,34 @@ export const getAllOrders = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const updateState = (id) => (dispatch) => {
-  return axios
-    .put(
-      `http://localhost:3001/account/delivery/destination/state`,
-      { id },
-      setHeaders()
-    )
-    .then((exit) => {
-      swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {
-        timer: "2000",
-        buttons: false,
-      });
-    })
-    .catch((error) => console.error(error.message));
+export const updateState = (idO) => () => {
+  console.log(idO)
+  const idD = jwtDecode(localStorage.getItem("token"))._id
+  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {idO, idD} ,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
 };
 
-export const deleteOrder = (id) => (dispatch) => {
+export const deleteOrder = (idO) => () => {
+  const idD = jwtDecode(localStorage.getItem("token"))._id
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}`,setHeaders())
+  .then(exit => {
+    swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
+  })
+  .catch((error) => console.error(error.message));
+};
+
+export const getDeliveryOrders = (id) => (dispatch) => {
+  console.log(id)
   return axios
-    .delete(
-      `http://localhost:3001/account/delivery/destination/received`,
-      { id },
-      setHeaders()
-    )
-    .then((exit) => {
-      swal("¡Éxito!", "El encargo ha sido completado.", "success", {
-        timer: "2000",
-        buttons: false,
+    .get(`http://localhost:3001/account/delivery/destination/${id}`, setHeaders())
+    .then((deliveryOrders) => {
+      console.log(deliveryOrders.data)
+      dispatch({
+        type: ALL_DELIVERY_ORDERS,
+        payload: deliveryOrders.data,
       });
     })
     .catch((error) => console.error(error.message));

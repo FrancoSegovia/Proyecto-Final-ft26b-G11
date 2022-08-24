@@ -33,6 +33,8 @@ import jwtDecode from "jwt-decode";
 
 export default function Home() {
 
+  const deliveryOrders = useSelector((state) => state.deliveryOrders);
+
   const center = { lat: -38.717621879595484, lng: -62.265517288258536 };
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBkqwYBKKegQLjYtO3ALhbwqsUjhEK3pUI",

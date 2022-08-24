@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const deliverySchema = require("../../schema/Delivery");
+const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const Order = require("../../schema/Order");
-const User = require("../../schema/User");
 //!-------------------------------------
 
 function getModelByName(name) {
@@ -91,23 +91,25 @@ const getDirection = async (req, res) => {
 };
 
 const updateState = async (req, res) => {
-  
+  console.log(req.body.idD)
+  console.log(req.body.idO)
   try {
     const state = await Order.updateOne(
-      { _id: req.body.id },
-      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.body.id } }
+      { _id: req.body.idO },
+      { $set: { state: "Su pedido esta en camino", selection: "true", delivery: req.body.idD } }
     );
     const ocupation = await deliverySchema.updateOne(
-      {_id: req.body.id},
+      {_id: req.body.idD},
       { $set: {ocupation: "true"}}
     )
 
-    const findDelivery = await deliverySchema.findOne({ _id: req.body.id });
+    const findDelivery = await deliverySchema.findOne({ _id: req.body.idD });
 
-    findDelivery.order = findDelivery.order.concat(req.body.id);
+    findDelivery.order = findDelivery.order.concat(req.body.idO);
     
     await findDelivery.save();
     
+    console.log(findDelivery)
     res.status(200).json(state);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -115,13 +117,19 @@ const updateState = async (req, res) => {
 };
 
 const deleteOrder = async (req, res) => {
-  try {
-    // await User.updateOne(
-    //   { _id: req.body.idU },
-    //   { $set: { order: "Su ya fue entregado", delivery: req.body.id } }
-    // );
+    console.log("EN EL DELETE")
 
-    await Order.remove({ _id: req.body.id });
+  try {
+
+    const removeOrder = await Order.remove({ _id: req.query.idO });
+
+    const findDelivery = await deliverySchema.findOne({ _id: req.params.idD });
+    findDelivery.order = []
+   
+    await findDelivery.save();
+    console.log(findDelivery.order);
+
+    console.log("EN EL FINAL DEL DELETE")
     res.status(200).json({ message: "Pedido entregado" });
   } catch (error) {
     res.status(404).json({ message: error });
@@ -136,15 +144,15 @@ const getUserOrders = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error})
   }
-} 
+}
 
 const getDeliveryOrders = async (req, res) => {
-try {
-  const deliveryOrder = await deliverySchema.findOne({_id: req.params.id})
-  res.status(200).json(deliveryOrder)
-} catch (error) {
-  res.status(400).json({ message: error})
-}
+  try {
+    const deliveryOrder = await deliverySchema.findOne({_id: req.params.id}).populate("order").populate({ path: 'order', populate: 'order'})
+    res.status(200).json(deliveryOrder)
+  } catch (error) {
+    res.status(400).json({ message: error})
+  }
 }
 
 module.exports = {

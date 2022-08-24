@@ -1,8 +1,6 @@
 import shopOrder from "../../utils/functions/shopOrder";
 import shopFilter from "../../utils/functions/shopFilter";
 import jwtDecode from "jwt-decode";
-// import productOrder from "../../utils/functions/productOrder";
-// import productFitler from "../../utils/functions/productFilter";
 
 import {
   ALL_SHOPS,
@@ -26,10 +24,9 @@ import {
   ALL_DELIVERY,
   CLEAR_SHOPPINGCART,
   ALL_ORDERS,
-
   GET_USER_ORDERS,
   AMOUNT_SHOPPINGCART,
-
+  ALL_DELIVERY_ORDERS,
 } from "../actions";
 import swal from "sweetalert";
 
@@ -55,14 +52,13 @@ const initialState = {
   },
   _id: "",
   users: [],
-  orders:[],
+  orders: [],
   owners: [],
   deliverys: [],
   modalProducts: [],
   owner: {},
   ownerShops: [],
-
-  orders:[]
+  deliveryOrders: {},
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -83,7 +79,6 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case QUERY_PRODUCTS: {
-      console.log(payload);
       return {
         ...state,
         modalProducts: payload,
@@ -183,11 +178,17 @@ const reducer = (state = initialState, { type, payload }) => {
         deliverys: payload,
       };
 
-      case GET_USER_ORDERS:
-        return {
-          ...state,
-          orders: [...payload]
-        }
+    case GET_USER_ORDERS:
+      return {
+        ...state,
+        orders: [...payload],
+      };
+
+    case ALL_DELIVERY_ORDERS:
+      return {
+        ...state,
+        deliveryOrders: payload,
+      };
 
     /////////////////////////////////////////////////
 
@@ -205,12 +206,12 @@ const reducer = (state = initialState, { type, payload }) => {
         cart: [...payload],
       };
 
-      case AMOUNT_SHOPPINGCART:
-        localStorage.setItem("cart", JSON.stringify([...payload]));
-        return{
-          ...state,
-          cart: [...payload]
-        }
+    case AMOUNT_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([...payload]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
 
     case DELETE_SHOPPINGCART:
       localStorage.setItem("cart", JSON.stringify([...payload]));
@@ -219,18 +220,22 @@ const reducer = (state = initialState, { type, payload }) => {
         cart: [...payload],
       };
 
-      case CLEAR_SHOPPINGCART:
-        localStorage.setItem("cart", JSON.stringify([]));
-        return {
-          ...state,
-          cart: [...payload],
-        };
-      
+    case CLEAR_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
     /////////////////////////////////////////////////
 
     case SIGN_IN: {
       const data = jwtDecode(payload);
-      if (data) swal("¡Bienvenido!", "Sesión iniciada correctamente.", "success", {timer:"2000", buttons:false});
+      if (data)
+        swal("¡Bienvenido!", "Sesión iniciada correctamente.", "success", {
+          timer: "2000",
+          buttons: false,
+        });
       return {
         ...state,
         user: {
@@ -254,9 +259,12 @@ const reducer = (state = initialState, { type, payload }) => {
       localStorage.removeItem("cart");
       localStorage.removeItem("total");
 
-      swal("Hasta pronto!", "Usted ha cerrado sesión.", "success", {timer:"2000", buttons:false})
+      swal("Hasta pronto!", "Usted ha cerrado sesión.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
 
-        // , "Usted ha cerrado sesión.", "success");
+      // , "Usted ha cerrado sesión.", "success");
 
       return {
         ...state,
@@ -271,7 +279,7 @@ const reducer = (state = initialState, { type, payload }) => {
           phone: null,
           vehicle: "",
           isBanned: false,
-          orders:[]
+          orders: [],
         },
       };
 
