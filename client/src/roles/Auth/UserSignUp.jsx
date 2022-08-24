@@ -30,7 +30,7 @@ export default function SignUp() {
   const center = { lat: -38.71743771634209, lng: -62.26550655942335 };
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyBkqwYBKKegQLjYtO3ALhbwqsUjhEK3pUI",
     libraries: ["places"],
   });
 
