@@ -29,7 +29,7 @@ export default function AddProduct ({shopId}) {
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: null,
-    idLocal:""
+    idLocal:shopId
   });
 
   const onSubmit = (e) => {

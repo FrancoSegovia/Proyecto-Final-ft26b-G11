@@ -111,7 +111,6 @@ export function addStore(payload) {
 }
 
 export const addProduct = (payload) => {
-  console.log(payload)
   return axios
     .post(
       `http://localhost:3001/account/owner/local/add_product`,
