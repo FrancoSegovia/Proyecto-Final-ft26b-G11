@@ -77,7 +77,6 @@ export default function ShoppingCart() {
         {!cart.length
           ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
-            console.log(p)
               return (
                 <div>
                   <Typography variant="subtitle1">{p.name}</Typography>

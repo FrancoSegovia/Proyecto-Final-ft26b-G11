@@ -36,6 +36,7 @@ export const OWNER_SHOPS = "OWNER_SHOPS";
 export const ALL_OWNERS = "ALL_OWNERS";
 ////////////////////////////////////////////////
 export const ALL_DELIVERY = "ALL_DELIVERY";
+export const ALL_DELIVERY_ORDERS = "ALL_DELIVERY_ORDERS"
 
 export const ALL_ORDERS = "ALL_ORDERS";
 
@@ -156,14 +157,19 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const getUserOrders = (id) => (dispatch) => {
-  return axios.get(`http://localhost:3001/account/delivery/destination/orders/${id}`, setHeaders())
-  .then((orders) => {
-    dispatch(({
-      type:GET_USER_ORDERS,
-      payload: orders.data
-    }))
-  }).catch((error) => console.error(error.message));
-}
+  return axios
+    .get(
+      `http://localhost:3001/account/delivery/destination/orders/${id}`,
+      setHeaders()
+    )
+    .then((orders) => {
+      dispatch({
+        type: GET_USER_ORDERS,
+        payload: orders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
+};
 
 export const getAllClickers = () => (dispatch) => {
   return axios
@@ -311,7 +317,7 @@ export const getShoppingCart = () => (dispatch) => {
   return axios
     .get(`http://localhost:3001/account/cart/user-cart/${token._id}`)
     .then((products) => {
-      console.log(products.data)
+      console.log(products.data);
       dispatch({
         type: GET_SHOPPINGCART,
         payload: products.data,
@@ -327,7 +333,7 @@ export const addShoppingCart = (_id) => (dispatch) => {
       _id,
     })
     .then((products) => {
-      console.log(products.data)
+      console.log(products.data);
       dispatch({
         type: ADD_SHOPPINGCART,
         payload: products.data,
@@ -340,7 +346,8 @@ export const amountShoppingCart = (_id, amount) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
   return axios
     .put(`http://localhost:3001/account/cart/products-amount/${token._id}`, {
-      _id, amount
+      _id,
+      amount,
     })
     .then((products) => {
       dispatch({
@@ -349,7 +356,7 @@ export const amountShoppingCart = (_id, amount) => (dispatch) => {
       });
     })
     .catch((error) => console.error(error));
-}
+};
 
 export const deleteShoppingCart = (idP) => (dispatch) => {
   const token = jwtDecode(localStorage.getItem("token"));
@@ -455,7 +462,8 @@ export const signIn = (creds) => {
     axios
       .post("http://localhost:3001/account/login", creds)
       .then((token) => {
-        if(!token.data || token.data === "") throw "Usuario invalido o no Registrado"
+        if (!token.data || token.data === "")
+          throw "Usuario invalido o no Registrado";
         localStorage.setItem("token", token.data);
         dispatch({
           type: SIGN_IN,
@@ -463,12 +471,11 @@ export const signIn = (creds) => {
         });
       })
       .catch((error) => {
-        console.log(error)
         swal("¡Error!", error, "error", {
           timer: "2000",
           buttons: false,
         });
-        console.error(error)
+        console.error(error);
       });
   };
 };
@@ -502,18 +509,34 @@ export const getAllOrders = () => (dispatch) => {
     .catch((error) => console.error(error.message));
 };
 
-export const updateState = (id) => (dispatch) => {
-  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {id} ,setHeaders())
+export const updateState = (idO) => () => {
+  console.log(idO)
+  const idD = jwtDecode(localStorage.getItem("token"))._id
+  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {idO, idD} ,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
   })
   .catch((error) => console.error(error.message));
 };
 
-export const deleteOrder = (id) => (dispatch) => {
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received`, {id} ,setHeaders())
+export const deleteOrder = (idO, idU) => () => {
+  console.log(idU)
+  const idD = jwtDecode(localStorage.getItem("token"))._id
+  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}&idU=${idU}`,setHeaders())
   .then(exit => {
     swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
   })
   .catch((error) => console.error(error.message));
+};
+
+export const getDeliveryOrders = (id) => (dispatch) => {
+  return axios
+    .get(`http://localhost:3001/account/delivery/destination/${id}`, setHeaders())
+    .then((deliveryOrders) => {
+      dispatch({
+        type: ALL_DELIVERY_ORDERS,
+        payload: deliveryOrders.data,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };
