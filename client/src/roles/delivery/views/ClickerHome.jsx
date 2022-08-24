@@ -50,11 +50,11 @@ export default function Home() {
 
   const origen = { lat: -38.700129306504365, lng: -62.24152452874228 };
 
-  //? const destino = (direccion del cliente)
+  // const destino = ;
 
-  useEffect(() => {
-    dispatch(getAllShops());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllShops());
+  // }, []);
 
 
   
@@ -85,7 +85,7 @@ export default function Home() {
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
         origin: origen,
-        destination:deliveryOrders.order[0]?.order.direction, //const destino
+        destination: deliveryOrders.order[0]?.order.direction,
         // eslint-disable-next-line no-undef
         travelMode: deliveryTravelMode,
       });
