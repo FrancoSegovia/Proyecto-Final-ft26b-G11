@@ -62,10 +62,14 @@ export default function SignUp() {
   }, []);
 
   useEffect(() => {
-    setError(inputCheckout(user));
+    if (user.email === "") {
+      return 
+    } else {
+      setError(inputCheckout(user));
+    }
   }, [user]);
 
-  if (!isLoaded) return <Typography>Cargando...</Typography>;
+  if (!isLoaded) return;
 
   const deliveryTravelMode = google.maps.TravelMode.DRIVING;
 
@@ -301,7 +305,7 @@ export default function SignUp() {
               </Grid>
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
-                <PhoneInput
+                  <PhoneInput
                     align="center"
                     specialLabel=""
                     country="ar"
@@ -334,10 +338,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
-              disabled={
-                Object.keys(error).length ||
-                directionError
-              }
+              disabled={Object.keys(error).length || user.email === "" || directionError}
             >
               Registrarme
             </Button>
