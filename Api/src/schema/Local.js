@@ -22,10 +22,10 @@ const schema = Schema(
       type: String,
       required: false,
     },
-    // isDisabled: {
-    //   type: Boolean,
-    //   default: false,
-    // },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
     products: [
       {
         type: Schema.Types.ObjectId,
