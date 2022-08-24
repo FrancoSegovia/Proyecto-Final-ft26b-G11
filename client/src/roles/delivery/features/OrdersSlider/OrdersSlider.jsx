@@ -34,16 +34,18 @@ export default function OrdersSlider() {
     name:"",
     lastname:"",
     direction:"",
-    id:""
+    idO:"",
+    idU:""
   })
 
-  const onAcceptedClick = ({ direction, name, lastname, id }) => {
-    dispatch(updateState(id))
+  const onAcceptedClick = ({ direction, name, lastname, idO, idU }) => {
+    dispatch(updateState(idO))
     setCardInfo({
       name,
       lastname,
       direction,
-      id
+      idO,
+      idU
     })
     setHaveOrder(true);
       // setCardInfo({
@@ -54,14 +56,15 @@ export default function OrdersSlider() {
   }
 
 
-  const onCheckClick = (id) => {
-    dispatch(deleteOrder(id));
+  const onCheckClick = (idO, idU) => {
+    dispatch(deleteOrder(idO, idU));
     setHaveOrder(false)
     setCardInfo({
       name:"",
       lastname:"",
       direction:"",
-      id:""
+      idO:"",
+      idU:""
     })
   }
 
@@ -80,7 +83,7 @@ export default function OrdersSlider() {
               <Typography variant="h4">{cardInfo.name}</Typography>
               <Typography variant="h4">{cardInfo.lastname}</Typography>
             </Box>
-            <Button variant="contained" style={{marginTop:"50px"}} onClick={() => onCheckClick(cardInfo.id)}>PEDIDO ENTREGADO</Button>
+            <Button variant="contained" style={{marginTop:"50px"}} onClick={() => onCheckClick(cardInfo.idO,cardInfo.idU)}>PEDIDO ENTREGADO</Button>
           </CardContent> 
         </Card>
       : <Box style={{display:"flex", alignItems:"center", color:"#1976d2"}}><Typography variant="h5" align="center"> Aún no tienes ningún <br/> encargo asignado.</Typography></Box>
@@ -115,7 +118,7 @@ export default function OrdersSlider() {
                               <Typography variant="h5">¡Nuevo pedido disponible!</Typography>
                               <Box style={{display:"flex", justifyContent:"center", padding:"15px"}}><Avatar style={{backgroundColor:"#1976d2"}}><ShoppingBag/></Avatar></Box>
                               <Typography variant="h6" sx={{marginBottom:"10px"}}>{order?.order?.direction}</Typography>
-                              <Button variant="contained" onClick={() => onAcceptedClick({direction:order?.order?.direction, name:order?.order?.name, lastname:order?.order?.lastname, id:order._id})}>Aceptar encargo</Button>
+                              <Button variant="contained" onClick={() => onAcceptedClick({direction:order?.order?.direction, name:order?.order?.name, lastname:order?.order?.lastname, idO:order._id, idU:order.order._id})}>Aceptar encargo</Button>
                           </Card>
                       </SwiperSlide>
                       : <></>

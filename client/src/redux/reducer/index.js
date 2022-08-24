@@ -61,7 +61,6 @@ const initialState = {
   owner: {},
   ownerShops: [],
 
-  orders:[]
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -82,7 +81,6 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     case QUERY_PRODUCTS: {
-      console.log(payload);
       return {
         ...state,
         modalProducts: payload,
