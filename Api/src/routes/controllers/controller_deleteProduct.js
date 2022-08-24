@@ -14,6 +14,8 @@ const deleteProduct = async (req, res) => {
       { multi: true }
     );
 
+    const { cart } = await User.findById(id).lean();
+
     const userResponse = await User.aggregate([
       {
         $lookup: {
@@ -35,7 +37,15 @@ const deleteProduct = async (req, res) => {
       },
     ]);
 
-    res.status(200).json(userResponse);
+    const formattedProducts = userResponse[0].products.map((p) => {
+      const cartItem = cart.find(
+        ({ product }) => product.toString() === p._id.toString()
+      );
+
+      return { ...p, amount: cartItem?.amount };
+    });
+
+    res.status(200).json(formattedProducts);
   } catch (error) {
     res.status(404).json(error);
   }

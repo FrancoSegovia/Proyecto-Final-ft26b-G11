@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  amountShoppingCart,
   deleteShoppingCart,
   getShoppingCart,
   clearShoppingCart,
@@ -26,7 +27,11 @@ export default function ShoppingCart() {
 
   useEffect(() => {
     dispatch(getShoppingCart());
-  }, []);
+  }, [dispatch]);
+
+  const onAmount = (id, amount) => {
+    dispatch(amountShoppingCart(id, amount))
+  }
 
   const onDelete = (e) => {
     e.preventDefault();
@@ -45,7 +50,7 @@ export default function ShoppingCart() {
 
   const total = () => {
     let total = 0;
-    cart.map((p) => (total = total + p.price));
+    cart.map((p) => (total = total + p.price * p.amount));
     localStorage.setItem("total", JSON.stringify(total));
     return total;
   };
@@ -72,10 +77,33 @@ export default function ShoppingCart() {
         {!cart.length
           ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
+            console.log(p)
               return (
                 <div>
                   <Typography variant="subtitle1">{p.name}</Typography>
+                  <Typography variant="subtitle1">{p.amount}</Typography>
                   <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
+                    <Button
+                      value={p._id}
+                      disabled={p.amount <= 1}
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onAmount(p._id, p.amount - 1)}
+                      style={{borderRadius:"25px"}}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      value={p._id}
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => onAmount(p._id, p.amount + 1)}
+                      style={{borderRadius:"25px"}}
+                    >
+                      +
+                    </Button>
                     <Button
                       value={p._id}
                       variant="contained"
