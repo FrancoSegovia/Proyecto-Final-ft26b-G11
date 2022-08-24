@@ -48,9 +48,7 @@ export default function OrdersSlider() {
   useEffect(() => {
     dispatch(getAllOrders());
     dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id));
-  }, []);
-
-  console.log(deliveryOrders + "++++++++++");
+  });
 
   // const status = jwtDecode(localStorage.getItem("token")).status
 

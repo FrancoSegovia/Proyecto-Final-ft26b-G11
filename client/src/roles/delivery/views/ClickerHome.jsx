@@ -85,7 +85,7 @@ export default function Home() {
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
         origin: origen,
-        destination:"Tucumán 2454, Bahía Blanca, Provincia de Buenos Aires, Argentina", //const destino
+        destination:deliveryOrders.order[0]?.order.direction, //const destino
         // eslint-disable-next-line no-undef
         travelMode: deliveryTravelMode,
       });
