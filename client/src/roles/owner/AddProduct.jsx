@@ -22,13 +22,14 @@ import { TextareaAutosize } from "@mui/base";
 
 const theme = createTheme();
 
-export default function AddProduct (shopId) {
+export default function AddProduct ({shopId}) {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: null,
-    idLocal:""
+    idLocal:shopId
   });
 
   const onSubmit = (e) => {
@@ -36,7 +37,7 @@ export default function AddProduct (shopId) {
     setNewProduct({
       name: "",
       price: null,
-      idLocal:{shopId}
+      idLocal: shopId
     })
     dispatch(addProduct(newProduct));
     setNewProduct({

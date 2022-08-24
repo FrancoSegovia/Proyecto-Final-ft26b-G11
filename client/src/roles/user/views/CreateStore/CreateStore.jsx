@@ -27,7 +27,7 @@ export default function CreateStore() {
   const dispatch = useDispatch();
   const [newShop, setNewShop] = useState({
     name: "",
-    direction: "",
+    direction: "Av. Alberto Pedro Cabrera 2153",
     category: "default",
     description: "",
   });
@@ -76,18 +76,7 @@ export default function CreateStore() {
                   onChange={onInputChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="direction"
-                  label="Dirección del negocio"
-                  autoComplete="direccion_negocio"
-                  value={newShop.direction}
-                  onChange={onInputChange}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
+                <Grid item xs={12}>
                 <Select
                   fullWidth
                   value={newShop.category}
@@ -140,7 +129,6 @@ export default function CreateStore() {
               sx={{ mt: 3, mb: 2 }}
               disabled={
                 !newShop.name.length ||
-                !newShop.direction.length ||
                 !newShop.category.length ||
                 newShop.category === "default"
               }
