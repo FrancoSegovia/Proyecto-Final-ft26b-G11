@@ -256,6 +256,28 @@ const getLocal = (req, res) => {
       .then((data) => res.status(200).json(data))
       .catch((error) => res.status(404).json({ message: error }));
   }
+
+  //   if (name) {
+  //   try {
+  //     const find = await localSchema
+  //       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+  //       .populate("products");
+  //     const findFalse = find.filter(
+  //       (e) => !(e.isDisabled === true || e.owner.isBanned === true)
+  //     );
+  //     res.status(200).json(findFalse);
+  //   } catch (error) {
+  //     res.status(404).json({ message: error });
+  //   }
+  // } else {
+  //   try {
+  //     const find = await localSchema.find().populate("owner").populate("products");
+  //     const findFalse = find.filter((e) => !(e.isDisabled === true || e.owner.isBanned === true));
+  //     res.status(200).json(findFalse);
+  //   } catch (error) {
+  //     res.status(404).json({ message: error });
+  //   }
+  // }
 };
 
 const getProductSearch = async (req, res) => {
