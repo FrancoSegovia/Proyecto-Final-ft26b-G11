@@ -8,6 +8,7 @@ import LinkList from "./LinkList.jsx";
 import { useState } from "react";
 
 const linksStyle = {
+  textDecoration:"none",
   color: "#b3e5fc",
   fontSize: "15px",
   fontWeight: "200",
@@ -35,9 +36,9 @@ export default function AppFooter() {
               Github
             </Typography>
             <Typography variant="h6" gutterBottom noWrap>
-              <Link to="#" style={linksStyle}>
+              <a href="https://github.com/FrancoSegovia/Proyecto-Final-ft26b-G11" target="_blank" rel="noopener noreferrer" style={linksStyle}>
                 Repositorio en Github
-              </Link>
+              </a>
             </Typography>
           </Grid>
           <Grid item xs={3} sm={3} md={2.5}>

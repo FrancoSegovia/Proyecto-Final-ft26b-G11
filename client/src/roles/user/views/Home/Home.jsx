@@ -9,8 +9,10 @@ import UserShopOrder from "../../features/UserShopOrder/UserShopOrder.jsx";
 import UserShopFilter from "../../features/UserShopFilter/UserShopFilter.jsx";
 import ShoppingCart from "../../features/UserShoppingCart/ShoppingCart";
 import UserOrders from "../../features/UserOrders/UserOrders"
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-import { Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -29,7 +31,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div style={{ marginTop: "75px", backgroundColor: "white" }}>
+      <div style={{ height:"100%", minHeight:"100vh", marginTop:"75px", backgroundColor: "white" }}>
         <Grid
           container
           justifyContent="center"
@@ -73,6 +75,13 @@ export default function Home() {
               {localS === "user" 
               ? 
               <Grid item xs={2} style={{ textAlign: "center" }}>
+
+                <Box style={{display:"flex", justifyContent:"center", padding:"15px"}}>
+                  <Avatar style={{backgroundColor:"#1976d2"}}>
+                    <ShoppingCartIcon/>
+                  </Avatar>
+                </Box>
+
                 <ShoppingCart />
                 
               </Grid> 

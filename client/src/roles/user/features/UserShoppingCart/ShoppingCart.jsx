@@ -119,12 +119,12 @@ export default function ShoppingCart() {
             })}
         <br></br>
         <Typography
-          style={{ marginTop: "18px" }}
+          style={{ marginTop: "18px", padding:"10px" }}
           variant="h5"
           color="textPrimary"
           component="div"
         >
-          {!cart.length ? "Total = 0$" : `Total = $${total()}`}
+          {!cart.length ? `Total : 0` : `Total : ${total()}`}
         </Typography>
         <Box style={{display:"flex", flexDirection:"column", gap:"10px"}}>
           <Button
@@ -133,7 +133,7 @@ export default function ShoppingCart() {
             disableElevation
             disabled={!cart.length}
             onClick={onBuy}
-            style={{borderRadius:"10px"}}
+            style={{borderRadius:"5px"}}
           >
             Comprar
           </Button>
@@ -143,7 +143,7 @@ export default function ShoppingCart() {
             disableElevation
             disabled={!cart.length}
             onClick={onClear}
-            style={{borderRadius:"10px"}}
+            style={{borderRadius:"5px"}}
           >
           Limpiar Carrito
           </Button>

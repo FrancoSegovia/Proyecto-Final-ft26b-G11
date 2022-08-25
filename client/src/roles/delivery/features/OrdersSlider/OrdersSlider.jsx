@@ -53,17 +53,16 @@ export default function OrdersSlider({clearRoute}) {
 
 
   return (
-    <Container
-      style={{ display: "flex", overflow: "hidden", minHeight: "30vh" }}
+    <Box
+      style={{ display: "flex", minHeight: "30vh", alignItems:"center", justifyContent:"space-evenly"}}
     >
       {Object.keys(deliveryOrders).length && deliveryOrders.order.length ? (
         <Card
           style={{
             color: "#1976d2",
-            backgroundColor: "whitesmoke",
             minWidth: "30vw",
-            maxWidth: "30vw",
-            minHeight: "30vh",
+            maxWidth: "32vw",
+            minHeight: "35vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -73,6 +72,7 @@ export default function OrdersSlider({clearRoute}) {
             <Typography variant="h4" align="center">
               {deliveryOrders.order[0]?.order.direction}
             </Typography>
+            <hr/>
             <Box
               style={{ display: "flex", gap: "10px", justifyContent: "center" }}
             >
@@ -83,13 +83,15 @@ export default function OrdersSlider({clearRoute}) {
                 {deliveryOrders.order[0]?.order.lastname}
               </Typography>
             </Box>
-            <Button
-              variant="contained"
-              style={{ marginTop: "50px" }}
-              onClick={() => onCheckClick(deliveryOrders.order[0]._id, deliveryOrders.order[0].order._id)}
-            >
-              PEDIDO ENTREGADO
-            </Button>
+            <Box style={{display:"flex", justifyContent:"center"}}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "50px" }}
+                onClick={() => onCheckClick(deliveryOrders.order[0]._id, deliveryOrders.order[0].order._id)}
+              >
+                PEDIDO ENTREGADO
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       ) : (
@@ -117,7 +119,7 @@ export default function OrdersSlider({clearRoute}) {
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper"
-          style={{ maxWidth: "30vw" }}
+          style={{ maxWidth: "30vw", margin:0 }}
         >
           {/* {isAccepted !== true 
             ?  */}
@@ -185,6 +187,6 @@ export default function OrdersSlider({clearRoute}) {
           </Typography>
         </Box>
       )}
-    </Container>
+    </Box>
   );
 }

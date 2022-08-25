@@ -324,7 +324,7 @@ export default function UserCard({ shop }) {
           "&:hover": { cursor: "pointer", outline: "3px solid #4fc3f7" },
           backgroundColor: "whitesmoke",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
         }}
         style={{ marginTop: "15px", padding: "25px" }}
         onClick={onCardClick}

@@ -158,7 +158,7 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            paddingTop:user.type !== "delivery" ? "16%" : "5%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

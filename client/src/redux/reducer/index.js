@@ -27,7 +27,7 @@ import {
   GET_USER_ORDERS,
   AMOUNT_SHOPPINGCART,
   ALL_DELIVERY_ORDERS,
-  GET_PROFILE
+  GET_PROFILE,
 } from "../actions";
 import swal from "sweetalert";
 
@@ -229,10 +229,16 @@ const reducer = (state = initialState, { type, payload }) => {
         cart: [...payload],
       };
 
-      case GET_PROFILE:
-      return{
-        ...state,
-        profiles: state.profiles.concat(payload)
+    case GET_PROFILE:
+      if (state.profiles.find((p) => p.login.includes(payload.login))) {
+        return {
+          ...state,
+        };
+      } else {
+        return {
+          ...state,
+          profiles: [...state.profiles, payload],
+        };
       }
 
     /////////////////////////////////////////////////

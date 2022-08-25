@@ -15,19 +15,22 @@ const Profile = () => {
 
 
   useEffect(() => {
-    if (!profiles.length) names.forEach(n => dispatch(getProfiles(n)))
+    names.forEach(n => dispatch(getProfiles(n)))
   }, [])
 
   return (
     <>
-      <Box style={{ padding: 20, display:"flex"}}>
-          {profiles?.map((p) => {return (<div><GitCard data={p}/></div>)})}
-      </Box>
+      <Box style={{minWidth:"100vw", minHeight:"100vh", display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center"}}>
+        <Box style={{ padding: 20, display:"flex", flexWrap:"wrap", gap:"1.5vw", justifyContent:"center"}}>
+            {profiles?.map((p) => {return (<GitCard data={p}/>)})}
+        </Box>
+        
       <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  <Button variant="contained" startIcon={<ArrowBack />}>
-                    Regresar
-                  </Button>
-      </Link>
+                    <Button variant="contained" startIcon={<ArrowBack />}>
+                      Regresar
+                    </Button>
+        </Link>
+      </Box>
     </>
   );
 };

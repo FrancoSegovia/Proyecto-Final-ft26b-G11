@@ -71,7 +71,7 @@ function ProductHeroLayout(props) {
           <ArrowDownward
             sx={{
               fontSize: "70px",
-              translate: "0px 14vh",
+              top:"4vw",
               position: "absolute",
             }}
             style={IconHover}
