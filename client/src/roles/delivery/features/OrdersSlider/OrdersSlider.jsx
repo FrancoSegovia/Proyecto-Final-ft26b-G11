@@ -32,16 +32,17 @@ export default function OrdersSlider({clearRoute}) {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders);
   const deliveryOrders = useSelector((state) => state.deliveryOrders);
-  const [click, setClick] = useState("")
+
+  const [click2, setClick2] = useState("")
 
 
   const onAcceptedClick = (idO) => {
-    setClick("accept")
+    setClick2("accept")
     dispatch(updateState(idO));
   };
 
   const onCheckClick = (idO, idU) => {
-    setClick("check")
+    setClick2("check")
     dispatch(deleteOrder(idO, idU));
     clearRoute();
   };
@@ -49,7 +50,7 @@ export default function OrdersSlider({clearRoute}) {
   useEffect(() => {
     dispatch(getAllOrders());
     dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id))
-  }, [click]);
+  }, [click2]);
 
 
   return (

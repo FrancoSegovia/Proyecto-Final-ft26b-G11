@@ -80,7 +80,7 @@ export default function ShoppingCart() {
               return (
                 <div>
                   <Typography variant="subtitle1">{p.name}</Typography>
-                  <Typography variant="subtitle1">{p.amount}</Typography>
+                  <Typography variant="subtitle1">x{p.amount}</Typography>
                   <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
                     <Button
                       value={p._id}
