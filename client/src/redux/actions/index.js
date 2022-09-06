@@ -9,24 +9,24 @@ export const SIGN_OUT = "SIGN_OUT";
 export const ALL_SHOPS = "ALL_SHOPS";
 export const ORDER_SHOPS = "ORDER_SHOPS";
 export const FILTER_SHOPS = "FILTER_SHOPS";
-//SHARED///////////////////////////////////////////////////////////////////////
-
-//USER/////////////////////////////////////////////////////////////////////////
 export const QUERY_SHOPS = "QUERY_SHOPS";
 export const QUERY_ERROR = "QUERY_ERROR";
 export const QUERY_PRODUCTS = "QUERY_PRODUCTS";
-export const GET_USER_ORDERS = "GET_USER_ORDERS";
-export const GET_SHOPPINGCART = "GET_SHOPPINGCART";
-export const ADD_SHOPPINGCART = "ADD_SHOPPINGCART";
-export const AMOUNT_SHOPPINGCART = "AMOUNT_SHOPPINGCART";
-export const DELETE_SHOPPINGCART = "DELETE_SHOPPINGCART";
-export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const ERROR_CLEANER = "ERROR_CLEANER";
+//SHARED///////////////////////////////////////////////////////////////////////
+
+//USER/////////////////////////////////////////////////////////////////////////
+export const USER_GET_ORDERS = "USER_GET_ORDERS";
+export const USER_GET_SHOPPINGCART = "USER_GET_SHOPPINGCART";
+export const USER_ADD_SHOPPINGCART = "USER_ADD_SHOPPINGCART";
+export const USER_AMOUNT_SHOPPINGCART = "USER_AMOUNT_SHOPPINGCART";
+export const USER_DELETE_SHOPPINGCART = "USER_DELETE_SHOPPINGCART";
+export const USER_CLEAR_SHOPPINGCART = "USER_CLEAR_SHOPPINGCART";
 //USER/////////////////////////////////////////////////////////////////////////
 
 //DELIVERY/////////////////////////////////////////////////////////////////////
-export const ALL_ORDERS = "ALL_ORDERS";
-export const ALL_DELIVERY_ORDERS = "ALL_DELIVERY_ORDERS"
+export const DELIVERY_ALL_ORDERS = "DELIVERY_ALL_ORDERS";
+export const DELIVERY_ORDER = "DELIVERY_ORDER";
 //DELIVERY/////////////////////////////////////////////////////////////////////
 
 //OWNER////////////////////////////////////////////////////////////////////////
@@ -35,15 +35,14 @@ export const OWNER_SHOPS = "OWNER_SHOPS";
 //OWNER////////////////////////////////////////////////////////////////////////
 
 //ADMIN////////////////////////////////////////////////////////////////////////
-export const ALL_USERS = "ALL_USERS";
-export const ALL_DELIVERY = "ALL_DELIVERY";
-export const ALL_OWNERS = "ALL_OWNERS";
+export const ADMIN_ALL_USERS = "ADMIN_ALL_USERS";
+export const ADMIN_ALL_DELIVERY = "ADMIN_ALL_DELIVERY";
+export const ADMIN_ALL_OWNERS = "ADMIN_ALL_OWNERS";
 //ADMIN////////////////////////////////////////////////////////////////////////
 
 //EXTRA////////////////////////////////////////////////////////////////////////
-export const GET_PROFILE = "GET_PROFILE"
+export const GET_PROFILE = "GET_PROFILE";
 //EXTRA////////////////////////////////////////////////////////////////////////
-
 
 //SHAREDACTIONS///////////////////////////////////////////////////
 export function signUpOwner({ name, lastname, email, password }) {
@@ -164,11 +163,9 @@ export const filterShops = (value) => {
     payload: value,
   };
 };
-//SHAREDACTIONS///////////////////////////////////////////////////
 
-//USERACTIONS/////////////////////////////////////////////////////
 export const getQueryProducts = (query, id) => (dispatch) => {
-  //user
+  //user - owner
   return axios
     .get(
       `http://localhost:3001/account/user/local/products/${id}?name=${query}`,
@@ -190,7 +187,7 @@ export const getQueryProducts = (query, id) => (dispatch) => {
 };
 
 export const getQueryShops = (query) => (dispatch) => {
-  //user
+  //user - owner
   return axios
     .get(`http://localhost:3001/account/user/local?name=${query}`)
     .then((shops) => {
@@ -208,6 +205,17 @@ export const getQueryShops = (query) => (dispatch) => {
     });
 };
 
+export const errorCleaner = () => {
+  //user - owner
+  return {
+    type: ERROR_CLEANER,
+    payload: false,
+  };
+};
+//SHAREDACTIONS///////////////////////////////////////////////////
+
+//USERACTIONS/////////////////////////////////////////////////////
+
 export const getUserOrders = (id) => (dispatch) => {
   //user
   return axios
@@ -217,7 +225,7 @@ export const getUserOrders = (id) => (dispatch) => {
     )
     .then((orders) => {
       dispatch({
-        type: GET_USER_ORDERS,
+        type: USER_GET_ORDERS,
         payload: orders.data,
       });
     })
@@ -232,7 +240,7 @@ export const getShoppingCart = () => (dispatch) => {
     .then((products) => {
       console.log(products.data);
       dispatch({
-        type: GET_SHOPPINGCART,
+        type: USER_GET_SHOPPINGCART,
         payload: products.data,
       });
     })
@@ -249,7 +257,7 @@ export const addShoppingCart = (_id) => (dispatch) => {
     .then((products) => {
       console.log(products.data);
       dispatch({
-        type: ADD_SHOPPINGCART,
+        type: USER_ADD_SHOPPINGCART,
         payload: products.data,
       });
     })
@@ -266,7 +274,7 @@ export const amountShoppingCart = (_id, amount) => (dispatch) => {
     })
     .then((products) => {
       dispatch({
-        type: AMOUNT_SHOPPINGCART,
+        type: USER_AMOUNT_SHOPPINGCART,
         payload: products.data,
       });
     })
@@ -282,7 +290,7 @@ export const deleteShoppingCart = (idP) => (dispatch) => {
     })
     .then((products) => {
       dispatch({
-        type: DELETE_SHOPPINGCART,
+        type: USER_DELETE_SHOPPINGCART,
         payload: products.data,
       });
     })
@@ -296,7 +304,7 @@ export const clearShoppingCart = () => (dispatch) => {
     .delete(`http://localhost:3001/account/cart/clear-cart/${token._id}`)
     .then((products) => {
       dispatch({
-        type: CLEAR_SHOPPINGCART,
+        type: USER_CLEAR_SHOPPINGCART,
         payload: products.data[0].products,
       });
     })
@@ -335,14 +343,6 @@ export const updateUser = (payload, id) => {
     )
     .catch((error) => console.error(error.message));
 };
-
-export const errorCleaner = () => {
-  //user
-  return {
-    type: ERROR_CLEANER,
-    payload: false,
-  };
-};
 //USERACTIONS/////////////////////////////////////////////////////
 
 //DELIVERYACTIONS/////////////////////////////////////////////////
@@ -352,7 +352,7 @@ export const getAllOrders = () => (dispatch) => {
     .get(`http://localhost:3001/account/delivery/destination`, setHeaders())
     .then((orders) => {
       dispatch({
-        type: ALL_ORDERS,
+        type: DELIVERY_ALL_ORDERS,
         payload: orders.data,
       });
     })
@@ -361,31 +361,49 @@ export const getAllOrders = () => (dispatch) => {
 
 export const updateState = (idO) => () => {
   //delivery
-  const idD = jwtDecode(localStorage.getItem("token"))._id
-  return axios.put(`http://localhost:3001/account/delivery/destination/state`, {idO, idD} ,setHeaders())
-  .then(exit => {
-    swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {timer:"2000", buttons:false})
-  })
-  .catch((error) => console.error(error.message));
+  const idD = jwtDecode(localStorage.getItem("token"))._id;
+  return axios
+    .put(
+      `http://localhost:3001/account/delivery/destination/state`,
+      { idO, idD },
+      setHeaders()
+    )
+    .then((exit) => {
+      swal("¡Éxito!", "El encargo ha sido asignado con éxito.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };
 
 export const deleteOrder = (idO, idU) => () => {
   //delivery
-  const idD = jwtDecode(localStorage.getItem("token"))._id
-  return axios.delete(`http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}&idU=${idU}`,setHeaders())
-  .then(exit => {
-    swal("¡Éxito!", "El encargo ha sido completado.", "success", {timer:"2000", buttons:false})
-  })
-  .catch((error) => console.error(error.message));
+  const idD = jwtDecode(localStorage.getItem("token"))._id;
+  return axios
+    .delete(
+      `http://localhost:3001/account/delivery/destination/received/${idD}?idO=${idO}&idU=${idU}`,
+      setHeaders()
+    )
+    .then((exit) => {
+      swal("¡Éxito!", "El encargo ha sido completado.", "success", {
+        timer: "2000",
+        buttons: false,
+      });
+    })
+    .catch((error) => console.error(error.message));
 };
 
 export const getDeliveryOrders = (id) => (dispatch) => {
   //delivery
   return axios
-    .get(`http://localhost:3001/account/delivery/destination/${id}`, setHeaders())
+    .get(
+      `http://localhost:3001/account/delivery/destination/${id}`,
+      setHeaders()
+    )
     .then((deliveryOrders) => {
       dispatch({
-        type: ALL_DELIVERY_ORDERS,
+        type: DELIVERY_ORDER,
         payload: deliveryOrders.data,
       });
     })
@@ -465,7 +483,7 @@ export const getAllUsers = () => (dispatch) => {
     .get("http://localhost:3001/account/admin/users", setHeaders())
     .then((users) => {
       dispatch({
-        type: ALL_USERS,
+        type: ADMIN_ALL_USERS,
         payload: users.data,
       });
     })
@@ -478,7 +496,7 @@ export const getAllClickers = () => (dispatch) => {
     .get(`http://localhost:3001/account/admin/delivery`, setHeaders())
     .then((clickers) => {
       dispatch({
-        type: ALL_DELIVERY,
+        type: ADMIN_ALL_DELIVERY,
         payload: clickers.data,
       });
     })
@@ -491,7 +509,7 @@ export const getAllOwners = () => (dispatch) => {
     .get(`http://localhost:3001/account/admin/owner`, setHeaders())
     .then((owners) => {
       dispatch({
-        type: ALL_OWNERS,
+        type: ADMIN_ALL_OWNERS,
         payload: owners.data,
       });
     })
@@ -563,16 +581,14 @@ export const deleteProduct = (id) => {
 };
 //ADMINACTIONS////////////////////////////////////////////////////
 
-
-
 //EXTRAACTIONS////////////////////////////////////////////////////
 export const getProfiles = (username) => (dispatch) => {
   return axios
-  .get(`https://api.github.com/users/${username}`)
-  .then((profiles) => {
-    dispatch({
-      type: GET_PROFILE,
-        payload: profiles.data
+    .get(`https://api.github.com/users/${username}`)
+    .then((profiles) => {
+      dispatch({
+        type: GET_PROFILE,
+        payload: profiles.data,
       });
     })
     .catch((error) => console.error(error.message));

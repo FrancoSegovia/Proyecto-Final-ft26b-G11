@@ -4,7 +4,6 @@ import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import {
-  Badge,
   Box,
   Container,
   CssBaseline,
@@ -12,14 +11,13 @@ import {
   Grid,
   IconButton,
   List,
-  Paper,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems } from "../features/ListItems";
-import OwnersGrid from "../features/OwnersGrid";
+import OwnersGrid from "../features/Grids/OwnersGrid";
 
 const drawerWidth = 240;
 

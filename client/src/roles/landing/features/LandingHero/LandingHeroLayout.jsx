@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Box, Container, Icon, IconButton } from "@mui/material";
+import { Box, Container, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ArrowDownward } from "@mui/icons-material";
 
@@ -71,7 +71,7 @@ function ProductHeroLayout(props) {
           <ArrowDownward
             sx={{
               fontSize: "70px",
-              top:"4vw",
+              top: "4vw",
               position: "absolute",
             }}
             style={IconHover}

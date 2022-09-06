@@ -13,7 +13,6 @@ const linksStyle = {
 };
 
 export default function AppFooter() {
-
   return (
     <Typography component="footer" sx={{ display: "flex", bgcolor: "#1976d2" }}>
       <Container sx={{ my: 8, display: "flex" }}>

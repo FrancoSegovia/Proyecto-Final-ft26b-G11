@@ -9,26 +9,18 @@ import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import {
-  Badge,
   Box,
   Container,
   CssBaseline,
   Divider,
-  Grid,
   IconButton,
   List,
-  Paper,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import EditIcon from "@mui/icons-material/Edit";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../features/ListItems";
-
-import image from "../../../media/defaultShop.jpg";
 
 const drawerWidth = 240;
 

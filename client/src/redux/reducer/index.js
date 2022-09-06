@@ -1,7 +1,7 @@
-import shopOrder from "../../utils/functions/shopOrder";
-import shopFilter from "../../utils/functions/shopFilter";
 import jwtDecode from "jwt-decode";
 import swal from "sweetalert";
+import shopOrder from "../../utils/functions/shopOrder";
+import shopFilter from "../../utils/functions/shopFilter";
 
 import {
   //shared
@@ -10,31 +10,31 @@ import {
   ALL_SHOPS,
   ORDER_SHOPS,
   FILTER_SHOPS,
-  //shared
-  //user
   QUERY_SHOPS,
   QUERY_ERROR,
   QUERY_PRODUCTS,
-  GET_USER_ORDERS,
-  GET_SHOPPINGCART,
-  ADD_SHOPPINGCART,
-  DELETE_SHOPPINGCART,
-  AMOUNT_SHOPPINGCART,
-  CLEAR_SHOPPINGCART,
   ERROR_CLEANER,
+  //shared
+  //user
+  USER_GET_ORDERS,
+  USER_GET_SHOPPINGCART,
+  USER_ADD_SHOPPINGCART,
+  USER_AMOUNT_SHOPPINGCART,
+  USER_DELETE_SHOPPINGCART,
+  USER_CLEAR_SHOPPINGCART,
   //user
   //delivery
-  ALL_ORDERS,
-  ALL_DELIVERY_ORDERS,
+  DELIVERY_ALL_ORDERS,
+  DELIVERY_ORDER,
   //delivery
   //owner
   OWNER_DETAIL,
   OWNER_SHOPS,
   //owner
   //admin
-  ALL_USERS,
-  ALL_DELIVERY,
-  ALL_OWNERS,
+  ADMIN_ALL_USERS,
+  ADMIN_ALL_DELIVERY,
+  ADMIN_ALL_OWNERS,
   //admin
   GET_PROFILE,
   ORDER_PRODUCTS,
@@ -75,132 +75,6 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ALL_SHOPS: {
-      return {
-        ...state,
-        mainShops: payload,
-        shops: payload,
-      };
-    }
-
-    case QUERY_SHOPS: {
-      return {
-        ...state,
-        shops: payload,
-      };
-    }
-
-    case QUERY_PRODUCTS: {
-      return {
-        ...state,
-        modalProducts: payload,
-      };
-    }
-    case ALL_USERS: {
-      return {
-        ...state,
-        users: payload,
-      };
-    }
-
-    case ALL_ORDERS: {
-      return {
-        ...state,
-        orders: payload,
-      };
-    }
-
-    /////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////
-
-    case QUERY_ERROR:
-      return {
-        ...state,
-        error: payload,
-      };
-
-    case ERROR_CLEANER:
-      return {
-        ...state,
-        error: payload,
-      };
-
-    case OWNER_DETAIL:
-      return {
-        ...state,
-        owner: payload,
-      };
-
-    case OWNER_SHOPS:
-      return {
-        ...state,
-        ownerShops: payload,
-      };
-
-    case ALL_OWNERS:
-      return {
-        ...state,
-        owners: payload,
-      };
-
-    case ALL_DELIVERY:
-      return {
-        ...state,
-        deliverys: payload,
-      };
-
-    case GET_USER_ORDERS:
-      return {
-        ...state,
-        orders: [...payload],
-      };
-
-    case ALL_DELIVERY_ORDERS:
-      return {
-        ...state,
-        deliveryOrders: payload,
-      };
-
-    /////////////////////////////////////////////////
-
-    case GET_SHOPPINGCART:
-      localStorage.setItem("cart", JSON.stringify([...payload]));
-      return {
-        ...state,
-        cart: [...payload],
-      };
-
-    case ADD_SHOPPINGCART:
-      localStorage.setItem("cart", JSON.stringify([...payload]));
-      return {
-        ...state,
-        cart: [...payload],
-      };
-
-    case AMOUNT_SHOPPINGCART:
-      localStorage.setItem("cart", JSON.stringify([...payload]));
-      return {
-        ...state,
-        cart: [...payload],
-      };
-
-    case DELETE_SHOPPINGCART:
-      localStorage.setItem("cart", JSON.stringify([...payload]));
-      return {
-        ...state,
-        cart: [...payload],
-      };
-
-    case CLEAR_SHOPPINGCART:
-      localStorage.setItem("cart", JSON.stringify([]));
-      return {
-        ...state,
-        cart: [...payload],
-      };
-
-    /////////////////////////////////////////////////
-
     case SIGN_IN: {
       const data = jwtDecode(payload);
       if (data)
@@ -251,6 +125,14 @@ const reducer = (state = initialState, { type, payload }) => {
         },
       };
 
+    case ALL_SHOPS: {
+      return {
+        ...state,
+        mainShops: payload,
+        shops: payload,
+      };
+    }
+
     case ORDER_SHOPS:
       if (payload === "DEFAULT") {
         let newOrder = [...state.mainShops];
@@ -279,16 +161,114 @@ const reducer = (state = initialState, { type, payload }) => {
         shops: [...newFilter],
       };
 
-    case ORDER_PRODUCTS:
+    case QUERY_SHOPS: {
       return {
         ...state,
-        products: [...state.mainProducts],
+        shops: payload,
+      };
+    }
+
+    case QUERY_PRODUCTS: {
+      return {
+        ...state,
+        modalProducts: payload,
+      };
+    }
+
+    case QUERY_ERROR:
+      return {
+        ...state,
+        error: payload,
       };
 
-    case FILTER_PRODUCTS:
+    case ERROR_CLEANER:
       return {
         ...state,
-        products: [...state.mainProducts],
+        error: payload,
+      };
+
+    case USER_GET_ORDERS:
+      return {
+        ...state,
+        orders: [...payload],
+      };
+
+    case USER_GET_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([...payload]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    case USER_ADD_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([...payload]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    case USER_AMOUNT_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([...payload]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    case USER_DELETE_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([...payload]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    case USER_CLEAR_SHOPPINGCART:
+      localStorage.setItem("cart", JSON.stringify([]));
+      return {
+        ...state,
+        cart: [...payload],
+      };
+
+    case DELIVERY_ALL_ORDERS: {
+      return {
+        ...state,
+        orders: payload,
+      };
+    }
+
+    case DELIVERY_ORDER:
+      return {
+        ...state,
+        deliveryOrders: payload,
+      };
+
+    case OWNER_DETAIL:
+      return {
+        ...state,
+        owner: payload,
+      };
+
+    case OWNER_SHOPS:
+      return {
+        ...state,
+        ownerShops: payload,
+      };
+
+    case ADMIN_ALL_USERS: {
+      return {
+        ...state,
+        users: payload,
+      };
+    }
+    case ADMIN_ALL_OWNERS:
+      return {
+        ...state,
+        owners: payload,
+      };
+
+    case ADMIN_ALL_DELIVERY:
+      return {
+        ...state,
+        deliverys: payload,
       };
 
     case GET_PROFILE:
@@ -303,7 +283,17 @@ const reducer = (state = initialState, { type, payload }) => {
         };
       }
 
-    /////////////////////////////////////////////////
+    case ORDER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
+
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
 
     default:
       return state;

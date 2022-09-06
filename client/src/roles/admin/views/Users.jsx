@@ -1,6 +1,6 @@
 import React from "react";
 
-import UserGrid from "../features/UserGrid";
+import UserGrid from "../features/Grids/UserGrid";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";

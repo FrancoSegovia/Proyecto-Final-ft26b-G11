@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOwners } from "../../../redux/actions";
-import { deleteOwner } from "../../../redux/actions";
+import { deleteClicker, getAllClickers } from "../../../../redux/actions";
 
 import PropTypes from "prop-types";
 import {
   Box,
-  Checkbox,
   IconButton,
   Paper,
   Table,
@@ -16,17 +14,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CloseIcon from "@mui/icons-material/Close";
 import Banhamm from "@mui/icons-material/Gavel";
-import { visuallyHidden } from "@mui/utils";
-
 import { alpha } from "@mui/material/styles";
 
 function createData(name, userType, id) {
@@ -36,22 +29,6 @@ function createData(name, userType, id) {
     id,
   };
 }
-
-const rows = [
-  createData("Franco", "admin", 3052),
-  createData("César", "admin", 4523),
-  createData("Emilio", "admin", 2622),
-  createData("Braian", "admin", 1594),
-  createData("Octavio", "admin", 3566),
-  createData("Jorge", "admin", 4088),
-  createData("Elizabeth", "admin", 2375),
-  createData("Mathias", "admin", 3758),
-  createData("Hernán", "admin", 5180),
-  createData("XRiDerXtreMe", "admin", 3902),
-  createData("FifoLifo69", "admin", 3183),
-  createData("pablo04", "admin", 3640),
-  createData("mequedesinideas", "admin", 4357),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -71,17 +48,17 @@ function getComparator(order, orderBy) {
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+// function stableSort(array, comparator) {
+//   const stabilizedThis = array.map((el, index) => [el, index]);
+//   stabilizedThis.sort((a, b) => {
+//     const order = comparator(a[0], b[0]);
+//     if (order !== 0) {
+//       return order;
+//     }
+//     return a[1] - b[1];
+//   });
+//   return stabilizedThis.map((el) => el[0]);
+// }
 
 const headCells = [
   {
@@ -194,7 +171,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Dueños
+          Clickers
         </Typography>
       )}
 
@@ -219,15 +196,15 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
-  const owners = useSelector((state) => state.owners);
+  const clickers = useSelector((state) => state.deliverys);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllOwners());
-  }, [owners]);
+    dispatch(getAllClickers());
+  }, [clickers]);
 
   const onBanhammClick = (id) => {
-    dispatch(deleteOwner(id));
+    dispatch(deleteClicker(id));
   };
 
   const [order, setOrder] = useState("asc");
@@ -245,7 +222,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = owners.map((n) => n.name);
+      const newSelected = clickers.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -285,7 +262,7 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - owners.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - clickers.length) : 0;
 
   return (
     <Box sx={{ width: "100%", marginTop: "30px" }}>
@@ -303,25 +280,25 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={owners.length}
+              rowCount={clickers.length}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                    rows.slice().sort(getComparator(order, orderBy)) */}
-              {owners
+              {clickers
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .sort(getComparator(order, orderBy))
-                .map((owner, index) => {
-                  const isItemSelected = isSelected(owner.name);
+                .map((clicker, index) => {
+                  const isItemSelected = isSelected(clicker.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return owner.isBanned === false ? (
+                  return clicker.isBanned === false ? (
                     <TableRow
                       hover
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={owner._id}
+                      key={clicker._id}
                     >
                       <TableCell padding="checkbox"></TableCell>
 
@@ -331,19 +308,19 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {owner.name}
+                        {clicker.name}
                       </TableCell>
                       <TableCell align="left" padding="none">
-                        {owner.type}
+                        {clicker.type}
                       </TableCell>
                       <TableCell align="left" padding="none">
-                        {owner._id}
+                        {clicker._id}
                       </TableCell>
                       <TableCell align="left">
                         <Box sx={{ display: "flex" }}>
                           <IconButton
                             sx={{ color: "#f44336" }}
-                            onClick={() => onBanhammClick(owner._id)}
+                            onClick={() => onBanhammClick(clicker._id)}
                           >
                             <Banhamm />
                           </IconButton>
@@ -372,7 +349,7 @@ export default function EnhancedTable() {
           labelRowsPerPage="Filas por página:"
           rowsPerPageOptions={[7, 14]}
           component="div"
-          count={owners.length}
+          count={clickers.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

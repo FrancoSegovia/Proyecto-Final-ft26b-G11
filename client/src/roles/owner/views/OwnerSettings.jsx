@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getOwnerDetails, getOwnerShops } from "../../../redux/actions";
+import { getOwnerShops } from "../../../redux/actions";
 import jwtDecode from "jwt-decode";
 import AdminCard from "../../admin/features/AdminCard";
 

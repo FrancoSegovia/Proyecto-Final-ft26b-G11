@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../../../../redux/actions"
+import { addProduct } from "../../../../redux/actions";
 
 import {
   Box,
@@ -15,13 +15,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
-export default function AddProduct ({shopId}) {
-
+export default function AddProduct({ shopId }) {
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: null,
-    idLocal:shopId
+    idLocal: shopId,
   });
 
   const onSubmit = (e) => {
@@ -29,14 +28,14 @@ export default function AddProduct ({shopId}) {
     setNewProduct({
       name: "",
       price: null,
-      idLocal: shopId
-    })
+      idLocal: shopId,
+    });
     dispatch(addProduct(newProduct));
     setNewProduct({
       name: "",
       price: null,
-      idLocal:""
-    })
+      idLocal: "",
+    });
   };
 
   const onInputChange = (e) => {
@@ -58,7 +57,6 @@ export default function AddProduct ({shopId}) {
             alignItems: "center",
           }}
         >
-
           <Typography component="h1" variant="h5">
             CREAR NUEVO PRODUCTO
           </Typography>
@@ -91,14 +89,10 @@ export default function AddProduct ({shopId}) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={
-                !newProduct.name.length ||
-                !newProduct.price
-              }
+              disabled={!newProduct.name.length || !newProduct.price}
             >
               CREAR NUEVO PRODUCTO
             </Button>
-
           </Box>
         </Box>
       </Container>

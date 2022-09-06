@@ -5,7 +5,7 @@ const BotSvg = (props) => (
     style={{
       height: 150,
       overflow: "hidden",
-      backgroundColor:"transparent"
+      backgroundColor: "transparent",
     }}
   >
     <svg
@@ -14,7 +14,7 @@ const BotSvg = (props) => (
       style={{
         height: "100%",
         width: "100%",
-        backgroundColor:"transparent"
+        backgroundColor: "transparent",
       }}
       {...props}
     >

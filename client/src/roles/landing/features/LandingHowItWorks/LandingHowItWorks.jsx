@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 
 import Button from "../Button/Button.jsx";
 import Typography from "../Typography/Typography.jsx";
-import { Box, Container, Grid, Icon } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import {
   ShoppingCart,
   AddCard as AddCardIcon,
-  AccessTime as AccessTimeIcon,
   DirectionsBike,
 } from "@mui/icons-material";
 
@@ -25,10 +24,10 @@ const number = {
   fontWeight: "medium",
 };
 
-const image = {
-  height: 55,
-  my: 4,
-};
+// const image = {
+//   height: 55,
+//   my: 4,
+// };
 
 export default function LandingHowItWorks() {
   return (
