@@ -30,108 +30,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllShops } from "../../../redux/actions";
 
-const negocios = [
-  {
-    image,
-    name: "Ñamfifruli",
-    category: "Restaurant",
-    products: [
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-      {
-        image,
-        name: "Papafrula",
-        price: "500",
-      },
-    ],
-  },
-  {
-    image,
-    name: "Oktubre",
-    category: "Heladeria",
-    products: [
-      {
-        image,
-        name: "Helado de vainilla",
-        price: "500",
-      },
-    ],
-  },
-  {
-    image,
-    name: "Luzbelito",
-    category: "Bodegón",
-    products: [
-      {
-        image,
-        name: "Milanesa con puré",
-        price: "500",
-      },
-    ],
-  },
-  {
-    image,
-    name: "Pizza Conmigo",
-    category: "Pizzeria",
-    products: [
-      {
-        image,
-        name: "Especial Kito Pizza",
-        price: "500",
-      },
-    ],
-  },
-  {
-    image,
-    name: "El Paseo Familiar de Don José",
-    category: "Bodegón",
-    products: [
-      {
-        image,
-        name: "Papito jugó al Doom",
-        price: "250",
-      },
-    ],
-  },
-];
 
 const drawerWidth = 240;
 
@@ -189,12 +87,11 @@ function DashboardContent() {
 
   const shops = useSelector((state) => state.shops);
 
-  console.log(shops);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllShops());
-  }, []);
+  }, [shops]);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -269,7 +166,7 @@ function DashboardContent() {
               mb: 4,
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: "space-evenly",
+              justifyContent: "space-between",
               rowGap: "50px",
               gap: "30px",
             }}

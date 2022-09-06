@@ -8,24 +8,20 @@ const schema = Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     price: {
       type: Number,
       required: true,
     },
-    inCart: {
-      type: Boolean,
-      default: false
-    },
     type: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     local: {

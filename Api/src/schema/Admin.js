@@ -12,6 +12,11 @@ const schema = Schema(
       lowercase: true,
       unique: true,
     },
+    type: {
+      type: String,
+      required: false,
+      default: "admin",
+    },
   },
   { collection: "admins" }
 );

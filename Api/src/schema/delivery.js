@@ -45,8 +45,16 @@ const schema = Schema(
     },
     phone: {
       type: Number,
-      required: true,
+      required: false,
     },
+    ocupation: {
+      type: String,
+      default: "false"
+    },
+    order: [{
+      type: Schema.Types.ObjectId,
+      ref: "Order"
+    }]
   },
   { collection: "deliverys" }
 );
@@ -70,6 +78,7 @@ function signup(deliveryInfo) {
         password: bcrypt.hashSync(deliveryInfo.password, 9),
         name: deliveryInfo.name,
         lastname: deliveryInfo.lastname,
+        isBanned: deliveryInfo.isBanned
       };
       return this.create(newDelivery);
     })

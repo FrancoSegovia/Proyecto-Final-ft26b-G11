@@ -1,13 +1,11 @@
-const addProductCart = require("./controller_addProductCart");
-const deleteProduct = require("./controller_deleteProduct");
-const getProduct = require("./controller_getProduct");
-const getProductCart = require("./controller_getProductCart");
-const putProduct = require("./controller_putProduct");
+const {addProductCart, getCart, cartAmount} = require("./controller_addProductCart");
+const {deleteProduct, deleteCart} = require("./controller_deleteProduct");
+
 
 module.exports = {
     addProductCart,
     deleteProduct,
-    getProduct,
-    getProductCart,
-    putProduct
+    deleteCart,
+    getCart,
+    cartAmount
 };

@@ -1,57 +1,153 @@
-const Cart = require("../../schema/Cart");
 const Product = require("../../schema/Product");
-const User = require("../../schema/User")
+const User = require("../../schema/User");
 const mongoose = require("mongoose");
-
-function getModelByName(name) {
-    return mongoose.model(name);
-  }
+const { use } = require("../cart");
+const ObjectId = mongoose.Types.ObjectId;
 
 const addProductCart = async (req, res) => {
-    
-    
-    const { name, image, price, user} = req.body;
-   
-    
+  try {
+    const { id } = req.params; // USER ID
+    const { _id } = req.body; // PRODUCT ID
 
-    const product = getModelByName("Product")
-    
-    // Nos fijamos si tenemos el producto
+    const product = await Product.findById({ _id });
 
-    const productExist = await product.findOne({ name })
+    const user = await User.update(
+      { _id: id },
+      { $push: { cart: { product: _id } } },
+      { multi: true }
+    );
 
-    // Nos fijamos si todos los campos vienen con info
+    const { cart } = await User.findById(id).lean();
 
-    const isNotEmptyCart = name !== "" && image !== "" && price !== "" ;
+    const userResponse = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
+      },
 
-    // Nos fijamos si el producto esta en el carrito
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
+      },
+    ]);
 
-    const inCart = await Cart.findOne({name});
-    
-    // Si no tenemos el producto 
+    const formattedProducts = userResponse[0].products.map((p) => {
+      const cartItem = cart.find(
+        ({ product }) => product.toString() === p._id.toString()
+      );
 
-    if(!productExist){
-        res.status(400).json({
-            message: "This product is not in our database "
-        })
+      return { ...p, amount: cartItem?.amount };
+    });
 
-    // Si nos envian algo y NO esta en el carrito lo agregamos    
-    } else if (isNotEmptyCart && !inCart){
-        const newProductInCart = new Cart({ name, image, price, amount: 1, user});
+    res.status(200).json(formattedProducts);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
 
-    // Actualizamos la prop inCart
-        product.findByIdAndUpdate(productExist?._id, { inCart: true, name, image, price}, { new: true} )
-        product.findByIdAndUpdate(!productExist, {$push: newProductInCart})
-        const newProduct = await newProductInCart.save();
-        res.json(newProduct)
-            
-        
-    }else  {
-        res.status(400).json({
-            message: "The product is in Cart"
-        })
-        
-    }
-}
+const getCart = async (req, res) => {
+  try {
+    const { id } = req.params; // user
 
-module.exports = addProductCart
+    const { cart } = await User.findById(id).lean();
+
+    const userProduct = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
+      },
+
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
+      },
+    ]);
+
+    const formattedProducts = userProduct[0].products.map((p) => {
+      const cartItem = cart.find(
+        ({ product }) => product.toString() === p._id.toString()
+      );
+
+      return { ...p, amount: cartItem?.amount };
+    });
+
+    res.status(200).json(formattedProducts);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
+
+const cartAmount = async (req, res) => {
+  const { _id, amount } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { "cart.$[el].amount": amount } },
+      {
+        arrayFilters: [{ "el.product": _id }],
+        new: true,
+      }
+    );
+ 
+    const { cart } = await User.findById(req.params.id).lean();
+
+    const userResponse = await User.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "cart.product",
+          foreignField: "_id",
+          as: "cart.products",
+        },
+      },
+      {
+        $match: {
+          _id: ObjectId(req.params.id),
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$cart",
+        },
+      },
+    ]);
+
+    const formattedProducts = userResponse[0].products.map((p) => {
+      const cartItem = cart.find(
+        ({ product }) => product.toString() === p._id.toString()
+      );
+
+      return { ...p, amount: cartItem?.amount };
+    });
+
+    res.status(200).json(formattedProducts);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  addProductCart,
+  getCart,
+  cartAmount,
+};

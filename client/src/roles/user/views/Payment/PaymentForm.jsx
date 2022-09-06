@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { paymentFuncion } from "../../../../redux/actions";
-
+import { paymentFuncion, clearShoppingCart } from "../../../../redux/actions";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import jwtDecode from "jwt-decode";
 import {
   Box,
   Button,
@@ -20,8 +20,24 @@ export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
 
+  let [buttonText, setButtonText] = useState("Realizar Pago")
+  let [complete, setComplete] = useState(false);
+  let [error, setError] = useState("");
+  let [waiting, setWaiting] = useState(false);
+
+  const handleChange = (e) => {
+    setComplete(e.complete);
+    if (e.error === undefined) {
+      setError("");
+    } else {
+      setError(e.error.message);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setButtonText("Procesando el Pago")
+    setWaiting(true);
 
     stripe
       .createPaymentMethod({
@@ -31,14 +47,19 @@ export default function PaymentForm() {
       .then(({ paymentMethod }) => {
         let { id } = paymentMethod;
         dispatch(
-          paymentFuncion(id, JSON.parse(localStorage.getItem("total")) * 100)
+          paymentFuncion(
+            id,
+            JSON.parse(localStorage.getItem("total")) * 100,
+            jwtDecode(localStorage.getItem("token"))._id,
+          ).then(() => {
+            setButtonText("Realizar Pago")
+            dispatch(clearShoppingCart());
+            navigate("/user/home");
+            setWaiting(false);
+          })
         );
       })
       .catch((error) => console.error(error));
-
-    setTimeout(() => {
-      navigate("/user/home");
-    }, 5000);
   };
 
   return (
@@ -49,14 +70,25 @@ export default function PaymentForm() {
       <Grid>
         <Grid item xs={12} md={6}>
           <Box component="form" onSubmit={handleSubmit}>
-            <CardElement />
+            <CardElement onChange={handleChange} />
+            {error ? (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error}
+                  </Typography>
+                ): <br></br>}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!complete || error.length || waiting}
             >
-              Realizar Pago
+              {buttonText}
             </Button>
           </Box>
         </Grid>

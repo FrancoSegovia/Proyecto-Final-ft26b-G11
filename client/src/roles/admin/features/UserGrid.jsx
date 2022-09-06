@@ -92,7 +92,7 @@ const headCells = [
     label: "Nombre",
   },
   {
-    id: "userType",
+    id: "type",
     numeric: false,
     disablePadding: true,
     label: "Tipo de usuario",
@@ -128,7 +128,7 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -136,28 +136,20 @@ function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all desserts",
             }}
-          />
+          /> */}
         </TableCell>
+
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
+            // sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.label}
+            
           </TableCell>
         ))}
+
       </TableRow>
     </TableHead>
   );
@@ -216,11 +208,12 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        // <Tooltip title="Filter list">
+        //   <IconButton>
+        //     <FilterListIcon />
+        //   </IconButton>
+        // </Tooltip>
+        null
       )}
     </Toolbar>
   );
@@ -236,7 +229,7 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     dispatch(getAllUsers());
-  }, []);
+  }, [users]);
 
   //! Happy accident!
   const [order, setOrder] = React.useState("asc");
@@ -254,7 +247,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = users.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -294,103 +287,98 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-  return (
-    <Box sx={{ width: "100%", marginTop: "30px" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(users, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user, index) => {
-                  const isItemSelected = isSelected(user.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={user.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+    return (
+      <Box sx={{ width: "100%", marginTop: "30px" }}>
+        <Paper sx={{ width: "100%", mb: 2 }}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? "small" : "medium"}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={users.length}
+              />
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                   rows.slice().sort(getComparator(order, orderBy)) */}
+                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort(getComparator(order, orderBy))
+                  .map((user, index) => {
+                    const isItemSelected = isSelected(user.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+  
+                    return user.isBanned === false ? (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={user._id}
                       >
-                        {user.name}
-                      </TableCell>
-                      <TableCell align="left" padding="none">
-                        {/* <Select value={{row.userType}}>
-                            <MenuItem value={"admin"}>Admin</MenuItem>
-                            <MenuItem value={"standard"}>Estándar</MenuItem>
-                          </Select> */}
-                      </TableCell>
-                      <TableCell align="left" padding="none">
-                        {user._id}
-                      </TableCell>
-                      <TableCell align="left">
-                        <Box sx={{ display: "flex" }}>
-                          <IconButton
-                            sx={{ color: "#f44336" }}
-                            onClick={() => {
-                              dispatch(deleteUser(user._id));
-                            }}
-                          >
-                            <Banhamm />
-                          </IconButton>
-                          {/* <IconButton sx={{color:"#f44336"}}>
-                            <CloseIcon/>
-                            color:"#29b6f6"
-                          </IconButton> */}
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          labelRowsPerPage="Filas por página:"
-          rowsPerPageOptions={[7, 14]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+                        <TableCell padding="checkbox"></TableCell>
+  
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {user.name}
+                        </TableCell>
+                        <TableCell align="left" padding="none">
+                          {user.type}
+                        </TableCell>
+                        <TableCell align="left" padding="none">
+                          {user._id}
+                        </TableCell>
+                        <TableCell align="left">
+                          <Box sx={{ display: "flex" }}>
+                            <IconButton
+                              sx={{ color: "#f44336" }}
+                              onClick={() => dispatch(deleteUser(user._id))}
+                            >
+                              <Banhamm />
+                            </IconButton>
+                            {/* <IconButton sx={{color:"#f44336"}}>
+                              <CloseIcon/>
+                              color:"#29b6f6"
+                            </IconButton> */}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ) : null
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            labelRowsPerPage="Filas por página:"
+            rowsPerPageOptions={[7, 14]}
+            component="div"
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Box>
   );
 }

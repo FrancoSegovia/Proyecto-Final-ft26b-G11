@@ -17,8 +17,8 @@ export default function UserShopFilter() {
   return (
     <>
       <Box>
-        <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!shops.length}>
-          <Select value={filter} onChange={onSelect} disabled={!shops.length}>
+        <FormControl sx={{ m: 1, minWidth: 270 }}>
+          <Select value={filter} onChange={onSelect}>
             <MenuItem value={"disabled"} disabled>Tipo de negocio</MenuItem>
             <MenuItem value={"DEFAULT"}>Cualquier Tipo</MenuItem>
             <MenuItem value={"BAR"}>Bar</MenuItem>

@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  amountShoppingCart,
+  deleteShoppingCart,
+  getShoppingCart,
+  clearShoppingCart,
+} from "../../../../redux/actions";
 
 import {
   Box,
@@ -12,7 +18,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { deleteShoppingCart, getShoppingCart } from "../../../../redux/actions";
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
@@ -22,7 +27,11 @@ export default function ShoppingCart() {
 
   useEffect(() => {
     dispatch(getShoppingCart());
-  }, []);
+  }, [dispatch]);
+
+  const onAmount = (id, amount) => {
+    dispatch(amountShoppingCart(id, amount))
+  }
 
   const onDelete = (e) => {
     e.preventDefault();
@@ -34,13 +43,14 @@ export default function ShoppingCart() {
     navigate("/user/pay");
   };
 
-  // const onSubstract = () => {};
-
-  // const onAdd = () => {};
+  const onClear = (e) => {
+    e.preventDefault();
+    dispatch(clearShoppingCart());
+  }
 
   const total = () => {
     let total = 0;
-    cart.map((p) => (total = total + p.price));
+    cart.map((p) => (total = total + p.price * p.amount));
     localStorage.setItem("total", JSON.stringify(total));
     return total;
   };
@@ -65,18 +75,21 @@ export default function ShoppingCart() {
         </Typography>
         <br></br>
         {!cart.length
-          ? "El Carrito se encuentra Vacio"
+          ? "Aún no hay nada en el carrito..."
           : cart.map((p) => {
               return (
                 <div>
-                  <i>{p.name}</i>
-                  <Box>
-                    {/* <Button
+                  <Typography variant="subtitle1">{p.name}</Typography>
+                  <Typography variant="subtitle1">{p.amount}</Typography>
+                  <Box style={{display:"flex", gap:"10px", justifyContent:"center"}}>
+                    <Button
                       value={p._id}
+                      disabled={p.amount <= 1}
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onSubstract}
+                      onClick={() => onAmount(p._id, p.amount - 1)}
+                      style={{borderRadius:"25px"}}
                     >
                       -
                     </Button>
@@ -85,16 +98,18 @@ export default function ShoppingCart() {
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onAdd}
+                      onClick={() => onAmount(p._id, p.amount + 1)}
+                      style={{borderRadius:"25px"}}
                     >
                       +
-                    </Button> */}
+                    </Button>
                     <Button
                       value={p._id}
                       variant="contained"
                       size="small"
                       disableElevation
-                      onClick={onDelete}
+                      onClick={(e) => onDelete(e)}
+                      style={{borderRadius:"25px"}}
                     >
                       x
                     </Button>
@@ -104,68 +119,36 @@ export default function ShoppingCart() {
             })}
         <br></br>
         <Typography
-          style={{ marginTop: "18px" }}
+          style={{ marginTop: "18px", padding:"10px" }}
           variant="h5"
           color="textPrimary"
           component="div"
         >
-          {!cart.length ? "Total = 0$" : `Total = ${total()}$`}
+          {!cart.length ? `Total : 0` : `Total : ${total()}`}
         </Typography>
-        <Button
-          variant="contained"
-          size="medium"
-          disableElevation
-          disabled={!cart.length}
-          onClick={onBuy}
-        >
-          Comprar
-        </Button>
+        <Box style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+          <Button
+            variant="contained"
+            size="medium"
+            disableElevation
+            disabled={!cart.length}
+            onClick={onBuy}
+            style={{borderRadius:"5px"}}
+          >
+            Comprar
+          </Button>
+          <Button
+            variant="contained"
+            size="medium"
+            disableElevation
+            disabled={!cart.length}
+            onClick={onClear}
+            style={{borderRadius:"5px"}}
+          >
+          Limpiar Carrito
+          </Button>
+        </Box>
       </Stack>
     </>
   );
-}
-
-{
-  /* return (
-  <Card
-    style={{
-      margin: "15px 0px",
-      backgroundColor: "whitesmoke",
-      padding: "20px",
-      maxWidth: "200px",
-    }}
-  >
-    <CardContent
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        textAlign: "center",
-        alignItems: "center",
-        padding: "10px",
-      }}
-    >
-      <CardMedia
-        component="img"
-        style={styles.media}
-        image={p.image}
-      />
-
-      <Typography
-        style={{ marginTop: "18px" }}
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {p.name}
-      </Typography>
-      <Typography
-        variant="h4"
-        color="textPrimary"
-        component="div"
-      >
-        {"$" + p.price}
-      </Typography>
-    </CardContent>
-  </Card>
-); */
 }

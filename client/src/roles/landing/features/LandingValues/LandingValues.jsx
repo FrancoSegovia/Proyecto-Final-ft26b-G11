@@ -12,7 +12,8 @@ const item = {
   flexDirection: "column",
   px: 5,
   backgroundColor: "#b3e5fc",
-  height: "36vh",
+  minHeight: "250px",
+  maxHeight:"250px",
   borderRadius: "25px",
   color: "#1976d2",
   gap: 5,
@@ -21,7 +22,7 @@ const item = {
 export default function LandingValues() {
   return (
     <>
-      <TopSvg />
+      <TopSvg/>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography
           variant="h5"
@@ -63,19 +64,13 @@ export default function LandingValues() {
                 <Typography variant="h5" style={{ marginTop: "70px" }}>
                   ¡Convertite en repartidor!
                 </Typography>
-                <Link to="/SignUp" style={{ textDecoration: "none" }}>
-                  <Button
-                    disabled
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ justifySelf: "flex-end" }}
-                    onClick={() => localStorage.setItem("type", "delivery")}
-                  >
-                    ¡Quiero ser Clicker!
-                    <IconButton style={{ color: "white" }}>
-                      <Person />
-                    </IconButton>
+                <Link to="/SignUp" style={{textDecoration:"none"}}>
+                  <Button variant="contained" color="primary" size="small" style={{justifySelf:"flex-end"}} onClick={() => localStorage.setItem("type", "delivery")}>
+                      ¡Quiero ser Clicker!
+                      <IconButton style={{ color: "white" }}>
+                        <Person/>
+                      </IconButton>
+
                   </Button>
                 </Link>
               </Box>
@@ -118,7 +113,7 @@ export default function LandingValues() {
           </Grid>
         </Container>
       </Box>
-      <BotSvg />
+      <BotSvg/>
     </>
   );
 }

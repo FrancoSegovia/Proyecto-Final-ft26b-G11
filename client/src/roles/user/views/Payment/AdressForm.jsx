@@ -19,7 +19,6 @@ export default function AddressForm() {
 
   useEffect(() => {
     let token = jwtDecode(localStorage.getItem("token"));
-    console.log(token);
     setForm({
       firstName: token.name,
       lastName: token.lastname,
@@ -93,30 +92,6 @@ export default function AddressForm() {
             variant="standard"
           />
         </Grid>
-        {/* <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="city"
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            label="Ciudad"
-            fullWidth
-            autoComplete="shipping address-level2"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="state"
-            name="state"
-            value={form.state}
-            onChange={handleChange}
-            label="Estado/Provincia/Region"
-            fullWidth
-            variant="standard"
-          />
-        </Grid> */}
       </Grid>
     </React.Fragment>
   );

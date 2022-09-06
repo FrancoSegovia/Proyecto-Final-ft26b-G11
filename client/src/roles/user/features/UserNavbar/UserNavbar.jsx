@@ -18,7 +18,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import { AddBusiness, Search } from "@mui/icons-material";
+import { AddBusiness, Search as SearchIcon } from "@mui/icons-material";
 import UserMenu from "../UserMenu/UserMenu";
 
 export default function Navbar() {
@@ -95,7 +95,7 @@ export default function Navbar() {
             <Container style={{ maxWidth: "350px", display: "flex" }}>
               <Search>
                 <SearchIconWrapper>
-                  <Search />
+                  <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Buscar Negocios"
@@ -123,21 +123,8 @@ export default function Navbar() {
               </Container>
             </Container>
 
-            {localS !== "user" ? (
-              <Link
-                to="/create"
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                <Button variant="contained" color="primary" size="small">
-                  Ingrese un nuevo negocio
-                  <IconButton style={{ color: "white" }}>
-                    <AddBusiness />
-                  </IconButton>
-                </Button>
-              </Link>
-            ) : (
-              <UserMenu />
-            )}
+            <UserMenu/>
+
           </Toolbar>
         </AppBar>
       </Box>

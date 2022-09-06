@@ -3,7 +3,8 @@ const userSchema = require("../../schema/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const localSchema = require("../../schema/Local");
-const admindSchema = require("../../schema/Admin")
+const admindSchema = require("../../schema/Admin");
+const productSchema = require("../../schema/Product");
 
 //!-----------------------------------------------------
 function getModelByName(name) {
@@ -24,7 +25,7 @@ const signup = (req, res) => {
           .send({ success: true, message: "user created succesfully" });
       })
       .catch((error) =>
-        res.status(200).send({ success: false, error: error.message })
+        res.status(404).send({ success: false, error: error.message })
       );
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
@@ -44,10 +45,10 @@ const confirmAccount = (req, res) => {
           .send({ success: true, message: "user confirmed succesfully" });
       })
       .catch((err) =>
-        res.status(200).send({ success: false, error: err.message })
+        res.status(404).send({ success: false, error: err.message })
       );
   } catch (err) {
-    res.status(200).send({ success: false, error: err.message });
+    res.status(404).send({ success: false, error: err.message });
   }
 };
 
@@ -58,11 +59,11 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   if (!req.body.email)
     return res
-      .status(200)
+      .status(204)
       .send({ success: false, error: "email is not provided" });
   if (!req.body.password)
     return res
-      .status(200)
+      .status(204)
       .send({ success: false, error: "password is not provided" });
 
   const User = getModelByName("User");
@@ -73,16 +74,16 @@ const login = async (req, res) => {
   let correctModel;
 
   if (await User.find({ email: req.body.email })) {
-    correctModel = await User.findOne({ email });
+    correctModel = await userSchema.findOne({ email });
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
-        return res.status(400).send({ message: "Email is not verified" });
+        return res.status(204).send({ message: "Email is not verified" });
       if (correctModel.isBanned === true)
-        return res.status(400).send({ message: "User banned" });
+        return res.status(204).send({ message: "User banned" });
       const isMatch = bcrypt.compareSync(password, correctModel.password);
       if (!isMatch)
-        return res.status(400).send({ message: "Incorrect password" });
+        return res.status(204).send({ message: "Incorrect password" });
 
       const userObject = {
         _id: correctModel._id,
@@ -92,6 +93,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -110,12 +112,12 @@ const login = async (req, res) => {
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
-        return res.status(400).send({ message: "Email is not verified" });
+        return res.status(204).send({ message: "Email is not verified" });
       if (correctModel.isBanned === true)
-        return res.status(400).send({ message: "Delivery banned" });
+        return res.status(204).send({ message: "Delivery banned" });
       const isMatch = bcrypt.compareSync(password, correctModel.password);
       if (!isMatch)
-        return res.status(400).send({ message: "Incorrect password" });
+        return res.status(204).send({ message: "Incorrect password" });
 
       const userObject = {
         _id: correctModel._id,
@@ -125,6 +127,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -142,12 +145,12 @@ const login = async (req, res) => {
 
     if (correctModel !== null) {
       if (!correctModel.emailVerified)
-        return res.status(400).send({ message: "Email is not verified" });
+        return res.status(204).send({ message: "Email is not verified" });
       if (correctModel.isBanned === true)
-        return res.status(400).send({ message: "Owner banned" });
+        return res.status(204).send({ message: "Owner banned" });
       const isMatch = bcrypt.compareSync(password, correctModel.password);
       if (!isMatch)
-        return res.status(400).send({ message: "Incorrect password" });
+        return res.status(204).send({ message: "Incorrect password" });
 
       const userObject = {
         _id: correctModel._id,
@@ -157,6 +160,7 @@ const login = async (req, res) => {
         emailVerified: correctModel.emailVerified,
         name: correctModel.name,
         lastname: correctModel.lastname,
+        isBanned: correctModel.isBanned,
       };
 
       const accessToken = jwt.sign(
@@ -174,11 +178,12 @@ const login = async (req, res) => {
 
     if (correctModel !== null) {
       if (password !== correctModel.password)
-        return res.status(400).send({ message: "Incorrect password" });
+        return res.status(204).send({ message: "Incorrect password" });
 
       const userObject = {
         _id: correctModel._id,
         email: correctModel.email,
+        type: correctModel.type,
       };
 
       const accessToken = jwt.sign(
@@ -192,7 +197,7 @@ const login = async (req, res) => {
     }
   }
   if (!correctModel)
-    return res.status(400).send({ message: "Incorrect email" });
+    return res.status(204).send({ message: "Incorrect email" });
 };
 //!-------------------------------------
 const get = (req, res) => {
@@ -200,27 +205,26 @@ const get = (req, res) => {
   if (name) {
     userSchema
       .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   } else {
     userSchema
       .find()
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+      .then((data) => res.status(200).json(data))
+      .catch((error) => res.status(404).json({ message: error }));
   }
 };
 
 const currentUser = (req, res) => {
   const { id } = req.params;
-  if (!id)
-    return res.status(200).send({ success: false, data: { user: null } });
+  if (!id) return res.status(204).send({ message: "Id is required" });
   userSchema
     .findById(id)
     .then((user) => {
       res.status(200).send(user);
     })
     .catch((error) =>
-      res.status(200).send({ success: false, error: error.message })
+      res.status(404).send({ success: false, error: error.message })
     );
 };
 
@@ -233,22 +237,47 @@ const updateCurrentUser = (req, res) => {
       { _id: id },
       { $set: { name, lastname, password: bcrypt.hashSync(password, 9) } }
     )
-    .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error }));
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(404).json({ message: error }));
 };
 
-const getLocal = (req, res) => {
+const getLocal = async (req, res) => {
   const { name } = req.query;
-  if (name) {
-    localSchema
-      .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+
+    if (name) {
+    try {
+      const find = await localSchema
+        .find({ name: new RegExp(req.query.name.toLowerCase(), "i") })
+        .populate("products");
+      const findFalse = find.filter(
+        (e) => !(e.isDisabled === true || e.owner.isBanned === true)
+      );
+      res.status(200).json(findFalse);
+    } catch (error) {
+      res.status(404).json({ message: error });
+    }
   } else {
-    localSchema
-      .find()
-      .then((data) => res.json(data))
-      .catch((error) => res.json({ message: error }));
+    try {
+      const find = await localSchema.find().populate("owner").populate("products");
+      const findFalse = find.filter((e) => !(e.isDisabled === true || e.owner.isBanned === true));
+      res.status(200).json(findFalse);
+    } catch (error) {
+      res.status(404).json({ message: error });
+    }
+  }
+};
+
+const getProductSearch = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.query;
+  try {
+    const search = await productSchema.find({
+      local: id,
+      name: new RegExp(name.toLowerCase(), "i"),
+    });
+    res.status(200).json(search);
+  } catch (error) {
+    res.status(404).json({ message: error });
   }
 };
 
@@ -260,4 +289,5 @@ module.exports = {
   currentUser,
   updateCurrentUser,
   getLocal,
+  getProductSearch,
 };

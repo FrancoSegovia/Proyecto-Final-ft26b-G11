@@ -1,9 +1,14 @@
 import React from "react";
 
 import Typography from "../Typography/Typography.jsx";
-import { Box, Container, Grid, Link } from "@mui/material";
+import { Box, Container, Grid, ListItem, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
+
+import LinkList from "./LinkList.jsx";
+import { useState } from "react";
 
 const linksStyle = {
+  textDecoration:"none",
   color: "#b3e5fc",
   fontSize: "15px",
   fontWeight: "200",
@@ -11,7 +16,13 @@ const linksStyle = {
 };
 
 export default function AppFooter() {
+  // const [isClicked, setIsClicked] = useState();
+
+  // const onLinkClick = () => isClicked === true ? setIsClicked(false) : setIsClicked(true)
+
   return (
+
+
     <Typography component="footer" sx={{ display: "flex", bgcolor: "#1976d2" }}>
       <Container sx={{ my: 8, display: "flex" }}>
         <Grid container spacing={2} justifyContent="center">
@@ -25,9 +36,9 @@ export default function AppFooter() {
               Github
             </Typography>
             <Typography variant="h6" gutterBottom noWrap>
-              <Link to="#" style={linksStyle}>
+              <a href="https://github.com/FrancoSegovia/Proyecto-Final-ft26b-G11" target="_blank" rel="noopener noreferrer" style={linksStyle}>
                 Repositorio en Github
-              </Link>
+              </a>
             </Typography>
           </Grid>
           <Grid item xs={3} sm={3} md={2.5}>
@@ -40,9 +51,12 @@ export default function AppFooter() {
             >
               Información adicional
             </Typography>
+            {/* {isClicked === true ? <LinkList/> : null} */}
             <Typography variant="h6" gutterBottom noWrap>
+              
               <Link
-                to="#"
+                // onClick={onLinkClick}
+                to="/profiles"
                 style={linksStyle}
                 sx={{ "&:hover": { color: "black" } }}
               >

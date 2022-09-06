@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
+/*global google*/
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
+import inputCheckout from "../../utils/functions/inputCheckout";
+import jwtDecode from "jwt-decode";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/material.css";
 
 import {
   Avatar,
@@ -21,27 +27,98 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function SignUp() {
+  const center = { lat: -38.71743771634209, lng: -62.26550655942335 };
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBkqwYBKKegQLjYtO3ALhbwqsUjhEK3pUI",
+    libraries: ["places"],
+  });
+
+  const destinationRef = useRef(null);
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [distance, setDistance] = useState("");
+  const [directionError, setDirectionError] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [user, setUser] = React.useState({
+  const [error, setError] = useState({});
+  const [phone, setPhone] = useState("");
+  const [user, setUser] = useState({
     type: "user",
     name: "",
     lastname: "",
     email: "",
     password: "",
-    phone: null,
+    cPassword: "",
     direction: "",
     vehicle: "",
+    isBanned: false,
   });
 
   useEffect(() => {
-    const localS = localStorage.getItem("type");
+    let localS = localStorage.getItem("type");
     setUser({ ...user, type: localS });
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    if (user.email === "") {
+      return 
+    } else {
+      setError(inputCheckout(user));
+    }
+  }, [user]);
+
+  if (!isLoaded) return;
+
+  const deliveryTravelMode = google.maps.TravelMode.DRIVING;
+
+  const calculateRoute = async () => {
+    if (destinationRef.current.value === "") {
+      return;
+    }
+    if (
+      !destinationRef.current.value.includes(
+        "Bahía Blanca, Provincia de Buenos Aires, Argentina"
+      )
+    ) {
+      setDirectionError(
+        "no se encontró su dirección en Bahia Blanca, intente nuevamente"
+      );
+      return;
+    }
+    try {
+      setDirectionError("");
+      // eslint-disable-next-line no-undef
+      const directionsService = new google.maps.DirectionsService();
+      const results = await directionsService.route({
+        origin: center,
+        destination: destinationRef.current.value,
+        // eslint-disable-next-line no-undef
+        travelMode: deliveryTravelMode,
+      });
+      setDirectionsResponse(results);
+      setDistance(results.routes[0].legs[0].distance.text); //text o value segun corresponda
+      console.log(distance);
+      let km = distance.split(" ");
+      if (parseInt(km[0]) > 11) {
+        setDirectionError(
+          "Tu dirección se encuentra fuera de nuestro area de cobertura"
+        );
+        return;
+      }
+      setUser({
+        ...user,
+        direction: destinationRef.current.value,
+      });
+    } catch (error) {
+      console.error(error);
+      setDirectionError("no se encontró su dirección, intente nuevamente");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (user.type === "owner") {
       dispatch(signUpOwner(user));
     } else if (user.type === "user") {
@@ -54,18 +131,17 @@ export default function SignUp() {
       lastname: "",
       email: "",
       password: "",
-      phone: null,
       direction: "",
       vehicle: "",
+      isBanned: false,
     });
     navigate("/SignIn", { replace: true });
   };
 
-  const handleChange = (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
     setUser({
       ...user,
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -82,7 +158,7 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            paddingTop:user.type !== "delivery" ? "16%" : "5%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -92,7 +168,11 @@ export default function SignUp() {
             <LockOutlined />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Registro
+            {user.type === "user"
+              ? "Registro de cliente"
+              : user.type === "owner"
+              ? "Registro de dueño"
+              : "Registro de Clicker"}
           </Typography>
           <Box
             component="form"
@@ -100,6 +180,14 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            <Typography
+              component="h6"
+              variant="subtitle2"
+              align="center"
+              sx={{ color: "#a6a6a6" }}
+            >
+              "*" CAMPOS OBLIGATORIOS
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -109,8 +197,7 @@ export default function SignUp() {
                   fullWidth
                   id="name"
                   label="Nombre"
-                  autoFocus
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.name}
                 />
               </Grid>
@@ -122,7 +209,7 @@ export default function SignUp() {
                   label="Apellido"
                   name="lastname"
                   autoComplete="family-name"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.lastname}
                 />
               </Grid>
@@ -134,26 +221,52 @@ export default function SignUp() {
                   label="Dirección de correo electrónico"
                   name="email"
                   autoComplete="eMail"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.email}
                 />
+                {error.email && (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error.email}
+                  </Typography>
+                )}
               </Grid>
-
-              {user.type === "user" && (
+              {(user.type === "user") && (
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="direction"
-                    label="Dirección"
-                    id="direction"
-                    autoComplete="new-direction"
-                    onChange={handleChange}
-                    value={user.direction}
-                  />
+                  <Autocomplete>
+                    <TextField
+                      required
+                      fullWidth
+                      name="direction"
+                      label="Dirección"
+                      id="direction"
+                      autoComplete="new-direction"
+                      inputRef={destinationRef}
+                      onBlur={calculateRoute}
+                    />
+                  </Autocomplete>
+                  {directionError && <p>{directionError}</p>}
                 </Grid>
               )}
 
+              {user.type === "owner" && (
+                <Grid item xs={12}>
+                  <PhoneInput
+                    align="center"
+                    specialLabel=""
+                    country="ar"
+                    onlyCountries={["ar"]}
+                    disableCountryCode={true}
+                    value={phone}
+                    placeholder="Teléfono"
+                    disableDropdown={true}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -163,22 +276,44 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
                   value={user.password}
                 />
               </Grid>
-
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="cPassword"
+                  label="Confirme su Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={(e) => handleChange(e)}
+                  value={user.cPassword}
+                />
+                {error.cPassword && (
+                  <Typography
+                    variant="overline"
+                    display="block"
+                    gutterBottom
+                    sx={{ color: "#FF0000" }}
+                  >
+                    {error.cPassword}
+                  </Typography>
+                )}
+              </Grid>
               {(user.type === "delivery" || user.type === "users") && (
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="phone"
-                    label="Teléfono"
-                    id="phone"
-                    autoComplete="new-phone"
-                    onChange={handleChange}
-                    value={user.phone}
+                  <PhoneInput
+                    align="center"
+                    specialLabel=""
+                    country="ar"
+                    onlyCountries={["ar"]}
+                    disableCountryCode={true}
+                    value={phone}
+                    placeholder="Teléfono"
+                    disableDropdown={true}
                   />
                 </Grid>
               )}
@@ -192,30 +327,21 @@ export default function SignUp() {
                     name={"vehicle"}
                   >
                     <MenuItem value={"AUTO"}>Auto</MenuItem>
+                    <MenuItem value={"BICICLETA"}>Bicicleta</MenuItem>
                     <MenuItem value={"MOTO"}>Moto</MenuItem>
                   </Select>
                 </Grid>
               )}
             </Grid>
-            {/* <Link to="/landing" style={{ textDecoration: "none", color: "white" }}> */}
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 3 }}
-              disabled={
-                !user.name.length ||
-                !user.lastname.length ||
-                !user.email.length ||
-                !user.email.includes("@") ||
-                !user.email.includes(".com") ||
-                !user.password.length
-              }
+              sx={{ mt: 2, mb: 2 }}
+              disabled={Object.keys(error).length || user.email === "" || directionError}
             >
               Registrarme
             </Button>
-            {/* </Link> */}
             <Grid
               container
               justifyContent="flex-end"
@@ -229,9 +355,16 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
+            <Grid
+              container
+              justifyContent="center"
+              style={{ marginBottom: "30px", marginTop: "30px" }}
+            >
               <Grid item>
-                <Link to="/SignIn" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/SignIn"
+                  style={{ textDecoration: "none", color: "#1976d2" }}
+                >
                   ¿Ya tienes una cuenta? ¡Inicia sesión!
                 </Link>
               </Grid>

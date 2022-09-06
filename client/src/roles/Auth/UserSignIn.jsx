@@ -55,7 +55,7 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            paddingTop:"45%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -127,7 +127,7 @@ export default function SignIn() {
             </Grid>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link to="/SignUp" style={{ textDecoration: "none" }}>
+                <Link to="/SignUp" style={{ textDecoration: "none", color:"#1976d2" }}>
                   ¿Aún no estas registrado? ¡Registrarse!
                 </Link>
               </Grid>

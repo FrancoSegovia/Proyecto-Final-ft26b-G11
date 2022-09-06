@@ -8,15 +8,16 @@ const useAuth = () => {
   } else return [token, false];
 };
 
-export default function ProtectedAdmin() {
-  const [token, auth] = useAuth();
-  return auth ? (
-    <Outlet />
-  ) : token.type === "user" ? (
-    <Navigate to={"/user/home"} />
-  ) : token.type === "owner" ? (
-    <Navigate to={"/owner/create"} />
-  ) : (
-    <Navigate to={"/delivery"} />
-  );
+export default function ProtectedAdmin(){
+    const [token, auth] = useAuth();
+     return auth ? (
+      <Outlet />
+    ) : token.type === "user" ? (
+      <Navigate to={"/user/home"} />
+    ) : token.type === "owner" ? (
+      <Navigate to={"/owner/home"} />
+    ) : (
+      <Navigate to={"/delivery"} />
+    );
 }
+
