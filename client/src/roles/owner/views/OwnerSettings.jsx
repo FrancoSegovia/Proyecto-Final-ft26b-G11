@@ -1,26 +1,16 @@
-import { ArrowBack, Edit } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import jwtDecode from "jwt-decode";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+
 import { getOwnerDetails, getOwnerShops } from "../../../redux/actions";
+import jwtDecode from "jwt-decode";
 import AdminCard from "../../admin/features/AdminCard";
-import { Home } from "@mui/icons-material";
+
+import { Box, Button, Typography } from "@mui/material";
+import { ArrowBack, Home } from "@mui/icons-material";
 
 function OwnerSettings() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const ownerShops = useSelector((state) => state.ownerShops);
   const data = jwtDecode(localStorage.getItem("token"));

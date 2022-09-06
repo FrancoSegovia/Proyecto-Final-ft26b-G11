@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllShops } from "../../../redux/actions";
+
+import AdminCard from "../features/AdminCard";
+
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
 import MuiDrawer from "@mui/material/Drawer";
@@ -23,13 +28,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../features/ListItems";
 
-import AdminCard from "../features/AdminCard";
 import image from "../../../media/defaultShop.jpg";
-
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getAllShops } from "../../../redux/actions";
-
 
 const drawerWidth = 240;
 
@@ -86,7 +85,6 @@ function DashboardContent() {
   };
 
   const shops = useSelector((state) => state.shops);
-
 
   const dispatch = useDispatch();
   useEffect(() => {

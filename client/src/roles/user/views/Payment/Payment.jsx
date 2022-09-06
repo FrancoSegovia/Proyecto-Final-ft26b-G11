@@ -8,17 +8,14 @@ import Review from "./Review";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import {
-  AppBar,
   Box,
   Button,
   Container,
   CssBaseline,
-  Link,
   Paper,
   Step,
   StepLabel,
   Stepper,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";

@@ -108,7 +108,7 @@ const cartAmount = async (req, res) => {
         new: true,
       }
     );
- 
+
     const { cart } = await User.findById(req.params.id).lean();
 
     const userResponse = await User.aggregate([

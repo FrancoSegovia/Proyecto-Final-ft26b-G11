@@ -9,7 +9,7 @@ const schema = Schema(
     type: {
       type: String,
       required: false,
-      default: "delivery"
+      default: "delivery",
     },
     name: {
       type: String,
@@ -49,16 +49,17 @@ const schema = Schema(
     },
     ocupation: {
       type: String,
-      default: "false"
+      default: "false",
     },
-    order: [{
-      type: Schema.Types.ObjectId,
-      ref: "Order"
-    }]
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   { collection: "deliverys" }
 );
-
 
 function signup(deliveryInfo) {
   if (!deliveryInfo.email || !isValidEmail(deliveryInfo.email))
@@ -78,7 +79,7 @@ function signup(deliveryInfo) {
         password: bcrypt.hashSync(deliveryInfo.password, 9),
         name: deliveryInfo.name,
         lastname: deliveryInfo.lastname,
-        isBanned: deliveryInfo.isBanned
+        isBanned: deliveryInfo.isBanned,
       };
       return this.create(newDelivery);
     })
@@ -132,4 +133,3 @@ schema.statics.sendConfirmationEmail = sendConfirmationEmail;
 schema.statics.confirmAccount = confirmAccount;
 
 module.exports = model("Delivery", schema);
-

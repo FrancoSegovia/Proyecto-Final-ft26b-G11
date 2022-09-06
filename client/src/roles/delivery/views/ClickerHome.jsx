@@ -1,4 +1,8 @@
 /*global google*/
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllShops } from "../../../redux/actions";
+
 import {
   useJsApiLoader,
   GoogleMap,
@@ -7,27 +11,11 @@ import {
   DirectionsRenderer,
   useLoadScript,
 } from "@react-google-maps/api";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllOrders, getAllShops } from "../../../redux/actions/index.js";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Typography,
-  IconButton,
-  FormLabel,
-} from "@mui/material";
-
-import UserCard from "../../user/features/UserCard/UserCard.jsx";
+import { Box, Button, Card, IconButton, FormLabel } from "@mui/material";
 
 import OrdersSlider from "../../delivery/features/OrdersSlider/OrdersSlider.jsx";
 import Navbar from "../../delivery/features/ClickerNavbar/ClickerNavbar";
 
-import { Grid } from "@mui/material";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import jwtDecode from "jwt-decode";
 
@@ -56,7 +44,7 @@ export default function Home() {
   }, []);
 
   // eslint-disable-next-line no-undef
-  if (!isLoaded) return 
+  if (!isLoaded) return;
 
   //!switch modo de transporte
   // switch (delivery.vehicle.toUpperCase()) {
@@ -80,7 +68,7 @@ export default function Home() {
     const directionsService = new google.maps.DirectionsService();
     const results = await directionsService.route({
       origin: origen,
-      destination:deliveryOrders.order[0]?.order.direction, //const destino
+      destination: deliveryOrders.order[0]?.order.direction, //const destino
       // eslint-disable-next-line no-undef
       travelMode: deliveryTravelMode,
     });
@@ -110,7 +98,7 @@ export default function Home() {
           overflow: "hidden",
         }}
       >
-        <OrdersSlider clearRoute={clearRoute}/>
+        <OrdersSlider clearRoute={clearRoute} />
 
         <Box style={{ display: "flex", justifyContent: "center" }}>
           <Card

@@ -4,15 +4,8 @@ import { useDispatch } from "react-redux";
 import { paymentFuncion, clearShoppingCart } from "../../../../redux/actions";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import jwtDecode from "jwt-decode";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Grid,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
+
+import { Box, Button, Grid, Typography } from "@mui/material";
 
 export default function PaymentForm() {
   const dispatch = useDispatch();
@@ -20,7 +13,7 @@ export default function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
 
-  let [buttonText, setButtonText] = useState("Realizar Pago")
+  let [buttonText, setButtonText] = useState("Realizar Pago");
   let [complete, setComplete] = useState(false);
   let [error, setError] = useState("");
   let [waiting, setWaiting] = useState(false);
@@ -36,7 +29,7 @@ export default function PaymentForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setButtonText("Procesando el Pago")
+    setButtonText("Procesando el Pago");
     setWaiting(true);
 
     stripe
@@ -50,9 +43,9 @@ export default function PaymentForm() {
           paymentFuncion(
             id,
             JSON.parse(localStorage.getItem("total")) * 100,
-            jwtDecode(localStorage.getItem("token"))._id,
+            jwtDecode(localStorage.getItem("token"))._id
           ).then(() => {
-            setButtonText("Realizar Pago")
+            setButtonText("Realizar Pago");
             dispatch(clearShoppingCart());
             navigate("/user/home");
             setWaiting(false);
@@ -63,7 +56,7 @@ export default function PaymentForm() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Typography variant="h6" gutterBottom>
         Metodo de Pago
       </Typography>
@@ -72,15 +65,17 @@ export default function PaymentForm() {
           <Box component="form" onSubmit={handleSubmit}>
             <CardElement onChange={handleChange} />
             {error ? (
-                  <Typography
-                    variant="overline"
-                    display="block"
-                    gutterBottom
-                    sx={{ color: "#FF0000" }}
-                  >
-                    {error}
-                  </Typography>
-                ): <br></br>}
+              <Typography
+                variant="overline"
+                display="block"
+                gutterBottom
+                sx={{ color: "#FF0000" }}
+              >
+                {error}
+              </Typography>
+            ) : (
+              <br></br>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -93,6 +88,6 @@ export default function PaymentForm() {
           </Box>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

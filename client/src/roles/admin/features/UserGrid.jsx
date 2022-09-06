@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../../redux/actions";
-import { deleteUser } from "../../../redux/actions";
+import { getAllUsers, deleteUser } from "../../../redux/actions";
 
 import PropTypes from "prop-types";
 import {
   Box,
-  Checkbox,
   IconButton,
   Paper,
   Table,
@@ -16,18 +14,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CloseIcon from "@mui/icons-material/Close";
 import Banhamm from "@mui/icons-material/Gavel";
-import { visuallyHidden } from "@mui/utils";
-import { Select, MenuItem } from "@mui/material";
-
 import { alpha } from "@mui/material/styles";
 
 function createData(name, userType, id) {
@@ -146,10 +138,8 @@ function EnhancedTableHead(props) {
             // sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.label}
-            
           </TableCell>
         ))}
-
       </TableRow>
     </TableHead>
   );
@@ -207,14 +197,12 @@ const EnhancedTableToolbar = (props) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : (
-        // <Tooltip title="Filter list">
-        //   <IconButton>
-        //     <FilterListIcon />
-        //   </IconButton>
-        // </Tooltip>
-        null
-      )}
+      ) : // <Tooltip title="Filter list">
+      //   <IconButton>
+      //     <FilterListIcon />
+      //   </IconButton>
+      // </Tooltip>
+      null}
     </Toolbar>
   );
 };
@@ -231,13 +219,12 @@ export default function EnhancedTable() {
     dispatch(getAllUsers());
   }, [users]);
 
-  //! Happy accident!
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(7);
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -289,96 +276,98 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-    return (
-      <Box sx={{ width: "100%", marginTop: "30px" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} />
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={dense ? "small" : "medium"}
-            >
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={users.length}
-              />
-              <TableBody>
-                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+  return (
+    <Box sx={{ width: "100%", marginTop: "30px" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={users.length}
+            />
+            <TableBody>
+              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                    rows.slice().sort(getComparator(order, orderBy)) */}
-                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort(getComparator(order, orderBy))
-                  .map((user, index) => {
-                    const isItemSelected = isSelected(user.name);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-  
-                    return user.isBanned === false ? (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={user._id}
+              {users
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .sort(getComparator(order, orderBy))
+                .map((user, index) => {
+                  const isItemSelected = isSelected(user.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return user.isBanned === false ? (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={user._id}
+                    >
+                      <TableCell padding="checkbox"></TableCell>
+
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
                       >
-                        <TableCell padding="checkbox"></TableCell>
-  
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {user.name}
-                        </TableCell>
-                        <TableCell align="left" padding="none">
-                          {user.type}
-                        </TableCell>
-                        <TableCell align="left" padding="none">
-                          {user._id}
-                        </TableCell>
-                        <TableCell align="left">
-                          <Box sx={{ display: "flex" }}>
-                            <IconButton
-                              sx={{ color: "#f44336" }}
-                              onClick={() => dispatch(deleteUser(user._id))}
-                            >
-                              <Banhamm />
-                            </IconButton>
-                            {/* <IconButton sx={{color:"#f44336"}}>
+                        {user.name}
+                      </TableCell>
+                      <TableCell align="left" padding="none">
+                        {user.type}
+                      </TableCell>
+                      <TableCell align="left" padding="none">
+                        {user._id}
+                      </TableCell>
+                      <TableCell align="left">
+                        <Box sx={{ display: "flex" }}>
+                          <IconButton
+                            sx={{ color: "#f44336" }}
+                            onClick={() => dispatch(deleteUser(user._id))}
+                          >
+                            <Banhamm />
+                          </IconButton>
+                          {/* <IconButton sx={{color:"#f44336"}}>
                               <CloseIcon/>
                               color:"#29b6f6"
                             </IconButton> */}
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ) : null
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            labelRowsPerPage="Filas por página:"
-            rowsPerPageOptions={[7, 14]}
-            component="div"
-            count={users.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ) : null;
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          labelRowsPerPage="Filas por página:"
+          rowsPerPageOptions={[7, 14]}
+          component="div"
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
   );
 }

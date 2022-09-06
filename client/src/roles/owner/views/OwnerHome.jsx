@@ -3,9 +3,9 @@ import Home from "../../user/views/Home/Home";
 function OwnerHome() {
   return (
     <>
-        <Home/>
+      <Home />
     </>
-  )
+  );
 }
 
-export default OwnerHome
+export default OwnerHome;

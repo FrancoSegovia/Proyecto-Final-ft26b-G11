@@ -1,29 +1,15 @@
 const express = require("express");
-const controllers = require("./controllers/index")
+const controllers = require("./controllers/index");
+const router = express.Router();
 
-const router = express.Router()
+router.get("/user-cart/:id", controllers.getCart); // TRAER LOS PRODUCTOS QUE ESTAN EN EL CARRITO
 
-// RUTA GET PARA TRAER LOS PRODUCTOS QUE ESTAN EN EL CARRITO
+router.put("/products-cart/:id", controllers.addProductCart); // AGREGAR PRODUCTO AL CARRITO
 
-router.get("/user-cart/:id", controllers.getCart)
+router.put("/products-amount/:id", controllers.cartAmount); // AUMENTAR O DISMINUIR LA CANTIDAD DEL PRODUCTO
 
-// RUTA GET PARA TRAER PRODUCTOS DE LA DB
+router.delete("/products-cart/:id", controllers.deleteProduct); // ELIMINAR UN PRODUCTO DEL CARRITO 
 
+router.delete("/clear-cart/:id", controllers.deleteCart); // ELIMINAR TODO DEL CARRRITO
 
-// RUTA POST PARA AGREGAR PRODUCTOS AL CARRITO
-
-router.put("/products-cart/:id", controllers.addProductCart)
-
-// RUTA PUT PARA AUMENTAR O DISMINUIR LA CANTIDAD DEL MISMO PRODUCTO 
-
-router.put("/products-amount/:id", controllers.cartAmount)
-
-// RUTA DELETE PARA ELIMINAR UN PRODUCTO DEL CARRITO (ELIMINA TODOS LOS PRODUCTOS CON EL MISMO ID)
-
-router.delete("/products-cart/:id", controllers.deleteProduct) 
-
-// ELIMINAR TODO DEL CART
-
-router.delete("/clear-cart/:id", controllers.deleteCart) 
-
-module.exports = router
+module.exports = router;

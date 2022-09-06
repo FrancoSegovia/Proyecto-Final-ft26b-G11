@@ -1,35 +1,45 @@
 import shopOrder from "../../utils/functions/shopOrder";
 import shopFilter from "../../utils/functions/shopFilter";
 import jwtDecode from "jwt-decode";
+import swal from "sweetalert";
 
 import {
+  //shared
+  SIGN_IN,
+  SIGN_OUT,
   ALL_SHOPS,
-  QUERY_SHOPS,
   ORDER_SHOPS,
   FILTER_SHOPS,
-  ORDER_PRODUCTS,
-  FILTER_PRODUCTS,
+  //shared
+  //user
+  QUERY_SHOPS,
   QUERY_ERROR,
-  ERROR_CLEANER,
-  SIGN_IN,
+  QUERY_PRODUCTS,
+  GET_USER_ORDERS,
+  GET_SHOPPINGCART,
   ADD_SHOPPINGCART,
   DELETE_SHOPPINGCART,
-  SIGN_OUT,
-  ALL_USERS,
-  GET_SHOPPINGCART,
-  QUERY_PRODUCTS,
+  AMOUNT_SHOPPINGCART,
+  CLEAR_SHOPPINGCART,
+  ERROR_CLEANER,
+  //user
+  //delivery
+  ALL_ORDERS,
+  ALL_DELIVERY_ORDERS,
+  //delivery
+  //owner
   OWNER_DETAIL,
   OWNER_SHOPS,
-  ALL_OWNERS,
+  //owner
+  //admin
+  ALL_USERS,
   ALL_DELIVERY,
-  CLEAR_SHOPPINGCART,
-  ALL_ORDERS,
-  GET_USER_ORDERS,
-  AMOUNT_SHOPPINGCART,
-  ALL_DELIVERY_ORDERS,
+  ALL_OWNERS,
+  //admin
   GET_PROFILE,
+  ORDER_PRODUCTS,
+  FILTER_PRODUCTS,
 } from "../actions";
-import swal from "sweetalert";
 
 const initialState = {
   profiles: [],
@@ -101,46 +111,6 @@ const reducer = (state = initialState, { type, payload }) => {
     }
 
     /////////////////////////////////////////////////
-
-    case ORDER_SHOPS:
-      if (payload === "DEFAULT") {
-        let newOrder = [...state.mainShops];
-        newOrder = newOrder.filter((s) => state.shops.includes(s));
-        return {
-          ...state,
-          shopOrder: "",
-          shops: [...newOrder],
-        };
-      } else {
-        let newOrder = [...state.shops];
-        newOrder = shopOrder(newOrder, payload);
-        return {
-          ...state,
-          shopOrder: payload,
-          shops: [...newOrder],
-        };
-      }
-
-    case FILTER_SHOPS:
-      let newFilter = [...state.mainShops];
-      newFilter = shopFilter(newFilter, payload, state.shopOrder);
-      return {
-        ...state,
-        shopFilter: payload,
-        shops: [...newFilter],
-      };
-
-    case ORDER_PRODUCTS:
-      return {
-        ...state,
-        products: [...state.mainProducts],
-      };
-
-    case FILTER_PRODUCTS:
-      return {
-        ...state,
-        products: [...state.mainProducts],
-      };
 
     /////////////////////////////////////////////////
 
@@ -229,18 +199,6 @@ const reducer = (state = initialState, { type, payload }) => {
         cart: [...payload],
       };
 
-    case GET_PROFILE:
-      if (state.profiles.find((p) => p.login.includes(payload.login))) {
-        return {
-          ...state,
-        };
-      } else {
-        return {
-          ...state,
-          profiles: [...state.profiles, payload],
-        };
-      }
-
     /////////////////////////////////////////////////
 
     case SIGN_IN: {
@@ -272,14 +230,10 @@ const reducer = (state = initialState, { type, payload }) => {
       localStorage.removeItem("type");
       localStorage.removeItem("cart");
       localStorage.removeItem("total");
-
       swal("Hasta pronto!", "Usted ha cerrado sesión.", "success", {
         timer: "2000",
         buttons: false,
       });
-
-      // , "Usted ha cerrado sesión.", "success");
-
       return {
         ...state,
         user: {
@@ -296,6 +250,58 @@ const reducer = (state = initialState, { type, payload }) => {
           orders: [],
         },
       };
+
+    case ORDER_SHOPS:
+      if (payload === "DEFAULT") {
+        let newOrder = [...state.mainShops];
+        newOrder = newOrder.filter((s) => state.shops.includes(s));
+        return {
+          ...state,
+          shopOrder: "",
+          shops: [...newOrder],
+        };
+      } else {
+        let newOrder = [...state.shops];
+        newOrder = shopOrder(newOrder, payload);
+        return {
+          ...state,
+          shopOrder: payload,
+          shops: [...newOrder],
+        };
+      }
+
+    case FILTER_SHOPS:
+      let newFilter = [...state.mainShops];
+      newFilter = shopFilter(newFilter, payload, state.shopOrder);
+      return {
+        ...state,
+        shopFilter: payload,
+        shops: [...newFilter],
+      };
+
+    case ORDER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
+
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        products: [...state.mainProducts],
+      };
+
+    case GET_PROFILE:
+      if (state.profiles.find((p) => p.login.includes(payload.login))) {
+        return {
+          ...state,
+        };
+      } else {
+        return {
+          ...state,
+          profiles: [...state.profiles, payload],
+        };
+      }
 
     /////////////////////////////////////////////////
 

@@ -1,10 +1,11 @@
 import React from "react";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
+import UserGrid from "../features/UserGrid";
+
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import {
-  Badge,
   Box,
   Container,
   CssBaseline,
@@ -12,18 +13,12 @@ import {
   Grid,
   IconButton,
   List,
-  Paper,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../features/ListItems";
-import UserGrid from "../features/UserGrid";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../../redux/actions";
 
 const drawerWidth = 240;
 
@@ -78,7 +73,7 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>

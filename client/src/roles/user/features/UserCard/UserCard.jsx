@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getQueryProducts } from "../../../../redux/actions";
-import defaultShop from "../../../../media/defaultShop.jpg";
-import axios from "axios";
-
-import ShoppingCart from "../UserShoppingCart/ShoppingCart";
-
-import { addShoppingCart } from "../../../../redux/actions";
+import { getQueryProducts, addShoppingCart } from "../../../../redux/actions";
 import jwtDecode from "jwt-decode";
+import defaultShop from "../../../../media/defaultShop.jpg";
+import ShoppingCart from "../UserShoppingCart/ShoppingCart";
 
 import {
   Button,
@@ -18,16 +14,13 @@ import {
   Container,
   IconButton,
   Typography,
-  CardActions,
   InputBase,
   Box,
   Fade,
   Modal,
-  Grid,
 } from "@mui/material";
+import { Clear, SearchRounded } from "@mui/icons-material";
 import { styled, alpha } from "@mui/material/styles";
-
-import { Clear, Add, SearchRounded } from "@mui/icons-material";
 
 export default function UserCard({ shop }) {
   const dispatch = useDispatch();

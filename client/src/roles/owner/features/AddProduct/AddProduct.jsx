@@ -1,30 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import { addProduct, addStore } from "../../redux/actions"
+import { addProduct } from "../../../../redux/actions"
 
 import {
-  Avatar,
   Box,
   Button,
   Container,
   CssBaseline,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
-import {  ArrowBack, Add as AddIcon } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { TextareaAutosize } from "@mui/base";
 
 const theme = createTheme();
 
 export default function AddProduct ({shopId}) {
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState({
     name: "",

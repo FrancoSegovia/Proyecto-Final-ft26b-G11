@@ -76,7 +76,7 @@ export default function CreateStore() {
                   onChange={onInputChange}
                 />
               </Grid>
-                <Grid item xs={12}>
+              <Grid item xs={12}>
                 <Select
                   fullWidth
                   value={newShop.category}
@@ -137,7 +137,10 @@ export default function CreateStore() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/owner/home" style={{ textDecoration: "none", color: "white" }}>
+                <Link
+                  to="/owner/home"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   <Button variant="contained" startIcon={<ArrowBack />}>
                     Regresar
                   </Button>

@@ -1,6 +1,6 @@
 import React from "react";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import {
@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../features/ListItems";
 import ClickersGrid from "../features/ClickersGrid";
 

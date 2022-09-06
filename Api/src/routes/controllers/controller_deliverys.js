@@ -12,7 +12,6 @@ function getModelByName(name) {
 }
 
 const signup = (req, res) => {
-  console.log(req.body)
   if (!req.body)
     return res
       .status(204)

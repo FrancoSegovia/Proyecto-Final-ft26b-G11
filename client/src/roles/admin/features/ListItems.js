@@ -1,25 +1,15 @@
-import * as React from "react";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import React from "react";
+import { Link } from "react-router-dom";
+import AdminLogout from "./AdminLogout";
+
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from "@mui/icons-material/Person";
-import { Link } from "react-router-dom";
-import { grey } from "@mui/material/colors";
 import StoreIcon from "@mui/icons-material/Store";
-import { Logout } from "@mui/icons-material";
-import AdminLogout from "./AdminLogout";
 
 export const mainListItems = (
-  <React.Fragment>
+  <>
     <Link to="/admin/users" style={{ textDecoration: "none", color: "black" }}>
       <ListItemButton>
         <ListItemIcon>
@@ -78,7 +68,7 @@ export const mainListItems = (
           <ListItemText primary="Compras" />
         </ListItemButton>
     </Link> */}
-  </React.Fragment>
+  </>
 );
 
 // export const secondaryListItems = (

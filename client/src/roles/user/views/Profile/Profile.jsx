@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { updateUser } from "../../../../redux/actions";
 
 import {
   Container,
@@ -11,21 +13,11 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-import {
-  ArrowBack,
-  Edit,
-  LockOutlined,
-  SettingsInputAntennaTwoTone,
-} from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import jwtDecode from "jwt-decode";
-import { updateUser } from "../../../../redux/actions";
+import { ArrowBack, Edit, LockOutlined } from "@mui/icons-material";
 
 function Profile() {
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
-
-  console.log(user)
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [editFlag, setEditFlag] = useState(true);
   const [msg, setMsg] = useState(false);
@@ -50,7 +42,7 @@ function Profile() {
   const onConfirmClick = () => {
     setEditFlag(true);
     setMsg(true);
-    
+
     setTimeout(() => {
       setMsg(false);
     }, 3000);

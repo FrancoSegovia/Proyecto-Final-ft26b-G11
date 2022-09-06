@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   getQueryShops,
   getAllShops,
   errorCleaner,
 } from "../../../../redux/actions";
+import UserMenu from "../UserMenu/UserMenu";
 
 import {
   AppBar,
@@ -13,13 +13,10 @@ import {
   Toolbar,
   Typography,
   InputBase,
-  Button,
   Container,
-  IconButton,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import { AddBusiness, Search as SearchIcon } from "@mui/icons-material";
-import UserMenu from "../UserMenu/UserMenu";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -123,8 +120,7 @@ export default function Navbar() {
               </Container>
             </Container>
 
-            <UserMenu/>
-
+            <UserMenu />
           </Toolbar>
         </AppBar>
       </Box>

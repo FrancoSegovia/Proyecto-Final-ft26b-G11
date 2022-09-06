@@ -1,11 +1,11 @@
 /*global google*/
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpDelivery, signUpOwner, signUpUser } from "../../redux/actions";
 import inputCheckout from "../../utils/functions/inputCheckout";
-import jwtDecode from "jwt-decode";
+
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
 
@@ -63,7 +63,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (user.email === "") {
-      return 
+      return;
     } else {
       setError(inputCheckout(user));
     }
@@ -158,7 +158,7 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            paddingTop:user.type !== "delivery" ? "16%" : "5%",
+            paddingTop: user.type !== "delivery" ? "16%" : "5%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -235,7 +235,7 @@ export default function SignUp() {
                   </Typography>
                 )}
               </Grid>
-              {(user.type === "user") && (
+              {user.type === "user" && (
                 <Grid item xs={12}>
                   <Autocomplete>
                     <TextField
@@ -338,7 +338,9 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
-              disabled={Object.keys(error).length || user.email === "" || directionError}
+              disabled={
+                Object.keys(error).length || user.email === "" || directionError
+              }
             >
               Registrarme
             </Button>

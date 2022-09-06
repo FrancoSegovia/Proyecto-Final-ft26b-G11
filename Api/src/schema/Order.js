@@ -1,24 +1,28 @@
 const { Schema, model } = require("mongoose");
 
 const schema = Schema(
-  [{
-    order: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+  [
+    {
+      order: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      state: {
+        type: String,
+        default: "Despachando su pedido",
+      },
+      selection: {
+        type: String,
+        default: false,
+      },
+      delivery: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Delivery",
+        },
+      ],
     },
-    state: {
-      type: String,
-      default: "Despachando su pedido"
-    },
-    selection: {
-      type: String,
-      default: false
-    },
-    delivery: [{
-      type: Schema.Types.ObjectId,
-      ref: "Delivery",
-    }]
-  }],
+  ],
   { collection: "orders" }
 );
 

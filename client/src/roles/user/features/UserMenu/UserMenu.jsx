@@ -1,6 +1,6 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "../../../../redux/actions";
 import jwtDecode from "jwt-decode";
 
@@ -13,19 +13,16 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography,
 } from "@mui/material";
-import { AddBusiness, Logout, Person, PersonAdd, Settings } from "@mui/icons-material";
-
+import { AddBusiness, Logout, Person, Settings } from "@mui/icons-material";
 
 export default function UserMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const localS = jwtDecode(localStorage.getItem("token")).type
-  // console.log(JSON.parse(localS))
+  const localS = jwtDecode(localStorage.getItem("token")).type;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,7 +37,7 @@ export default function UserMenu() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Mi cuenta">
           <IconButton
@@ -99,43 +96,53 @@ export default function UserMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        
-        {localS !== "user" 
-        ? <>
-          <MenuItem onClick={() => {navigate("/owner/settings")}}>
-            <ListItemIcon>
-              <Settings style={{ color:"#1976d2"}} /> 
-            </ListItemIcon>
-            Gestionar mis negocios
-          </MenuItem>
-
-          <MenuItem onClick={() => {navigate("/owner/create")}}>
-            <ListItemIcon>
-            <AddBusiness style={{ color:"#1976d2"}} /> 
-            </ListItemIcon>
-            Agregar un nuevo negocio
-          </MenuItem>
-          <Divider />
-          </>
-        :
+        {localS !== "user" ? (
           <>
-          
-          <MenuItem onClick={() => {navigate("/user/profile")}}>
-            <ListItemIcon style={{color: "#1976d2"}}>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Opciones de cuenta
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                navigate("/owner/settings");
+              }}
+            >
+              <ListItemIcon>
+                <Settings style={{ color: "#1976d2" }} />
+              </ListItemIcon>
+              Gestionar mis negocios
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                navigate("/owner/create");
+              }}
+            >
+              <ListItemIcon>
+                <AddBusiness style={{ color: "#1976d2" }} />
+              </ListItemIcon>
+              Agregar un nuevo negocio
+            </MenuItem>
+            <Divider />
           </>
-      }
-        
-        <MenuItem onClick={onLogoutClick} >
-          <ListItemIcon style={{ color:"#1976d2"}}>
+        ) : (
+          <>
+            <MenuItem
+              onClick={() => {
+                navigate("/user/profile");
+              }}
+            >
+              <ListItemIcon style={{ color: "#1976d2" }}>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Opciones de cuenta
+            </MenuItem>
+          </>
+        )}
+
+        <MenuItem onClick={onLogoutClick}>
+          <ListItemIcon style={{ color: "#1976d2" }}>
             <Logout fontSize="small" />
           </ListItemIcon>
           Cerrar sesión
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </>
   );
 }

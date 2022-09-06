@@ -1,24 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Autoplay, Pagination, Navigation } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "./styles.css";
-
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Icon,
-  Typography,
-} from "@mui/material";
-import { ShoppingBag } from "@mui/icons-material";
 import {
   deleteOrder,
   getAllOrders,
@@ -27,35 +9,54 @@ import {
 } from "../../../../redux/actions";
 import jwtDecode from "jwt-decode";
 
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import { ShoppingBag } from "@mui/icons-material";
+import { Autoplay, Pagination, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "./styles.css";
 
-export default function OrdersSlider({clearRoute}) {
+export default function OrdersSlider({ clearRoute }) {
   const dispatch = useDispatch();
+
   const orders = useSelector((state) => state.orders);
   const deliveryOrders = useSelector((state) => state.deliveryOrders);
 
-  const [click2, setClick2] = useState("")
-
+  const [click2, setClick2] = useState("");
 
   const onAcceptedClick = (idO) => {
-    setClick2("accept")
+    setClick2("accept");
     dispatch(updateState(idO));
   };
 
   const onCheckClick = (idO, idU) => {
-    setClick2("check")
+    setClick2("check");
     dispatch(deleteOrder(idO, idU));
     clearRoute();
   };
 
   useEffect(() => {
     dispatch(getAllOrders());
-    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id))
+    dispatch(getDeliveryOrders(jwtDecode(localStorage.getItem("token"))._id));
   }, [click2]);
-
 
   return (
     <Box
-      style={{ display: "flex", minHeight: "30vh", alignItems:"center", justifyContent:"space-evenly"}}
+      style={{
+        display: "flex",
+        minHeight: "30vh",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+      }}
     >
       {Object.keys(deliveryOrders).length && deliveryOrders.order.length ? (
         <Card
@@ -73,7 +74,7 @@ export default function OrdersSlider({clearRoute}) {
             <Typography variant="h4" align="center">
               {deliveryOrders.order[0]?.order.direction}
             </Typography>
-            <hr/>
+            <hr />
             <Box
               style={{ display: "flex", gap: "10px", justifyContent: "center" }}
             >
@@ -84,11 +85,16 @@ export default function OrdersSlider({clearRoute}) {
                 {deliveryOrders.order[0]?.order.lastname}
               </Typography>
             </Box>
-            <Box style={{display:"flex", justifyContent:"center"}}>
+            <Box style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
                 style={{ marginTop: "50px" }}
-                onClick={() => onCheckClick(deliveryOrders.order[0]._id, deliveryOrders.order[0].order._id)}
+                onClick={() =>
+                  onCheckClick(
+                    deliveryOrders.order[0]._id,
+                    deliveryOrders.order[0].order._id
+                  )
+                }
               >
                 PEDIDO ENTREGADO
               </Button>
@@ -120,7 +126,7 @@ export default function OrdersSlider({clearRoute}) {
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper"
-          style={{ maxWidth: "30vw", margin:0 }}
+          style={{ maxWidth: "30vw", margin: 0 }}
         >
           {/* {isAccepted !== true 
             ?  */}

@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 
-import {
-  Checkbox,
-  Grid,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 
 export default function AddressForm() {
   let [form, setForm] = useState({
@@ -35,7 +29,7 @@ export default function AddressForm() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Typography variant="h6" gutterBottom>
         Datos de Usuario y Envio
       </Typography>
@@ -93,6 +87,6 @@ export default function AddressForm() {
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

@@ -2,15 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../schema/Order");
 const User = require("../schema/User");
-require("dotenv").config()
-const stripe = require("stripe")(
-  process.env.SECRET_KEY_STRIPE
-);
+require("dotenv").config();
+const stripe = require("stripe")(process.env.SECRET_KEY_STRIPE);
 
 router.post("/", async (req, res) => {
   try {
     const { id, amount, user } = req.body;
-    
+
     await stripe.paymentIntents.create({
       amount,
       currency: "ARS",
