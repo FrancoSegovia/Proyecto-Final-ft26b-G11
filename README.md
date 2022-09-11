@@ -1,15 +1,13 @@
-# Click
+# Click!
 
 ## What is Click?
-Click is a fictional e-commerce website created as a final proyect for the <a href="https://soyhenry.com/">Soy Henry</a> bootcamp
 
-## Where can I see it work?
-The proyect will be deployed soon C:
+Click! is a fictional e-commerce website created as a final proyect for the <a href="https://soyhenry.com/">Soy Henry</a> bootcamp
 
 ## What was your stack of technologies? 
 These are the technologies we used to create the full project
 
-Laguaje
+Language
 - Javascript
 
 FrontEnd technologies:
@@ -19,7 +17,8 @@ FrontEnd technologies:
 - Material UI
 
 BackEnd technologies:
-- Node
+
+- NodeJs
 - MongoDB
 - Express
 
