@@ -1,36 +1,31 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const routes = require("./routes/index.js");
+const express = require('express')
+const mongoose = require('mongoose')
+require('dotenv').config()
+const routes = require('./routes/index.js')
 
-// const { isAuthenticated } = require("./routes/middlewares");
-require("dotenv").config();
-const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3001
 
 //middleware
-app.use(cors());
-app.use(express.json());
-// app.use(isAuthenticated); //! ACA PODRIA APLICAR EL MIDDLEWARE PARA VALIDAR POR TOKEN TODAS LAS RUTAS
+app.use(express.json())
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
-});
-app.use("/account", routes);
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+  });
+app.use('/', routes)
 
-//mongoDB connection
+
+//mongoDB connection 
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((error) => console.error(error));
+.connect(process.env.MONGODB_URI)
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch((error)=> console.error(error))
 
-app.listen(port, () => console.log("Server listening on port", port));
+
+app.listen(port, () => console.log('Server listening on port', port))
 
 module.exports = app;

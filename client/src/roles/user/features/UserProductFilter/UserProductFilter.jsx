@@ -19,11 +19,7 @@ export default function UserProductFilter() {
       <Box>
         <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!products.length}>
           <InputLabel>Selecciona un Tipo de Producto</InputLabel>
-          <Select
-            value={filter}
-            onChange={onSelect}
-            disabled={!products.length}
-          >
+          <Select value={filter} onChange={onSelect} disabled={!products.length}>
             <MenuItem value={"DEFAULT"}>Cualquier Tipo</MenuItem>
             <MenuItem value={"COMIDA"}>Comida</MenuItem>
             <MenuItem value={"BEBIDA"}>Bebida</MenuItem>

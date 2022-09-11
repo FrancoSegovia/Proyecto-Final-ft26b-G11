@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   getQueryShops,
   getAllShops,
   errorCleaner,
 } from "../../../../redux/actions";
-import UserMenu from "../UserMenu/UserMenu";
 
 import {
   AppBar,
@@ -13,17 +13,18 @@ import {
   Toolbar,
   Typography,
   InputBase,
+  Button,
   Container,
+  IconButton,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import { Search as SearchIcon } from "@mui/icons-material";
+import { AddBusiness, Search } from "@mui/icons-material";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
   const [leyenda, setLeyenda] = useState("");
   const dispatch = useDispatch();
   const regExp = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
-  const localS = localStorage.getItem("type");
 
   function onChange(e) {
     e.preventDefault();
@@ -92,7 +93,7 @@ export default function Navbar() {
             <Container style={{ maxWidth: "350px", display: "flex" }}>
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon />
+                  <Search />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Buscar Negocios"
@@ -119,8 +120,17 @@ export default function Navbar() {
                 )}
               </Container>
             </Container>
-
-            <UserMenu />
+            <Link
+              to="/create"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <Button variant="contained" color="primary" size="small">
+                Ingrese un nuevo negocio
+                <IconButton style={{ color: "white" }}>
+                  <AddBusiness />
+                </IconButton>
+              </Button>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
