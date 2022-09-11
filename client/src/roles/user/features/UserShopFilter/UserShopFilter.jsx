@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { filterShops } from "../../../../redux/actions";
 
-import { Box, FormControl, Select, InputLabel, MenuItem } from "@mui/material";
+import { Box, FormControl, Select, MenuItem } from "@mui/material";
 
 export default function UserShopFilter() {
   const dispatch = useDispatch();
-  const shops = useSelector((state) => state.shops);
   let [filter, setFilter] = useState("disabled");
 
   const onSelect = (e) => {
@@ -17,9 +16,11 @@ export default function UserShopFilter() {
   return (
     <>
       <Box>
-        <FormControl sx={{ m: 1, minWidth: 270 }} disabled={!shops.length}>
-          <Select value={filter} onChange={onSelect} disabled={!shops.length}>
-            <MenuItem value={"disabled"} disabled>Tipo de negocio</MenuItem>
+        <FormControl sx={{ m: 1, minWidth: 270 }}>
+          <Select value={filter} onChange={onSelect}>
+            <MenuItem value={"disabled"} disabled>
+              Tipo de negocio
+            </MenuItem>
             <MenuItem value={"DEFAULT"}>Cualquier Tipo</MenuItem>
             <MenuItem value={"BAR"}>Bar</MenuItem>
             <MenuItem value={"HELADERIA"}>Heladeria</MenuItem>
