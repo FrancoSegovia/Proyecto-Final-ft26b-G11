@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-const names= ["CesarLinkero", "FrancoSegovia","braianaguada", "emilioalvarez05", "Octavio4422"]
+const names= ["CesarAlcoholado", "FrancoSegovia","braianaguada", "emilioalvarez05", "Octavio4422"]
 
 const Profile = () => {
 
